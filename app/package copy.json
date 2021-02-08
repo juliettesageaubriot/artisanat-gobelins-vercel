@@ -1,0 +1,31 @@
+{
+  "name": "with-typescript",
+  "version": "1.0.0",
+  "scripts": {
+    "local": "NODE_ENV=localhost next dev -p ${NODE_PORT:-3023}",
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "type-check": "tsc"
+  },
+  "dependencies": {
+    "@types/webfontloader": "^1.6.32",
+    "@zeit/next-css": "^1.0.1",
+    "@zeit/next-sass": "^1.0.1",
+    "fontawesome": "^5.6.3",
+    "next": "^9.4.0",
+    "next-images": "^1.3.0",
+    "next-page-transitions": "^1.0.0-beta.2",
+    "node-sass": "^4.13.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "webfontloader": "^1.6.28"
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.21",
+    "@types/react": "^16.9.16",
+    "@types/react-dom": "^16.9.4",
+    "typescript": "4.0"
+  },
+  "license": "MIT"
+}

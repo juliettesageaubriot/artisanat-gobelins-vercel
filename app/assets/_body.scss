@@ -1,0 +1,95 @@
+@import "./mixins";
+
+html {
+  &.own-html {
+    // background-color: $color-html;
+    .skip-main {
+      position: absolute;
+      top: -1000px;
+      left: -1000px;
+      height: 1px;
+      width: 1px;
+      text-align: left;
+      overflow: hidden;
+    }
+
+    &.wf-active {
+      #bodySite {
+        font-family: $font-body-wf;
+        .font-title {
+          font-family: $font-title-wf;
+        }
+        .font-alt {
+          font-family: $font-title-alt-wf;
+          font-weight: bold;
+        }
+      }
+      .loader {
+        &.loader-main {
+          opacity: 0;
+          pointer-events: none;
+          @include transitionElt(all, 0.1s, ease);
+        }
+      }
+    }
+    &:not(.wf-active) {
+      .loader {
+        &.loader-main {
+          opacity: 1;
+          pointer-events: initial;
+        }
+      }
+    }
+    body {
+      &[id="bodySite"] {
+        // background-color: $color-body;
+        font-family: $font-body;
+        font-size: 14px;
+        line-height: 1.54;
+        font-weight: 400;
+        color: $color-text;
+        @include box-sizing(border-box);
+        @media screen and (min-width: $bp-tablet) {
+          font-size: 15px;
+        }
+        @media screen and (min-width: $bp-desk-small) {
+          font-size: 16px;
+        }
+        @media screen and (min-width: $bp-desk-large) {
+          font-size: 16px;
+        }
+        & * {
+          @include box-sizing(border-box);
+        }
+        .font-title {
+          font-family: $font-title;
+        }
+        .font-alt {
+          font-family: $font-title-alt;
+        }
+        b,
+        strong {
+          font-weight: bold;
+        }
+      }
+      &.uk-offcanvas-container {
+        overflow: hidden;
+        height: 100vh;
+      }
+    }
+
+    .wrapp-all-sections {
+      width: 100%;
+      margin: auto;
+      min-height: 100vh;
+      padding: 0;
+      #__next,
+      .app-content {
+        position: relative;
+        width: 100%;
+        color: $color-body-text;
+        margin: auto;
+      }
+    }
+  }
+}
