@@ -4,9 +4,8 @@
   "authors": "",
   "private": false,
   "scripts": {
-    "lint": "yarn prettier && yarn eslint",
+    "lint": "yarn eslint",
     "eslint": "eslint --fix 'src/**/*.{js,jsx}' --ext jsconfig.json",
-    "prettier": "prettier --list-different '**/*.{js,jsx,md}'",
     "dev": "next dev",
     "build": "next build",
     "export": "EXPORT=true next build && EXPORT=true next export",
@@ -19,9 +18,6 @@
     }
   },
   "lint-staged": {
-    "*.{js,jsx,json,md}": [
-      "prettier --write"
-    ],
     "*.{js,jsx}": [
       "eslint --fix"
     ]
@@ -52,12 +48,10 @@
     "babel-eslint": "^10.0.0",
     "babel-plugin-glsl": "^1.0.0",
     "eslint": "^7.12.1",
-    "eslint-config-prettier": "^7.0.0",
     "eslint-config-react-app": "^6.0.0",
     "eslint-plugin-flowtype": "^5.2.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^4.2.0",
     "express": "^4.17.1",
@@ -67,9 +61,8 @@
     "lint-staged": "^10.5.0",
     "next-compose-plugins": "^2.2.1",
     "next-offline": "^5.0.3",
-    "next-transpile-modules": "https://github.com/martpie/next-transpile-modules",
+    "next-transpile-modules": "^6.3.0",
     "postcss": "^8.2.1",
-    "prettier": "^2.2.1",
     "raw-loader": "^4.0.2"
   },
   "license": "MIT"

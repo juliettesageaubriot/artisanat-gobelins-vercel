@@ -14,6 +14,7 @@ const Bg = () => {
   })
   return <a.color attach='background' r={bg} g={bg} b={bg} />
 }
+
 const LCanvas = ({ children }) => {
   return (
     <Canvas
