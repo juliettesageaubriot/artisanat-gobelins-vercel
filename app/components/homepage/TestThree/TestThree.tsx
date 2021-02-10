@@ -4,7 +4,7 @@ import type { Mesh } from 'three'
 
 import "./styles.scss";
 
-const Header: React.FC<MeshProps> = (props) => {
+const TestThree: React.FC<MeshProps> = (props) => {
   // This reference will give us direct access to the mesh
   const mesh = useRef<Mesh>()
 
@@ -31,4 +31,4 @@ const Header: React.FC<MeshProps> = (props) => {
   )
 }
 
-export default Header;
+export default TestThree;

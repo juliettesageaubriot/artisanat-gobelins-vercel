@@ -1,4 +1,4 @@
-import Layout from '../0_structure/Layout';
+import Layout from '../components/structure/Layout/Layout';
 import type { AppProps /*, AppContext */ } from 'next/app'
 
 // import "../assets/basic.scss"
