@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import Header from "./Header/Header"
-import Footer from "./Footer"
-// import Loader from "../../components/0_structure/Loader";
+
+import { Canvas } from 'react-three-fiber'
 
 type Props = {
   children?: ReactNode
@@ -10,10 +10,13 @@ type Props = {
 
 const Layout = ({ children }: Props) => (
   <div>
-    {/* <Loader /> */}
-    <Header />
+    <Canvas>
+      <Header position={[-1.2, 0, 0]} />
+      <Header position={[1.2, 0, 0]} />
+      <ambientLight />
+      <pointLight position={[10, 10, 10]} />
+    </Canvas>
     {children}
-    <Footer />
   </div>
 )
 
