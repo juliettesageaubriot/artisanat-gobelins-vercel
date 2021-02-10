@@ -1,33 +1,76 @@
 {
-  "name": "with-typescript",
-  "version": "1.0.0",
+  "name": "regards-artisans",
+  "version": "1.6.0",
+  "authors": "",
+  "private": false,
   "scripts": {
-    "local": "NODE_ENV=localhost next dev -p ${NODE_PORT:-3023}",
-    "dev": "next",
+    "lint": "yarn prettier && yarn eslint",
+    "eslint": "eslint --fix 'src/**/*.{js,jsx}' --ext jsconfig.json",
+    "prettier": "prettier --list-different '**/*.{js,jsx,md}'",
+    "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "type-check": "tsc"
+    "export": "EXPORT=true next build && EXPORT=true next export",
+    "analyze": "ANALYZE=true next build",
+    "start": "next start"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,json,md}": [
+      "prettier --write"
+    ],
+    "*.{js,jsx}": [
+      "eslint --fix"
+    ]
   },
   "dependencies": {
-    "@types/webfontloader": "^1.6.32",
+    "@pmndrs/branding": "^0.0.4",
+    "@react-spring/three": "^9.0.0-rc.3",
+    "@react-three/drei": "^3.4.1",
+    "@react-three/postprocessing": "^1.5.0",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-sass": "^1.0.1",
-    "fontawesome": "^5.6.3",
-    "next": "^9.4.0",
-    "next-images": "^1.3.0",
-    "next-page-transitions": "^1.0.0-beta.2",
-    "node-sass": "^4.13.1",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
+    "lerp": "^1.0.3",
+    "next": "^10.0.6",
+    "node-sass": "^5.0.0",
+    "postprocessing": "^6.20.2",
+    "r3f-perf": "^0.79.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-spring": "^9.0.0-rc.3",
     "react-three-fiber": "^5.3.18",
     "three": "^0.125.2",
-    "webfontloader": "^1.6.28"
+    "webpack": "^5.19.0"
   },
   "devDependencies": {
-    "@types/node": "^12.12.21",
-    "@types/react": "^16.9.16",
-    "@types/react-dom": "^16.9.4",
-    "typescript": "4.0"
+    "@babel/core": "^7.12.10",
+    "@next/bundle-analyzer": "^10.0.4",
+    "autoprefixer": "^10.2.0",
+    "babel-eslint": "^10.0.0",
+    "babel-plugin-glsl": "^1.0.0",
+    "eslint": "^7.12.1",
+    "eslint-config-prettier": "^7.0.0",
+    "eslint-config-react-app": "^6.0.0",
+    "eslint-plugin-flowtype": "^5.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "express": "^4.17.1",
+    "glslify": "^7.1.1",
+    "glslify-loader": "^2.0.0",
+    "husky": "^4.3.0",
+    "lint-staged": "^10.5.0",
+    "next-compose-plugins": "^2.2.1",
+    "next-offline": "^5.0.3",
+    "next-transpile-modules": "https://github.com/martpie/next-transpile-modules",
+    "postcss": "^8.2.1",
+    "prettier": "^2.2.1",
+    "raw-loader": "^4.0.2"
   },
   "license": "MIT"
 }
