@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router'
-import useStore from '@/helpers/store'
+import useStore from '../helpers/store'
 import { useEffect } from 'react'
-import Layout from '@/components/Layout/Layout'
-import WebFont from '@/components/Fonts/Fonts'
+import Layout from '../components/Layout/Layout'
+import WebFont from '../components/Fonts/Fonts'
 
 import "../../assets/basic.scss"
 

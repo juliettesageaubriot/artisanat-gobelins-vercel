@@ -1,71 +1,27 @@
 {
-  "name": "regards-artisans",
-  "version": "1.6.0",
-  "authors": "",
-  "private": false,
+  "name": "nextjs-starter",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "lint": "yarn eslint",
-    "eslint": "eslint --fix 'src/**/*.{js,jsx}' --ext jsconfig.json",
-    "dev": "next dev",
+    "local": "next dev",
+    "dev": "next",
     "build": "next build",
-    "export": "EXPORT=true next build && EXPORT=true next export",
-    "analyze": "ANALYZE=true next build",
     "start": "next start"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js,jsx}": [
-      "eslint --fix"
-    ]
-  },
   "dependencies": {
-    "@pmndrs/branding": "^0.0.4",
     "@react-spring/three": "^9.0.0-rc.3",
-    "@react-three/drei": "^3.4.1",
-    "@react-three/postprocessing": "^1.5.0",
-    "@zeit/next-css": "^1.0.1",
-    "@zeit/next-sass": "^1.0.1",
-    "lerp": "^1.0.3",
+    "@react-three/drei": "^3.5.1",
+    "@react-three/postprocessing": "^1.5.1",
     "next": "^10.0.6",
     "node-sass": "^5.0.0",
-    "postprocessing": "^6.20.2",
+    "postprocessing": "^6.20.3",
     "r3f-perf": "^0.79.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-helmet": "^6.1.0",
-    "react-spring": "^9.0.0-rc.3",
     "react-three-fiber": "^5.3.18",
     "three": "^0.125.2",
     "webfontloader": "^1.6.28",
-    "webpack": "^5.19.0"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.12.10",
-    "@next/bundle-analyzer": "^10.0.4",
-    "autoprefixer": "^10.2.0",
-    "babel-eslint": "^10.0.0",
-    "babel-plugin-glsl": "^1.0.0",
-    "eslint": "^7.12.1",
-    "eslint-config-react-app": "^6.0.0",
-    "eslint-plugin-flowtype": "^5.2.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-react": "^7.21.5",
-    "eslint-plugin-react-hooks": "^4.2.0",
-    "express": "^4.17.1",
-    "glslify": "^7.1.1",
-    "glslify-loader": "^2.0.0",
-    "husky": "^4.3.0",
-    "lint-staged": "^10.5.0",
-    "next-compose-plugins": "^2.2.1",
-    "next-offline": "^5.0.3",
-    "next-transpile-modules": "^6.3.0",
-    "postcss": "^8.2.1",
-    "raw-loader": "^4.0.2"
-  },
-  "license": "MIT"
+    "zustand": "^3.3.1"
+  }
 }

@@ -1,5 +1,5 @@
-import Seo from '@/components/Seo/Seo'
-import useStore from '@/helpers/store'
+import Seo from '../components/Seo/Seo'
+import useStore from '../helpers/store'
 
 const Menu = () => {
   useStore.setState({ title: 'Sphere' })
