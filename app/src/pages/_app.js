@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 import useStore from '@/helpers/store'
 import { useEffect } from 'react'
+import Layout from '@/components/Layout/Layout'
 
 import '../styles/index.scss'
 
@@ -46,7 +47,9 @@ function MyApp({ Component, pageProps }) {
   //   <Component {...pageProps} />
   // )
   return (
-    <Component {...pageProps} />
+    <Layout>
+      <Component {...pageProps} />
+    </Layout>
   )
 }
 

@@ -2,10 +2,10 @@ import React from 'react';
 
 import styles from "./styles.module.scss";
 
-const Header = () => {
+const Footer = () => {
   return ( 
-    <h1 className={styles.header}>Header</h1>
+    <h1 className={styles.footer}>Footer</h1>
    );
 }
  
-export default Header;
+export default Footer;
