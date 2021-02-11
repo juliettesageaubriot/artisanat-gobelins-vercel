@@ -1,0 +1,34 @@
+@import "_mandatory";
+
+*,
+body {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: $black;
+  margin: 20px 50px;
+  color: $white;
+  @media screen and (max-width: $bp-tablet) {
+    margin: 20px 30px;
+  }
+
+  &.own-html {
+    body {
+      overflow: hidden;
+      margin: 0;
+      font-family: $font-body-wf;
+    }
+    &.wf-active {
+      body {
+        overflow: inherit;
+      }
+      .loader {
+        opacity: 0;
+        pointer-events: none;
+      }
+    }
+  }
+}
+

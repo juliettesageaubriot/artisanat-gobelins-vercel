@@ -1,0 +1,365 @@
+html {
+    font-family: "Raleway", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+    background: #f8f8f8;
+    color: #666;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility
+}
+
+body,
+ol>li>ol,
+ol>li>ul,
+ul>li>ol,
+ul>li>ul {
+    margin: 0
+}
+
+a {
+    -webkit-text-decoration-skip: objects
+}
+
+a:active,
+a:hover {
+    outline: 0
+}
+
+.uk-link,
+a {
+    color: #1e87f0;
+    text-decoration: none;
+    cursor: pointer
+}
+
+.uk-link:hover,
+a:hover {
+    color: #0f6ecd;
+    text-decoration: none
+}
+
+abbr[title] {
+    border-bottom: none;
+    -webkit-text-decoration: underline dotted;
+    text-decoration: underline dotted
+}
+
+b,
+strong {
+    font-weight: bolder
+}
+
+:not(pre)>code,
+:not(pre)>kbd,
+:not(pre)>samp {
+    font-size: .875rem;
+    color: #f0506e;
+    white-space: nowrap;
+    padding: 2px 6px;
+    background: #f8f8f8
+}
+
+em {
+    color: #f0506e
+}
+
+ins {
+    text-decoration: none
+}
+
+ins,
+mark {
+    background: #ffd;
+    color: #666
+}
+
+q {
+    font-style: italic
+}
+
+small {
+    font-size: 80%
+}
+
+sub,
+sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline
+}
+
+sup {
+    top: -.5em
+}
+
+sub {
+    bottom: -.25em
+}
+
+audio,
+canvas,
+iframe,
+img,
+svg,
+video {
+    vertical-align: middle
+}
+
+audio,
+canvas,
+img,
+video {
+    max-width: 100%;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box
+}
+
+svg:not(:root) {
+    overflow: hidden
+}
+
+img:not([src]) {
+    visibility: hidden
+}
+
+address,
+dl,
+fieldset,
+figure,
+ol,
+p,
+pre,
+ul {
+    margin: 0 0 20px
+}
+
+*+address,
+*+dl,
+*+fieldset,
+*+figure,
+*+ol,
+*+p,
+*+pre,
+*+ul {
+    margin-top: 20px
+}
+
+.uk-h1,
+.uk-h2,
+.uk-h3,
+.uk-h4,
+.uk-h5,
+.uk-h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0 0 20px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    color: #333;
+    text-transform: none
+}
+
+*+.uk-h1,
+*+.uk-h2,
+*+.uk-h3,
+*+.uk-h4,
+*+.uk-h5,
+*+.uk-h6,
+*+h1,
+*+h2,
+*+h3,
+*+h4,
+*+h5,
+*+h6 {
+    margin-top: 40px
+}
+
+.uk-h1,
+h1 {
+    font-size: 1.575rem;
+    line-height: 1.2
+}
+
+.uk-h2,
+h2 {
+    font-size: 1.4rem;
+    line-height: 1.3
+}
+
+.uk-h3,
+h3 {
+    font-size: 1.2rem;
+    line-height: 1.4
+}
+
+.uk-h4,
+blockquote,
+h4 {
+    font-size: 1.25rem;
+    line-height: 1.4
+}
+
+.uk-h5,
+h5 {
+    font-size: 16px;
+    line-height: 1.4
+}
+
+.uk-h6,
+h6 {
+    font-size: .875rem;
+    line-height: 1.4
+}
+
+@media (min-width:960px) {
+
+    .uk-h1,
+    h1 {
+        font-size: 2.625rem
+    }
+
+    .uk-h2,
+    h2 {
+        font-size: 2rem
+    }
+}
+
+ol,
+ul {
+    padding-left: 30px
+}
+
+dt {
+    font-weight: 700
+}
+
+dd {
+    margin-left: 0
+}
+
+.uk-hr,
+hr {
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    height: 0;
+    overflow: visible;
+    text-align: inherit;
+    margin: 0 0 20px;
+    border: 0;
+    border-top: 1px solid #e5e5e5
+}
+
+address {
+    font-style: normal
+}
+
+blockquote {
+    margin: 0 0 20px;
+    line-height: 1.5;
+    font-style: italic;
+    color: #333
+}
+
+*+.uk-hr,
+*+blockquote,
+*+hr {
+    margin-top: 20px
+}
+
+blockquote p:last-of-type {
+    margin-bottom: 0
+}
+
+blockquote footer {
+    margin-top: 10px;
+    font-size: .875rem;
+    line-height: 1.5;
+    color: #666
+}
+
+blockquote footer::before {
+    content: "— "
+}
+
+pre {
+    font: .875rem/1.5 Consolas, monaco, monospace;
+    color: #666;
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+    overflow: auto;
+    padding: 10px;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+    background: #fff
+}
+
+pre code {
+    // font-family: Consolas, monaco, monospace
+}
+
+::-moz-selection {
+    background: #39f;
+    color: #fff;
+    text-shadow: none
+}
+
+::selection {
+    background: #39f;
+    color: #fff;
+    text-shadow: none
+}
+
+details,
+main {
+    display: block
+}
+
+summary {
+    display: list-item
+}
+
+template {
+    display: none
+}
+
+iframe {
+    border: 0
+}
+
+a,
+area,
+button,
+input,
+label,
+select,
+summary,
+textarea {
+    -ms-touch-action: manipulation;
+    touch-action: manipulation
+}
+
+.var-media-s::before {
+    content: '640px'
+}
+
+.var-media-m::before {
+    content: '960px'
+}
+
+.var-media-l::before {
+    content: '1200px'
+}
+
+.var-media-xl::before {
+    content: '1600px'
+}

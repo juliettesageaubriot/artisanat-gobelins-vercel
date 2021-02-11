@@ -1,7 +1,7 @@
 import Seo from '@/components/Seo/Seo'
 import useStore from '@/helpers/store'
 
-const IntroEpisode = () => {
+const FinEpisode = () => {
   useStore.setState({ title: 'Sphere' })
   return (
     <>
@@ -9,9 +9,9 @@ const IntroEpisode = () => {
       title="regards d'artisans"
       description="description du projet"
       />
-      <h1>IntroEpisode</h1>
+      <h1>Fin episode</h1>
     </>
   )
 }
 
-export default IntroEpisode
+export default FinEpisode

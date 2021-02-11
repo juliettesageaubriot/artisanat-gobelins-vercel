@@ -2,8 +2,9 @@ import { useRouter } from 'next/router'
 import useStore from '@/helpers/store'
 import { useEffect } from 'react'
 import Layout from '@/components/Layout/Layout'
+import WebFont from '@/components/Fonts/Fonts'
 
-import '../styles/index.scss'
+import "../../assets/basic.scss"
 
 // let LCanvas = null
 // if (process.env.NODE_ENV === 'production') {
@@ -48,6 +49,7 @@ function MyApp({ Component, pageProps }) {
   // )
   return (
     <Layout>
+      <WebFont />
       <Component {...pageProps} />
     </Layout>
   )
