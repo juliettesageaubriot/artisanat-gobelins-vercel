@@ -3,9 +3,6 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
 
-const withSass = require('@zeit/next-sass')
-module.exports = withSass()
-
 // custom transpile module
 const debug = false
 let start = null
@@ -38,21 +35,21 @@ const withTM = require('next-transpile-modules')(
 const nextConfig =
   process.env.EXPORT !== 'true'
     ? {
-        future: {
-          webpack5: true,
-        },
-        webpack(config) {
-          config.module.rules.push(
-            { test: /react-spring/, sideEffects: true }, // prevent vercel to crash when deploy
-            {
-              test: /\.(glsl|vs|fs|vert|frag)$/,
-              exclude: /node_modules/,
-              use: ['raw-loader', 'glslify-loader'],
-            }
-          )
-          return config
-        },
-      }
+      future: {
+        webpack5: true,
+      },
+      webpack(config) {
+        config.module.rules.push(
+          { test: /react-spring/, sideEffects: true }, // prevent vercel to crash when deploy
+          {
+            test: /\.(glsl|vs|fs|vert|frag)$/,
+            exclude: /node_modules/,
+            use: ['raw-loader', 'glslify-loader'],
+          }
+        )
+        return config
+      },
+    }
     : {}
 
 // manage i18n
