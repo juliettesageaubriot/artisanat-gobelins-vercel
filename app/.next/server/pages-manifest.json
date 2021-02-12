@@ -2,5 +2,9 @@
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
+<<<<<<< HEAD
+=======
+  "/next/dist/pages/_error": "pages/next/dist/pages/_error.js",
+>>>>>>> ad1c8496565c3a26ac0b5d4ba973ebb6e46bfde5
   "/": "pages/index.js"
 }
