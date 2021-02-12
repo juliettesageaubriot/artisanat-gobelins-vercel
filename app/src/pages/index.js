@@ -3,6 +3,7 @@ import ReactDOM from "react-dom"
 import { Canvas, useFrame } from "react-three-fiber"
 import Seo from '../components/Seo/Seo'
 import useStore from '../helpers/store'
+import Test from "../test/test"
 
 // import Canvas from "../components/examples/layout/_canvas"
 // import Sphere from "../components/examples/canvas/Sphere"
@@ -34,12 +35,12 @@ const Page = () => {
         <Sphere />
       </Canvas> */}
 
-
-      <Canvas>
+      <Test />
+      {/* <Canvas>
         <Box color="#18a36e" position={[-1, 0, 3]} />
         <Box color="#f56f42" position={[1, 0, 3]} />
         <directionalLight color="#ffffff" intensity={1} position={[-1, 2, 4]} />
-      </Canvas>
+      </Canvas> */}
 
     </>
   )
