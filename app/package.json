@@ -9,20 +9,12 @@
     "start": "next start"
   },
   "dependencies": {
-    "@react-spring/three": "^9.0.0-rc.3",
-    "@react-three/drei": "^3.5.1",
-    "@react-three/postprocessing": "^1.5.1",
     "next": "^10.0.6",
-    "next-transpile-modules": "^6.3.0",
     "node-sass": "^5.0.0",
-    "postprocessing": "^6.20.3",
-    "r3f-perf": "^0.79.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-helmet": "^6.1.0",
-    "react-three-fiber": "^5.3.18",
     "three": "^0.125.2",
-    "webfontloader": "^1.6.28",
-    "zustand": "^3.3.1"
+    "webfontloader": "^1.6.28"
   }
 }

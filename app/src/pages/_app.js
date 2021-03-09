@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router'
-import useStore from '../helpers/store'
 import { useEffect } from 'react'
 import Layout from '../components/Layout/Layout'
 import WebFont from '../components/Fonts/Fonts'
@@ -26,27 +25,7 @@ import "../../assets/basic.scss"
 // }
 
 function MyApp({ Component, pageProps }) {
-  const router = useRouter()
 
-  // let r3fArr = []
-  // let compArr = []
-  // Children.forEach(Component().props.children, (child) => {
-  //   if (child.props && child.props.r3f) {
-  //     r3fArr.push(child)
-  //   } else {
-  //     compArr.push(child)
-  //   }
-  // })
-
-  useEffect(() => {
-    useStore.setState({ router })
-  }, [router])
-
-  // return r3fArr.length > 0 ? (
-  //   // <SplitApp canvas={r3fArr} dom={compArr} />
-  // ) : (
-  //   <Component {...pageProps} />
-  // )
   return (
     <Layout>
       <WebFont />

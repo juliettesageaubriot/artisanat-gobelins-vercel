@@ -4,6 +4,11 @@
 
 // module.exports = require("@react-three/drei");
 
-const withTM = require('next-transpile-modules')(['@react-three/drei', 'three']); // pass the modules you would like to see transpiled
+// next-transpile-modules
+// const withTM = require('next-transpile-modules')(['@react-three/drei', 'three']); // pass the modules you would like to see transpiled
 
-module.exports = withTM();
+// module.exports = withTM();
+
+module.exports = {
+  /* config options here */
+}
