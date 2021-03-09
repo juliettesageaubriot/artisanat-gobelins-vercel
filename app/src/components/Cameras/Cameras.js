@@ -15,25 +15,26 @@ const Cameras = () => {
 
 
     const parameters = {
-      rotationX: 1
+      PositionX: 0
     }
 
     /**
      * Floor
      */
     const floor = new THREE.Mesh(
-      new THREE.PlaneGeometry(50, 50),
+      new THREE.TorusGeometry( 5, 3, 16, 100 ),
       new THREE.MeshStandardMaterial({
         color: '#444444',
         metalness: 0,
-        roughness: 0.5
+        roughness: 0.5,
+        side: THREE.DoubleSide
       })
     )
     floor.receiveShadow = true
-    floor.rotation.x = parameters.rotationX
-    scene.add(floor)
+    floor.position.x = parameters.PositionX
+    gui.add(floor.position, "x").min(-10).max(10).step(0.001)
 
-    gui.add(parameters, "rotationX").min(0).max(10).step(0.001)
+    scene.add(floor)
 
 
     /**
@@ -80,7 +81,7 @@ const Cameras = () => {
    */
     // Base camera
     const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-    camera.position.set(- 8, 4, 8)
+    camera.position.y = -10
     scene.add(camera)
 
     // Controls
@@ -131,7 +132,6 @@ const Cameras = () => {
   return (
     <>
       <div ref={ref} />
-
     </>
   );
 }

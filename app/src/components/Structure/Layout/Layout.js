@@ -6,7 +6,7 @@ import Loader from '../Loader/Loader';
 const Layout = ({children}) => {
   return (
     <div>
-      <Loader />
+      {/* <Loader /> */}
       {/* <Header /> */}
       {children}
       {/* <Footer /> */}
