@@ -1,5 +1,5 @@
 {
-  "../../../plugins/webfontloader": [
+  "../../../../plugins/webfontloader": [
     {
       "id": "./node_modules/webfontloader/webfontloader.js",
       "file": "static/chunks/0.js"

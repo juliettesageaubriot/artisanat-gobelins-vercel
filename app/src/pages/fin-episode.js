@@ -1,4 +1,4 @@
-import Seo from '../components/Seo/Seo'
+import Seo from '../components/Structure/Seo/Seo'
 
 const FinEpisode = () => {
   return (

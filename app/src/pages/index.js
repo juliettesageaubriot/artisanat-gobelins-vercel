@@ -1,6 +1,6 @@
-import React, {useRef} from "react"
-import ReactDOM from "react-dom"
-import Seo from '../components/Seo/Seo'
+import React from "react"
+import Cameras from "../components/Cameras/Cameras"
+import Seo from '../components/Structure/Seo/Seo'
 
 const Page = () => {
   return (
@@ -9,7 +9,7 @@ const Page = () => {
         title="regards d'artisans"
         description="description du projet"
       />
-      <h1>Hello world</h1>
+      <Cameras />
     </>
   )
 }

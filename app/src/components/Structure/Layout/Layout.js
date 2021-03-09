@@ -7,9 +7,9 @@ const Layout = ({children}) => {
   return (
     <div>
       <Loader />
-      <Header />
+      {/* <Header /> */}
       {children}
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

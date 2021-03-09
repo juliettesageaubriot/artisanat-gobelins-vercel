@@ -1,4 +1,4 @@
-import Seo from '../components/Seo/Seo'
+import Seo from '../components/Structure/Seo/Seo'
 
 // custom pages/404.js !! Do not remove please or it will break build
 export default function Error() {
