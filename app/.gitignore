@@ -9,8 +9,8 @@
 /coverage
 
 # next.js
-/_next/
-/.next/
+_next/
+.next/
 /out/
 
 # production
