@@ -9,6 +9,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "dat.gui": "^0.7.7",
     "next": "^10.0.6",
     "node-sass": "^5.0.0",
     "react": "^17.0.1",
