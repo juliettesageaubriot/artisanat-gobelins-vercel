@@ -21,8 +21,8 @@ const ColorPicker = () => {
     loader.load(
       '/assets/models/vitrail.glb',
       (gltf) => {
-        console.log(('success'));
         scene.add(gltf.scene)
+        console.log(gltf.scene);
       }
     )
 
