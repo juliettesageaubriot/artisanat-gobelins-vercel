@@ -15,17 +15,19 @@ const ColorPicker = () => {
     let scene = new THREE.Scene();
     const canvas = ref.current
 
+    // Group
+    const vitrailGroup = new THREE.Group
+    scene.add(vitrailGroup)
+
     // Loader
     const loader = new GLTFLoader()
 
     loader.load(
       '/assets/models/vitrail.glb',
       (gltf) => {
-        scene.add(gltf.scene)
-        console.log(gltf.scene);
+        vitrailGroup.add(gltf.scene)
       }
     )
-
     // Parameters
     const parameters = {
       PositionX: 0
@@ -108,13 +110,14 @@ const ColorPicker = () => {
    */
     // Base camera
     const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-    camera.position.z = 2
+    camera.position.set(0, 2, 2)
     scene.add(camera)
 
     // Controls
     const controls = new OrbitControls(camera, canvas)
     controls.target.set(0, 1, 0)
     controls.enableDamping = true
+    controls.enabled = true
 
     /**
      * Renderer
@@ -138,9 +141,8 @@ const ColorPicker = () => {
       const deltaTime = elapsedTime - previousTime
       previousTime = elapsedTime
 
-      // if (mixer) {
-      //   mixer.update(deltaTime)
-      // }
+      // Camera
+      camera.lookAt(vitrailGroup.position)
 
       // Update controls
       controls.update()
