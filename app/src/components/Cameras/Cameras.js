@@ -13,16 +13,22 @@ const Cameras = () => {
     let scene = new THREE.Scene();
     const canvas = ref.current
 
-
+    // Parameters
     const parameters = {
       PositionX: 0
     }
 
+    // Axes Helper
+    const axesHelper = new THREE.AxesHelper(10);
+    scene.add(axesHelper);
+
     /**
-     * Floor
+     * Plane
      */
+
+    //Floor
     const floor = new THREE.Mesh(
-      new THREE.TorusGeometry( 5, 3, 16, 100 ),
+      new THREE.PlaneGeometry(10, 10, 10),
       new THREE.MeshStandardMaterial({
         color: '#444444',
         metalness: 0,
@@ -31,11 +37,71 @@ const Cameras = () => {
       })
     )
     floor.receiveShadow = true
-    floor.position.x = parameters.PositionX
-    gui.add(floor.position, "x").min(-10).max(10).step(0.001)
-
+    floor.rotation.x = Math.PI / 2
     scene.add(floor)
 
+    // Right wall
+    const rightWall = new THREE.Mesh(
+      new THREE.PlaneGeometry(10, 5, 10),
+      new THREE.MeshStandardMaterial({
+        color: 0x00ffff,
+        metalness: 0,
+        roughness: 0.5,
+        side: THREE.DoubleSide
+      })
+    )
+    rightWall.receiveShadow = true
+    rightWall.rotation.y = Math.PI / 2
+    rightWall.position.set(5, 5 / 2, 0)
+    scene.add(rightWall)
+
+    // Back wall
+    const backWall = new THREE.Mesh(
+      new THREE.PlaneGeometry(10, 5, 10),
+      new THREE.MeshStandardMaterial({
+        color: 0xff00ff,
+        metalness: 0,
+        roughness: 0.5,
+        side: THREE.DoubleSide
+      })
+    )
+    backWall.receiveShadow = true
+    backWall.rotation.y = Math.PI / 2
+    backWall.position.set(-5, 5 / 2, 0)
+    scene.add(backWall)
+
+
+    // Left wall
+    const leftWall = new THREE.Mesh(
+      new THREE.PlaneGeometry(10, 5, 10),
+      new THREE.MeshStandardMaterial({
+        color: 0xffff00,
+        metalness: 0,
+        roughness: 0.5,
+        side: THREE.DoubleSide
+      })
+    )
+    leftWall.receiveShadow = true
+    // leftWall.rotation.y = Math.PI
+    leftWall.position.set(0, 5 / 2, -5)
+    scene.add(leftWall)
+
+    /**
+     * Cube
+     */
+
+    // Cube 1
+    const cube1 = new THREE.Mesh(
+      new THREE.BoxGeometry(1, 1, 1),
+      new THREE.MeshStandardMaterial({
+        color: 0xffffff,
+        metalness: 0,
+        roughness: 0.5,
+      })
+    )
+    cube1.receiveShadow = true
+    cube1.position.set(0, 0.501, 0)
+    scene.add(cube1)
 
     /**
     * Lights
@@ -81,7 +147,7 @@ const Cameras = () => {
    */
     // Base camera
     const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-    camera.position.y = -10
+    camera.position.z = 10
     scene.add(camera)
 
     // Controls
