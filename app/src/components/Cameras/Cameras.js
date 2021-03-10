@@ -103,6 +103,14 @@ const Cameras = () => {
     cube1.position.set(0, 0.501, 0)
     scene.add(cube1)
 
+
+    /**
+     * Raycaster
+     */
+
+    const raycaster = new THREE.Raycaster()
+
+
     /**
     * Lights
     */
@@ -142,6 +150,26 @@ const Cameras = () => {
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     })
 
+
+    /**
+ * Mouse
+ */
+    const mouse = new THREE.Vector2() //x and y
+    window.addEventListener('mousemove', (_event) => {
+      mouse.x = _event.clientX / sizes.width * 2 - 1
+      mouse.y = - (_event.clientY / sizes.height) * 2 + 1
+    })
+
+    window.addEventListener('click', (_event) => {
+      if (currentIntersect) {
+        switch (currentIntersect.object) {
+          case cube1:
+            console.log('click on object 1')
+            break
+        }
+      }
+    })
+
     /**
    * Camera
    */
@@ -170,6 +198,7 @@ const Cameras = () => {
      */
     const clock = new THREE.Clock()
     let previousTime = 0
+    let currentIntersect = null
 
     const tick = () => {
       const elapsedTime = clock.getElapsedTime()
@@ -179,6 +208,39 @@ const Cameras = () => {
       // if (mixer) {
       //   mixer.update(deltaTime)
       // }
+
+      // Cast a ray
+      raycaster.setFromCamera(mouse, camera)
+
+      const objectsToTest = [
+        cube1
+      ]
+
+      const intersects = raycaster.intersectObjects(objectsToTest)
+
+      for (const object of objectsToTest) {
+        object.material.color.set('#ff0000')
+      }
+
+      for (const intersect of intersects) {
+        intersect.object.material.color.set('#0000ff')
+      }
+
+      if (intersects.length) {
+
+        if (currentIntersect === null) {
+          console.log('mouseEnter');
+        }
+
+        currentIntersect = intersects[0]
+      } else {
+
+        if (currentIntersect) {
+          console.log('mouseLeave');
+        }
+        currentIntersect = null
+      }
+
 
       // Update controls
       controls.update()
