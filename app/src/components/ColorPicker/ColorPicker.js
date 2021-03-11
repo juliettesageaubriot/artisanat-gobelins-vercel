@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import styles from "./styles.module.scss";
 import * as THREE from 'three'
 import { Group } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
@@ -6,6 +7,9 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
 const ColorPicker = () => {
   const ref = useRef(null)
+  const cursorColorPickerContainer = useRef(null);
+  const cursorColorPickerInner = useRef(null);
+ 
 
   useEffect(() => {
     const dat = require('dat.gui');
@@ -82,12 +86,18 @@ const ColorPicker = () => {
         switch (currentIntersect.object.name) {
           case "green":
             colorPicked.current = currentIntersect.object.material.color;
+            cursorColorPickerInner.current.setAttribute("data-color-cursor", "green");
+            cursorColorPickerInner.current.style.transform = "scale(1.5)"
             break
           case "purple":
             colorPicked.current = currentIntersect.object.material.color;
+            cursorColorPickerInner.current.setAttribute("data-color-cursor", "purple");
+            cursorColorPickerInner.current.style.transform = "scale(1.5)"
             break
           case "white":
             colorPicked.current = currentIntersect.object.material.color;
+            cursorColorPickerInner.current.setAttribute("data-color-cursor", "white");
+            cursorColorPickerInner.current.style.transform = "scale(1.5)"
             break
         }
       }
@@ -95,12 +105,16 @@ const ColorPicker = () => {
     const handleMouseUp = () => {
       isMouseDown = false;
       if (currentIntersect) {
-        if(vitrailObjects.includes(currentIntersect.object.name)) {
+        if (vitrailObjects.includes(currentIntersect.object.name)) {
           currentIntersect.object.material.color = colorPicked.current;
         }
         colorPicked.current = null;
+        cursorColorPickerInner.current.setAttribute("data-color-cursor", "default");
+        cursorColorPickerInner.current.style.transform = "scale(.8)"
       } else {
         colorPicked.current = null;
+        cursorColorPickerInner.current.setAttribute("data-color-cursor", "default");
+        cursorColorPickerInner.current.style.transform = "scale(.8)"
       }
     }
 
@@ -109,6 +123,7 @@ const ColorPicker = () => {
     const handleMouseMove = (event) => {
       mouse.x = event.clientX / sizes.width * 2 - 1
       mouse.y = - (event.clientY / sizes.height) * 2 + 1
+      cursorColorPickerContainer.current.style.transform = `translate(${event.clientX - 25}px, ${event.clientY - 25}px)`;
       // console.log(mouse)
     }
 
@@ -131,7 +146,6 @@ const ColorPicker = () => {
       '/assets/models/vitrail.glb',
       (gltf) => {
         vitrailGroup.add(gltf.scene)
-        // console.log(gltf.scene.children)
 
         //Add ColorPicker
         let colorPickers = gltf.scene.children[0].children;
@@ -279,23 +293,23 @@ const ColorPicker = () => {
       const intersects = raycaster.intersectObjects(objectToTest)
 
       if (intersects.length) {
-        
+
         if (!currentIntersect) {
 
           currentIntersect = intersects[0]
           // console.log('mouse enter')
           colorPicked.old = currentIntersect.object.material.color;
-          if(isMouseDown === true) {
+          if (isMouseDown === true) {
             currentIntersect.object.material.color = colorPicked.current;
           }
-        } 
+        }
       }
       else {
         if (currentIntersect) {
           // console.log('mouse leave')
-          if(isMouseDown === true) {
+          if (isMouseDown === true) {
             currentIntersect.object.material.color = colorPicked.old;
-          } 
+          }
           colorPicked.old = null;
         }
 
@@ -323,6 +337,9 @@ const ColorPicker = () => {
   return (
     <>
       <div ref={ref} />
+      <div className={styles.colorPickerContainer} ref={cursorColorPickerContainer}>
+        <div className={styles.colorPickerInner} ref={cursorColorPickerInner}></div>
+      </div>
     </>
   );
 }
