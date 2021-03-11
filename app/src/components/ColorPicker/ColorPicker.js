@@ -151,7 +151,7 @@ const ColorPicker = () => {
         let colorPickers = gltf.scene.children[0].children;
         for (let colorPicker of colorPickers) {
           objectToTest.push(colorPicker);
-          vitrailObjects.push(colorPicker.name);
+          // vitrailObjects.push(colorPicker.name);
         }
 
         //Add Vitrail cube
@@ -293,13 +293,11 @@ const ColorPicker = () => {
       const intersects = raycaster.intersectObjects(objectToTest)
 
       if (intersects.length) {
-
         if (!currentIntersect) {
-
           currentIntersect = intersects[0]
           // console.log('mouse enter')
           colorPicked.old = currentIntersect.object.material.color;
-          if (isMouseDown === true) {
+          if (isMouseDown === true && vitrailObjects.includes(currentIntersect.object.name)) {
             currentIntersect.object.material.color = colorPicked.current;
           }
         }
