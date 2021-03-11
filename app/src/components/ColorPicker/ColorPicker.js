@@ -14,6 +14,7 @@ const ColorPicker = () => {
     const raycaster = new THREE.Raycaster();
 
     let objectToTest = [];
+    let vitrailObjects = [];
 
     // Scene
     let scene = new THREE.Scene();
@@ -21,58 +22,62 @@ const ColorPicker = () => {
 
     //COLORPICKER CURRENT COLOR
     const colorPicked = {
-      current: null
+      current: null,
+      old: null
     }
+
 
 
     /**
     * Mouse
     */
 
-    const handleClickOnObjects = () => {
-      if (currentIntersect) {
-        switch (currentIntersect.object.name) {
-          case "green":
-            console.log('click on THE GREEN')
-            break
-          case "purple":
-            console.log('click on THE PURPLE')
-            break
-          case "white":
-            console.log('click on THE WHITE')
-            break
-          case "cubeTopLeft":
-            console.log('click on cubeTopLeft')
-            break
-          case "cubeTopRight":
-            console.log('click on cubeTopRight')
-            break
-          case "cubeBottomLeft":
-            console.log('click on cubeBottomLeft')
-            break
-          case "cubeBottomRight":
-            console.log('click on cubeBottomRight')
-            break
-          case "rectangleLeft":
-            console.log('click on rectangleLeft')
-            break
-          case "rectangleTop":
-            console.log('click on rectangleTop')
-            break
-          case "rectangleRight":
-            console.log('click on rectangleRight')
-            break
-          case "rectangleBottom":
-            console.log('click on rectangleBottom')
-            break
-          case "losange":
-            console.log('click on losange')
-            break
-        }
-      }
-    }
+    // const handleClickOnObjects = () => {
+    //   if (currentIntersect) {
+    //     switch (currentIntersect.object.name) {
+    //       case "green":
+    //         console.log('click on THE GREEN')
+    //         break
+    //       case "purple":
+    //         console.log('click on THE PURPLE')
+    //         break
+    //       case "white":
+    //         console.log('click on THE WHITE')
+    //         break
+    //       case "cubeTopLeft":
+    //         console.log('click on cubeTopLeft')
+    //         break
+    //       case "cubeTopRight":
+    //         console.log('click on cubeTopRight')
+    //         break
+    //       case "cubeBottomLeft":
+    //         console.log('click on cubeBottomLeft')
+    //         break
+    //       case "cubeBottomRight":
+    //         console.log('click on cubeBottomRight')
+    //         break
+    //       case "rectangleLeft":
+    //         console.log('click on rectangleLeft')
+    //         break
+    //       case "rectangleTop":
+    //         console.log('click on rectangleTop')
+    //         break
+    //       case "rectangleRight":
+    //         console.log('click on rectangleRight')
+    //         break
+    //       case "rectangleBottom":
+    //         console.log('click on rectangleBottom')
+    //         break
+    //       case "losange":
+    //         console.log('click on losange')
+    //         break
+    //     }
+    //   }
+    // }
 
+    let isMouseDown = false;
     const handleMouseDown = () => {
+      isMouseDown = true;
       if (currentIntersect) {
         switch (currentIntersect.object.name) {
           case "green":
@@ -86,43 +91,17 @@ const ColorPicker = () => {
             break
         }
       }
-      console.log(colorPicked.current)
     }
     const handleMouseUp = () => {
+      isMouseDown = false;
       if (currentIntersect) {
-        switch (currentIntersect.object.name) {
-          case "cubeTopLeft":
-            currentIntersect.object.material.color = colorPicked.current;
-            break
-          case "cubeTopRight":
-            currentIntersect.object.material.color = colorPicked.current;
-            break
-          case "cubeBottomLeft":
-            currentIntersect.object.material.color = colorPicked.current;
-            break
-          case "cubeBottomRight":
-            currentIntersect.object.material.color = colorPicked.current;
-            break
-          case "rectangleLeft":
-            currentIntersect.object.material.color = colorPicked.current;
-            break
-          case "rectangleTop":
-            currentIntersect.object.material.color = colorPicked.current;
-            break
-          case "rectangleRight":
-            currentIntersect.object.material.color = colorPicked.current;
-            break
-          case "rectangleBottom":
-            currentIntersect.object.material.color = colorPicked.current;
-            break
-          case "losange":
-            currentIntersect.object.material.color = colorPicked.current;
-            break
+        if(vitrailObjects.includes(currentIntersect.object.name)) {
+          currentIntersect.object.material.color = colorPicked.current;
         }
+        colorPicked.current = null;
       } else {
         colorPicked.current = null;
       }
-
     }
 
     const mouse = new THREE.Vector2()
@@ -135,7 +114,7 @@ const ColorPicker = () => {
 
     window.addEventListener('mousemove', handleMouseMove)
 
-    window.addEventListener('click', handleClickOnObjects)
+    // window.addEventListener('click', handleClickOnObjects)
 
     window.addEventListener('pointerdown', handleMouseDown)
 
@@ -158,23 +137,27 @@ const ColorPicker = () => {
         let colorPickers = gltf.scene.children[0].children;
         for (let colorPicker of colorPickers) {
           objectToTest.push(colorPicker);
+          vitrailObjects.push(colorPicker.name);
         }
 
         //Add Vitrail cube
         let vitrailCubes = gltf.scene.children[2].children;
         for (let vitrailCube of vitrailCubes) {
           objectToTest.push(vitrailCube);
+          vitrailObjects.push(vitrailCube.name);
         }
 
         //Add Vitrail rectangles
         let vitrailRectangles = gltf.scene.children[1].children;
         for (let vitrailRectangle of vitrailRectangles) {
           objectToTest.push(vitrailRectangle);
+          vitrailObjects.push(vitrailRectangle.name);
         }
 
         //Add Vitrail Losange
         let vitrailLosange = gltf.scene.children[3];
         objectToTest.push(vitrailLosange);
+        vitrailObjects.push(vitrailLosange.name);
       }
     )
     // Parameters
@@ -296,20 +279,28 @@ const ColorPicker = () => {
       const intersects = raycaster.intersectObjects(objectToTest)
 
       if (intersects.length) {
+        
         if (!currentIntersect) {
-          console.log('mouse enter')
-        }
 
-        currentIntersect = intersects[0]
+          currentIntersect = intersects[0]
+          // console.log('mouse enter')
+          colorPicked.old = currentIntersect.object.material.color;
+          if(isMouseDown === true) {
+            currentIntersect.object.material.color = colorPicked.current;
+          }
+        } 
       }
       else {
         if (currentIntersect) {
-          console.log('mouse leave')
+          // console.log('mouse leave')
+          if(isMouseDown === true) {
+            currentIntersect.object.material.color = colorPicked.old;
+          } 
+          colorPicked.old = null;
         }
 
         currentIntersect = null
       }
-
 
       // Camera
       camera.lookAt(vitrailGroup.position)
