@@ -11,13 +11,11 @@ const ColorPicker = () => {
   const ref = useRef(null)
   const cursorColorPickerContainer = useRef(null);
   const cursorColorPickerInner = useRef(null);
+
   // Parameters GUI
   const parameters = []
 
   useEffect(() => {
-    // const dat = require('dat.gui');
-    // const gui = new dat.GUI();
-
     const raycaster = new THREE.Raycaster();
 
     let objectToTest = [];
@@ -218,6 +216,7 @@ const ColorPicker = () => {
       }
     )
 
+    console.log("In useEffect colorPicker", parameters)
 
     /**
      * Plane

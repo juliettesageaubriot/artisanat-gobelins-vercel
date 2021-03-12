@@ -6,8 +6,8 @@ const Cameras = () => {
   const ref = useRef(null)
 
   useEffect(() => {
-    const dat = require('dat.gui');
-    const gui = new dat.GUI();
+  //   const dat = require('dat.gui');
+  //   const gui = new dat.GUI();
 
     // Scene
     let scene = new THREE.Scene();
