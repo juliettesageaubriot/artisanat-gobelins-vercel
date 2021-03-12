@@ -1,0 +1,33 @@
+.introContainer {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .title {
+        font-size: 45px;
+        font-weight: 700;
+    }
+
+    .text {
+        margin: 20px 30%;
+        text-align: center;
+    }
+
+    .cta {
+        height: 50px;
+        width: 200px;
+        background-color: #254EDA;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20px;
+        border-radius: 40px;
+        color: #fff;
+        text-decoration: none;
+    }
+
+    
+}

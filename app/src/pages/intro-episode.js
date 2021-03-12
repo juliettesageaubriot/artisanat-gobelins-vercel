@@ -1,3 +1,4 @@
+import IntroEpisodePage from '../components/Pages/Intro-episodePage/IntroEpisodePage'
 import Seo from '../components/Structure/Seo/Seo'
 
 const IntroEpisode = () => {
@@ -7,7 +8,7 @@ const IntroEpisode = () => {
       title="regards d'artisans"
       description="description du projet"
       />
-      <h1>Intro épisode</h1>
+      <IntroEpisodePage />
     </>
   )
 }
