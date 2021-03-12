@@ -1,19 +1,22 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from "./styles.module.scss";
 import * as THREE from 'three'
 import { Group } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
+import GUI from "../GUI/gui";
 
 const ColorPicker = () => {
   const ref = useRef(null)
   const cursorColorPickerContainer = useRef(null);
   const cursorColorPickerInner = useRef(null);
- 
+  // Parameters GUI
+  const parameters = []
 
   useEffect(() => {
-    const dat = require('dat.gui');
-    const gui = new dat.GUI();
+    // const dat = require('dat.gui');
+    // const gui = new dat.GUI();
 
     const raycaster = new THREE.Raycaster();
 
@@ -30,7 +33,7 @@ const ColorPicker = () => {
       old: null
     }
 
-
+  
     /**
     * Mouse
     */
@@ -141,8 +144,12 @@ const ColorPicker = () => {
     // Loader
     const loader = new GLTFLoader()
 
+    const dracoLoader = new DRACOLoader()
+    dracoLoader.setDecoderPath('/assets/models/gltf/draco/')
+    loader.setDRACOLoader(dracoLoader)
+
     loader.load(
-      '/assets/models/vitrail.glb',
+      '/assets/models/gltf/draco/vitrail.glb',
       (gltf) => {
         vitrailGroup.add(gltf.scene)
 
@@ -173,10 +180,6 @@ const ColorPicker = () => {
         vitrailObjects.push(vitrailLosange.name);
       }
     )
-    // Parameters
-    const parameters = {
-      PositionX: 0
-    }
 
     // Axes Helper
     const axesHelper = new THREE.AxesHelper(10);
@@ -203,6 +206,17 @@ const ColorPicker = () => {
     floor.receiveShadow = true
     floor.rotation.x = Math.PI / 2
     scene.add(floor)
+
+    parameters.push(
+      {
+        element: floor.position,
+        property: "x",
+        max: 10,
+        min: -10,
+        step: 0.01,
+        addColor: false
+      }
+    )
 
 
     /**
@@ -333,6 +347,7 @@ const ColorPicker = () => {
 
   return (
     <>
+      <GUI parameters={parameters} />
       <div ref={ref} />
       <div className={styles.colorPickerContainer} ref={cursorColorPickerContainer}>
         <div className={styles.colorPickerInner} ref={cursorColorPickerInner}></div>
