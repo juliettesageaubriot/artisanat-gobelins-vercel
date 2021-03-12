@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from "./styles.module.scss";
 import * as THREE from 'three'
-import { Group } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
@@ -25,17 +24,59 @@ const ColorPicker = () => {
     let scene = new THREE.Scene();
     const canvas = ref.current
 
+    // Loader
+    const loader = new GLTFLoader()
+
+    const dracoLoader = new DRACOLoader()
+    dracoLoader.setDecoderPath('/assets/models/gltf/draco/')
+    loader.setDRACOLoader(dracoLoader)
+
+    loader.load(
+      '/assets/models/gltf/draco/dracoModels/vitrail.glb',
+      (gltf) => {
+        vitrailGroup.add(gltf.scene)
+
+        //Add ColorPicker
+        let colorPickers = gltf.scene.children[0].children;
+        for (let colorPicker of colorPickers) {
+          objectToTest.push(colorPicker);
+          // vitrailObjects.push(colorPicker.name);
+        }
+
+        //Add Vitrail cube
+        let vitrailCubes = gltf.scene.children[2].children;
+        for (let vitrailCube of vitrailCubes) {
+          objectToTest.push(vitrailCube);
+          vitrailObjects.push(vitrailCube.name);
+        }
+
+        //Add Vitrail rectangles
+        let vitrailRectangles = gltf.scene.children[1].children;
+        for (let vitrailRectangle of vitrailRectangles) {
+          objectToTest.push(vitrailRectangle);
+          vitrailObjects.push(vitrailRectangle.name);
+        }
+
+        //Add Vitrail Losange
+        let vitrailLosange = gltf.scene.children[3];
+        objectToTest.push(vitrailLosange);
+        vitrailObjects.push(vitrailLosange.name);
+      }
+    )
+
+    // Group
+    const vitrailGroup = new THREE.Group
+    scene.add(vitrailGroup)
+
     //COLORPICKER CURRENT COLOR
     const colorPicked = {
       current: null,
       old: null
     }
 
-  
     /**
     * Mouse
     */
-
     // const handleClickOnObjects = () => {
     //   if (currentIntersect) {
     //     switch (currentIntersect.object.name) {
@@ -134,50 +175,6 @@ const ColorPicker = () => {
     window.addEventListener('pointerdown', handleMouseDown)
 
     window.addEventListener('pointerup', handleMouseUp)
-
-    // Group
-    const vitrailGroup = new THREE.Group
-    scene.add(vitrailGroup)
-
-    // Loader
-    const loader = new GLTFLoader()
-
-    const dracoLoader = new DRACOLoader()
-    dracoLoader.setDecoderPath('/assets/models/gltf/draco/')
-    loader.setDRACOLoader(dracoLoader)
-
-    loader.load(
-      '/assets/models/gltf/draco/vitrail.glb',
-      (gltf) => {
-        vitrailGroup.add(gltf.scene)
-
-        //Add ColorPicker
-        let colorPickers = gltf.scene.children[0].children;
-        for (let colorPicker of colorPickers) {
-          objectToTest.push(colorPicker);
-          // vitrailObjects.push(colorPicker.name);
-        }
-
-        //Add Vitrail cube
-        let vitrailCubes = gltf.scene.children[2].children;
-        for (let vitrailCube of vitrailCubes) {
-          objectToTest.push(vitrailCube);
-          vitrailObjects.push(vitrailCube.name);
-        }
-
-        //Add Vitrail rectangles
-        let vitrailRectangles = gltf.scene.children[1].children;
-        for (let vitrailRectangle of vitrailRectangles) {
-          objectToTest.push(vitrailRectangle);
-          vitrailObjects.push(vitrailRectangle.name);
-        }
-
-        //Add Vitrail Losange
-        let vitrailLosange = gltf.scene.children[3];
-        objectToTest.push(vitrailLosange);
-        vitrailObjects.push(vitrailLosange.name);
-      }
-    )
 
     // Axes Helper
     const axesHelper = new THREE.AxesHelper(10);
