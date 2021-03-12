@@ -21,11 +21,21 @@ const Cameras = () => {
     dracoLoader.setDecoderPath('/assets/models/gltf/draco/')
     loader.setDRACOLoader(dracoLoader)
 
+    let camera1
+
     loader.load(
       '/assets/models/gltf/draco/dracoModels/atelier.glb',
       (gltf) => {
-        console.log(gltf);
+        camera1 = gltf.scene.children[2].children[0].children[0]
+
+        //Camera properties
+        camera1.aspect = sizes.width / sizes.height
+        camera1.near = 0.1
+        camera1.far = 100
+
+        //add scene
         workshopGroup.add(gltf.scene)
+        console.log("in gltf camera1", camera1);
       }
     )
 
@@ -68,8 +78,13 @@ const Cameras = () => {
       sizes.height = window.innerHeight
 
       // Update camera
+      // base camera
       camera.aspect = sizes.width / sizes.height
       camera.updateProjectionMatrix()
+
+      // Blender camera 1
+      camera1.aspect = sizes.width / sizes.height
+      camera1.updateProjectionMatrix()
 
       // Update renderer
       renderer.setSize(sizes.width, sizes.height)
@@ -85,10 +100,10 @@ const Cameras = () => {
     scene.add(camera)
 
     // Controls
-    const controls = new OrbitControls(camera, canvas)
-    controls.target.set(0, 1, 0)
-    controls.enableDamping = true
-    controls.enabled = true
+    // const controls = new OrbitControls(camera, canvas)
+    // controls.target.set(0, 1, 0)
+    // controls.enableDamping = true
+    // controls.enabled = false
 
     /**
    * Renderer
@@ -115,10 +130,11 @@ const Cameras = () => {
       // camera.lookAt(vitrailGroup.position)
 
       // Update controls
-      controls.update()
+      // controls.update()
 
       // Render
-      renderer.render(scene, camera)
+      renderer.render(scene, camera1 !== undefined ? camera1 : camera)
+      // renderer.render(scene, camera)
 
       // Call tick again on the next frame
       window.requestAnimationFrame(tick)
