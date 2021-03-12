@@ -35,7 +35,6 @@ const Cameras = () => {
 
         //add scene
         workshopGroup.add(gltf.scene)
-        console.log("in gltf camera1", camera1);
       }
     )
 
@@ -100,7 +99,7 @@ const Cameras = () => {
     scene.add(camera)
 
     // Controls
-    // const controls = new OrbitControls(camera, canvas)
+    // const controls = new OrbitControls(camera1 !== undefined ? camera1 : camera, canvas)
     // controls.target.set(0, 1, 0)
     // controls.enableDamping = true
     // controls.enabled = false
