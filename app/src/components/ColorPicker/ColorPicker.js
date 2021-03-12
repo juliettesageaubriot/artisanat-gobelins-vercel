@@ -31,7 +31,6 @@ const ColorPicker = () => {
     }
 
 
-
     /**
     * Mouse
     */
