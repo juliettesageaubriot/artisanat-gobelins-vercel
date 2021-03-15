@@ -1,0 +1,12 @@
+.btn {
+  &_no-text {
+    padding: 0;
+    .btn__label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      text-indent: -9999px;
+    }
+  }
+}
