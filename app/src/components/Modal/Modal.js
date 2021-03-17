@@ -1,7 +1,9 @@
 
 import styles from './styles.module.scss'
 
-const Modal = ({ isShowing, hide }) => {
+const Modal = ({ isShowing, hide, content }) => {
+
+
   return (
     <>
       {isShowing
@@ -21,10 +23,34 @@ const Modal = ({ isShowing, hide }) => {
                 <span className={`btn__label`}>Close</span>
               </button>
 
-              <h2 className={styles.title}>À propos</h2>
-              <p className={styles.intro}>Le projet a été réalisé dans le cadre du master de design et développement de l’innovation interactive.<br />
-              Ce projet a pour vocation de mettre en lumière les enjeux contemporains de l’artisanat.</p>
-              <p className={styles.credits}>Réalisé par deux développeurs Juliette Sage--Aubriot, Aurélien Hémidy et trois designers Eloïse Luna, Vincent Calas et Chloélia Breton</p>
+              {content.map((item) => {
+                return (
+                  <>
+                    <h2 className={styles.title} dangerouslySetInnerHTML={{ __html: item.title }}></h2>
+                    <p className={styles.intro} dangerouslySetInnerHTML={{ __html: item.content }} ></p>
+                    <p className={styles.credits} dangerouslySetInnerHTML={{ __html: item.credits }}></p>
+
+                    <div className={`${styles.buttons} ${item.buttons === false && styles.none}`}>
+                      <button
+                        className={`${styles.btn} ${styles["btn_yes"]} btn`}
+                        onClick={hide}
+                      >
+                        <span className={styles['btn__icon']}>
+                        </span>
+                        <span className={`btn__label ${styles['btn__label']}`}>Oui</span>
+                      </button>
+                      <button
+                        className={`${styles.btn} ${styles["btn_no"]} btn`}
+                        onClick={hide}
+                      >
+                        <span className={styles['btn__icon']}>
+                        </span>
+                        <span className={`btn__label ${styles['btn__label']}`}>Non</span>
+                      </button>
+                    </div>
+                  </>
+                )
+              })}
             </div>
           </div>
           <div className={styles.overlay}></div>
