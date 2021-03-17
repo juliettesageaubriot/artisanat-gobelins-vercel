@@ -20,13 +20,25 @@ body {
   overflow: hidden;
 }
 
+.layout {
+  &-wrapper {
+      width: 100%;
+      min-height: 100vh;
+  }
+}
+
 html {
   scroll-behavior: smooth;
 
   &.own-html {
+    scroll-behavior: smooth;
+    height: 100vh;
     body {
       overflow: hidden;
       font-family: $font-body-wf;
+    }
+    section {
+      height: 100%;
     }
   }
 }

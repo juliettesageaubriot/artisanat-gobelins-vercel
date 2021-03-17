@@ -23,9 +23,9 @@ const Modal = ({ isShowing, hide, content }) => {
                 <span className={`btn__label`}>Close</span>
               </button>
 
-              {content.map((item) => {
+              {content.map((item, k) => {
                 return (
-                  <>
+                  <div key={k}>
                     <h2 className={styles.title} dangerouslySetInnerHTML={{ __html: item.title }}></h2>
                     <p className={styles.intro} dangerouslySetInnerHTML={{ __html: item.content }} ></p>
                     <p className={styles.credits} dangerouslySetInnerHTML={{ __html: item.credits }}></p>
@@ -48,7 +48,7 @@ const Modal = ({ isShowing, hide, content }) => {
                         <span className={`btn__label ${styles['btn__label']}`}>Non</span>
                       </button>
                     </div>
-                  </>
+                  </div>
                 )
               })}
             </div>
