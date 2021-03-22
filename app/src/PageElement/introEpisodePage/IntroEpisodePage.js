@@ -4,6 +4,7 @@ import TheVolume from '../../components/VolumeSettings/TheVolume';
 import Link from 'next/link'
 
 import styles from "./styles.module.scss"
+import TheBreadcrumb from '../../components/Breadcrumb/TheBreadcrumb';
 
 const IntroEpisodePage = () => {
   const { isShowing: isShowingAbout, toggle: toggleAbout } = useModal();
@@ -31,6 +32,7 @@ const IntroEpisodePage = () => {
 
   return (
     <section className={styles["page-intro"]}>
+      <TheBreadcrumb/>
       <div className={`${styles["page-intro_container"]}`}>
         <div className={`${styles["page-intro__inner"]}`}>
 
