@@ -1,0 +1,11 @@
+:root {
+  --fa-style-family: 'Font Awesome 6 Pro';
+  --fa-style: 900;
+}
+
+.#{$fa-css-prefix} {
+  font-family: 'Font Awesome 6 Pro';
+  font-family: var(--fa-style-family);
+  font-weight: 900;
+  font-weight: var(--fa-style);
+}
