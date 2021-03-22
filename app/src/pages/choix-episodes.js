@@ -1,4 +1,5 @@
 import Seo from '../components/Structure/Seo/Seo'
+import ChoixEpisodePage from '../PageElement/choixEpisodePage/choixEpisodePage'
 
 const ChoixEpisode = () => {
   return (
@@ -7,7 +8,7 @@ const ChoixEpisode = () => {
       title="regards d'artisans"
       description="description du projet"
       />
-      <h1>Choix épisode</h1>
+      <ChoixEpisodePage />
     </>
   )
 }
