@@ -1,11 +1,11 @@
 import IntroEpisodePage from '../PageElement/introEpisodePage/IntroEpisodePage';
-import Seo from '../components/Structure/Seo/Seo'
+import TheSeo from '../components/Structure/Seo/TheSeo'
 
 const IntroEpisode = () => {
 
   return (
     <>
-      <Seo
+      <TheSeo
         title="regards d'artisans"
         description="description du projet"
       />

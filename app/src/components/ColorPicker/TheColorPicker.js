@@ -4,7 +4,7 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
-import GUI from "../GUI/gui";
+import GUI from "../Gui/TheGui";
 
 const ColorPicker = () => {
   const ref = useRef(null)

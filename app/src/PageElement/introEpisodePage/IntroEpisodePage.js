@@ -1,8 +1,9 @@
 import useModal from '../../hooks/useModal'
-import Modal from '../../components/Modal/Modal'
+import TheModal from '../../components/Modal/TheModal'
+import TheVolume from '../../components/VolumeSettings/TheVolume';
+import Link from 'next/link'
 
 import styles from "./styles.module.scss"
-import Volume from '../../components/VolumeSettings/Volume';
 
 const IntroEpisodePage = () => {
   const { isShowing: isShowingAbout, toggle: toggleAbout } = useModal();
@@ -52,7 +53,9 @@ const IntroEpisodePage = () => {
 
                 <div className={`${styles.discover}`}>
                   <div className={`${styles['discover_inner']}`}>
-                    <a href="#"><span>Découvrir</span></a>
+                    <Link href="/menu">
+                      <a><span>Découvrir</span></a>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -62,11 +65,11 @@ const IntroEpisodePage = () => {
           {/* <button onClick={toggleWarning}>Warning</button>
             <button onClick={toggleReturnExperience}>Return experience</button> */}
 
-          <Modal isShowing={isShowingAbout} hide={toggleAbout} content={modalTextAbout} />
-          {/* <Modal isShowing={isShowingWarning} hide={toggleWarning} content={modalTextWarning} />
-            <Modal isShowing={isShowingReturnExperience} hide={toggleReturnExperience} content={modalReturnExperience} /> */}
+          <TheModal isShowing={isShowingAbout} hide={toggleAbout} content={modalTextAbout} />
+          {/* <TheModal isShowing={isShowingWarning} hide={toggleWarning} content={modalTextWarning} />
+            <TheModal isShowing={isShowingReturnExperience} hide={toggleReturnExperience} content={modalReturnExperience} /> */}
         </div>
-        <Volume />
+        <TheVolume />
       </div>
     </section>
   )

@@ -1,9 +1,9 @@
-import Seo from '../components/Structure/Seo/Seo'
+import TheSeo from '../components/Structure/Seo/TheSeo'
 
 const FinEpisode = () => {
   return (
     <>
-      <Seo 
+      <TheSeo 
       title="regards d'artisans"
       description="description du projet"
       />

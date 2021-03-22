@@ -1,19 +1,19 @@
 import React from "react"
-import Cameras from "../components/Cameras/Cameras"
-import ColorPicker from "../components/ColorPicker/ColorPicker"
-import Seo from '../components/Structure/Seo/Seo'
+import TheCameras from "../components/Cameras/TheCameras"
+import TheColorPicker from "../components/ColorPicker/TheColorPicker"
+import TheSeo from '../components/Structure/Seo/TheSeo'
 import IntroEpisode from "./intro-episode"
 
 const Page = () => {
   return (
     <>
-      <Seo
+      <TheSeo
         title="regards d'artisans"
         description="description du projet"
       />
-      {/* <Cameras /> */}
+      {/* <TheCameras /> */}
       <IntroEpisode />
-      {/* <ColorPicker /> */}
+      {/* <TheColorPicker /> */}
     </>
   )
 }
