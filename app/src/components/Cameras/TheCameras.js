@@ -5,7 +5,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import GUI from "../Gui/TheGui";
 
-const Cameras = () => {
+const TheCameras = () => {
   const ref = useRef(null)
 
   useEffect(() => {
@@ -150,4 +150,4 @@ const Cameras = () => {
   )
 }
 
-export default Cameras
+export default TheCameras

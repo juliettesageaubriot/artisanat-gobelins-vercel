@@ -6,7 +6,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import GUI from "../Gui/TheGui";
 
-const ColorPicker = () => {
+const TheColorPicker = () => {
   const ref = useRef(null)
   const cursorColorPickerContainer = useRef(null);
   const cursorColorPickerInner = useRef(null);
@@ -352,4 +352,4 @@ const ColorPicker = () => {
   );
 }
 
-export default ColorPicker;
+export default TheColorPicker;

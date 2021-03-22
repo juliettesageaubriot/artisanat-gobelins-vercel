@@ -1,7 +1,7 @@
 
 import styles from './styles.module.scss'
 
-const Modal = ({ isShowing, hide, content }) => {
+const TheModal = ({ isShowing, hide, content }) => {
 
 
   return (
@@ -61,4 +61,4 @@ const Modal = ({ isShowing, hide, content }) => {
   )
 }
 
-export default Modal
+export default TheModal

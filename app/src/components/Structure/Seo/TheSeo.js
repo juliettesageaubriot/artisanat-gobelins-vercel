@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from "react-helmet"
 
-const Seo = ({title, description}) => {
+const TheSeo = ({title, description}) => {
   return (
     <Helmet
       title={title}
@@ -46,4 +46,4 @@ const Seo = ({title, description}) => {
   );
 }
 
-export default Seo;
+export default TheSeo;

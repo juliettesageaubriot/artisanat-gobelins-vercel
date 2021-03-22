@@ -5,7 +5,7 @@ import TheLoader from '../Loader/TheLoader';
 
 import layout from "./styles.module.scss"
 
-const Layout = ({ children }) => {
+const TheLayout = ({ children }) => {
   return (
     <div className={`layout-wrapper`}>
       {/* <Loader /> */}
@@ -20,4 +20,4 @@ const Layout = ({ children }) => {
   );
 }
 
-export default Layout;
+export default TheLayout;
