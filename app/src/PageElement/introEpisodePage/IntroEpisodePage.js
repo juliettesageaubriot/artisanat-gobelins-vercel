@@ -2,6 +2,7 @@ import useModal from '../../hooks/useModal'
 import Modal from '../../components/Modal/Modal'
 
 import styles from "./styles.module.scss"
+import Volume from '../../components/VolumeSettings/Volume';
 
 const IntroEpisodePage = () => {
   const { isShowing: isShowingAbout, toggle: toggleAbout } = useModal();
@@ -64,8 +65,8 @@ const IntroEpisodePage = () => {
           <Modal isShowing={isShowingAbout} hide={toggleAbout} content={modalTextAbout} />
           {/* <Modal isShowing={isShowingWarning} hide={toggleWarning} content={modalTextWarning} />
             <Modal isShowing={isShowingReturnExperience} hide={toggleReturnExperience} content={modalReturnExperience} /> */}
-
         </div>
+        <Volume />
       </div>
     </section>
   )

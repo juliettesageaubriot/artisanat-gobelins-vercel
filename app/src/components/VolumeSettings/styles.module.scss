@@ -1,0 +1,59 @@
+.volumeContainer {
+    position: absolute;
+    background-color: #C4C4C4;
+    bottom: 0;
+    right: 0;
+    height: 40px;
+    width: 40px;
+    border-radius: 7.5px;
+    margin: 30px;
+    border: 1px solid #C4C4C4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: .3s all ease-in-out;
+
+    &:hover {
+        background-color: transparent;
+        border: 1px solid #254EDA;
+
+        .volumeSlider {
+            opacity: 1;
+        }
+    }
+
+    .volumeSlider {
+        position: absolute;
+        top: -60px;
+        width: 75px;
+        transform: rotate(-90deg);
+        opacity: 0;
+        transition: .3s all ease-in-out;
+        .slider {
+            -webkit-appearance: none;
+            border-radius: 20px;
+            appearance: none;
+            width: 100%;
+            height: 10px;
+            background-color: #C4C4C4;
+            outline: none;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 10px;
+            height: 10px;
+            //transform: scale(attr(data-volume) /);
+            background: #254EDA;
+            cursor: pointer;
+        }
+        
+        .slider::-moz-range-thumb {
+            width: 10px;
+            height: 10px; 
+            background: #254EDA; 
+            cursor: pointer;
+        }
+      }
+}
