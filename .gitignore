@@ -1,3 +1,31 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+app/node_modules
+app/.pnp
+app/.pnp.js
+
+# testing
+app/coverage
+
+# production
+app/build
+
+# misc
+.DS_Store
+app/app/.env*
+
+# debug
+app/npm-debug.log*
+app/yarn-debug.log*
+app/yarn-error.log*
+
+app/package-lock.json
+app/node_modules
+
+app/logs
+
+
 # next.js
 app/_next/
 app/.next/
