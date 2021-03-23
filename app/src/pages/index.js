@@ -2,6 +2,7 @@ import React from "react"
 import Cameras from "../components/Cameras/Cameras"
 import ColorPicker from "../components/ColorPicker/ColorPicker"
 import Seo from '../components/Structure/Seo/Seo'
+import ChoixEpisode from "./choix-episodes"
 import IntroEpisode from "./intro-episode"
 
 const Page = () => {
@@ -12,7 +13,8 @@ const Page = () => {
         description="description du projet"
       />
       {/* <Cameras /> */}
-      <IntroEpisode />
+      {/* <IntroEpisode /> */}
+      <ChoixEpisode />
       {/* <ColorPicker /> */}
     </>
   )
