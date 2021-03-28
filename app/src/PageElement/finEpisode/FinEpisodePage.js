@@ -22,7 +22,7 @@ const IntroEpisodePage = () => {
 
           <div className={`${styles["btn_container"]}`}>
             <div className={`${styles["btn__inner"]}`}>
-              <button className={`${styles['btn-element']} ${isShowingAbout === true && styles.disabled}`} onClick={toggleAbout}>À propos</button>
+              <button className={`btn btn-about ${isShowingAbout === true && styles.disabled}`} onClick={toggleAbout}>À propos</button>
             </div>
           </div>
 

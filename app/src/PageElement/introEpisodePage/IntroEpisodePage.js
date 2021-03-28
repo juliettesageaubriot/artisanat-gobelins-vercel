@@ -38,7 +38,7 @@ const IntroEpisodePage = () => {
 
           <div className={`${styles["btn_container"]}`}>
             <div className={`${styles["btn__inner"]}`}>
-              <button className={`${styles['btn-element']} btn-about ${isShowingAbout === true && styles.disabled}`} onClick={toggleAbout}>À propos</button>
+              <button className={`btn btn-about ${isShowingAbout === true && styles.disabled}`} onClick={toggleAbout}>À propos</button>
             </div>
           </div>
 
@@ -54,7 +54,7 @@ const IntroEpisodePage = () => {
                 </div>
 
                 <div className={`${styles.discover}`}>
-                  <div className={`${styles['discover_inner']}`}>
+                  <div className={`link link-primary ${styles['discover_inner']}`}>
                     <Link href="/menu">
                       <a><span>Découvrir</span></a>
                     </Link>

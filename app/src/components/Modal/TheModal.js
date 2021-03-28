@@ -13,10 +13,10 @@ const TheModal = ({ isShowing, hide, content }) => {
             <div className={styles.modal}>
 
               <button
-                className={`${styles.btn} ${styles["btn_close"]} btn btn_no-text`}
+                className={`${styles.btn} btn btn_no-text btn-close`}
                 onClick={hide}
               >
-                <span className={styles['btn__icon']}>
+                <span className={`btn__icon`}>
                   <i className="fal fa-times"></i>
                   {/* <i className="fas fa-times"></i> */}
                 </span>

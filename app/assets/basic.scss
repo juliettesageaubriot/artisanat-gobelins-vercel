@@ -1,44 +1,11 @@
-@import "_mandatory";
+@import "./mixins";
+@import "./path";
+@import "./normalize";
+@import "./svg";
+@import "./variables";
+
+@import "./body";
+@import "./buttons";
+
 @import "_font-awesome/fontawesome";
 
-// .webgl {
-//   position: fixed;
-//   top: 0;
-//   left: 0;
-//   outline: none;
-// }
-
-*,
-body {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html,
-body {
-  overflow: hidden;
-}
-
-.layout {
-  &-wrapper {
-      width: 100%;
-      min-height: 100vh;
-  }
-}
-
-html {
-  scroll-behavior: smooth;
-
-  &.own-html {
-    scroll-behavior: smooth;
-    height: 100vh;
-    body {
-      overflow: hidden;
-      font-family: $font-body-wf;
-    }
-    section {
-      height: 100%;
-    }
-  }
-}
