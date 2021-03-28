@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from "react-helmet"
 
-const TheSeo = ({title, description}) => {
+const TheSeo = ({ title, description }) => {
   return (
     <Helmet
       title={title}
@@ -42,7 +42,11 @@ const TheSeo = ({title, description}) => {
         }
       ]
       }
-    />
+    >
+      <link rel="manifest" href="/app.manifest" crossorigin="use-credentials"/>
+      <link rel="preload" href="/assets/fonts/fa-regular-400.woff2" as="font" type="font/woff2" />
+      <link rel="preload" href="/assets/fonts/fa-brands-400.woff2" as="font" type="font/woff2" />
+    </Helmet>
   );
 }
 
