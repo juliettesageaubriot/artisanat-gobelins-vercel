@@ -1,4 +1,4 @@
-@import "../../../assets/mandatory";
+@import '@assets/_mandatory';
 
 .page-intro {
   &_container {
@@ -9,7 +9,7 @@
     height: 100%;
     .btn {
       &_container {
-        padding: 10px 20px;
+        // padding: 10px 20px;
       }
       &__inner {
         display: flex;
@@ -18,18 +18,18 @@
         width: 100%;
 
         .btn-element {
-          width: 100px;
-          height: 30px;
-          background-color: $color-grey-100;
-          color: $color-white;
-          border: none;
-          border-radius: 20px;
-          font-size: 16px;
-          cursor: pointer;
-          &.disabled {
-            pointer-events: none;
-            cursor: initial;
-          }
+          // width: 100px;
+          // height: 30px;
+          // background-color: $color-grey-100;
+          // color: $color-white;
+          // border: none;
+          // border-radius: 20px;
+          // font-size: 16px;
+          // cursor: pointer;
+          // &.disabled {
+          //   pointer-events: none;
+          //   cursor: initial;
+          // }
         }
       }
     }

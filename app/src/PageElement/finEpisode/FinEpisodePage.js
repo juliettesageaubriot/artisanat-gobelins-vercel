@@ -4,12 +4,9 @@ import TheVolume from '@components/VolumeSettings/TheVolume';
 import Link from 'next/link'
 
 import styles from "./styles.module.scss"
-import TheBreadcrumb from '@components/Breadcrumb/TheBreadcrumb';
 
 const IntroEpisodePage = () => {
   const { isShowing: isShowingAbout, toggle: toggleAbout } = useModal();
-  const { isShowing: isShowingWarning, toggle: toggleWarning } = useModal();
-  const { isShowing: isShowingReturnExperience, toggle: toggleReturnExperience } = useModal();
 
   const modalTextAbout = [{
     title: "À propos",
@@ -18,27 +15,14 @@ const IntroEpisodePage = () => {
     buttons: false
   }]
 
-  const modalTextWarning = [{
-    title: "Attention, <br/> vous allez quittez l’expérience.",
-    content: "Vous allez revenir au menu de choix des épisodes. <br/>Souhaitez-vous vraiment quittez l’expérience ?",
-    buttons: true
-  }]
-
-  const modalReturnExperience = [{
-    title: "Reprendre l’expérience",
-    content: "Souhaitez-vous reprendre là ou vous en étiez dans l’atelier ?",
-    buttons: true
-  }]
-
   return (
     <section className={styles["page-intro"]}>
-      <TheBreadcrumb/>
       <div className={`${styles["page-intro_container"]}`}>
         <div className={`${styles["page-intro__inner"]}`}>
 
           <div className={`${styles["btn_container"]}`}>
             <div className={`${styles["btn__inner"]}`}>
-              <button className={`${styles['btn-element']} btn-about ${isShowingAbout === true && styles.disabled}`} onClick={toggleAbout}>À propos</button>
+              <button className={`${styles['btn-element']} ${isShowingAbout === true && styles.disabled}`} onClick={toggleAbout}>À propos</button>
             </div>
           </div>
 
@@ -64,12 +48,7 @@ const IntroEpisodePage = () => {
             </div>
           </div>
 
-          {/* <button onClick={toggleWarning}>Warning</button>
-            <button onClick={toggleReturnExperience}>Return experience</button> */}
-
           <TheModal isShowing={isShowingAbout} hide={toggleAbout} content={modalTextAbout} />
-          {/* <TheModal isShowing={isShowingWarning} hide={toggleWarning} content={modalTextWarning} />
-            <TheModal isShowing={isShowingReturnExperience} hide={toggleReturnExperience} content={modalReturnExperience} /> */}
         </div>
         <TheVolume />
       </div>
