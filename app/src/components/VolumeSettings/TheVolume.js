@@ -14,6 +14,7 @@ const TheVolume = () => {
     return ( 
         <div className={styles["volumeContainer"]}>    
             <div className={styles["volumeSlider"]}>
+                <label>Volume</label>
                 <input type="range" min="1" max="100" value={volume} className={styles["slider"]} ref={slider} onChange={handleChange}/>
             </div>
         </div>

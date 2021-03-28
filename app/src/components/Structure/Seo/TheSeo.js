@@ -46,6 +46,7 @@ const TheSeo = ({ title, description }) => {
       <link rel="manifest" href="/app.manifest" crossorigin="use-credentials"/>
       <link rel="preload" href="/assets/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin=""/>
       <link rel="preload" href="/assets/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin=""/>
+      <link rel="preload" href="/assets/fonts/fa-light-300.woff2" as="font" type="font/woff2" crossorigin=""/>
     </Helmet>
   );
 }
