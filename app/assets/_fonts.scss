@@ -1,6 +1,30 @@
 @import "_font-awesome/_variables";
 
 @font-face {
+    font-family: "Cirka";
+    font-weight: normal;
+    font-style: normal;
+    src: url("#{$own-font-path}/cirka-regular.woff2") format("woff2"),
+        url("#{$own-font-path}/cirka-regular.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Cirka";
+    font-weight: bold;
+    font-style: normal;
+    src: url("#{$own-font-path}/cirka-bold.woff2") format("woff2"),
+        url("#{$own-font-path}/cirka-bold.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Cirka";
+    font-weight: lighter;
+    font-style: normal;
+    src: url("#{$own-font-path}/cirka-light.woff2") format("woff2"),
+        url("#{$own-font-path}/cirka-light.woff") format("woff");
+}
+
+@font-face {
     font-family: "Font Awesome 6 Pro";
     font-style: normal;
     font-weight: 400;

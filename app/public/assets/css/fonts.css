@@ -1,87 +1,96 @@
 @font-face {
-  font-family: 'D-DIN';
-  src: url("/assets/fonts/D-DIN-Bold.eot");
-  src: url("/assets/fonts/D-DIN-Bold.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/D-DIN-Bold.woff2") format("woff2"), url("/assets/fonts/D-DIN-Bold.woff") format("woff"), url("/assets/fonts/D-DIN-Bold.ttf") format("truetype"), url("/assets/fonts/D-DIN-Bold.svg#D-DIN-Bold") format("svg");
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'D-DIN';
-  src: url("/assets/fonts/D-DIN.eot");
-  src: url("/assets/fonts/D-DIN.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/D-DIN.woff2") format("woff2"), url("/assets/fonts/D-DIN.woff") format("woff"), url("/assets/fonts/D-DIN.ttf") format("truetype"), url("/assets/fonts/D-DIN.svg#D-DIN") format("svg");
+  font-family: 'cirkaregular';
+  src: url('/assets/fonts/cirka-variable.woff2') format('woff2'),
+    url('/assets/fonts/cirka-variable.woff') format('woff');
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
+
 }
 
 @font-face {
-  font-family: 'RobotoSlab';
-  src: url("/assets/fonts/RobotoSlab-Bold.eot");
-  src: url("/assets/fonts/RobotoSlab-Bold.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/RobotoSlab-Bold.woff2") format("woff2"), url("/assets/fonts/RobotoSlab-Bold.woff") format("woff"), url("/assets/fonts/RobotoSlab-Bold.ttf") format("truetype"), url("/assets/fonts/RobotoSlab-Bold.svg#RobotoSlab-Bold") format("svg");
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'RobotoSlab';
-  src: url("/assets/fonts/RobotoSlab-Regular.eot");
-  src: url("/assets/fonts/RobotoSlab-Regular.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/RobotoSlab-Regular.woff2") format("woff2"), url("/assets/fonts/RobotoSlab-Regular.woff") format("woff"), url("/assets/fonts/RobotoSlab-Regular.ttf") format("truetype"), url("/assets/fonts/RobotoSlab-Regular.svg#RobotoSlab-Regular") format("svg");
+  font-family: 'cirkabold';
+  src: url('/assets/fonts/cirka-bold.woff2') format('woff2'),
+    url('/assets/fonts/cirka-bold.woff') format('woff');
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
+
 }
 
 @font-face {
-  font-family: 'Font Awesome 5 Pro';
+  font-family: 'cirkalight';
+  src: url('/assets/fonts/cirka-light.woff2') format('woff2'),
+    url('/assets/fonts/cirka-light.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'Font Awesome 6 Pro';
   font-style: normal;
   font-weight: 400;
-  src: url("/assets/fonts/fa-regular-400.eot");
-  src: url("/assets/fonts/fa-regular-400.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/fa-regular-400.woff2") format("woff2"), url("/assets/fonts/fa-regular-400.woff") format("woff"), url("/assets/fonts/fa-regular-400.ttf") format("truetype"), url("/assets/fonts/fa-regular-400.svg#fontawesome") format("svg");
+  font-display: block;
+  src: url("/assets/fonts/fa-regular-400.woff2") format("woff2"), url("/assets/fonts/fa-regular-400.woff") format("woff"), url("/assets/fonts//fa-regular-400.ttf") format("truetype");
 }
 
-.far {
-  font-family: 'Font Awesome 5 Pro';
+.far,
+.fa-regular {
+  font-family: 'Font Awesome 6 Pro';
   font-weight: 400;
 }
 
 @font-face {
-  font-family: 'Font Awesome 5 Pro';
+  font-family: "Font Awesome 6 Pro";
   font-style: normal;
   font-weight: 300;
-  src: url("/assets/fonts/fa-light-300.eot");
-  src: url("/assets/fonts/fa-light-300.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/fa-light-300.woff2") format("woff2"), url("/assets/fonts/fa-light-300.woff") format("woff"), url("/assets/fonts/fa-light-300.ttf") format("truetype"), url("/assets/fonts/fa-light-300.svg#fontawesome") format("svg");
+  font-display: block;
+  src: url("/assets/fonts/fa-light-300.woff2") format("woff2"), url("/assets/fonts/fa-light-300.woff") format("woff"), url("/assets/fonts//fa-light-300.ttf") format("truetype");
 }
 
-.fal {
-  font-family: 'Font Awesome 5 Pro';
+.fal,
+.fa-light {
+  font-family: "Font Awesome 6 Pro";
   font-weight: 300;
 }
 
 @font-face {
-  font-family: 'Font Awesome 5 Brands';
+  font-family: "Font Awesome 6 Pro";
   font-style: normal;
-  font-weight: normal;
-  src: url("/assets/fonts/fa-brands-400.eot");
-  src: url("/assets/fonts/fa-brands-400.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/fa-brands-400.woff2") format("woff2"), url("/assets/fonts/fa-brands-400.woff") format("woff"), url("/assets/fonts/fa-brands-400.ttf") format("truetype"), url("/assets/fonts/fa-brands-400.svg#fontawesome") format("svg");
+  font-weight: 900;
+  font-display: block;
+  src: url("/assets/fonts/fa-solid-900.woff2") format("woff2"), url("/assets/fonts/fa-solid-900.woff") format("woff"), url("/assets/fonts//fa-solid-900.ttf") format("truetype");
 }
 
-.fab {
-  font-family: 'Font Awesome 5 Brands';
+.fas,
+.fa-solid {
+  font-family: "Font Awesome 6 Pro";
+  font-weight: 900;
 }
 
 @font-face {
-  font-family: 'Font Awesome 5 Pro';
+  font-family: 'Font Awesome 6 Pro';
   font-style: normal;
-  font-weight: 900;
-  src: url("/assets/fonts/fa-solid-900.eot");
-  src: url("/assets/fonts/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/fa-solid-900.woff2") format("woff2"), url("/assets/fonts/fa-solid-900.woff") format("woff"), url("/assets/fonts/fa-solid-900.ttf") format("truetype"), url("/assets/fonts/fa-solid-900.svg#fontawesome") format("svg");
+  font-weight: 300;
+  font-display: block;
+  src: url("/assets/fonts/fa-light-300.woff2") format("woff2"), url("/assets/fonts/fa-light-300.woff") format("woff"), url("/assets/fonts//fa-light-300.ttf") format("truetype");
 }
 
-.fa,
-.fas {
-  font-family: 'Font Awesome 5 Pro';
-  font-weight: 900;
+.fal,
+.fa-light {
+  font-family: 'Font Awesome 6 Pro';
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Font Awesome 6 Brands";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("/assets/fonts/fa-brands-400.woff2") format("woff2"), url("/assets/fonts/fa-brands-400.woff") format("woff"), url("/assets/fonts//fa-brands-400.ttf") format("truetype");
+}
+
+.fab,
+.fa-brands {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
 }

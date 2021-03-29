@@ -47,7 +47,6 @@ const IntroEpisodePage = () => {
               </div>
             </div>
           </div>
-
           <TheModal isShowing={isShowingAbout} hide={toggleAbout} content={modalTextAbout} />
         </div>
         <TheVolume />

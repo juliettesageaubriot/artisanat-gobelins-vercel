@@ -3,9 +3,9 @@ import WebFont from "webfontloader/webfontloader";
 WebFont.load({
   custom: {
     families: [
-      "Roboto:400,600,700",
-      "Font Awesome 5 Pro",
-      "Font Awesome 5 Brands",
+      "Open Sans:400,600,700",
+      "Font Awesome 6 Pro",
+      "Font Awesome 6 Brands",
     ],
     urls: ["/assets/css/fonts.css"],
   },
