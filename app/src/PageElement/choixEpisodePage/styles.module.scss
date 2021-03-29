@@ -14,42 +14,47 @@
 
     &_parallaxSection {
       height: 70vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-      grid-template-rows: 1fr;
+      display: flex;
       width: 100vw;
       .vitrail {
-        width: 20%;
+        flex-basis: 100%;
+        display: flex;
+        justify-content: center;
     
         .img {
-          width: 100%;
-          //transform: translateX(-23px);
-          background-color: rgb(219, 219, 219);
+          width: 50%;
+          // background-color: rgb(219, 219, 219);
         }
       }
       .violon {
-        width: 20%;
+        flex-basis: 100%;
+        display: flex;
+        justify-content: center;
     
         .img {
-          width: 100%;
-          background-color: rgb(219, 219, 219);
+          width: 50%;
+          // background-color: rgb(219, 219, 219);
         }
       }
       .chapeau {
-        width: 20%;
+        flex-basis: 100%;
+        display: flex;
+        justify-content: center;
     
         .img {
-          width: 100%;
-          background-color: rgb(219, 219, 219);
+          width: 50%;
+          // background-color: rgb(219, 219, 219);
         }
       }
   
       .bijoux {
-        width: 20%;
+        flex-basis: 100%;
+        display: flex;
+        justify-content: center;
     
         .img {
-          width: 100%;
-          background-color: rgb(219, 219, 219);
+          width: 50%;
+          // background-color: rgb(219, 219, 219);
         }
       }
     }
