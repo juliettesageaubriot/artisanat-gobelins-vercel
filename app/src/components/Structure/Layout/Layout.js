@@ -1,23 +1,23 @@
 import React from 'react';
-import Footer from '../Footer/Footer';
-import Header from '../Header/Header';
-import Loader from '../Loader/Loader';
+import TheFooter from '@structure/Footer/TheFooter';
+import TheHeader from '@structure/Header/TheHeader';
+import TheLoader from '@structure/Loader/TheLoader';
 
 import layout from "./styles.module.scss"
 
-const Layout = ({ children }) => {
+const TheLayout = ({ children }) => {
   return (
     <div className={`layout-wrapper`}>
-      {/* <Loader /> */}
-      {/* <Header /> */}
+      {/* <TheLoader /> */}
+      {/* <TheHeader /> */}
       <div className={`${layout.layout_inner} layout_inner`}>
         <div className={layout['page-content']}>
           {children}
         </div>
-        {/* <Footer /> */}
+        {/* <TheFooter /> */}
       </div>
     </div>
   );
 }
 
-export default Layout;
+export default TheLayout;

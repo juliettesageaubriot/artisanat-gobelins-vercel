@@ -1,10 +1,10 @@
-import Seo from '../components/Structure/Seo/Seo'
+import TheSeo from '../components/Structure/Seo/TheSeo'
 
 // custom pages/404.js !! Do not remove please or it will break build
 export default function Error() {
   return (
     <>
-      <Seo
+      <TheSeo
         title="regards d'artisans"
         description="description du projet"
       />

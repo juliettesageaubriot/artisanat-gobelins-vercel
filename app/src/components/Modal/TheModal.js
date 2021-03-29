@@ -1,7 +1,7 @@
 
 import styles from './styles.module.scss'
 
-const Modal = ({ isShowing, hide, content }) => {
+const TheModal = ({ isShowing, hide, content }) => {
 
 
   return (
@@ -13,10 +13,10 @@ const Modal = ({ isShowing, hide, content }) => {
             <div className={styles.modal}>
 
               <button
-                className={`${styles.btn} ${styles["btn_close"]} btn btn_no-text`}
+                className={`${styles.btn} btn btn_no-text btn-close`}
                 onClick={hide}
               >
-                <span className={styles['btn__icon']}>
+                <span className={`btn__icon`}>
                   <i className="fal fa-times"></i>
                   {/* <i className="fas fa-times"></i> */}
                 </span>
@@ -61,4 +61,4 @@ const Modal = ({ isShowing, hide, content }) => {
   )
 }
 
-export default Modal
+export default TheModal

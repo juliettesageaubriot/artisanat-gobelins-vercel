@@ -1,10 +1,9 @@
-import Seo from '../components/Structure/Seo/Seo'
-import ChoixEpisodePage from '../PageElement/choixEpisodePage/choixEpisodePage'
+import TheSeo from '../components/Structure/Seo/TheSeo'
 
 const ChoixEpisode = () => {
   return (
     <>
-      <Seo 
+      <TheSeo 
       title="regards d'artisans"
       description="description du projet"
       />

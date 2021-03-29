@@ -1,5 +1,5 @@
 import Layout from '../components/Structure/Layout/Layout'
-import WebFont from '../components/Structure/Fonts/Fonts'
+import WebFont from '../components/Structure/Fonts/TheFonts'
 
 import "../../assets/basic.scss"
 

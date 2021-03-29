@@ -1,4 +1,4 @@
-@import "../../../assets/mandatory";
+@import '@assets/_mandatory';
 
 .intro-modal {
   &_container {
@@ -26,25 +26,6 @@
       padding: 50px;
 
       .btn {
-        &_close {
-          position: absolute;
-          top: 10px;
-          right: 10px;
-          width: 40px;
-          height: 40px;
-          background-color: $color-primary;
-          border: none;
-          cursor: pointer;
-          border-radius: 4px;
-        }
-        &__icon {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 100%;
-          font-size: 20px;
-          color: $color-white;
-        }
       }
 
       .title {

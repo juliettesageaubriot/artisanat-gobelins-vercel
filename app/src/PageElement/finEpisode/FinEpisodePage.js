@@ -4,12 +4,9 @@ import TheVolume from '@components/VolumeSettings/TheVolume';
 import Link from 'next/link'
 
 import styles from "./styles.module.scss"
-import TheBreadcrumb from '@components/Breadcrumb/TheBreadcrumb';
 
 const IntroEpisodePage = () => {
   const { isShowing: isShowingAbout, toggle: toggleAbout } = useModal();
-  const { isShowing: isShowingWarning, toggle: toggleWarning } = useModal();
-  const { isShowing: isShowingReturnExperience, toggle: toggleReturnExperience } = useModal();
 
   const modalTextAbout = [{
     title: "À propos",
@@ -18,21 +15,8 @@ const IntroEpisodePage = () => {
     buttons: false
   }]
 
-  const modalTextWarning = [{
-    title: "Attention, <br/> vous allez quittez l’expérience.",
-    content: "Vous allez revenir au menu de choix des épisodes. <br/>Souhaitez-vous vraiment quittez l’expérience ?",
-    buttons: true
-  }]
-
-  const modalReturnExperience = [{
-    title: "Reprendre l’expérience",
-    content: "Souhaitez-vous reprendre là ou vous en étiez dans l’atelier ?",
-    buttons: true
-  }]
-
   return (
     <section className={styles["page-intro"]}>
-      <TheBreadcrumb/>
       <div className={`${styles["page-intro_container"]}`}>
         <div className={`${styles["page-intro__inner"]}`}>
 
@@ -54,7 +38,7 @@ const IntroEpisodePage = () => {
                 </div>
 
                 <div className={`${styles.discover}`}>
-                  <div className={`link link-primary ${styles['discover_inner']}`}>
+                  <div className={`${styles['discover_inner']}`}>
                     <Link href="/menu">
                       <a><span>Découvrir</span></a>
                     </Link>
@@ -64,12 +48,7 @@ const IntroEpisodePage = () => {
             </div>
           </div>
 
-          {/* <button onClick={toggleWarning}>Warning</button>
-            <button onClick={toggleReturnExperience}>Return experience</button> */}
-
           <TheModal isShowing={isShowingAbout} hide={toggleAbout} content={modalTextAbout} />
-          {/* <TheModal isShowing={isShowingWarning} hide={toggleWarning} content={modalTextWarning} />
-            <TheModal isShowing={isShowingReturnExperience} hide={toggleReturnExperience} content={modalReturnExperience} /> */}
         </div>
         <TheVolume />
       </div>

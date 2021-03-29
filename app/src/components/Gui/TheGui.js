@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-const GUI = (props) => {
+const TheGui = (props) => {
 
     useEffect(() => {
         const dat = require('dat.gui');
@@ -29,4 +29,4 @@ const GUI = (props) => {
     );
 }
 
-export default GUI;
+export default TheGui;

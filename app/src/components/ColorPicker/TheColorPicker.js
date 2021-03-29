@@ -4,9 +4,9 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
-import GUI from "../GUI/gui";
+import GUI from "@components/Gui/TheGui";
 
-const ColorPicker = () => {
+const TheColorPicker = () => {
   const ref = useRef(null)
   const cursorColorPickerContainer = useRef(null);
   const cursorColorPickerInner = useRef(null);
@@ -352,4 +352,4 @@ const ColorPicker = () => {
   );
 }
 
-export default ColorPicker;
+export default TheColorPicker;

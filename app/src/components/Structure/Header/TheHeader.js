@@ -2,10 +2,10 @@ import React from 'react';
 
 import styles from "./styles.module.scss";
 
-const Header = () => {
+const TheHeader = () => {
   return ( 
     <h1 className={styles.header}>Header</h1>
    );
 }
  
-export default Header;
+export default TheHeader;

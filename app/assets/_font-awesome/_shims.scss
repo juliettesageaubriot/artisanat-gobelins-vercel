@@ -308,7 +308,13 @@
   font-family: 'Font Awesome 6 Pro';
   font-weight: 400;
 }
-.#{$fa-css-prefix}.#{$fa-css-prefix}-floppy-o:before { content: fa-content($fa-var-save); }
+.#{$fa-css-prefix}.#{$fa-css-prefix}-floppy-o:before { content: fa-content($fa-var-floppy-disk); }
+
+.#{$fa-css-prefix}.#{$fa-css-prefix}-save {
+  font-family: 'Font Awesome 6 Pro';
+  font-weight: 400;
+}
+.#{$fa-css-prefix}.#{$fa-css-prefix}-save:before { content: fa-content($fa-var-floppy-disk); }
 
 .#{$fa-css-prefix}.#{$fa-css-prefix}-navicon:before { content: fa-content($fa-var-bars); }
 
