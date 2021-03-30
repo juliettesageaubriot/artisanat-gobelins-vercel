@@ -1,5 +1,5 @@
 import TheSeo from '@components/Structure/Seo/TheSeo'
-import SingleAtelierPage from "../pageElement/SingleAtelierPage/SingleAtelierPage"
+import SingleAtelierPage from "@pageElement/SingleAtelierPage/SingleAtelierPage"
 
 const SingleAtelier = () => {
   return (

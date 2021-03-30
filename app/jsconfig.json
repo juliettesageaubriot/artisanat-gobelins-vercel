@@ -13,9 +13,9 @@
       "@components/*": [
         "src/components/*"
       ],
-      // "@pageElement/*": [
-      //   "src/pageElement/*"
-      // ],
+      "@pageElement/*": [
+        "src/pageElement/*"
+      ],
       "@structure/*": [
         "src/components/Structure/*"
       ],
