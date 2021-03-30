@@ -17,62 +17,62 @@ const TheColorPicker = () => {
   useEffect(() => {
     const raycaster = new THREE.Raycaster();
 
-    let objectToTest = [];
-    let vitrailObjects = [];
+    // let objectToTest = [];
+    // let vitrailObjects = [];
 
-    // Scene
-    let scene = new THREE.Scene();
-    const canvas = ref.current
+    // // Scene
+    // let scene = new THREE.Scene();
+    // const canvas = ref.current
 
     // Loader
-    const loader = new GLTFLoader()
+    //const loader = new GLTFLoader()
 
-    const dracoLoader = new DRACOLoader()
-    dracoLoader.setDecoderPath('/assets/models/gltf/draco/')
-    loader.setDRACOLoader(dracoLoader)
+    // const dracoLoader = new DRACOLoader()
+    // dracoLoader.setDecoderPath('/assets/models/gltf/draco/')
+    // loader.setDRACOLoader(dracoLoader)
 
-    loader.load(
-      '/assets/models/gltf/draco/dracoModels/vitrail.glb',
-      (gltf) => {
-        vitrailGroup.add(gltf.scene)
+    // loader.load(
+    //   '/assets/models/gltf/draco/dracoModels/vitrail.glb',
+    //   (gltf) => {
+    //     vitrailGroup.add(gltf.scene)
 
-        //Add ColorPicker
-        let colorPickers = gltf.scene.children[0].children;
-        for (let colorPicker of colorPickers) {
-          objectToTest.push(colorPicker);
-          // vitrailObjects.push(colorPicker.name);
-        }
+    //     //Add ColorPicker
+    //     let colorPickers = gltf.scene.children[0].children;
+    //     for (let colorPicker of colorPickers) {
+    //       objectToTest.push(colorPicker);
+    //       // vitrailObjects.push(colorPicker.name);
+    //     }
 
-        //Add Vitrail cube
-        let vitrailCubes = gltf.scene.children[2].children;
-        for (let vitrailCube of vitrailCubes) {
-          objectToTest.push(vitrailCube);
-          vitrailObjects.push(vitrailCube.name);
-        }
+    //     //Add Vitrail cube
+    //     let vitrailCubes = gltf.scene.children[2].children;
+    //     for (let vitrailCube of vitrailCubes) {
+    //       objectToTest.push(vitrailCube);
+    //       vitrailObjects.push(vitrailCube.name);
+    //     }
 
-        //Add Vitrail rectangles
-        let vitrailRectangles = gltf.scene.children[1].children;
-        for (let vitrailRectangle of vitrailRectangles) {
-          objectToTest.push(vitrailRectangle);
-          vitrailObjects.push(vitrailRectangle.name);
-        }
+    //     //Add Vitrail rectangles
+    //     let vitrailRectangles = gltf.scene.children[1].children;
+    //     for (let vitrailRectangle of vitrailRectangles) {
+    //       objectToTest.push(vitrailRectangle);
+    //       vitrailObjects.push(vitrailRectangle.name);
+    //     }
 
-        //Add Vitrail Losange
-        let vitrailLosange = gltf.scene.children[3];
-        objectToTest.push(vitrailLosange);
-        vitrailObjects.push(vitrailLosange.name);
-      }
-    )
+    //     //Add Vitrail Losange
+    //     let vitrailLosange = gltf.scene.children[3];
+    //     objectToTest.push(vitrailLosange);
+    //     vitrailObjects.push(vitrailLosange.name);
+    //   }
+    // )
 
-    // Group
-    const vitrailGroup = new THREE.Group
-    scene.add(vitrailGroup)
+    // // Group
+    // const vitrailGroup = new THREE.Group
+    // scene.add(vitrailGroup)
 
     //COLORPICKER CURRENT COLOR
-    const colorPicked = {
-      current: null,
-      old: null
-    }
+    // const colorPicked = {
+    //   current: null,
+    //   old: null
+    // }
 
     /**
     * Mouse
@@ -159,16 +159,16 @@ const TheColorPicker = () => {
       }
     }
 
-    const mouse = new THREE.Vector2()
+    // const mouse = new THREE.Vector2()
 
-    const handleMouseMove = (event) => {
-      mouse.x = event.clientX / sizes.width * 2 - 1
-      mouse.y = - (event.clientY / sizes.height) * 2 + 1
-      cursorColorPickerContainer.current.style.transform = `translate(${event.clientX - 25}px, ${event.clientY - 25}px)`;
-      // console.log(mouse)
-    }
+    // const handleMouseMove = (event) => {
+    //   mouse.x = event.clientX / sizes.width * 2 - 1
+    //   mouse.y = - (event.clientY / sizes.height) * 2 + 1
+    //   cursorColorPickerContainer.current.style.transform = `translate(${event.clientX - 25}px, ${event.clientY - 25}px)`;
+    //   // console.log(mouse)
+    // }
 
-    window.addEventListener('mousemove', handleMouseMove)
+    // window.addEventListener('mousemove', handleMouseMove)
 
     // window.addEventListener('click', handleClickOnObjects)
 
@@ -220,53 +220,53 @@ const TheColorPicker = () => {
      */
 
 
-    /**
-    * Lights
-    */
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8)
-    scene.add(ambientLight)
+    // /**
+    // * Lights
+    // */
+    // const ambientLight = new THREE.AmbientLight(0xffffff, 0.8)
+    // scene.add(ambientLight)
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6)
-    directionalLight.castShadow = true
-    directionalLight.shadow.mapSize.set(1024, 1024)
-    directionalLight.shadow.camera.far = 15
-    directionalLight.shadow.camera.left = - 7
-    directionalLight.shadow.camera.top = 7
-    directionalLight.shadow.camera.right = 7
-    directionalLight.shadow.camera.bottom = - 7
-    directionalLight.position.set(5, 5, 5)
-    scene.add(directionalLight)
+    // const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6)
+    // directionalLight.castShadow = true
+    // directionalLight.shadow.mapSize.set(1024, 1024)
+    // directionalLight.shadow.camera.far = 15
+    // directionalLight.shadow.camera.left = - 7
+    // directionalLight.shadow.camera.top = 7
+    // directionalLight.shadow.camera.right = 7
+    // directionalLight.shadow.camera.bottom = - 7
+    // directionalLight.position.set(5, 5, 5)
+    // scene.add(directionalLight)
 
     /**
    * Sizes
    */
-    const sizes = {
-      width: window.innerWidth,
-      height: window.innerHeight
-    }
+    // const sizes = {
+    //   width: window.innerWidth,
+    //   height: window.innerHeight
+    // }
 
-    window.addEventListener('resize', () => {
-      // Update sizes
-      sizes.width = window.innerWidth
-      sizes.height = window.innerHeight
+    // window.addEventListener('resize', () => {
+    //   // Update sizes
+    //   sizes.width = window.innerWidth
+    //   sizes.height = window.innerHeight
 
-      // Update camera
-      camera.aspect = sizes.width / sizes.height
-      camera.updateProjectionMatrix()
+    //   // Update camera
+    //   camera.aspect = sizes.width / sizes.height
+    //   camera.updateProjectionMatrix()
 
-      // Update renderer
-      renderer.setSize(sizes.width, sizes.height)
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-    })
+    //   // Update renderer
+    //   renderer.setSize(sizes.width, sizes.height)
+    //   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    // })
 
 
     /**
    * Camera
    */
     // Base camera
-    const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-    camera.position.set(0, 2, 2)
-    scene.add(camera)
+    // const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+    // camera.position.set(0, 2, 2)
+    // scene.add(camera)
 
     // Controls
     const controls = new OrbitControls(camera, canvas)
@@ -277,12 +277,12 @@ const TheColorPicker = () => {
     /**
      * Renderer
      */
-    const renderer = new THREE.WebGLRenderer()
-    renderer.shadowMap.enabled = true
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap
-    renderer.setSize(sizes.width, sizes.height)
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-    canvas.appendChild(renderer.domElement);
+    // const renderer = new THREE.WebGLRenderer()
+    // renderer.shadowMap.enabled = true
+    // renderer.shadowMap.type = THREE.PCFSoftShadowMap
+    // renderer.setSize(sizes.width, sizes.height)
+    // renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    // canvas.appendChild(renderer.domElement);
 
     /**
      * Animate

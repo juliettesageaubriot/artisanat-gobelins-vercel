@@ -1,8 +1,6 @@
 import React from "react"
-import TheCameras from "@components/Cameras/TheCameras"
-import TheColorPicker from "@components/ColorPicker/TheColorPicker"
 import TheSeo from '@components/Structure/Seo/TheSeo'
-import IntroEpisode from "./intro-episode"
+import IntroEpisodePage from "@pageElement/introEpisodePage/IntroEpisodePage"
 
 const Page = () => {
   return (
@@ -11,9 +9,7 @@ const Page = () => {
         title="regards d'artisans"
         description="description du projet"
       />
-      {/* <TheCameras /> */}
-      <IntroEpisode />
-      {/* <TheColorPicker /> */}
+      <IntroEpisodePage />
     </>
   )
 }
