@@ -61,7 +61,7 @@ const SingleAtelierPage = () => {
           } else if ("atelierGroup" === parentName) {
             atelierGroup.add(parent)
             SetupAtelier()
-            console.log(parent.children);
+            // console.log(parent.children);
           }
 
           params.load = true
@@ -194,7 +194,7 @@ const SingleAtelierPage = () => {
     */
     // Base camera
     const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-    camera.position.set(- .3, 2.5, 2.2)
+    camera.position.set(- .3, 2, 2.2)
     camera.lookAt(vitrailGroup.position)
     scene.add(camera)
 
@@ -231,14 +231,19 @@ const SingleAtelierPage = () => {
       const intersects = raycaster.intersectObjects(objectToTest)
 
       if (intersects.length) {
-        if (!currentIntersect) {
-          currentIntersect = intersects[0]
-          // console.log('mouse enter')
-          colorPicked.old = currentIntersect.object.material.color;
-          if (isMouseDown === true && vitrailObjects.includes(currentIntersect.object.name)) {
-            currentIntersect.object.material.color = colorPicked.current;
+        if (currentIntersect && currentIntersect !== intersects[0]) {
+          if(isMouseDown === true) {
+            currentIntersect.object.material.color = colorPicked.old;
           }
         }
+        currentIntersect = intersects[0]
+        // console.log('mouse enter')
+        colorPicked.old = currentIntersect.object.material.color;
+        if (isMouseDown === true && vitrailObjects.includes(currentIntersect.object.name)) {
+          currentIntersect.object.material.color = colorPicked.current;
+        }
+        // console.log(intersects);
+
       }
       else {
         if (currentIntersect) {
@@ -247,12 +252,13 @@ const SingleAtelierPage = () => {
             currentIntersect.object.material.color = colorPicked.old;
           }
           colorPicked.old = null;
-          console.log(currentIntersect.object.name);
+          // console.log(currentIntersect.object.name);
 
         }
 
         currentIntersect = null
       }
+
 
       // Camera
       // camera.lookAt(vitrailGroup.position)

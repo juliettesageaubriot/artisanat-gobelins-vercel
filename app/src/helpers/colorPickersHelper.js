@@ -23,7 +23,6 @@ export const SetupColorPicker = (parent, objectToTest, vitrailObjects) => {
       let colorPickers = objects.children;
       for (let colorPicker of colorPickers) {
         objectToTest.push(colorPicker);
-        vitrailObjects.push(colorPicker.name);
       }
     }
   })
