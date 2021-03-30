@@ -1,6 +1,6 @@
 import React from "react"
 import TheSeo from '@components/Structure/Seo/TheSeo'
-import IntroEpisodePage from "@pageElement/introEpisodePage/IntroEpisodePage"
+import IntroEpisodePage from "../pageElement/introEpisodePage/IntroEpisodePage"
 
 const Page = () => {
   return (
