@@ -5,11 +5,30 @@ import Link from 'next/link'
 
 import styles from "./styles.module.scss"
 import TheBreadcrumb from '@components/Breadcrumb/TheBreadcrumb';
+import TheSubTitle from '@/components/SubTitle/TheSubTitle';
+import { useState } from 'react';
 
 const IntroEpisodePage = () => {
   const { isShowing: isShowingAbout, toggle: toggleAbout } = useModal();
   const { isShowing: isShowingWarning, toggle: toggleWarning } = useModal();
   const { isShowing: isShowingReturnExperience, toggle: toggleReturnExperience } = useModal();
+
+  const [currentSubtitle, setCurrentSubtitle] = useState(null);
+
+  const subTitlesArray = [
+    {
+      id: 0,
+      text: "Je suis un subtitle et je m'affiche 5 secondes oulalala", 
+      duration: "5000",
+      appear: false
+    },
+    {
+      id: 1,
+      text: "Je suis un subtitle et je m'affiche 3 secondes oulalala", 
+      duration: "3000",
+      appear: false
+    }
+  ]
 
   const modalTextAbout = [{
     title: "À propos",
@@ -32,7 +51,9 @@ const IntroEpisodePage = () => {
 
   return (
     <section className={styles["page-intro"]}>
-      <TheBreadcrumb/>
+      {/* <TheBreadcrumb/> */}
+      <button onClick={() => setCurrentSubtitle(0)}>0</button>
+      <button onClick={() => setCurrentSubtitle(1)}>1</button>
       <div className={`${styles["page-intro_container"]}`}>
         <div className={`${styles["page-intro__inner"]}`}>
 
@@ -64,13 +85,18 @@ const IntroEpisodePage = () => {
             </div>
           </div>
 
-          {/* <button onClick={toggleWarning}>Warning</button>
-            <button onClick={toggleReturnExperience}>Return experience</button> */}
+          
+            {/* <button onClick={toggleReturnExperience}>Return experience</button> */}
 
           <TheModal isShowing={isShowingAbout} hide={toggleAbout} content={modalTextAbout} />
           {/* <TheModal isShowing={isShowingWarning} hide={toggleWarning} content={modalTextWarning} />
             <TheModal isShowing={isShowingReturnExperience} hide={toggleReturnExperience} content={modalReturnExperience} /> */}
         </div>
+        {
+          subTitlesArray.map((subtitle, i) => {
+            return <TheSubTitle content={subtitle} key={i} currentSubtitle={currentSubtitle}/>
+          })
+        }
         <TheVolume />
       </div>
     </section>
