@@ -1,4 +1,4 @@
-import TheSeo from '../components/Structure/Seo/TheSeo'
+import TheSeo from '@components/Structure/Seo/TheSeo'
 
 const SingleAtelier = () => {
   return (

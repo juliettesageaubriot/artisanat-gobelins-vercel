@@ -1,5 +1,5 @@
-import IntroEpisodePage from '../PageElement/introEpisodePage/IntroEpisodePage';
-import TheSeo from '../components/Structure/Seo/TheSeo'
+import IntroEpisodePage from '@pageElement/introEpisodePage/IntroEpisodePage';
+import TheSeo from '@components/Structure/Seo/TheSeo'
 
 const IntroEpisode = () => {
 

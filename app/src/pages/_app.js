@@ -1,7 +1,7 @@
-import Layout from '../components/Structure/Layout/Layout'
-import WebFont from '../components/Structure/Fonts/TheFonts'
+import Layout from '@components/Structure/Layout/Layout'
+import WebFont from '@components/Structure/Fonts/TheFonts'
 
-import "../../assets/basic.scss"
+import "@assets/basic.scss"
 
 // let LCanvas = null
 // if (process.env.NODE_ENV === 'production') {
