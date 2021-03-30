@@ -7,6 +7,9 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import Data from "@assets/data/scenes.json"
 import styles from "./styles.module.scss"
 
+import { SetupAtelier } from '@/helpers/atelierHelper';
+import { SetupColorPicker } from '@/helpers/colorPickersHelper';
+
 
 const SingleAtelierPage = () => {
   const ref = useRef(null)
@@ -53,39 +56,12 @@ const SingleAtelierPage = () => {
           let parentName = gltf.scene.children[0].name
 
           if ("colorPickerGroup" === parentName) {
-
             vitrailGroup.add(parent)
-
-            //Add ColorPicker
-            let colorPickers = parent.children[0].children;
-            for (let colorPicker of colorPickers) {
-              objectToTest.push(colorPicker);
-              // vitrailObjects.push(colorPicker.name);
-            }
-
-            //Add Vitrail cube
-            let vitrailCubes = parent.children[2].children;
-            for (let vitrailCube of vitrailCubes) {
-              objectToTest.push(vitrailCube);
-              vitrailObjects.push(vitrailCube.name);
-            }
-
-            //Add Vitrail rectangles
-            let vitrailRectangles = parent.children[1].children;
-            for (let vitrailRectangle of vitrailRectangles) {
-              objectToTest.push(vitrailRectangle);
-              vitrailObjects.push(vitrailRectangle.name);
-            }
-
-            //Add Vitrail Losange
-            let vitrailLosange = parent.children[3];
-            objectToTest.push(vitrailLosange);
-            vitrailObjects.push(vitrailLosange.name);
-
+            SetupColorPicker(parent, objectToTest, vitrailObjects)
           } else if ("atelierGroup" === parentName) {
             atelierGroup.add(parent)
+            SetupAtelier()
             console.log(parent.children);
-
           }
 
           params.load = true
@@ -220,8 +196,6 @@ const SingleAtelierPage = () => {
     const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
     camera.position.set(- .3, 2.5, 2.2)
     camera.lookAt(vitrailGroup.position)
-    console.log(vitrailGroup.position);
-    // camera.rotation.set(- 0.5, 0, 0)
     scene.add(camera)
 
     // Controls
