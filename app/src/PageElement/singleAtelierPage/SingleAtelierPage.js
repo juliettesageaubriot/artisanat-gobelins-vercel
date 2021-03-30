@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 import Data from "@assets/data/scenes.json"
 import styles from "./styles.module.scss"
@@ -34,55 +35,79 @@ const SingleAtelierPage = () => {
 
     // Group
     const vitrailGroup = new THREE.Group
-    scene.add(vitrailGroup)
+    const atelierGroup = new THREE.Group
+    scene.add(vitrailGroup, atelierGroup)
+
+    // Parameters
+    const params = {
+      load: false
+    }
 
     // Loaders
 
     const buildScene = (currentScene) => {
       loader.load(
-        '/assets/models/gltf/draco/dracoModels/vitrail.glb',
+        currentScene.modelUrl,
         (gltf) => {
-          vitrailGroup.add(gltf.scene)
+          let parent = gltf.scene.children[0]
+          let parentName = gltf.scene.children[0].name
 
-          /**
-          * CONDITION COLOR PICKER
-          */
-          //Add ColorPicker
-          let colorPickers = gltf.scene.children[0].children;
-          for (let colorPicker of colorPickers) {
-            objectToTest.push(colorPicker);
-            // vitrailObjects.push(colorPicker.name);
+          if ("colorPickerGroup" === parentName) {
+
+            vitrailGroup.add(parent)
+
+            //Add ColorPicker
+            let colorPickers = parent.children[0].children;
+            for (let colorPicker of colorPickers) {
+              objectToTest.push(colorPicker);
+              // vitrailObjects.push(colorPicker.name);
+            }
+
+            //Add Vitrail cube
+            let vitrailCubes = parent.children[2].children;
+            for (let vitrailCube of vitrailCubes) {
+              objectToTest.push(vitrailCube);
+              vitrailObjects.push(vitrailCube.name);
+            }
+
+            //Add Vitrail rectangles
+            let vitrailRectangles = parent.children[1].children;
+            for (let vitrailRectangle of vitrailRectangles) {
+              objectToTest.push(vitrailRectangle);
+              vitrailObjects.push(vitrailRectangle.name);
+            }
+
+            //Add Vitrail Losange
+            let vitrailLosange = parent.children[3];
+            objectToTest.push(vitrailLosange);
+            vitrailObjects.push(vitrailLosange.name);
+
+          } else if ("atelierGroup" === parentName) {
+            atelierGroup.add(parent)
+            console.log(parent.children);
+
           }
 
-          //Add Vitrail cube
-          let vitrailCubes = gltf.scene.children[2].children;
-          for (let vitrailCube of vitrailCubes) {
-            objectToTest.push(vitrailCube);
-            vitrailObjects.push(vitrailCube.name);
-          }
-
-          //Add Vitrail rectangles
-          let vitrailRectangles = gltf.scene.children[1].children;
-          for (let vitrailRectangle of vitrailRectangles) {
-            objectToTest.push(vitrailRectangle);
-            vitrailObjects.push(vitrailRectangle.name);
-          }
-
-          //Add Vitrail Losange
-          let vitrailLosange = gltf.scene.children[3];
-          objectToTest.push(vitrailLosange);
-          vitrailObjects.push(vitrailLosange.name);
-          /**
-          * CONDITION COLOR PICKER
-          */
-
+          params.load = true
         }
       )
     }
 
+    Data.map((objects, i) => {
+      buildScene(objects)
+    })
 
-    buildScene()
 
+    // Elements positions
+    vitrailGroup.position.set(-1.5, 1.2, 2.2)
+    vitrailGroup.rotation.set(0, Math.PI / 2, 0)
+    vitrailGroup.scale.set(0.7, 0.7, 0.7)
+
+    // console.log(params.load);
+
+    // if (true === params.load) {
+    //   console.log(vitrailGroup.children[0]);
+    // }
 
     //COLORPICKER CURRENT COLOR
     const colorPicked = {
@@ -189,12 +214,21 @@ const SingleAtelierPage = () => {
     })
 
     /**
-* Camera
-*/
+    * Camera
+    */
     // Base camera
     const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-    camera.position.set(0, 2, 2)
+    camera.position.set(- .3, 2.5, 2.2)
+    camera.lookAt(vitrailGroup.position)
+    console.log(vitrailGroup.position);
+    // camera.rotation.set(- 0.5, 0, 0)
     scene.add(camera)
+
+    // Controls
+    // const controls = new OrbitControls(camera, canvas)
+    // controls.target.set(0, 1, 0)
+    // controls.enableDamping = true
+    // controls.enabled = false
 
 
     /**
@@ -245,7 +279,7 @@ const SingleAtelierPage = () => {
       }
 
       // Camera
-      camera.lookAt(vitrailGroup.position)
+      // camera.lookAt(vitrailGroup.position)
 
       // Update controls
       // controls.update()

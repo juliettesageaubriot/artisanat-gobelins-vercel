@@ -1,16 +1,12 @@
-{
-  "scene-1": {
-    "object-1": {
-      "x": 1,
-      "y": 1,
-      "z": 1
-    }
+[
+  {
+  "name": "scene-color-picker",
+  "id": "scene-1",
+  "modelUrl": "/assets/models/gltf/draco/dracoModels/vitrail.glb"
   },
-  "scene-2": {
-    "object-1": {
-      "x": 1,
-      "y": 1,
-      "z": 1
-    }
+  {
+    "name": "scene-atelier",
+    "id": "scene-2",
+    "modelUrl": "/assets/models/gltf/draco/dracoModels/atelier.glb"
   }
-}
+]
