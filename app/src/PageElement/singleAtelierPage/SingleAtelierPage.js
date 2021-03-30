@@ -247,6 +247,8 @@ const SingleAtelierPage = () => {
             currentIntersect.object.material.color = colorPicked.old;
           }
           colorPicked.old = null;
+          console.log(currentIntersect.object.name);
+
         }
 
         currentIntersect = null

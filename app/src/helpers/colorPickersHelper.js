@@ -1,29 +1,31 @@
 export const SetupColorPicker = (parent, objectToTest, vitrailObjects) => {
 
-  //Add ColorPicker
-  let colorPickers = parent.children[0].children;
-  for (let colorPicker of colorPickers) {
-    objectToTest.push(colorPicker);
-    // vitrailObjects.push(colorPicker.name);
-  }
+  parent.children.map((objects, i) => {
 
-  //Add Vitrail cube
-  let vitrailCubes = parent.children[2].children;
-  for (let vitrailCube of vitrailCubes) {
-    objectToTest.push(vitrailCube);
-    vitrailObjects.push(vitrailCube.name);
-  }
+    if (objects.name === "cubes") {
+      let vitrailCubes = objects.children;
+      for (let vitrailCube of vitrailCubes) {
+        objectToTest.push(vitrailCube);
+        vitrailObjects.push(vitrailCube.name);
+      }
+    } else if (objects.name === "rectangles") {
+      let vitrailRectangles = objects.children;
+      for (let vitrailRectangle of vitrailRectangles) {
+        objectToTest.push(vitrailRectangle);
+        vitrailObjects.push(vitrailRectangle.name);
+      }
+    } else if (objects.name === "losange") {
+      let vitrailLosange = objects;
+      objectToTest.push(vitrailLosange);
+      vitrailObjects.push(vitrailLosange.name);
 
-  //Add Vitrail rectangles
-  let vitrailRectangles = parent.children[1].children;
-  for (let vitrailRectangle of vitrailRectangles) {
-    objectToTest.push(vitrailRectangle);
-    vitrailObjects.push(vitrailRectangle.name);
-  }
+    } else if (objects.name === "colorPicker") {
+      let colorPickers = objects.children;
+      for (let colorPicker of colorPickers) {
+        objectToTest.push(colorPicker);
+        vitrailObjects.push(colorPicker.name);
+      }
+    }
+  })
 
-  //Add Vitrail Losange
-  let vitrailLosange = parent.children[3];
-  objectToTest.push(vitrailLosange);
-  vitrailObjects.push(vitrailLosange.name);
-  
 }
