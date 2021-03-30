@@ -199,10 +199,10 @@ const SingleAtelierPage = () => {
     scene.add(camera)
 
     // Controls
-    // const controls = new OrbitControls(camera, canvas)
-    // controls.target.set(0, 1, 0)
-    // controls.enableDamping = true
-    // controls.enabled = false
+    const controls = new OrbitControls(camera, canvas)
+    controls.target.set(0, 1, 0)
+    controls.enableDamping = true
+    controls.enabled = true
 
 
     /**
@@ -264,7 +264,7 @@ const SingleAtelierPage = () => {
       // camera.lookAt(vitrailGroup.position)
 
       // Update controls
-      // controls.update()
+      controls.update()
 
       // Render
       renderer.render(scene, camera)

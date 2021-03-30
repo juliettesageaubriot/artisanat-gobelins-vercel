@@ -55,7 +55,7 @@ const IntroEpisodePage = () => {
 
                 <div className={`${styles.discover}`}>
                   <div className={`link link-primary ${styles['discover_inner']}`}>
-                    <Link href="/menu">
+                    <Link href="/single-ateliers">
                       <a><span>Découvrir</span></a>
                     </Link>
                   </div>

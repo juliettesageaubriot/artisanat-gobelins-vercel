@@ -1,4 +1,3 @@
-
 import styles from './styles.module.scss'
 
 const TheBreadcrumb = () => {
