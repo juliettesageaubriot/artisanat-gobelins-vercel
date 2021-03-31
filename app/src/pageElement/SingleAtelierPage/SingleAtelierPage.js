@@ -57,10 +57,10 @@ const SingleAtelierPage = () => {
 
           if ("colorPickerGroup" === parentName) {
             vitrailGroup.add(parent)
-            SetupColorPicker(parent, objectToTest, vitrailObjects)
+            SetupColorPicker(parent, objectToTest, vitrailObjects);
           } else if ("atelierGroup" === parentName) {
             atelierGroup.add(parent)
-            SetupAtelier()
+            SetupAtelier();
             // console.log(parent.children);
           }
 
