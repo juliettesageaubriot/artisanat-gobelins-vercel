@@ -46,6 +46,10 @@ const SingleAtelierPage = () => {
       load: false
     }
 
+    let currentCamera
+    let mixer = null
+    let cameraClip = null
+
     // Loaders
 
     const buildScene = (currentScene) => {
@@ -64,6 +68,18 @@ const SingleAtelierPage = () => {
             // console.log(parent.children);
           }
 
+          // if (false === currentScene.enable) {
+          //   gltf.scene.visible = false
+          // }
+
+          if ("atelierCamGroup" === parentName) {
+            mixer = new THREE.AnimationMixer(gltf.scene)
+            cameraClip = mixer.clipAction(gltf.animations[0])
+            console.log(cameraClip);
+
+            currentCamera = gltf.cameras[0]
+            console.log(currentCamera);
+          }
           params.load = true
         }
       )
@@ -73,6 +89,7 @@ const SingleAtelierPage = () => {
       buildScene(objects)
     })
 
+    console.log("cameras", currentCamera);
 
     // Elements positions
     vitrailGroup.position.set(-1.5, 1.2, 2.2)
@@ -193,16 +210,19 @@ const SingleAtelierPage = () => {
     * Camera
     */
     // Base camera
-    const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+
+    // const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+    const camera = new THREE.PerspectiveCamera(currentCamera.fov, sizes.width / sizes.height, currentCamera.near, currentCamera.far)
+    
     camera.position.set(- .3, 2, 2.2)
     camera.lookAt(vitrailGroup.position)
     scene.add(camera)
 
     // Controls
-    const controls = new OrbitControls(camera, canvas)
-    controls.target.set(0, 1, 0)
-    controls.enableDamping = true
-    controls.enabled = true
+    // const controls = new OrbitControls(camera, canvas)
+    // controls.target.set(0, 1, 0)
+    // controls.enableDamping = true
+    // controls.enabled = true
 
 
     /**
@@ -232,7 +252,7 @@ const SingleAtelierPage = () => {
 
       if (intersects.length) {
         if (currentIntersect && currentIntersect !== intersects[0]) {
-          if(isMouseDown === true) {
+          if (isMouseDown === true) {
             currentIntersect.object.material.color = colorPicked.old;
           }
         }
@@ -259,12 +279,11 @@ const SingleAtelierPage = () => {
         currentIntersect = null
       }
 
-
       // Camera
       // camera.lookAt(vitrailGroup.position)
 
       // Update controls
-      controls.update()
+      // controls.update()
 
       // Render
       renderer.render(scene, camera)

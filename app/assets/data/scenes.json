@@ -2,11 +2,19 @@
   {
   "name": "scene-color-picker",
   "id": "scene-1",
-  "modelUrl": "/assets/models/gltf/draco/dracoModels/vitrail.glb"
+  "modelUrl": "/assets/models/gltf/draco/dracoModels/vitrail.glb",
+  "enable" : true
   },
   {
     "name": "scene-atelier",
     "id": "scene-2",
-    "modelUrl": "/assets/models/gltf/draco/dracoModels/atelier.glb"
+    "modelUrl": "/assets/models/gltf/draco/dracoModels/atelier.glb",
+    "enable" : false
+  },
+  {
+    "name": "scene-atelier-cam",
+    "id": "scene-3",
+    "modelUrl": "/assets/models/gltf/draco/dracoModels/atelier-cam.glb",
+    "enable" : true
   }
 ]
