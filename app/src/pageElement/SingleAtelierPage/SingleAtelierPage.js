@@ -46,50 +46,48 @@ const SingleAtelierPage = () => {
       load: false
     }
 
+    let mixer
     let currentCamera
-    let mixer = null
-    let cameraClip = null
+    let cameraClip
 
     // Loaders
 
     const buildScene = (currentScene) => {
-      loader.load(
+      return loader.loadAsync(
         currentScene.modelUrl,
-        (gltf) => {
-          let parent = gltf.scene.children[0]
-          let parentName = gltf.scene.children[0].name
-
-          if ("colorPickerGroup" === parentName) {
-            vitrailGroup.add(parent)
-            SetupColorPicker(parent, objectToTest, vitrailObjects)
-          } else if ("atelierGroup" === parentName) {
-            atelierGroup.add(parent)
-            SetupAtelier()
-            // console.log(parent.children);
-          }
-
-          // if (false === currentScene.enable) {
-          //   gltf.scene.visible = false
-          // }
-
-          if ("atelierCamGroup" === parentName) {
-            mixer = new THREE.AnimationMixer(gltf.scene)
-            cameraClip = mixer.clipAction(gltf.animations[0])
-            console.log(cameraClip);
-
-            currentCamera = gltf.cameras[0]
-            console.log(currentCamera);
-          }
-          params.load = true
-        }
       )
     }
 
-    Data.map((objects, i) => {
-      buildScene(objects)
+    Promise.all(Data.map(buildScene)).then((objects) => {
+      objects.map((elm, i) => {
+        let parent = elm.scene.children[0]
+        let parentName = elm.scene.children[0].name
+
+        if ("colorPickerGroup" === parentName) {
+          vitrailGroup.add(parent)
+          SetupColorPicker(parent, objectToTest, vitrailObjects)
+        } else if ("atelierGroup" === parentName) {
+          atelierGroup.add(parent)
+          SetupAtelier()
+          // console.log(parent.children);
+        }
+
+        if ("atelierCamGroup" === parentName) {
+          mixer = new THREE.AnimationMixer(elm.scene)
+          cameraClip = mixer.clipAction(elm.animations[0])
+          // console.log(cameraClip);
+
+          currentCamera = elm.cameras[0]
+          // console.log(currentCamera);
+        }
+      })
+      params.load = true
+      console.log("InsideCurrentCamera", currentCamera);
+      console.log("inside", params.load);
     })
 
-    console.log("cameras", currentCamera);
+    console.log("outside", params.load);
+    console.log("OutsideCurrentCamera", currentCamera);
 
     // Elements positions
     vitrailGroup.position.set(-1.5, 1.2, 2.2)
@@ -146,7 +144,6 @@ const SingleAtelierPage = () => {
         cursorColorPickerInner.current.style.transform = "scale(.8)"
       }
     }
-
 
     const mouse = new THREE.Vector2()
 
@@ -211,9 +208,9 @@ const SingleAtelierPage = () => {
     */
     // Base camera
 
-    // const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-    const camera = new THREE.PerspectiveCamera(currentCamera.fov, sizes.width / sizes.height, currentCamera.near, currentCamera.far)
-    
+    const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+    // const camera = new THREE.PerspectiveCamera(currentCamera.fov, sizes.width / sizes.height, currentCamera.near, currentCamera.far)
+
     camera.position.set(- .3, 2, 2.2)
     camera.lookAt(vitrailGroup.position)
     scene.add(camera)
