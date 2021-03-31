@@ -2,14 +2,11 @@ import { useState } from 'react';
 import MyContext from './myContext';
 
 const MyProvider = ({ children }) => {
-    const [stateGlobal, setStateGlobal] = useState({
-        volume: "ALLLOOO"
-    })
-
+    const [stateGlobal, setStateGlobal] = useState(null)
+   
     return ( 
         <MyContext.Provider value={{
             stateGlobal,
-            setVolumeContext: (e) => setStateGlobal({volume: e})
         }}>
             {children}
         </MyContext.Provider>

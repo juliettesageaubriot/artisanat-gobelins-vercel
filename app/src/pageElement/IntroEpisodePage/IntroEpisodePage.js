@@ -1,6 +1,7 @@
 import useModal from '@hooks/useModal'
 import TheModal from '@components/Modal/TheModal'
 import TheVolume from '@components/VolumeSettings/TheVolume';
+import TheAudioSnippet from '@components/Audio/Audio';
 import Link from 'next/link'
 
 import styles from "./styles.module.scss"
@@ -10,6 +11,7 @@ const IntroEpisodePage = () => {
   const { isShowing: isShowingAbout, toggle: toggleAbout } = useModal();
   const { isShowing: isShowingWarning, toggle: toggleWarning } = useModal();
   const { isShowing: isShowingReturnExperience, toggle: toggleReturnExperience } = useModal();
+
 
   const modalTextAbout = [{
     title: "À propos",
@@ -33,6 +35,8 @@ const IntroEpisodePage = () => {
   return (
     <section className={styles["page-intro"]}>
       <TheBreadcrumb/>
+      <TheAudioSnippet sound_url="assets/audio/test_songs.mp3" play={true}/>
+      <TheAudioSnippet sound_url="assets/audio/wavefile_short.mp3" play={true}/>
       <div className={`${styles["page-intro_container"]}`}>
         <div className={`${styles["page-intro__inner"]}`}>
 
@@ -55,7 +59,8 @@ const IntroEpisodePage = () => {
 
                 <div className={`${styles.discover}`}>
                   <div className={`link link-primary ${styles['discover_inner']}`}>
-                    <Link href="/single-ateliers">
+                    {/* <Link href="/single-ateliers"> */}
+                    <Link href="/">
                       <a><span>Découvrir</span></a>
                     </Link>
                   </div>

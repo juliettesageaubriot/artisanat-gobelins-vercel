@@ -1,18 +1,18 @@
-import MyContext from "@helpers/myContext";
-import { useContext, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./styles.module.scss";
 
 const TheVolume = () => {
     const slider = useRef(null);
     const [volume, setVolume] = useState(50);
 
-    const mycontext = useContext(MyContext);
-
     const handleChange = (e) => {
         setVolume(e.target.value);
-        mycontext.setVolumeContext(volume);
-        console.log("Current Volume " + mycontext.stateGlobal.volume);
     }
+
+    useEffect(() => {
+        window.Howler.volume(volume / 100);
+    }, [volume])
+
     return ( 
         <div className={styles["volumeContainer"]}>    
             <div className={styles["volumeSlider"]}>
