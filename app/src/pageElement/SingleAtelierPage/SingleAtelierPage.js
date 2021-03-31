@@ -2,7 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+
+import { OrbitControls } from '../../../public/assets/orbitControls/OrbitControls.js'
+
 
 import Data from "@assets/data/scenes.json"
 import styles from "./styles.module.scss"
@@ -22,15 +25,28 @@ const SingleAtelierPage = () => {
   dracoLoader.setDecoderPath('/assets/models/gltf/draco/')
   loader.setDRACOLoader(dracoLoader)
 
-  useEffect(() => {
-    // Data.scene1.array.forEach(element => {
-    //   buildScene(scene)
-    // });
+  // // Parameters GUI
+  // const parameters = [
+  // ]    
 
+  // options
+  // const options = {
+  //   orbitControls: parameters.orbitControls,
+  // }
+
+
+  useEffect(() => {
     const raycaster = new THREE.Raycaster();
+
+    const dat = require('dat.gui');
+    const gui = new dat.GUI();
 
     let objectToTest = [];
     let vitrailObjects = [];
+
+    let params = {
+      switch: true
+    };
 
     // Scene
     let scene = new THREE.Scene();
@@ -41,10 +57,7 @@ const SingleAtelierPage = () => {
     const atelierGroup = new THREE.Group
     scene.add(vitrailGroup, atelierGroup)
 
-    // Parameters
-    const params = {
-      load: false
-    }
+
 
     //COLORPICKER CURRENT COLOR
     const colorPicked = {
@@ -60,8 +73,9 @@ const SingleAtelierPage = () => {
       height: window.innerHeight
     }
 
-    let mixer
+    let camera
     let currentCamera
+    let mixer
     let cameraClip
 
     // Loaders
@@ -72,10 +86,10 @@ const SingleAtelierPage = () => {
       )
     }
 
-    console.log('entré')
+    // console.log('entré')
 
     const dataMap = async () => {
-      console.log('pendant')
+      // console.log('pendant')
 
       await Promise.all(Data.map(buildScene)).then((objects) => {
         objects.map((elm, i) => {
@@ -95,19 +109,22 @@ const SingleAtelierPage = () => {
             mixer = new THREE.AnimationMixer(elm.scene)
             cameraClip = mixer.clipAction(elm.animations[0])
 
-            currentCamera = elm.cameras[0]
-            // console.log(currentCamera);
+            parent.children.map((elm, i) => {
+              if ("CAMERA" === elm.name) {
+                // currentCamera = elm.children[0]
+                currentCamera = elm.children[0]
+                console.log(currentCamera);
+              }
+            })
+
           }
+
         })
       })
 
-      console.log('pendant2')
+      // console.log('pendant2')
 
-      console.log('sortie');
-
-
-      // console.log("outside", params.load);
-      // console.log("OutsideCurrentCamera", currentCamera);
+      // console.log('sortie');
 
       // Elements positions
       vitrailGroup.position.set(-1.5, 1.2, 2.2)
@@ -208,23 +225,29 @@ const SingleAtelierPage = () => {
       * Camera
       */
       // Base camera
-
-      // const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-      const camera = new THREE.PerspectiveCamera(currentCamera.fov, sizes.width / sizes.height, currentCamera.near, currentCamera.far)
+      const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
       camera.position.set(- .3, 2, 2.2)
+      // camera.position.set(0, 0, 0)
+      // camera = new THREE.PerspectiveCamera(currentCamera.fov, sizes.width / sizes.height, currentCamera.near, currentCamera.far)
+      // camera.position.set(currentCamera.position.x, currentCamera.up.y, currentCamera.position.z)
+      // camera.rotation.set(currentCamera.rotation.x, currentCamera.rotation.y, currentCamera.rotation.z)
       camera.lookAt(vitrailGroup.position)
       scene.add(camera)
 
-      // Controls
-      // const controls = new OrbitControls(camera, canvas)
-      // controls.target.set(0, 1, 0)
-      // controls.enableDamping = true
-      // controls.enabled = true
 
+      // Controls
+        const controls = new OrbitControls(camera, canvas)
+        // controls.target.set(0, 1, 0)
+        // controls.enableDamping = true
+        controls.enableZoom = true
+        controls.enableRotate = false
+        controls.enablePan = false
+        controls.maxDistance = 5
+        
 
       /**
-   * Renderer
-   */
+     * Renderer
+     */
       const renderer = new THREE.WebGLRenderer()
       renderer.shadowMap.enabled = true
       renderer.shadowMap.type = THREE.PCFSoftShadowMap
@@ -288,20 +311,17 @@ const SingleAtelierPage = () => {
         // Call tick again on the next frame
         window.requestAnimationFrame(tick)
       }
-
       tick()
-
     }
 
     dataMap()
-
-
 
   }, [])
 
 
   return (
     <>
+      {/* <GUI parameters={parameters} /> */}
       <div ref={ref} />
       <div className={styles.colorPickerContainer} ref={cursorColorPickerContainer}>
         <div className={styles.colorPickerInner} ref={cursorColorPickerInner}></div>
