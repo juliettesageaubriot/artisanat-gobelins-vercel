@@ -1,6 +1,8 @@
 import Layout from '@components/Structure/Layout/Layout'
 import WebFont from '@components/Structure/Fonts/TheFonts'
 
+import localforage from "localforage";
+
 import "@assets/basic.scss"
 
 // let LCanvas = null
@@ -21,6 +23,20 @@ import "@assets/basic.scss"
 //     </>
 //   )
 // }
+
+// Setup localStorage
+
+localforage.config({
+  name: "regards-d-artisans",
+  version: 1.0,
+  storeName: "data", // Should be alphanumeric, with underscores.
+  description: "Data persisted by the regards d'artisans experience",
+});
+
+// Exemple localforage
+
+// localforage.setItem("step", 3);
+// const currentStep = await localforage.getItem("step");
 
 function MyApp({ Component, pageProps }) {
 
