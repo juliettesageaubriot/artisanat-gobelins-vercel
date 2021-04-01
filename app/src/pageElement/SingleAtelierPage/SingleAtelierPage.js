@@ -19,21 +19,10 @@ const SingleAtelierPage = () => {
   const cursorColorPickerContainer = useRef(null);
   const cursorColorPickerInner = useRef(null);
 
-
   const loader = new GLTFLoader()
   const dracoLoader = new DRACOLoader()
   dracoLoader.setDecoderPath('/assets/models/gltf/draco/')
   loader.setDRACOLoader(dracoLoader)
-
-  // // Parameters GUI
-  // const parameters = [
-  // ]    
-
-  // options
-  // const options = {
-  //   orbitControls: parameters.orbitControls,
-  // }
-
 
   useEffect(() => {
     const raycaster = new THREE.Raycaster();
@@ -57,8 +46,6 @@ const SingleAtelierPage = () => {
     const atelierGroup = new THREE.Group
     scene.add(vitrailGroup, atelierGroup)
 
-
-
     //COLORPICKER CURRENT COLOR
     const colorPicked = {
       current: null,
@@ -77,6 +64,8 @@ const SingleAtelierPage = () => {
     let currentCamera
     let mixer
     let cameraClip
+    let animationCam
+    let cameraTest
 
     // Loaders
 
@@ -105,23 +94,15 @@ const SingleAtelierPage = () => {
             // console.log(parent.children);
           }
 
+
           if ("atelierCamGroup" === parentName) {
             mixer = new THREE.AnimationMixer(elm.scene)
-            cameraClip = mixer.clipAction(elm.animations[0])
-
-            parent.children.map((elm, i) => {
-              if ("CAMERA" === elm.name) {
-                // currentCamera = elm.children[0]
-                currentCamera = elm.children[0]
-                console.log(currentCamera);
-              }
-            })
-
+            console.log(elm);
+            cameraTest = elm.cameras[0]
           }
 
         })
       })
-
       // console.log('pendant2')
 
       // console.log('sortie');
@@ -225,25 +206,27 @@ const SingleAtelierPage = () => {
       * Camera
       */
       // Base camera
+      // const cameraTest = new THREE.PerspectiveCamera(currentCamera.fov, sizes.width / sizes.height, currentCamera.near, currentCamera.far)
       const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
       camera.position.set(- .3, 2, 2.2)
-      // camera.position.set(0, 0, 0)
-      // camera = new THREE.PerspectiveCamera(currentCamera.fov, sizes.width / sizes.height, currentCamera.near, currentCamera.far)
-      // camera.position.set(currentCamera.position.x, currentCamera.up.y, currentCamera.position.z)
-      // camera.rotation.set(currentCamera.rotation.x, currentCamera.rotation.y, currentCamera.rotation.z)
       camera.lookAt(vitrailGroup.position)
       scene.add(camera)
+      scene.add(cameraTest)
 
+
+      const cameraHelper = new THREE.CameraHelper(cameraTest);
+      scene.add(cameraHelper);
+
+      // gui.add(cameraTest.position, "y").min(-10).max(10).step(0.01)
 
       // Controls
-        const controls = new OrbitControls(camera, canvas)
-        // controls.target.set(0, 1, 0)
-        // controls.enableDamping = true
-        controls.enableZoom = true
-        controls.enableRotate = false
-        controls.enablePan = false
-        controls.maxDistance = 5
-        
+      const controls = new OrbitControls(camera, canvas)
+      // controls.target.set(0, 1, 0)
+      // controls.enableDamping = true
+      controls.enableZoom = true
+      controls.enableRotate = false
+      controls.enablePan = false
+      controls.maxDistance = 5
 
       /**
      * Renderer
@@ -301,9 +284,14 @@ const SingleAtelierPage = () => {
 
         // Camera
         // camera.lookAt(vitrailGroup.position)
+        // camera.lookAt(cameraTest.position)
 
         // Update controls
         // controls.update()
+        cameraHelper.update()
+
+        // Update mixer
+        mixer.update(deltaTime);
 
         // Render
         renderer.render(scene, camera)
