@@ -6,12 +6,6 @@
   "enable" : true
   },
   {
-    "name": "scene-atelier",
-    "id": "scene-2",
-    "modelUrl": "/assets/models/gltf/draco/dracoModels/atelier.glb",
-    "enable" : false
-  },
-  {
     "name": "scene-atelier-cam",
     "id": "scene-3",
     "modelUrl": "/assets/models/gltf/draco/dracoModels/atelier-cam.glb",

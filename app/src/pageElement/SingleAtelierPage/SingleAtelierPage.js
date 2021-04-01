@@ -61,7 +61,7 @@ const SingleAtelierPage = () => {
     }
 
     const object3DCam = {
-      element : null,
+      element: null,
       position: null
     }
 
@@ -86,34 +86,28 @@ const SingleAtelierPage = () => {
       // console.log('pendant')
 
       await Promise.all(Data.map(buildScene)).then((objects) => {
+
         objects.map((elm, i) => {
           let parent = elm.scene.children[0]
           let parentName = elm.scene.children[0].name
 
+          // console.log(elm);
+          console.log(elm.scene)
+
           if ("colorPickerGroup" === parentName) {
             vitrailGroup.add(parent)
             SetupColorPicker(parent, objectToTest, vitrailObjects)
-          } else if ("atelierGroup" === parentName) {
+          } else if ("atelierCamGroup" === parentName) {
             atelierGroup.add(parent)
             SetupAtelier()
-            // console.log(parent.children);
           }
 
           if ("atelierCamGroup" === parentName) {
+
             mixer = new THREE.AnimationMixer(elm.scene)
-            console.log(elm);
             cameraTest = elm.cameras[0]
-
-            elm.scene.children.map((child, i) => {
-              child.children.map((child, i) => {
-                if ("CAMERA" === child.name) {
-                  console.log("ALLLLLLLO", child);
-                  object3DCam.element = child
-                  object3DCam.position = child.position
-                }
-              })
-            })
-
+            animationCam = mixer.clipAction(elm.animations[0])
+            // animationCam.play()
 
           }
 
@@ -222,13 +216,13 @@ const SingleAtelierPage = () => {
       * Camera
       */
       // Base camera
-      
+
       // const cameraTest = new THREE.PerspectiveCamera(currentCamera.fov, sizes.width / sizes.height, currentCamera.near, currentCamera.far)
       const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
       camera.position.set(- .3, 2, 2.2)
       camera.lookAt(vitrailGroup.position)
 
-      cameraTest.position.set(object3DCam.position.x, object3DCam.position.y, object3DCam.position.z)
+      // cameraTest.position.set(object3DCam.position.x, object3DCam.position.y, object3DCam.position.z)
       scene.add(camera)
       scene.add(cameraTest)
 
@@ -310,7 +304,10 @@ const SingleAtelierPage = () => {
         cameraHelper.update()
 
         // Update mixer
-        mixer.update(deltaTime);
+
+        if (mixer !== null) {
+          mixer.update(deltaTime)
+        }
 
         // Render
         renderer.render(scene, camera)
