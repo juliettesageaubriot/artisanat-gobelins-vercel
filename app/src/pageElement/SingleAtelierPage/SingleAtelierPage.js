@@ -3,8 +3,8 @@ import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-// import { OrbitControls } from '../../../public/assets/orbitControls/OrbitControls.js'
+// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { OrbitControls } from '../../../public/assets/orbitControls/OrbitControls.js'
 
 
 import Data from "@assets/data/scenes.json"
@@ -12,6 +12,7 @@ import styles from "./styles.module.scss"
 
 import { SetupAtelier } from '@/helpers/atelierHelper';
 import { SetupColorPicker } from '@/helpers/colorPickersHelper';
+import { CameraManager } from '@/helpers/cameraManager';
 
 
 const SingleAtelierPage = () => {
@@ -219,16 +220,52 @@ const SingleAtelierPage = () => {
 
       // const cameraTest = new THREE.PerspectiveCamera(currentCamera.fov, sizes.width / sizes.height, currentCamera.near, currentCamera.far)
       const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+      const cameraNew = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+      cameraNew.position.set(0, 2.2, -4)
+      cameraNew.rotation.set(0, Math.PI, 0)
       camera.position.set(- .3, 2, 2.2)
       camera.lookAt(vitrailGroup.position)
 
       // cameraTest.position.set(object3DCam.position.x, object3DCam.position.y, object3DCam.position.z)
       scene.add(camera)
-      scene.add(cameraTest)
+      scene.add(cameraNew)
+
+      const cameraManager = new CameraManager(cameraNew);
+
+      //CAMERAS
+      var buttonCamera1 = document.createElement("button");
+      buttonCamera1.style.position = "absolute";
+      buttonCamera1.style.top = 0;
+      buttonCamera1.innerHTML = "Camera 1";
+
+      // 2. Append somewhere
+      var body = document.getElementsByTagName("body")[0];
+      body.appendChild(buttonCamera1);
+
+      // 3. Add event handler
+      buttonCamera1.addEventListener ("click", function() {
+        cameraManager.StartingPointInSceneToDecoupeDuTrace();
+      });
+      var buttonCamera2 = document.createElement("button");
+      buttonCamera2.style.position = "absolute";
+      buttonCamera2.style.top = "30px";
+      buttonCamera2.innerHTML = "Camera 2";
+
+      // 2. Append somewhere
+      var body = document.getElementsByTagName("body")[0];
+      body.appendChild(buttonCamera2);
+
+      // 3. Add event handler
+      buttonCamera2.addEventListener ("click", function() {
+        cameraManager.FromDecoupeDutraceToColorPicker();
+      });
 
 
-      const cameraHelper = new THREE.CameraHelper(cameraTest);
+      const cameraHelper = new THREE.CameraHelper(cameraNew);
       scene.add(cameraHelper);
+
+      const axesHelper = new THREE.AxesHelper( 5 );
+      scene.add( axesHelper );
 
       // gui.add(cameraTest.position, "y").min(-10).max(10).step(0.01)
 
@@ -262,7 +299,7 @@ const SingleAtelierPage = () => {
         previousTime = elapsedTime
 
         //Raycast
-        raycaster.setFromCamera(mouse, camera);
+        raycaster.setFromCamera(mouse, cameraNew);
 
         const intersects = raycaster.intersectObjects(objectToTest)
 
@@ -310,7 +347,7 @@ const SingleAtelierPage = () => {
         }
 
         // Render
-        renderer.render(scene, camera)
+        renderer.render(scene, cameraNew)
 
         // Call tick again on the next frame
         window.requestAnimationFrame(tick)
