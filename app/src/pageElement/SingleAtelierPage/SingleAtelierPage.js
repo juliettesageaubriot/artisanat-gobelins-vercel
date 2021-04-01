@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
-// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
-import { OrbitControls } from '../../../public/assets/orbitControls/OrbitControls.js'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+// import { OrbitControls } from '../../../public/assets/orbitControls/OrbitControls.js'
 
 
 import Data from "@assets/data/scenes.json"
@@ -60,6 +60,11 @@ const SingleAtelierPage = () => {
       height: window.innerHeight
     }
 
+    const object3DCam = {
+      element : null,
+      position: null
+    }
+
     let camera
     let currentCamera
     let mixer
@@ -94,11 +99,22 @@ const SingleAtelierPage = () => {
             // console.log(parent.children);
           }
 
-
           if ("atelierCamGroup" === parentName) {
             mixer = new THREE.AnimationMixer(elm.scene)
             console.log(elm);
             cameraTest = elm.cameras[0]
+
+            elm.scene.children.map((child, i) => {
+              child.children.map((child, i) => {
+                if ("CAMERA" === child.name) {
+                  console.log("ALLLLLLLO", child);
+                  object3DCam.element = child
+                  object3DCam.position = child.position
+                }
+              })
+            })
+
+
           }
 
         })
@@ -206,10 +222,13 @@ const SingleAtelierPage = () => {
       * Camera
       */
       // Base camera
+      
       // const cameraTest = new THREE.PerspectiveCamera(currentCamera.fov, sizes.width / sizes.height, currentCamera.near, currentCamera.far)
       const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
       camera.position.set(- .3, 2, 2.2)
       camera.lookAt(vitrailGroup.position)
+
+      cameraTest.position.set(object3DCam.position.x, object3DCam.position.y, object3DCam.position.z)
       scene.add(camera)
       scene.add(cameraTest)
 
@@ -221,12 +240,12 @@ const SingleAtelierPage = () => {
 
       // Controls
       const controls = new OrbitControls(camera, canvas)
-      // controls.target.set(0, 1, 0)
-      // controls.enableDamping = true
+      controls.target.set(0, 1, 0)
+      controls.enableDamping = true
       controls.enableZoom = true
-      controls.enableRotate = false
-      controls.enablePan = false
-      controls.maxDistance = 5
+      controls.enableRotate = true
+      controls.enablePan = true
+      // controls.maxDistance = 5
 
       /**
      * Renderer
@@ -287,7 +306,7 @@ const SingleAtelierPage = () => {
         // camera.lookAt(cameraTest.position)
 
         // Update controls
-        // controls.update()
+        controls.update()
         cameraHelper.update()
 
         // Update mixer
