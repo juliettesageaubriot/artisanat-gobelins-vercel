@@ -14,7 +14,6 @@ import { SetupAtelier } from '@/helpers/atelierHelper';
 import { SetupColorPicker } from '@/helpers/colorPickersHelper';
 import { CameraManager } from '@/helpers/cameraManager';
 
-
 const SingleAtelierPage = () => {
   const ref = useRef(null)
   const cursorColorPickerContainer = useRef(null);
