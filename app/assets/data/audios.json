@@ -1,0 +1,6 @@
+[
+    {
+        "sound_url": "assets/audios/test_song.mp3",
+        "shouldPlayOnStart": true
+    }
+]
