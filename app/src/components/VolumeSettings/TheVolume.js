@@ -9,8 +9,12 @@ const TheVolume = () => {
 
     const handleChange = (e) => {
         setVolume(e.target.value);
-        console.log(volume);
     }
+
+    useEffect(() => {
+        window.Howler.volume(volume / 100);
+    }, [volume])
+
     return ( 
         <div className={styles["volumeContainer"]}>    
             <div className={styles["volumeSlider"]}>
