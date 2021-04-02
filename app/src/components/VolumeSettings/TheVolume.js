@@ -1,5 +1,6 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import styles from "./styles.module.scss";
+import Howler from 'react-howler';
 
 const TheVolume = () => {
 
