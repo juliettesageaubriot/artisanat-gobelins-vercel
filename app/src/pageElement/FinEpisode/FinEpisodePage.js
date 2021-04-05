@@ -20,7 +20,7 @@ const FinEpisodePage = () => {
 
 
   useEffect(() => {
-    getNewCoordinates(labelCarouselOne, labelCarouselTwo, labelCarouselThree)
+    getNewCoordinates(labelCarouselOne, labelCarouselTwo, labelCarouselThree);
   }, [])
 
   const getNewCoordinates = (previousLabel, currentLabel, nextLabel) => {
@@ -40,7 +40,17 @@ const FinEpisodePage = () => {
     previousLabel.current.style.opacity = .5;
     currentLabel.current.style.opacity = 1;
     nextLabel.current.style.opacity = .5;
+
+    setTimeout(() => {
+      setTransitions();
+    }, 400);
   };
+
+  const setTransitions = () => {
+    labelCarouselOne.current.style.transition = ".3s transform ease-in-out, .5s opacity ease-in-out";
+    labelCarouselTwo.current.style.transition = ".3s transform ease-in-out, .5s opacity ease-in-out";
+    labelCarouselThree.current.style.transition = ".3s transform ease-in-out, .5s opacity ease-in-out";
+  }
 
   const handleLabelOneCurrent = () => {
     //label ONE CURRENT
