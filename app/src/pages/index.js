@@ -10,8 +10,8 @@ const Page = () => {
         title="regards d'artisans"
         description="description du projet"
       />
-      {/* <IntroEpisodePage /> */}
-      <FinEpisodePage />
+      <IntroEpisodePage />
+      {/* <FinEpisodePage /> */}
     </>
   )
 }
