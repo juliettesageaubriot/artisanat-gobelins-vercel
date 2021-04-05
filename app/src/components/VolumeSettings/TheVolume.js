@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 import Howler from 'react-howler';
 import localforage from "localforage";
 
-const TheVolume = () => {
+const TheVolume = ({absolute}) => {
 
     const slider = useRef(null);
     const [volume, setVolume] = useState(0.5);
@@ -27,7 +27,7 @@ const TheVolume = () => {
     }, [volume])
 
     return ( 
-        <div className={styles["volumeContainer"]}>    
+        <div className={`${styles["volumeContainer"]} ${absolute ? "" : styles["isNotAbsolute"]}`}>    
             <div className={styles["volumeSlider"]}>
                 <label>Volume</label>
                 <input type="range" min="0" max="100" value={volume * 100} className={styles["slider"]} ref={slider} onChange={handleChange}/>

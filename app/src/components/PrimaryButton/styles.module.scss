@@ -1,0 +1,24 @@
+$primaryColor:#254EDA;
+$inactiveColor:#C4C4C4;
+
+.button-container {
+    background-color: $primaryColor;
+
+    border-radius: 20px;
+    
+    padding: 10px 20px;
+    margin: 10px;
+
+    color: white;
+    text-decoration: none;
+
+    transition: .3s opacity ease-in-out;
+
+    &--inactive {
+        background-color: $inactiveColor;
+    }
+
+    &:hover {
+        opacity: .8;
+    }
+}

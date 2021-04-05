@@ -1,2 +1,193 @@
 @import '@assets/_mandatory';
 
+$grey: #888787;
+
+.page-fin {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+
+    &__heading {
+        color: $grey;
+        text-transform: uppercase;
+        font-size: 1.5rem;
+
+        padding: 20px;
+
+        &.--white {
+            color: white;
+            width: 27ch;
+        }
+    }
+
+    &__carousel-container {
+        display: flex;
+        flex-direction: column;
+        flex-basis: 66%;
+
+        padding: 0 1%;
+
+        .carousel-inner {
+            flex-basis: 90%;
+            display: flex;
+
+            &__counter {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                width: 20%;
+                .counter {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+
+                    p {
+                        color: $grey;
+
+                        font-size: 24px;
+                    }
+
+                    p:nth-of-type(2) {
+                        color: #C4C4C4;
+
+                        font-size: 18px;
+                    }
+
+                    &__separator {
+                        height: 30px;
+                        width: 2px;
+
+                        margin: 10px 0;
+
+                        background-color: #C4C4C4
+                    }
+                }
+                
+                img {
+                    width: 40%;
+                }
+
+            }
+            
+            &__content {
+                position: relative;
+
+                width: 100%;
+
+                background-color: rgba(0, 0, 0, .1);
+
+                .vitrailliste {
+                    position: relative;
+
+                    width: 15%;
+
+                    top: 25%;
+                }
+
+                .background {
+                    width: 60%;
+                    height: 40%;
+
+                    position: absolute;
+                    
+                    background-color: $grey;
+                    opacity: .4;
+
+                    right: 5%;
+
+                    border-radius: 20px;
+
+                    transform: translateY(100%);
+                }
+                
+                p {
+                    position: absolute;
+                    transition: .3s transform ease-in-out, .5s opacity ease-in-out;
+                    font-size: 1.2vw;
+                    width: 40%;
+                    z-index: 15;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    &__footer-container {
+        display: flex;
+        align-items: center;
+        flex-basis: 10%;
+
+        position: relative;
+        
+        padding: 10px;
+    }
+
+    &__video-container {
+        flex-basis: 34%;
+        background-color: $grey;
+
+        .video-inner {
+            display: flex;
+            flex-direction: column;
+            justify-content: center; 
+
+            height: 100%;
+            width: 100%;
+
+            border-top: 1px solid white;
+
+            // background-color: rgba(#000000, .8);
+
+            padding: 5%;
+
+            &__subHeading {
+                color: white;
+                font-size: 25px;
+                margin-bottom: 50px;
+            }
+
+            &__content {
+                display: flex;
+                justify-content: center;
+
+                .avatar {
+                    width: 120px;
+                    height: fit-content;
+
+                    // background-color: red;
+
+                    margin: 0 20px;
+
+                    &__img {
+                        height: 120px;
+                        width: 120px;
+
+                        border-radius: 100%;
+
+                        background-color: rgba(#000000, .8);
+
+                        margin-bottom: 50px;
+                    }
+
+                    h6 {
+                        font-size: 20px;
+                        color: white;
+                        margin-bottom: 10px;
+                    }
+                    
+                    p {
+                        color: white;
+                        font-size: 16px;
+                        line-height: 1.2;
+                    }
+                }
+            }
+
+            &__video {
+                
+            }
+        }
+    }
+}

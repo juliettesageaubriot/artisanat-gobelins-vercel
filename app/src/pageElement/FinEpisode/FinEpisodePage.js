@@ -1,58 +1,130 @@
-import useModal from '@hooks/useModal'
-import TheModal from '@components/Modal/TheModal'
-import TheVolume from '@components/VolumeSettings/TheVolume';
-import Link from 'next/link'
+import { useEffect, useRef, useState } from "react";
+import ThePrimaryButton from "@/components/PrimaryButton/ThePrimaryButton";
+import TheVolume from "@/components/VolumeSettings/TheVolume";
+import styles from "./styles.module.scss";
 
-import styles from "./styles.module.scss"
+const FinEpisodePage = () => {
+  const [indexCarousel, setIndexCarousel] = useState(2)
+  let positionOneX;
+  let positionOneY;
+  let positionTwoX;
+  let positionTwoY;
+  let positionThreeX;
+  let positionThreeY;
 
-const IntroEpisodePage = () => {
-  const { isShowing: isShowingAbout, toggle: toggleAbout } = useModal();
+  const carouselContainer = useRef(null);
+  const imageCarousel = useRef(null);
+  const labelCarouselOne = useRef(null);
+  const labelCarouselTwo = useRef(null);
+  const labelCarouselThree = useRef(null);
 
-  const modalTextAbout = [{
-    title: "À propos",
-    content: "Le projet a été réalisé dans le cadre du master de design et développement de l’innovation interactive. <br/>Ce projet a pour vocation de mettre en lumière les enjeux contemporains de l’artisanat.",
-    credits: "Réalisé par deux développeurs Juliette Sage--Aubriot, Aurélien Hémidy et trois designers Eloïse Luna, Vincent Calas et Chloélia Breton",
-    buttons: false
-  }]
+
+  useEffect(() => {
+    getNewCoordinates(labelCarouselOne, labelCarouselTwo, labelCarouselThree)
+  }, [])
+
+  const getNewCoordinates = (previousLabel, currentLabel, nextLabel) => {
+    positionOneX = 20;
+    positionOneY = carouselContainer.current.getBoundingClientRect().top - carouselContainer.current.getBoundingClientRect().top + 20
+
+    positionTwoX = imageCarousel.current.getBoundingClientRect().left - currentLabel.current.getBoundingClientRect().left;
+    positionTwoY = imageCarousel.current.getBoundingClientRect().top - carouselContainer.current.getBoundingClientRect().top - currentLabel.current.getBoundingClientRect().height;
+
+    positionThreeX = 20;
+    positionThreeY = carouselContainer.current.getBoundingClientRect().bottom - carouselContainer.current.getBoundingClientRect().top - nextLabel.current.getBoundingClientRect().height;
+
+    previousLabel.current.style.transform = `translate3d(${positionOneX}px, ${positionOneY}px, 0) scale(1)`;
+    currentLabel.current.style.transform = `translate3d(${positionTwoX}px, ${positionTwoY}px, 0) scale(1.5)`;
+    nextLabel.current.style.transform = `translate3d(${positionThreeX}px, ${positionThreeY}px, 0) scale(1)`;
+
+    previousLabel.current.style.opacity = .5;
+    currentLabel.current.style.opacity = 1;
+    nextLabel.current.style.opacity = .5;
+  };
+
+  const handleLabelOneCurrent = () => {
+    //label ONE CURRENT
+    if(indexCarousel === 1) 
+      return
+    setIndexCarousel(1);
+    getNewCoordinates(labelCarouselThree, labelCarouselOne, labelCarouselTwo);
+  };
+
+  const handleLabelTwoCurrent = () => {
+    //label THREE CURRENT
+    if(indexCarousel === 2) 
+      return
+    setIndexCarousel(2);
+    getNewCoordinates(labelCarouselOne, labelCarouselTwo, labelCarouselThree);
+  };
+
+  const handleLabelThreeCurrent = () => {
+    //label TWO CURRENT
+    if(indexCarousel === 3) 
+      return
+    setIndexCarousel(3);
+    getNewCoordinates(labelCarouselTwo, labelCarouselThree, labelCarouselOne);
+  };
+  
 
   return (
-    <section className={styles["page-intro"]}>
-      <div className={`${styles["page-intro_container"]}`}>
-        <div className={`${styles["page-intro__inner"]}`}>
-
-          <div className={`${styles["btn_container"]}`}>
-            <div className={`${styles["btn__inner"]}`}>
-              <button className={`btn btn-about ${isShowingAbout === true && styles.disabled}`} onClick={toggleAbout}>À propos</button>
-            </div>
-          </div>
-
-          <div className={`${styles["main_container"]}`}>
-            <div className={`${styles["main__inner"]}`}>
-              <div className={`${styles.content}`}>
-                <h1>Regards d’artisans</h1>
-                <p>Regards d’artisans nous invite à nous glisser dans la peau d’un apprentit artisan, dans le cadre intime d’un ateliers, lieu de partage d’un savoir-faire.</p>
-
-                <div className={`${styles.immersion}`}>
-                  <span className={`${styles.hearphone}`}><i className="fal fa-headphones-alt"></i></span>
-                  <span>Utilisez un casque pour plus d’immersion !</span>
-                </div>
-
-                <div className={`${styles.discover}`}>
-                  <div className={`${styles['discover_inner']}`}>
-                    <Link href="/menu">
-                      <a><span>Découvrir</span></a>
-                    </Link>
-                  </div>
-                </div>
+    <section className={styles["page-fin"]}>
+      <div className={styles["page-fin__carousel-container"]}>
+          <h1 className={styles["page-fin__heading"]}> De l'atelier d'initiation...</h1>
+          <div className={styles["carousel-inner"]}>
+            <div className={styles["carousel-inner__counter"]}>
+              <div className={styles["counter"]}>
+                <p>{ indexCarousel }</p>
+                <div className={styles["counter__separator"]}></div>
+                <p>2</p>
               </div>
+              <img src="assets/images/carousel-event.png" alt=""/>
+            </div>
+            <div className={styles["carousel-inner__content"]} ref={carouselContainer}>
+              <p ref={labelCarouselOne} onClick={handleLabelOneCurrent}>“ Maintenant notre métier n'est pas si old school qu'on voudrait le laisser croire ” 1</p>
+              <p ref={labelCarouselTwo} onClick={handleLabelTwoCurrent}>" C'est dommage que [l’artisanat] soit encore aux yeux des conseillers d'orientation la voie de secours " 2</p>
+              <p ref={labelCarouselThree} onClick={handleLabelThreeCurrent}>“ On dit dans le métier qu'il faut une dizaine d'années, et c'est pas avec la réduction des heures de formation qu'on tend vers cela ” 3</p>
+              <img src="assets/images/vitrailliste.png" className={styles["vitrailliste"]} alt=""/>
+              <img className={styles["background"]} ref={imageCarousel} alt=""/>
             </div>
           </div>
-          <TheModal isShowing={isShowingAbout} hide={toggleAbout} content={modalTextAbout} />
+          <div className={styles["page-fin__footer-container"]}>
+              <ThePrimaryButton label="Episodes" to={"/"} active={false}/>
+              <ThePrimaryButton label="Episode 2, le joailler ->" to={"/"} active={false} />
+              <TheVolume absolute={false} />
+          </div>
+      </div>
+      <div className={styles["page-fin__video-container"]}>
+        <h1 className={`${styles["page-fin__heading"]} ${styles["--white"]}`}> ... A la rencontre des professionnels</h1>
+        <div className={styles["video-inner"]}>
+          <h4 className={styles["video-inner__subHeading"]}>Une dizaine d'années pour devenir vitrailliste ?</h4>
+          <div className={styles["video-inner__content"]}>
+            <div className={styles["avatar"]}>
+              <div className={styles["avatar__img"]}>
+                <img src="" alt=""/>
+              </div>
+              <h6>Marion Gosselin</h6>
+              <p>Vitrailliste à l'atelier de Paris</p>
+            </div>
+            <div className={styles["avatar"]}>
+              <div className={styles["avatar__img"]}>
+                <img src="" alt=""/>
+              </div>
+              <h6>Louise Doublet</h6>
+              <p>étudiante DNMADE à l'ENSAAMA</p>
+            </div>
+            <div className={styles["avatar"]}>
+              <div className={styles["avatar__img"]}>
+                <img src="" alt=""/>
+              </div>
+              <h6>Maxime Gauthier</h6>
+              <p>maître d'apprentissage à l'atelier de Chartres</p>
+            </div>
+          </div>
         </div>
-        <TheVolume />
       </div>
     </section>
   )
 }
 
-export default IntroEpisodePage
+export default FinEpisodePage

@@ -15,6 +15,12 @@
     align-items: center;
     transition: .3s all ease-in-out;
 
+    &.isNotAbsolute {
+        position: static;
+        
+        margin-left: auto;
+    }
+
     &:hover {
         background-color: transparent;
         border: 1px solid #254EDA;
