@@ -75,7 +75,8 @@ const SingleAtelierPage = () => {
             mixer = new THREE.AnimationMixer(model)
             action = mixer.clipAction(gltf.animations[0])
             action.setLoop( THREE.LoopOnce );
-
+            action.clampWhenFinished = true
+            
             if ("Camera" === gltf.cameras[0].parent.name) currentCamera = gltf.cameras[0]
 
             SetupAtelier()
