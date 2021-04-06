@@ -23,10 +23,6 @@ const SingleAtelierPage = () => {
   loader.setDRACOLoader(dracoLoader)
 
   useEffect(() => {
-    // Data.scene1.array.forEach(element => {
-    //   buildScene(scene)
-    // });
-
     const raycaster = new THREE.Raycaster();
 
     let objectToTest = [];
@@ -48,42 +44,39 @@ const SingleAtelierPage = () => {
 
     // Loaders
 
+    console.log("avant");
+
     const buildScene = (currentScene) => {
-      loader.load(
-        currentScene.modelUrl,
-        (gltf) => {
-          let parent = gltf.scene.children[0]
-          let parentName = gltf.scene.children[0].name
-
-          if ("colorPickerGroup" === parentName) {
-            vitrailGroup.add(parent)
-            SetupColorPicker(parent, objectToTest, vitrailObjects)
-          } else if ("atelierGroup" === parentName) {
-            atelierGroup.add(parent)
-            SetupAtelier()
-            // console.log(parent.children);
-          }
-
-          params.load = true
-        }
-      )
+      return new Promise((resolve, reject) => {
+        loader.load(currentScene.modelUrl, (gltf) => {
+          resolve(gltf)
+        });
+      });
     }
-
-    Data.map((objects, i) => {
-      buildScene(objects)
+  
+    Data.map((currentSceneImport, i) => {
+      buildScene(currentSceneImport).then((gltf) => {
+        let parent = gltf.scene.children[0]
+        let parentName = gltf.scene.children[0].name
+    
+        if ("colorPickerGroup" === parentName) {
+          vitrailGroup.add(parent)
+          SetupColorPicker(parent, objectToTest, vitrailObjects)
+        } else if ("atelierCamGroup" === parentName) {
+          atelierGroup.add(parent)
+          SetupAtelier()
+        }
+      })
+      console.log("inside");
     })
 
-
+    
+    console.log("after")
     // Elements positions
     vitrailGroup.position.set(-1.5, 1.2, 2.2)
     vitrailGroup.rotation.set(0, Math.PI / 2, 0)
     vitrailGroup.scale.set(0.7, 0.7, 0.7)
 
-    // console.log(params.load);
-
-    // if (true === params.load) {
-    //   console.log(vitrailGroup.children[0]);
-    // }
 
     //COLORPICKER CURRENT COLOR
     const colorPicked = {
@@ -232,7 +225,7 @@ const SingleAtelierPage = () => {
 
       if (intersects.length) {
         if (currentIntersect && currentIntersect !== intersects[0]) {
-          if(isMouseDown === true) {
+          if (isMouseDown === true) {
             currentIntersect.object.material.color = colorPicked.old;
           }
         }
@@ -276,6 +269,7 @@ const SingleAtelierPage = () => {
     tick()
 
   }, [])
+
 
 
   return (
