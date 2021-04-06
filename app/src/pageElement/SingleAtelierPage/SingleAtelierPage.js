@@ -51,10 +51,7 @@ const SingleAtelierPage = () => {
 
     // Loaders
 
-    console.log("avant");
-
     const dataMap = async () => {
-      // Data.map((currentSceneImport, i) => {
 
       const buildScene = (currentScene) => {
         return loader.loadAsync(
@@ -63,26 +60,28 @@ const SingleAtelierPage = () => {
       }
 
       await Promise.all(Data.map(buildScene)).then((objects) => {
-        objects.map((elm, i) => {
-          let parent = elm.scene.children[0]
-          let parentName = elm.scene.children[0].name
+        objects.map((gltf, i) => {
+          const model = gltf.scene
+          let parent = gltf.scene.children[0]
+          let parentName = gltf.scene.children[0].name
 
           if ("colorPickerGroup" === parentName) {
             vitrailGroup.add(parent)
             SetupColorPicker(parent, objectToTest, vitrailObjects)
-          } else if ("atelierCamGroup" === parentName) {
-            atelierGroup.add(parent)
+          }
+          else if ("atelierCamGroup" === parentName) {
+            atelierGroup.add(model)
+
+            mixer = new THREE.AnimationMixer(model)
+            action = mixer.clipAction(gltf.animations[0])
+            action.setLoop( THREE.LoopOnce );
+
+            if ("Camera" === gltf.cameras[0].parent.name) currentCamera = gltf.cameras[0]
+
             SetupAtelier()
           }
         })
       })
-
-      console.log('inside');
-
-      console.log("currentCam", currentCamera);
-      console.log("after")
-
-
       // Elements positions
       vitrailGroup.position.set(-1.5, 1.2, 2.2)
       vitrailGroup.rotation.set(0, Math.PI / 2, 0)
@@ -187,11 +186,29 @@ const SingleAtelierPage = () => {
       scene.add(camera)
 
       //Camera helper
-      // const helper = new THREE.CameraHelper(newCam);
-      // scene.add(helper);
+      const helper = new THREE.CameraHelper(newCam);
+      scene.add(helper);
+
+
+      // button
+      let buttonCamera1 = document.createElement("button");
+      buttonCamera1.style.position = "absolute";
+      buttonCamera1.style.top = 0;
+      buttonCamera1.innerHTML = "Camera 1";
+
+      // 2. Append somewhere
+      let body = document.getElementsByTagName("body")[0];
+      body.appendChild(buttonCamera1);
+
+      // 3. Add event handler
+      buttonCamera1.addEventListener("click", function () {
+        action.play()
+      });
+      ////
+
 
       // Controls
-      const controls = new OrbitControls(camera, canvas)
+      const controls = new OrbitControls(newCam, canvas)
       controls.target.set(0, 0, 0)
       controls.enableDamping = true
 
@@ -268,12 +285,17 @@ const SingleAtelierPage = () => {
         // Camera
         // camera.lookAt(vitrailGroup.position)
 
+        //update mixer
+        if (mixer) {
+          mixer.update(deltaTime)
+        }
+
         // Update controls
         controls.update()
         // helper.update()
 
         // Render
-        renderer.render(scene, camera)
+        renderer.render(scene, newCam)
 
         // Call tick again on the next frame
         window.requestAnimationFrame(tick)
