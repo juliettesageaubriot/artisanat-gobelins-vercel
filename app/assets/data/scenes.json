@@ -10,5 +10,11 @@
     "id": "scene-3",
     "modelUrl": "/assets/models/gltf/draco/dracoModels/atelier-cam.glb",
     "enable" : true
+  },
+  {
+    "name": "scene-atelier-v04",
+    "id": "scene-4",
+    "modelUrl": "/assets/models/gltf/draco/dracoModels/atelier-v04.glb",
+    "enable" : true
   }
 ]

@@ -38,8 +38,9 @@ const SingleAtelierPage = () => {
     // Group
     const vitrailGroup = new THREE.Group
     const atelierGroup = new THREE.Group
+    const atelierV04Group = new THREE.Group
     const cameraGroup = new THREE.Group
-    scene.add(vitrailGroup, atelierGroup, cameraGroup)
+    scene.add(vitrailGroup, atelierGroup, atelierV04Group, cameraGroup)
 
     // Parameters
     const params = {
@@ -67,20 +68,23 @@ const SingleAtelierPage = () => {
       }
 
       await Promise.all(Data.map(buildScene)).then((objects) => {
+        console.log(objects);
         objects.map((gltf, i) => {
           gltf.scene.traverse(child => {
-            if("colorPickerGroup" === child.name) {
+            if ("colorPickerGroup" === child.name) {
               vitrailGroup.add(child);
               SetupColorPicker(child, objectToTest, vitrailObjects);
-            } 
-              else if("atelierCamGroup" === child.name) {
-                atelierGroup.add(child);
+            }
+            else if ("atelierCamGroup" === child.name) {
+              // atelierGroup.add(child);
 
-                cameraAnimation = new AnimationManager(child, gltf.animations);
-                cameraManager = new CameraManager(cameraAnimation);
-              
-                if ("Camera" === gltf.cameras[0].parent.name) currentCamera = gltf.cameras[0]
-              }
+              cameraAnimation = new AnimationManager(child, gltf.animations);
+              cameraManager = new CameraManager(cameraAnimation);
+
+              // if ("Camera" === gltf.cameras[0].parent.name) currentCamera = gltf.cameras[0]
+            } else if ("atelier_03" === child.name) {
+              atelierV04Group.add(child)
+            }
           })
         })
       })
@@ -183,14 +187,14 @@ const SingleAtelierPage = () => {
       */
       // Base camera
       let camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-      const newCam = currentCamera
+      // const newCam = currentCamera
       // console.log(newCam);
       camera.position.set(0, 1, 0)
       scene.add(camera)
 
       //Camera helper
-      const helper = new THREE.CameraHelper(newCam);
-      scene.add(helper);
+      // const helper = new THREE.CameraHelper(newCam);
+      // scene.add(helper);
 
 
       // button
@@ -224,7 +228,7 @@ const SingleAtelierPage = () => {
 
 
       // Controls
-      const controls = new OrbitControls(newCam, canvas)
+      const controls = new OrbitControls(camera, canvas)
       controls.target.set(0, 0, 0)
       controls.enableDamping = true
 
@@ -302,7 +306,7 @@ const SingleAtelierPage = () => {
         // camera.lookAt(vitrailGroup.position)
 
         //update mixer
-        if(cameraAnimation) {
+        if (cameraAnimation) {
           cameraAnimation.update(deltaTime)
         }
 
@@ -311,7 +315,7 @@ const SingleAtelierPage = () => {
         // helper.update()
 
         // Render
-        renderer.render(scene, newCam)
+        renderer.render(scene, camera)
 
         // Call tick again on the next frame
         window.requestAnimationFrame(tick)
