@@ -48,7 +48,7 @@ const SingleAtelierPage = () => {
 
     let mixer = null
     let action = null
-
+    let camera = null
     // Loaders
 
     const dataMap = async () => {
@@ -74,17 +74,18 @@ const SingleAtelierPage = () => {
 
             mixer = new THREE.AnimationMixer(model)
             action = mixer.clipAction(gltf.animations[0])
-            action.setLoop( THREE.LoopOnce );
+            action.setLoop(THREE.LoopOnce);
             action.clampWhenFinished = true
-            
+          
             if ("Camera" === gltf.cameras[0].parent.name) currentCamera = gltf.cameras[0]
 
-            SetupAtelier()
+            SetupAtelier(mixer, gltf, model, action, camera)
           }
         })
       })
+
       // Elements positions
-      vitrailGroup.position.set(-1.5, 1.2, 2.2)
+      vitrailGroup.position.set(-1.5, 1, 2.2)
       vitrailGroup.rotation.set(0, Math.PI / 2, 0)
       vitrailGroup.scale.set(0.7, 0.7, 0.7)
 
@@ -180,10 +181,10 @@ const SingleAtelierPage = () => {
       * Camera
       */
       // Base camera
-      const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+      let camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
       const newCam = currentCamera
-
-      camera.position.set(0, 6, 0)
+      // console.log(newCam);
+      camera.position.set(0, 1, 0)
       scene.add(camera)
 
       //Camera helper

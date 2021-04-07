@@ -30,7 +30,7 @@
       ],
       "@nodeModules/*": [
         "node_modules/*"
-      ]
+      ],
     }
   },
   "exclude": [
