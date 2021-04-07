@@ -188,14 +188,6 @@ const SingleAtelierPage = () => {
       const ambientLight = new THREE.AmbientLight(0xffffff, 0.8)
       scene.add(ambientLight)
 
-      const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5)
-      directionalLight.position.set(0.25, 3, -2.25,)
-      directionalLight.castShadow = true
-      directionalLight.shadow.camera.far = 15
-      directionalLight.shadow.mapSize.set(1024, 1024)
-      directionalLight.shadow.normalBias = 0.05
-      scene.add(directionalLight)
-
       /**
     * Sizes
     */
