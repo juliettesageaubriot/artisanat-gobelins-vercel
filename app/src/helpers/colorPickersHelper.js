@@ -1,6 +1,6 @@
-export const SetupColorPicker = (parent, objectToTest, vitrailObjects) => {
+export const SetupColorPicker = (vitrailGroup, objectToTest, vitrailObjects) => {
 
-  parent.children.map((objects, i) => {
+  vitrailGroup.children.map((objects, i) => {
 
     if (objects.name === "cubes") {
       let vitrailCubes = objects.children;

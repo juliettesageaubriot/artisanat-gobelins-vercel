@@ -1,9 +1,9 @@
 [
   {
-  "name": "scene-color-picker",
-  "id": "scene-1",
-  "modelUrl": "/assets/models/gltf/draco/dracoModels/vitrail.glb",
-  "enable" : true
+    "name": "scene-color-picker",
+    "id": "scene-1",
+    "modelUrl": "/assets/models/gltf/draco/dracoModels/vitrail.glb",
+    "enable" : true
   },
   {
     "name": "scene-atelier-cam",

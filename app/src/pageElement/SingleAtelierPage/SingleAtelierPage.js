@@ -10,6 +10,9 @@ import styles from "./styles.module.scss"
 import { SetupAtelier } from '@/helpers/atelierHelper';
 import { SetupColorPicker } from '@/helpers/colorPickersHelper';
 
+import AnimationManager from "@three-utils/animation.js";
+import CameraManager from "@three-utils/cameraManager.js";
+
 
 const SingleAtelierPage = () => {
   const ref = useRef(null)
@@ -49,6 +52,10 @@ const SingleAtelierPage = () => {
     let mixer = null
     let action = null
     let camera = null
+
+
+    let cameraAnimation;
+    let cameraManager;
     // Loaders
 
     const dataMap = async () => {
@@ -61,26 +68,20 @@ const SingleAtelierPage = () => {
 
       await Promise.all(Data.map(buildScene)).then((objects) => {
         objects.map((gltf, i) => {
-          const model = gltf.scene
-          let parent = gltf.scene.children[0]
-          let parentName = gltf.scene.children[0].name
+          gltf.scene.traverse(child => {
+            if("colorPickerGroup" === child.name) {
+              vitrailGroup.add(child);
+              SetupColorPicker(child, objectToTest, vitrailObjects);
+            } 
+              else if("atelierCamGroup" === child.name) {
+                atelierGroup.add(child);
 
-          if ("colorPickerGroup" === parentName) {
-            vitrailGroup.add(parent)
-            SetupColorPicker(parent, objectToTest, vitrailObjects)
-          }
-          else if ("atelierCamGroup" === parentName) {
-            atelierGroup.add(model)
-
-            mixer = new THREE.AnimationMixer(model)
-            action = mixer.clipAction(gltf.animations[0])
-            action.setLoop(THREE.LoopOnce);
-            action.clampWhenFinished = true
-          
-            if ("Camera" === gltf.cameras[0].parent.name) currentCamera = gltf.cameras[0]
-
-            SetupAtelier(mixer, gltf, model, action, camera)
-          }
+                cameraAnimation = new AnimationManager(child, gltf.animations);
+                cameraManager = new CameraManager(cameraAnimation);
+              
+                if ("Camera" === gltf.cameras[0].parent.name) currentCamera = gltf.cameras[0]
+              }
+          })
         })
       })
 
@@ -204,7 +205,20 @@ const SingleAtelierPage = () => {
 
       // 3. Add event handler
       buttonCamera1.addEventListener("click", function () {
-        action.play()
+        cameraManager.StartAnimation(0);
+      });
+      let buttonCamera2 = document.createElement("button");
+      buttonCamera2.style.position = "absolute";
+      buttonCamera2.style.top = "20px";
+      buttonCamera2.innerHTML = "Camera 1 reverse";
+
+      // 2. Append somewhere
+      body = document.getElementsByTagName("body")[0];
+      body.appendChild(buttonCamera2);
+
+      // 3. Add event handler
+      buttonCamera2.addEventListener("click", function () {
+        cameraManager.ReverseAnimation(0);
       });
       ////
 
@@ -288,8 +302,8 @@ const SingleAtelierPage = () => {
         // camera.lookAt(vitrailGroup.position)
 
         //update mixer
-        if (mixer) {
-          mixer.update(deltaTime)
+        if(cameraAnimation) {
+          cameraAnimation.update(deltaTime)
         }
 
         // Update controls
