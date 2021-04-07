@@ -27,6 +27,7 @@ const SingleAtelierPage = () => {
 
   useEffect(() => {
     const raycaster = new THREE.Raycaster();
+    const cubeTextureLoader = new THREE.CubeTextureLoader()
 
     let objectToTest = [];
     let vitrailObjects = [];
@@ -68,7 +69,7 @@ const SingleAtelierPage = () => {
       }
 
       await Promise.all(Data.map(buildScene)).then((objects) => {
-        console.log(objects);
+
         objects.map((gltf, i) => {
           gltf.scene.traverse(child => {
 
@@ -96,6 +97,21 @@ const SingleAtelierPage = () => {
           })
         })
       })
+
+      /**
+     * Environment map
+     */
+      const environmentMap = cubeTextureLoader.load([
+        'assets/textures/environmentMaps/px.png',
+        'assets/textures/environmentMaps/nx.png',
+        'assets/textures/environmentMaps/py.png',
+        'assets/textures/environmentMaps/ny.png',
+        'assets/textures/environmentMaps/pz.png',
+        'assets/textures/environmentMaps/nz.png'
+      ])
+      environmentMap.encoding = THREE.sRGBEncoding
+      scene.background = environmentMap
+      scene.environment = environmentMap
 
       // Elements positions
       vitrailGroup.position.set(-1.5, 1, 2.2)
@@ -169,8 +185,8 @@ const SingleAtelierPage = () => {
     * Lights
     */
 
-       const ambientLight = new THREE.AmbientLight(0xffffff, 0.8)
-       scene.add(ambientLight)
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.8)
+      scene.add(ambientLight)
 
       const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5)
       directionalLight.position.set(0.25, 3, -2.25,)
@@ -257,7 +273,9 @@ const SingleAtelierPage = () => {
       /**
        * Renderer
        */
-      const renderer = new THREE.WebGLRenderer()
+      const renderer = new THREE.WebGLRenderer({
+        antialias: true
+      })
       renderer.shadowMap.enabled = true
       renderer.shadowMap.type = THREE.PCFSoftShadowMap
       renderer.setSize(sizes.width, sizes.height)
