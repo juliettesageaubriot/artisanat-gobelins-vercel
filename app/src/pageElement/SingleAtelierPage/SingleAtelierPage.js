@@ -53,8 +53,8 @@ const SingleAtelierPage = () => {
 
     let mixer = null
     let action = null
+    let newCam = null
     let camera = null
-
 
     let cameraAnimation;
     let cameraManager;
@@ -98,12 +98,9 @@ const SingleAtelierPage = () => {
               cameraAnimation = new AnimationManager(child, gltf.animations);
               cameraManager = new CameraManager(cameraAnimation);
 
-              // console.log(cameraManager);
-              // console.log(gltf);
-              // if ("Camera" === gltf.cameras[0].parent.name) 
-              camera = gltf.cameras[0]
-              console.log(cameraAnimation);
-              console.log(cameraManager);
+              newCam = gltf.cameras[0]
+              // camera = gltf.cameras[0]
+              console.log(gltf);
             }
           })
         })
@@ -212,13 +209,16 @@ const SingleAtelierPage = () => {
       */
       // Base camera
       let camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-      // camera.position.set(0, 1, 0)
+      // camera = newCam
+      camera.position.set(0, 1, 0)
       scene.add(camera)
+      console.log(camera);
+
 
       //Camera helper
-      const helper = new THREE.CameraHelper(camera);
+      const helper = new THREE.CameraHelper(newCam);
+      // const helper = new THREE.CameraHelper(camera);
       scene.add(helper);
-
 
       // button
       let buttonCamera1 = document.createElement("button");
@@ -251,9 +251,9 @@ const SingleAtelierPage = () => {
 
 
       // Controls
-      // const controls = new OrbitControls(camera, canvas)
-      // controls.target.set(0, 0, 0)
-      // controls.enableDamping = true
+      const controls = new OrbitControls(camera, canvas)
+      controls.target.set(0, 0, 0)
+      controls.enableDamping = true
 
       // Resize
       window.addEventListener('resize', () => {
@@ -336,7 +336,7 @@ const SingleAtelierPage = () => {
         }
 
         // Update controls
-        // controls.update()
+        controls.update()
         // helper.update()
 
         // Render
