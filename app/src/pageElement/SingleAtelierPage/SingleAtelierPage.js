@@ -68,6 +68,25 @@ const SingleAtelierPage = () => {
         )
       }
 
+      /**
+      * Sizes
+      */
+      const sizes = {
+        width: window.innerWidth,
+        height: window.innerHeight
+      }
+
+      /**
+      * Camera
+      */
+
+      // Base camera
+      let camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+      camera.position.set(0, 1, 0)
+      scene.add(camera)
+
+
+      //Load Our Objects
       await Promise.all(Data.map(buildScene)).then((objects) => {
 
         objects.map((gltf, i) => {
@@ -94,13 +113,11 @@ const SingleAtelierPage = () => {
             // } 
             else if ("atelier_03" === child.name) {
               atelierV04Group.add(child)
-
+          
               cameraAnimation = new AnimationManager(child, gltf.animations);
               cameraManager = new CameraManager(cameraAnimation);
+              camera = gltf.cameras[0];
 
-              newCam = gltf.cameras[0]
-              // camera = gltf.cameras[0]
-              console.log(gltf);
             }
           })
         })
@@ -196,29 +213,12 @@ const SingleAtelierPage = () => {
       const ambientLight = new THREE.AmbientLight(0xffffff, 1)
       scene.add(ambientLight)
 
-      /**
-    * Sizes
-    */
-      const sizes = {
-        width: window.innerWidth,
-        height: window.innerHeight
-      }
 
-      /**
-      * Camera
-      */
-      // Base camera
-      let camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-      // camera = newCam
-      camera.position.set(0, 1, 0)
-      scene.add(camera)
-      console.log(camera);
 
 
       //Camera helper
-      const helper = new THREE.CameraHelper(newCam);
       // const helper = new THREE.CameraHelper(camera);
-      scene.add(helper);
+      // scene.add(helper);
 
       // button
       let buttonCamera1 = document.createElement("button");
@@ -251,9 +251,9 @@ const SingleAtelierPage = () => {
 
 
       // Controls
-      const controls = new OrbitControls(camera, canvas)
-      controls.target.set(0, 0, 0)
-      controls.enableDamping = true
+      // const controls = new OrbitControls(camera, canvas)
+      // controls.target.set(0, 0, 0)
+      // controls.enableDamping = true
 
       // Resize
       window.addEventListener('resize', () => {
@@ -336,7 +336,7 @@ const SingleAtelierPage = () => {
         }
 
         // Update controls
-        controls.update()
+        // controls.update()
         // helper.update()
 
         // Render
