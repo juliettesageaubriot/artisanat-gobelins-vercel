@@ -82,7 +82,7 @@ const SingleAtelierPage = () => {
 
       // Base camera
       let camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-      camera.position.set(0, 1, 0)
+      // camera.position.set(0, 1, 0)
       scene.add(camera)
 
 
@@ -100,7 +100,7 @@ const SingleAtelierPage = () => {
             }
 
             if ("colorPickerGroup" === child.name) {
-              vitrailGroup.add(child);
+              // vitrailGroup.add(child);
               SetupColorPicker(child, objectToTest, vitrailObjects);
             }
             // else if ("atelierCamGroup" === child.name) {
@@ -113,10 +113,12 @@ const SingleAtelierPage = () => {
             // } 
             else if ("atelier_03" === child.name) {
               atelierV04Group.add(child)
-          
+
               cameraAnimation = new AnimationManager(child, gltf.animations);
               cameraManager = new CameraManager(cameraAnimation);
               camera = gltf.cameras[0];
+
+              console.log(gltf);
 
             }
           })
@@ -214,13 +216,11 @@ const SingleAtelierPage = () => {
       scene.add(ambientLight)
 
 
-
-
       //Camera helper
       // const helper = new THREE.CameraHelper(camera);
       // scene.add(helper);
 
-      // button
+      // button animation 1
       let buttonCamera1 = document.createElement("button");
       buttonCamera1.style.position = "absolute";
       buttonCamera1.style.top = 0;
@@ -234,19 +234,49 @@ const SingleAtelierPage = () => {
       buttonCamera1.addEventListener("click", function () {
         cameraManager.StartAnimation(0);
       });
-      let buttonCamera2 = document.createElement("button");
-      buttonCamera2.style.position = "absolute";
-      buttonCamera2.style.top = "20px";
-      buttonCamera2.innerHTML = "Camera 1 reverse";
+      let buttonCameraReverse1 = document.createElement("button");
+      buttonCameraReverse1.style.position = "absolute";
+      buttonCameraReverse1.style.top = "20px";
+      buttonCameraReverse1.innerHTML = "Camera 1 reverse";
 
       // 2. Append somewhere
       body = document.getElementsByTagName("body")[0];
+      body.appendChild(buttonCameraReverse1);
+
+      // 3. Add event handler
+      buttonCameraReverse1.addEventListener("click", function () {
+        cameraManager.ReverseAnimation(0);
+      });
+
+      ///////////
+      // button 2
+      let buttonCamera2 = document.createElement("button");
+      buttonCamera2.style.position = "absolute";
+      buttonCamera2.style.top = "80px";
+      buttonCamera2.innerHTML = "Camera 2";
+
+      // 2. Append somewhere
+      // let body = document.getElementsByTagName("body")[0];
       body.appendChild(buttonCamera2);
 
       // 3. Add event handler
       buttonCamera2.addEventListener("click", function () {
-        cameraManager.ReverseAnimation(0);
+        cameraManager.StartAnimation(1);
       });
+      let buttonCameraReverse2 = document.createElement("button");
+      buttonCameraReverse2.style.position = "absolute";
+      buttonCameraReverse2.style.top = "100px";
+      buttonCameraReverse2.innerHTML = "Camera 2 reverse";
+
+      // 2. Append somewhere
+      body = document.getElementsByTagName("body")[0];
+      body.appendChild(buttonCameraReverse2);
+
+      // 3. Add event handler
+      buttonCameraReverse2.addEventListener("click", function () {
+        cameraManager.ReverseAnimation(1);
+      });
+
       ////
 
 
@@ -269,7 +299,6 @@ const SingleAtelierPage = () => {
         renderer.setSize(sizes.width, sizes.height)
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
       })
-
 
       /**
        * Renderer
