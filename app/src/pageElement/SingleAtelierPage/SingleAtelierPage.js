@@ -10,7 +10,7 @@ import styles from "./styles.module.scss"
 import { SetupAtelier } from '@/helpers/atelierHelper';
 import { SetupColorPicker } from '@/helpers/colorPickersHelper';
 
-import AnimationManager from "@three-utils/animation.js";
+import AnimationManager from "@/three-utils/animationManager.js";
 import CameraManager from "@three-utils/cameraManager.js";
 
 
@@ -56,7 +56,7 @@ const SingleAtelierPage = () => {
     let newCam = null
     let camera = null
 
-    let cameraAnimation;
+    let cameraAnimations;
     let cameraManager;
     // Loaders
 
@@ -82,7 +82,7 @@ const SingleAtelierPage = () => {
 
       // Base camera
       let camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-      // camera.position.set(0, 1, 0)
+      camera.position.set(0, 1, 0)
       scene.add(camera)
 
 
@@ -103,23 +103,14 @@ const SingleAtelierPage = () => {
               // vitrailGroup.add(child);
               SetupColorPicker(child, objectToTest, vitrailObjects);
             }
-            // else if ("atelierCamGroup" === child.name) {
-            //   // atelierGroup.add(child);
-
-            //   cameraAnimation = new AnimationManager(child, gltf.animations);
-            //   cameraManager = new CameraManager(cameraAnimation);
-
-            //   // if ("Camera" === gltf.cameras[0].parent.name) currentCamera = gltf.cameras[0]
-            // } 
             else if ("atelier_03" === child.name) {
               atelierV04Group.add(child)
 
-              cameraAnimation = new AnimationManager(child, gltf.animations);
-              cameraManager = new CameraManager(cameraAnimation);
-              camera = gltf.cameras[0];
+              const cameras = [...gltf.cameras]
 
-              console.log(gltf);
-
+              cameraAnimations = new AnimationManager(child, gltf.animations);
+              cameraManager = new CameraManager(camera, cameras, cameraAnimations);
+              // camera = gltf.cameras[0];
             }
           })
         })
@@ -281,9 +272,9 @@ const SingleAtelierPage = () => {
 
 
       // Controls
-      // const controls = new OrbitControls(camera, canvas)
-      // controls.target.set(0, 0, 0)
-      // controls.enableDamping = true
+      const controls = new OrbitControls(camera, canvas)
+      controls.target.set(0, 0, 0)
+      controls.enableDamping = true
 
       // Resize
       window.addEventListener('resize', () => {
@@ -360,12 +351,12 @@ const SingleAtelierPage = () => {
         // camera.lookAt(vitrailGroup.position)
 
         //update mixer
-        if (cameraAnimation) {
-          cameraAnimation.update(deltaTime)
+        if (cameraAnimations) {
+          cameraAnimations.update(deltaTime)
         }
 
         // Update controls
-        // controls.update()
+        controls.update()
         // helper.update()
 
         // Render
