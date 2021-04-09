@@ -13,12 +13,15 @@ import { SetupColorPicker } from '@helpers/colorPickersHelper';
 import AnimationManager from "@three-utils/animationManager.js";
 import CameraManager from "@three-utils/cameraManager.js";
 
+import TheBreadcrumb from '@components/Breadcrumb/TheBreadcrumb';
+import useBreadcrumb from '@hooks/useBreadcrumb'
 
 const SingleAtelierPage = () => {
+  const { isShowingBreadcrumb, toggle } = useBreadcrumb();
+
   const ref = useRef(null)
   const cursorColorPickerContainer = useRef(null);
   const cursorColorPickerInner = useRef(null);
-
 
   const loader = new GLTFLoader()
   const dracoLoader = new DRACOLoader()
@@ -54,7 +57,7 @@ const SingleAtelierPage = () => {
     let cameras = [];
 
     //Sizes
-     const sizes = {
+    const sizes = {
       width: window.innerWidth,
       height: window.innerHeight
     }
@@ -192,32 +195,34 @@ const SingleAtelierPage = () => {
       window.addEventListener('pointerup', handleMouseUp)
 
       /**
-    * Lights
-    */
+      * Lights
+      */
 
       const ambientLight = new THREE.AmbientLight(0xffffff, 1)
       scene.add(ambientLight)
-
 
       //Camera helper
       // const helper = new THREE.CameraHelper(camera);
       // scene.add(helper);
 
       // button animation 1
-      let buttonCamera1 = document.createElement("button");
-      buttonCamera1.style.position = "absolute";
-      buttonCamera1.style.top = 0;
-      buttonCamera1.innerHTML = "Camera 1";
+      // let buttonCamera1 = document.createElement("button");
+      // buttonCamera1.style.position = "absolute";
+      // buttonCamera1.style.top = 0;
+      // buttonCamera1.innerHTML = "Camera 1";
 
-      // 2. Append somewhere
+      // // 2. Append somewhere
       let body = document.getElementsByTagName("body")[0];
-      body.appendChild(buttonCamera1);
+      // body.appendChild(buttonCamera1);
 
-      // 3. Add event handler
-      buttonCamera1.addEventListener("click", function () {
-        camera = cameras[0];
-        cameraManager.StartAnimation(0);
-      });
+      // // 3. Add event handler
+      // buttonCamera1.addEventListener("click", function () {
+      //   camera = cameras[0];
+      //   cameraManager.StartAnimation(0);
+      //   toggle()
+      //   console.log(isShowingBreadcrumb);
+      // });
+
       let buttonCameraReverse1 = document.createElement("button");
       buttonCameraReverse1.style.position = "absolute";
       buttonCameraReverse1.style.top = "20px";
@@ -283,8 +288,8 @@ const SingleAtelierPage = () => {
         camera.updateProjectionMatrix()
 
         // Update renderer
-        renderer.setSize(sizes.width, sizes.height)
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+        renderer.setSize(sizes.width, sizes.height)
       })
 
       /**
@@ -371,12 +376,34 @@ const SingleAtelierPage = () => {
 
 
 
+  useEffect(() => {
+    let buttonCamera1 = document.createElement("button");
+    buttonCamera1.style.position = "absolute";
+    buttonCamera1.style.top = 0;
+    buttonCamera1.innerHTML = "Camera 1";
+
+    // 2. Append somewhere
+    let body = document.getElementsByTagName("body")[0];
+    body.appendChild(buttonCamera1);
+
+    // 3. Add event handler
+    buttonCamera1.addEventListener("click", function () {
+      // camera = cameras[0];
+      // cameraManager.StartAnimation(0);
+      toggle()
+      console.log(isShowingBreadcrumb);
+    });
+  }, [toggle, isShowingBreadcrumb])
+
   return (
     <>
-      <div ref={ref} />
-      <div className={styles.colorPickerContainer} ref={cursorColorPickerContainer}>
-        <div className={styles.colorPickerInner} ref={cursorColorPickerInner}></div>
-      </div>
+      <section>
+        <TheBreadcrumb isShowing={isShowingBreadcrumb} hide={toggle} />
+        <div ref={ref} />
+        <div className={styles.colorPickerContainer} ref={cursorColorPickerContainer}>
+          <div className={styles.colorPickerInner} ref={cursorColorPickerInner}></div>
+        </div>
+      </section>
     </>
   )
 }

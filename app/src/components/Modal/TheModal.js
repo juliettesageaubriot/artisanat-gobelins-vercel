@@ -7,7 +7,7 @@ const TheModal = ({ isShowing, hide, content }) => {
   return (
     <>
       {isShowing
-        ?
+        &&
         <div className={styles['intro-modal_container']}>
           <div className={styles['intro-modal__inner']}>
             <div className={styles.modal}>
@@ -55,7 +55,6 @@ const TheModal = ({ isShowing, hide, content }) => {
           </div>
           <div className={styles.overlay}></div>
         </div>
-        : null
       }
     </>
   )

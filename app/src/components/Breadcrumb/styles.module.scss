@@ -1,6 +1,14 @@
 @import '@assets/_mandatory';
 
 .breadcrumb {
+  &_hide {
+    display: none;;
+  }
+  
+  &_visible {
+    display: block;;
+  }
+  
   &_container {
     position: absolute;
     top: 20px;
