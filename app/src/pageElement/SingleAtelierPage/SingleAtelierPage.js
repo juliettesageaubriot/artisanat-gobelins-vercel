@@ -7,10 +7,10 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import Data from "@assets/data/scenes.json"
 import styles from "./styles.module.scss"
 
-import { SetupAtelier } from '@/helpers/atelierHelper';
-import { SetupColorPicker } from '@/helpers/colorPickersHelper';
+import { SetupAtelier } from '@helpers/atelierHelper';
+import { SetupColorPicker } from '@helpers/colorPickersHelper';
 
-import AnimationManager from "@/three-utils/animationManager.js";
+import AnimationManager from "@three-utils/animationManager.js";
 import CameraManager from "@three-utils/cameraManager.js";
 
 
@@ -49,16 +49,15 @@ const SingleAtelierPage = () => {
     }
 
     // Variables
-    let currentCamera = null
-
-    let mixer = null
-    let action = null
-    let newCam = null
-    let camera = null
-
     let cameraAnimations;
     let cameraManager;
-    // Loaders
+    let cameras = [];
+
+    //Sizes
+     const sizes = {
+      width: window.innerWidth,
+      height: window.innerHeight
+    }
 
     const dataMap = async () => {
 
@@ -66,14 +65,6 @@ const SingleAtelierPage = () => {
         return loader.loadAsync(
           currentScene.modelUrl,
         )
-      }
-
-      /**
-      * Sizes
-      */
-      const sizes = {
-        width: window.innerWidth,
-        height: window.innerHeight
       }
 
       /**
@@ -106,13 +97,12 @@ const SingleAtelierPage = () => {
             else if ("atelier_03" === child.name) {
               atelierV04Group.add(child)
 
-              const cameras = [...gltf.cameras]
+              cameras = [...gltf.cameras]
 
               cameraAnimations = new AnimationManager(child, gltf.animations);
               cameraManager = new CameraManager(camera, cameras, cameraAnimations);
 
-              console.log(cameras);
-              // camera = gltf.cameras[0];
+              camera = gltf.cameras[0];
             }
           })
         })
@@ -225,6 +215,7 @@ const SingleAtelierPage = () => {
 
       // 3. Add event handler
       buttonCamera1.addEventListener("click", function () {
+        camera = cameras[0];
         cameraManager.StartAnimation(0);
       });
       let buttonCameraReverse1 = document.createElement("button");
@@ -238,6 +229,7 @@ const SingleAtelierPage = () => {
 
       // 3. Add event handler
       buttonCameraReverse1.addEventListener("click", function () {
+        camera = cameras[0];
         cameraManager.ReverseAnimation(0);
       });
 
@@ -254,6 +246,7 @@ const SingleAtelierPage = () => {
 
       // 3. Add event handler
       buttonCamera2.addEventListener("click", function () {
+        camera = cameras[1];
         cameraManager.StartAnimation(1);
       });
       let buttonCameraReverse2 = document.createElement("button");
@@ -267,6 +260,7 @@ const SingleAtelierPage = () => {
 
       // 3. Add event handler
       buttonCameraReverse2.addEventListener("click", function () {
+        camera = cameras[1];
         cameraManager.ReverseAnimation(1);
       });
 
