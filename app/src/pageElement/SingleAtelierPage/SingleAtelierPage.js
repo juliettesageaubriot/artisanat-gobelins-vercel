@@ -110,6 +110,8 @@ const SingleAtelierPage = () => {
 
               cameraAnimations = new AnimationManager(child, gltf.animations);
               cameraManager = new CameraManager(camera, cameras, cameraAnimations);
+
+              console.log(cameras);
               // camera = gltf.cameras[0];
             }
           })
@@ -272,9 +274,9 @@ const SingleAtelierPage = () => {
 
 
       // Controls
-      const controls = new OrbitControls(camera, canvas)
-      controls.target.set(0, 0, 0)
-      controls.enableDamping = true
+      // const controls = new OrbitControls(camera, canvas)
+      // controls.target.set(0, 0, 0)
+      // controls.enableDamping = true
 
       // Resize
       window.addEventListener('resize', () => {
@@ -356,7 +358,7 @@ const SingleAtelierPage = () => {
         }
 
         // Update controls
-        controls.update()
+        // controls.update()
         // helper.update()
 
         // Render
