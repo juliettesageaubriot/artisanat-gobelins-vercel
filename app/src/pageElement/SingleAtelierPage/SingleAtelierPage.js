@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
@@ -7,60 +7,66 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import Data from "@assets/data/scenes.json"
 import styles from "./styles.module.scss"
 
-import { SetupAtelier } from '@helpers/atelierHelper';
 import { SetupColorPicker } from '@helpers/colorPickersHelper';
-
-import AnimationManager from "@three-utils/animationManager.js";
-import CameraManager from "@three-utils/cameraManager.js";
 
 import TheBreadcrumb from '@components/Breadcrumb/TheBreadcrumb';
 import useBreadcrumb from '@hooks/useBreadcrumb'
+import useCameraManager from '@hooks/useCameraManager'
+import useAnimationsManager from '@hooks/useAnimationsManager'
 
 const SingleAtelierPage = () => {
   const { isShowingBreadcrumb, toggle } = useBreadcrumb();
+  const { currentCamera, cameraAnimations, currentScene, setCameras, setCameraAnimations, setCurrentCamera, setCurrentScene, startAnimation, reverseAnimation } = useCameraManager();
+  const { update } = useAnimationsManager();
 
   const ref = useRef(null)
   const cursorColorPickerContainer = useRef(null);
   const cursorColorPickerInner = useRef(null);
+
+  const raycaster = new THREE.Raycaster();
+  const cubeTextureLoader = new THREE.CubeTextureLoader()
 
   const loader = new GLTFLoader()
   const dracoLoader = new DRACOLoader()
   dracoLoader.setDecoderPath('/assets/models/gltf/draco/')
   loader.setDRACOLoader(dracoLoader)
 
+
+  let objectToTest = [];
+  let vitrailObjects = [];
+
+  // Scene
+  let scene = new THREE.Scene();
+
+  // Group
+  const vitrailGroup = new THREE.Group
+  const atelierGroup = new THREE.Group
+  const atelierV04Group = new THREE.Group
+  const cameraGroup = new THREE.Group
+  scene.add(vitrailGroup, atelierGroup, atelierV04Group, cameraGroup)
+
+  //Sizes
+  const sizes = {
+    width: null,
+    height: null
+  }
+
+  // Variables
+  let cameras = []
+  let anim = []
+  let camera
+  let cameraAnim
+  let canvas
+  let baseCam
+
   useEffect(() => {
-    const raycaster = new THREE.Raycaster();
-    const cubeTextureLoader = new THREE.CubeTextureLoader()
-
-    let objectToTest = [];
-    let vitrailObjects = [];
-
-    // Scene
-    let scene = new THREE.Scene();
-    const canvas = ref.current
-
-    // Group
-    const vitrailGroup = new THREE.Group
-    const atelierGroup = new THREE.Group
-    const atelierV04Group = new THREE.Group
-    const cameraGroup = new THREE.Group
-    scene.add(vitrailGroup, atelierGroup, atelierV04Group, cameraGroup)
-
-    // Parameters
-    const params = {
-      load: false
-    }
-
-    // Variables
-    let cameraAnimations;
-    let cameraManager;
-    let cameras = [];
 
     //Sizes
-    const sizes = {
-      width: window.innerWidth,
-      height: window.innerHeight
-    }
+    sizes.width = window.innerWidth
+    sizes.height = window.innerHeight
+
+    canvas = ref.current
+
 
     const dataMap = async () => {
 
@@ -73,9 +79,8 @@ const SingleAtelierPage = () => {
       /**
       * Camera
       */
-
       // Base camera
-      let camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+      camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
       camera.position.set(0, 1, 0)
       scene.add(camera)
 
@@ -102,15 +107,26 @@ const SingleAtelierPage = () => {
 
               cameras = [...gltf.cameras]
 
-              cameraAnimations = new AnimationManager(child, gltf.animations);
-              cameraManager = new CameraManager(camera, cameras, cameraAnimations);
+              baseCam = gltf.cameras[0]
 
-              camera = gltf.cameras[0];
+              // camera = baseCam
+              
+              anim = [...gltf.animations]
+              
+              setCurrentScene(child)
+              // setAnimations(anim)
+
+              setCurrentCamera(camera)
+              setCameras(cameras)
+              setCameraAnimations(anim)
+              // cameraAnimations = new AnimationManager(child, gltf.animations);
+              // cameraManager = new CameraManager(camera, cameras, cameraAnimations);
+
+
             }
           })
         })
       })
-
       /**
      * Environment map
      */
@@ -202,72 +218,73 @@ const SingleAtelierPage = () => {
       scene.add(ambientLight)
 
       //Camera helper
-      // const helper = new THREE.CameraHelper(camera);
+      // const helper = new THREE.CameraHelper(cameraAnim);
       // scene.add(helper);
 
-      // button animation 1
-      // let buttonCamera1 = document.createElement("button");
-      // buttonCamera1.style.position = "absolute";
-      // buttonCamera1.style.top = 0;
-      // buttonCamera1.innerHTML = "Camera 1";
+      // // button animation 1
+      // // let buttonCamera1 = document.createElement("button");
+      // // buttonCamera1.style.position = "absolute";
+      // // buttonCamera1.style.top = 0;
+      // // buttonCamera1.innerHTML = "Camera 1";
+
+      // // // 2. Append somewhere
+      // let body = document.getElementsByTagName("body")[0];
+      // // body.appendChild(buttonCamera1);
+
+      // // // 3. Add event handler
+      // // buttonCamera1.addEventListener("click", function () {
+      // //   camera = cameras[0];
+      // //   cameraManager.StartAnimation(0);
+      // //   toggle()
+      // //   console.log(isShowingBreadcrumb);
+      // // });
+
+      // let buttonCameraReverse1 = document.createElement("button");
+      // buttonCameraReverse1.style.position = "absolute";
+      // buttonCameraReverse1.style.top = "20px";
+      // buttonCameraReverse1.innerHTML = "Camera 1 reverse";
 
       // // 2. Append somewhere
-      let body = document.getElementsByTagName("body")[0];
-      // body.appendChild(buttonCamera1);
+      // body = document.getElementsByTagName("body")[0];
+      // body.appendChild(buttonCameraReverse1);
 
       // // 3. Add event handler
-      // buttonCamera1.addEventListener("click", function () {
+      // buttonCameraReverse1.addEventListener("click", function () {
       //   camera = cameras[0];
-      //   cameraManager.StartAnimation(0);
-      //   toggle()
-      //   console.log(isShowingBreadcrumb);
+      //   cameraManager.ReverseAnimation(0);
       // });
 
-      let buttonCameraReverse1 = document.createElement("button");
-      buttonCameraReverse1.style.position = "absolute";
-      buttonCameraReverse1.style.top = "20px";
-      buttonCameraReverse1.innerHTML = "Camera 1 reverse";
+      // ///////////
+      // // button 2
+      // let buttonCamera2 = document.createElement("button");
+      // buttonCamera2.style.position = "absolute";
+      // buttonCamera2.style.top = "80px";
+      // buttonCamera2.innerHTML = "Camera 2";
 
-      // 2. Append somewhere
-      body = document.getElementsByTagName("body")[0];
-      body.appendChild(buttonCameraReverse1);
+      // // 2. Append somewhere
+      // // let body = document.getElementsByTagName("body")[0];
+      // body.appendChild(buttonCamera2);
 
-      // 3. Add event handler
-      buttonCameraReverse1.addEventListener("click", function () {
-        camera = cameras[0];
-        cameraManager.ReverseAnimation(0);
-      });
+      // // 3. Add event handler
+      // buttonCamera2.addEventListener("click", function () {
+      //   camera = cameras[1];
+      //   cameraManager.StartAnimation(1);
+      //   console.log(cameraManager);
+      // });
+      // let buttonCameraReverse2 = document.createElement("button");
+      // buttonCameraReverse2.style.position = "absolute";
+      // buttonCameraReverse2.style.top = "100px";
+      // buttonCameraReverse2.innerHTML = "Camera 2 reverse";
 
-      ///////////
-      // button 2
-      let buttonCamera2 = document.createElement("button");
-      buttonCamera2.style.position = "absolute";
-      buttonCamera2.style.top = "80px";
-      buttonCamera2.innerHTML = "Camera 2";
+      // // 2. Append somewhere
+      // body = document.getElementsByTagName("body")[0];
+      // body.appendChild(buttonCameraReverse2);
 
-      // 2. Append somewhere
-      // let body = document.getElementsByTagName("body")[0];
-      body.appendChild(buttonCamera2);
-
-      // 3. Add event handler
-      buttonCamera2.addEventListener("click", function () {
-        camera = cameras[1];
-        cameraManager.StartAnimation(1);
-      });
-      let buttonCameraReverse2 = document.createElement("button");
-      buttonCameraReverse2.style.position = "absolute";
-      buttonCameraReverse2.style.top = "100px";
-      buttonCameraReverse2.innerHTML = "Camera 2 reverse";
-
-      // 2. Append somewhere
-      body = document.getElementsByTagName("body")[0];
-      body.appendChild(buttonCameraReverse2);
-
-      // 3. Add event handler
-      buttonCameraReverse2.addEventListener("click", function () {
-        camera = cameras[1];
-        cameraManager.ReverseAnimation(1);
-      });
+      // // 3. Add event handler
+      // buttonCameraReverse2.addEventListener("click", function () {
+      //   camera = cameras[1];
+      //   cameraManager.ReverseAnimation(1);
+      // });
 
       ////
 
@@ -344,17 +361,15 @@ const SingleAtelierPage = () => {
             // console.log(currentIntersect.object.name);
 
           }
-
           currentIntersect = null
         }
 
         // Camera
         // camera.lookAt(vitrailGroup.position)
 
-        //update mixer
-        if (cameraAnimations) {
-          cameraAnimations.update(deltaTime)
-        }
+
+        // update mixer animation
+        update(deltaTime)
 
         // Update controls
         // controls.update()
@@ -377,23 +392,48 @@ const SingleAtelierPage = () => {
 
 
   useEffect(() => {
+
+
+    if (currentCamera) {
+      camera = currentCamera
+      console.log(camera);
+    }
+
+    // button animation 1
     let buttonCamera1 = document.createElement("button");
     buttonCamera1.style.position = "absolute";
     buttonCamera1.style.top = 0;
     buttonCamera1.innerHTML = "Camera 1";
 
-    // 2. Append somewhere
+    // // 2. Append somewhere
     let body = document.getElementsByTagName("body")[0];
     body.appendChild(buttonCamera1);
 
     // 3. Add event handler
     buttonCamera1.addEventListener("click", function () {
-      // camera = cameras[0];
       // cameraManager.StartAnimation(0);
+      startAnimation(0)
       toggle()
-      console.log(isShowingBreadcrumb);
     });
-  }, [toggle, isShowingBreadcrumb])
+
+
+    // button animation 1
+    let buttonCamera2 = document.createElement("button");
+    buttonCamera2.style.position = "absolute";
+    buttonCamera2.style.top = "40px";
+    buttonCamera2.innerHTML = "Camera 2";
+
+    // // 2. Append somewhere
+    // let body = document.getElementsByTagName("body")[0];
+    body.appendChild(buttonCamera2);
+
+    // 3. Add event handler
+    buttonCamera2.addEventListener("click", function () {
+      startAnimation(1)
+      toggle()
+    });
+
+  }, [toggle, startAnimation, currentCamera])
 
   return (
     <>
