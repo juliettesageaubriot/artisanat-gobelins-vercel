@@ -415,11 +415,18 @@
 
 import React, { useRef, Suspense, useState } from 'react'
 import { Canvas, useFrame, useLoader } from '@react-three/fiber'
-import { OrbitControls } from '@react-three/drei'
+import { OrbitControls, useProgress, Html } from '@react-three/drei'
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { Perf, usePerf } from 'r3f-perf'
 import { useControls } from "leva"
+
+
+function Loader() {
+  const { active, progress, errors, item, loaded, total } = useProgress()
+  return <Html center>{progress} % loaded</Html>
+}
+
 
 const PerfHook = () => {
   const { gl, log } = usePerf();
@@ -443,15 +450,21 @@ const Model = ({ url }) => {
 // }
 
 const SingleAtelierPage = () => {
-  const { name, aNumber } = useControls({ name: "World", aNumber: 0 })
-  
+  const {
+    name,
+    aNumber,
+  } = useControls({
+    name: "World",
+    aNumber: 0,
+  })
+
   return (
     <>
       <div>Hey {name}, hello! {aNumber}</div>
       <Canvas
         camera={{ position: [0, 0, 2] }}
       >
-        <Suspense fallback={null}>
+        <Suspense fallback={<Loader />}>
           <Model url={"/assets/models/gltf/draco/dracoModels/atelier-v04.glb"} />
           <ambientLight intensity={1} />
           <pointLight position={[0, 0, 0]} />
