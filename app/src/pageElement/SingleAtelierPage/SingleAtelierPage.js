@@ -413,20 +413,21 @@
 
 // export default SingleAtelierPage
 
-import React, { useRef, Suspense, useState } from 'react'
-import { Canvas, useFrame, useLoader } from '@react-three/fiber'
-import { OrbitControls, useProgress, Html } from '@react-three/drei'
+import React, { useEffect, useRef, Suspense, useState, useLayoutEffect } from 'react'
+import { Canvas, useFrame, useThree, render } from '@react-three/fiber'
+import { Html, OrbitControls, useProgress, PerspectiveCamera, useHelper, useGLTF } from '@react-three/drei'
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { Perf, usePerf } from 'r3f-perf'
 import { useControls } from "leva"
+import * as THREE from 'three';
+import { CameraHelper } from 'three'
 
 
-function Loader() {
+const Loader = () => {
   const { active, progress, errors, item, loaded, total } = useProgress()
   return <Html center>{progress} % loaded</Html>
 }
-
 
 const PerfHook = () => {
   const { gl, log } = usePerf();
@@ -434,42 +435,74 @@ const PerfHook = () => {
   return null;
 };
 
+let camerasArray
+let currentCamera
 
-const Model = ({ url }) => {
-  const gltf = useLoader(GLTFLoader, url, loader => {
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath('/assets/models/gltf/draco/');
-    loader.setDRACOLoader(dracoLoader);
-  });
-  console.log(gltf);
-  return <primitive object={gltf.scene} />;
+const Model = (props) => {
+  const group = useRef();
+
+  // Drei's useGLTF hook sets up draco automatically, that's how it differs from useLoader(GLTFLoader, url)
+  // { nodes, materials } are extras that come from useLoader, these do not exist in threejs/GLTFLoader
+  // nodes is a named collection of meshes, materials a named collection of materials
+  const { scene, nodes, materials, animations, cameras } = useGLTF("/assets/models/gltf/draco/dracoModels/atelier-v04.glb")
+
+  camerasArray = cameras
+
+  return (
+    <group {...props}>
+      <primitive object={scene} dispose={null} />
+    </group>
+  )
 }
 
-// const Camera = ({ url }) => {
-//   return <primitive object={camera} />;
-// }
+const Camera = () => {
+  
+  return (
+    <PerspectiveCamera
+      // makeDefault // Registers it as the default camera system-wide (default=false)
+    // {...props} // All THREE.PerspectiveCamera props are valid
+    >
+      <mesh />
+    </PerspectiveCamera>)
+}
 
 const SingleAtelierPage = () => {
+  const ref = useRef()
+  const cameraBtn = useRef()
+
   const {
-    name,
-    aNumber,
+    enableOrbitControl
   } = useControls({
-    name: "World",
-    aNumber: 0,
+    enableOrbitControl: true
   })
+
+
+  const handleCamera = () => {
+
+  }
+
+  // setCamerasArray(cameras)
+  // console.log(camerasArray);
 
   return (
     <>
-      <div>Hey {name}, hello! {aNumber}</div>
-      <Canvas
-        camera={{ position: [0, 0, 2] }}
-      >
+
+      <button ref={cameraBtn} onClick={handleCamera}>
+        Camera 1
+      </button>
+
+      <Canvas pixelRatio={[1, 2]}>
+        <ambientLight intensity={0.3} />
+        <spotLight intensity={0.3} angle={0.1} penumbra={1} position={[5, 25, 20]} />
         <Suspense fallback={<Loader />}>
-          <Model url={"/assets/models/gltf/draco/dracoModels/atelier-v04.glb"} />
-          <ambientLight intensity={1} />
-          <pointLight position={[0, 0, 0]} />
+          <Camera />
+          <Model />
+          {/* <Environment files="royal_esplanade_1k.hdr" /> */}
+          {/* <ContactShadows rotation-x={Math.PI / 2} position={[0, -0.8, 0]} opacity={0.25} width={10} height={10} blur={2} far={1} /> */}
         </Suspense>
-        <OrbitControls />
+        {enableOrbitControl === true && <OrbitControls
+          // minPolarAngle={Math.PI / 2} maxPolarAngle={Math.PI / 2} 
+          enableZoom={true} enablePan={true} />}
         <Perf trackGPU={true} openByDefault={true} showGraph={true} position={'bottom-right'} />
       </Canvas>
     </>
