@@ -418,35 +418,15 @@ import { Canvas, useFrame, useLoader } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
+import { Perf, usePerf } from 'r3f-perf'
+import { useControls } from "leva"
 
+const PerfHook = () => {
+  const { gl, log } = usePerf();
+  console.log(gl, log);
+  return null;
+};
 
-const MyBox = (props) => {
-  const mesh = useRef()
-
-  // const [hovered, setHover] = useState(false)
-  // const [active, setActive] = useState(false)
-
-  useFrame(() => (mesh.current.rotation.x = mesh.current.rotation.y += 0.01))
-
-  //   return (
-  //     <Box
-  //       args={[1, 1, 1]}
-  //       {...props}
-  //       ref={mesh}
-  //       scale={active ? [6, 6, 6] : [5, 5, 5]}
-  //       onClick={() => setActive(!active)}
-  //       onPointerOver={() => setHover(true)}
-  //       onPointerOut={() => setHover(false)}
-  //     >
-  //       <meshStandardMaterial
-  //         attach="material"
-  //         color={hovered ? '#2b6c76' : '#720b23'}
-  //       />
-  //     </Box>
-  //   )
-  // }
-
-}
 
 const Model = ({ url }) => {
   const gltf = useLoader(GLTFLoader, url, loader => {
@@ -454,20 +434,30 @@ const Model = ({ url }) => {
     dracoLoader.setDecoderPath('/assets/models/gltf/draco/');
     loader.setDRACOLoader(dracoLoader);
   });
+  console.log(gltf);
   return <primitive object={gltf.scene} />;
 }
 
-const SingleAtelierPage = () => {
+// const Camera = ({ url }) => {
+//   return <primitive object={camera} />;
+// }
 
+const SingleAtelierPage = () => {
+  const { name, aNumber } = useControls({ name: "World", aNumber: 0 })
+  
   return (
     <>
-      <Canvas camera={{ position: [0, 0, 35] }}>
+      <div>Hey {name}, hello! {aNumber}</div>
+      <Canvas
+        camera={{ position: [0, 0, 2] }}
+      >
         <Suspense fallback={null}>
           <Model url={"/assets/models/gltf/draco/dracoModels/atelier-v04.glb"} />
           <ambientLight intensity={1} />
-          <pointLight position={[40, 40, 40]} />
+          <pointLight position={[0, 0, 0]} />
         </Suspense>
         <OrbitControls />
+        <Perf trackGPU={true} openByDefault={true} showGraph={true} position={'bottom-right'} />
       </Canvas>
     </>
   )
