@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
@@ -6,6 +6,11 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 import Data from "@assets/data/scenes.json"
 import styles from "./styles.module.scss"
+
+import AnimationManager from '@three-utils/animationManager'
+import CameraManager from '@three-utils/cameraManager'
+import StepBreadcrumb from '@three-utils/stepBreadcrumb'
+
 
 import { SetupColorPicker } from '@helpers/colorPickersHelper';
 
@@ -16,8 +21,6 @@ import useAnimationsManager from '@hooks/useAnimationsManager'
 
 const SingleAtelierPage = () => {
   const { isShowingBreadcrumb, toggle } = useBreadcrumb();
-  const { currentCamera, cameraAnimations, currentScene, setCameras, setCameraAnimations, setCurrentCamera, setCurrentScene, startAnimation, reverseAnimation } = useCameraManager();
-  const { update } = useAnimationsManager();
 
   const ref = useRef(null)
   const cursorColorPickerContainer = useRef(null);
@@ -52,6 +55,12 @@ const SingleAtelierPage = () => {
   }
 
   // Variables
+  let cameraAnimations
+  let cameraManager
+  let stepBreadcrumb
+
+  let stepBreadcrumbNumber = 0
+
   let cameras = []
   let anim = []
   let camera
@@ -84,7 +93,6 @@ const SingleAtelierPage = () => {
       camera.position.set(0, 1, 0)
       scene.add(camera)
 
-
       //Load Our Objects
       await Promise.all(Data.map(buildScene)).then((objects) => {
 
@@ -101,8 +109,7 @@ const SingleAtelierPage = () => {
             if ("colorPickerGroup" === child.name) {
               // vitrailGroup.add(child);
               SetupColorPicker(child, objectToTest, vitrailObjects);
-            }
-            else if ("atelier_03" === child.name) {
+            } else if ("atelier_03" === child.name) {
               atelierV04Group.add(child)
 
               cameras = [...gltf.cameras]
@@ -110,18 +117,12 @@ const SingleAtelierPage = () => {
               baseCam = gltf.cameras[0]
 
               // camera = baseCam
-              
+
+
               anim = [...gltf.animations]
-              
-              setCurrentScene(child)
-              // setAnimations(anim)
-
-              setCurrentCamera(camera)
-              setCameras(cameras)
-              setCameraAnimations(anim)
-              // cameraAnimations = new AnimationManager(child, gltf.animations);
-              // cameraManager = new CameraManager(camera, cameras, cameraAnimations);
-
+              cameraAnimations = new AnimationManager(child, gltf.animations);
+              cameraManager = new CameraManager(camera, cameras, cameraAnimations);
+              stepBreadcrumb = new StepBreadcrumb(stepBreadcrumbNumber)
 
             }
           })
@@ -221,23 +222,27 @@ const SingleAtelierPage = () => {
       // const helper = new THREE.CameraHelper(cameraAnim);
       // scene.add(helper);
 
-      // // button animation 1
-      // // let buttonCamera1 = document.createElement("button");
-      // // buttonCamera1.style.position = "absolute";
-      // // buttonCamera1.style.top = 0;
-      // // buttonCamera1.innerHTML = "Camera 1";
+      // button animation 1
+      let buttonCamera1 = document.createElement("button");
+      buttonCamera1.style.position = "absolute";
+      buttonCamera1.style.top = "100px";
+      buttonCamera1.innerHTML = "Camera 1";
 
-      // // // 2. Append somewhere
-      // let body = document.getElementsByTagName("body")[0];
-      // // body.appendChild(buttonCamera1);
+      // 2. Append somewhere
+      let body = document.getElementsByTagName("body")[0];
+      body.appendChild(buttonCamera1);
 
-      // // // 3. Add event handler
-      // // buttonCamera1.addEventListener("click", function () {
-      // //   camera = cameras[0];
-      // //   cameraManager.StartAnimation(0);
-      // //   toggle()
-      // //   console.log(isShowingBreadcrumb);
-      // // });
+      // 3. Add event handler
+      buttonCamera1.addEventListener("click", function () {
+        // camera = cameras[0];
+        cameraManager.StartAnimation(0);
+        stepBreadcrumb.AddStep(1)
+
+        console.log(stepBreadcrumbNumber);
+        // toggle()
+        // console.log(isShowingBreadcrumb);
+      });
+
 
       // let buttonCameraReverse1 = document.createElement("button");
       // buttonCameraReverse1.style.position = "absolute";
@@ -250,8 +255,9 @@ const SingleAtelierPage = () => {
 
       // // 3. Add event handler
       // buttonCameraReverse1.addEventListener("click", function () {
-      //   camera = cameras[0];
-      //   cameraManager.ReverseAnimation(0);
+      //   // camera = cameras[0];
+      //   startAnimation(0)
+      //   // cameraManager.ReverseAnimation(0);
       // });
 
       // ///////////
@@ -369,7 +375,10 @@ const SingleAtelierPage = () => {
 
 
         // update mixer animation
-        update(deltaTime)
+        if (cameraAnimations) {
+          cameraAnimations.update(deltaTime)
+        }
+
 
         // Update controls
         // controls.update()
@@ -389,56 +398,10 @@ const SingleAtelierPage = () => {
 
   }, [])
 
-
-
-  useEffect(() => {
-
-
-    if (currentCamera) {
-      camera = currentCamera
-      console.log(camera);
-    }
-
-    // button animation 1
-    let buttonCamera1 = document.createElement("button");
-    buttonCamera1.style.position = "absolute";
-    buttonCamera1.style.top = 0;
-    buttonCamera1.innerHTML = "Camera 1";
-
-    // // 2. Append somewhere
-    let body = document.getElementsByTagName("body")[0];
-    body.appendChild(buttonCamera1);
-
-    // 3. Add event handler
-    buttonCamera1.addEventListener("click", function () {
-      // cameraManager.StartAnimation(0);
-      startAnimation(0)
-      toggle()
-    });
-
-
-    // button animation 1
-    let buttonCamera2 = document.createElement("button");
-    buttonCamera2.style.position = "absolute";
-    buttonCamera2.style.top = "40px";
-    buttonCamera2.innerHTML = "Camera 2";
-
-    // // 2. Append somewhere
-    // let body = document.getElementsByTagName("body")[0];
-    body.appendChild(buttonCamera2);
-
-    // 3. Add event handler
-    buttonCamera2.addEventListener("click", function () {
-      startAnimation(1)
-      toggle()
-    });
-
-  }, [toggle, startAnimation, currentCamera])
-
   return (
     <>
       <section>
-        <TheBreadcrumb isShowing={isShowingBreadcrumb} hide={toggle} />
+        <TheBreadcrumb isShowing={isShowingBreadcrumb} hide={toggle} step={stepBreadcrumbNumber} />
         <div ref={ref} />
         <div className={styles.colorPickerContainer} ref={cursorColorPickerContainer}>
           <div className={styles.colorPickerInner} ref={cursorColorPickerInner}></div>

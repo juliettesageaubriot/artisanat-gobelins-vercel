@@ -4,13 +4,13 @@ import useAnimationsManager from '@hooks/useAnimationsManager'
 const useCameraManager = () => {
   const [currentCamera, setCurrentCamera] = useState(null);
   const [cameras, setCameras] = useState(null);
-  const [cameraAnimations, setCameraAnimations] = useState(null);
-  const [currentScene, setCurrentScene] = useState(null);
+  // const [cameraAnimations, setCameraAnimations] = useState(null);
   
-  const { playClipByIndex } = useAnimationsManager(cameraAnimations, currentScene);
+  const { playClipByIndex } = useAnimationsManager();
 
   const startAnimation = (index) => {
     setCurrentCamera(cameras[index]);
+    console.log(currentCamera);
     // playClipByIndex(index)
   }
 
@@ -21,12 +21,8 @@ const useCameraManager = () => {
 
   return {
     currentCamera,
-    cameraAnimations,
-    currentScene,
-    setCurrentScene,
     setCurrentCamera,
     setCameras,
-    setCameraAnimations,
     startAnimation,
     reverseAnimation
   };

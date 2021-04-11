@@ -1,23 +1,24 @@
 import { useState } from "react";
 import * as THREE from 'three'
 
-const useAnimationsManager = (cameraAnimations, currentScene) => {
-  // const [currentScene, setCurrentScene] = useState(null);
-  // const [animations, setAnimations] = useState(null);
-
+const useAnimationsManager = (cameraAnimations) => {
+  const [currentScene, setCurrentScene] = useState(null);
+  const [animations, setAnimations] = useState(null);
   let mixer = new THREE.AnimationMixer(currentScene);
   let action
 
   const playClipByIndex = (index) => {
     // console.log('click', cameraAnimations[index])
 
-    // action = mixer.clipAction(cameraAnimations[index]);
-    // action.reset()
-    // action.timeScale = 1;
-    // action.setLoop(THREE.LoopOnce);
-    // action.clampWhenFinished = true;
-    // action.play()
-    // console.log(action);
+    console.log(animations);
+
+    action = mixer.clipAction(animations[index]);
+    action.reset()
+    action.timeScale = 1;
+    action.setLoop(THREE.LoopOnce);
+    action.clampWhenFinished = true;
+    action.play()
+    console.log(action);
   }
 
   const playClipReverseByIndex = (index) => {
@@ -48,6 +49,10 @@ const useAnimationsManager = (cameraAnimations, currentScene) => {
   }
 
   return {
+    currentScene,
+    setCurrentScene,
+    animations, 
+    setAnimations,
     playClipByIndex,
     playClipReverseByIndex,
     playClipReverseByIndex_Forced,
