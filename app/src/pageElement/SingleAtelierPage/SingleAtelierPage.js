@@ -414,7 +414,7 @@
 // export default SingleAtelierPage
 
 import React, { useEffect, useRef, Suspense, useState, useLayoutEffect } from 'react'
-import { Canvas, useFrame, useThree, render } from '@react-three/fiber'
+import { Canvas, useFrame, useThree, render, useResource } from '@react-three/fiber'
 import { Html, OrbitControls, useProgress, PerspectiveCamera, useHelper, useGLTF } from '@react-three/drei'
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
@@ -422,7 +422,6 @@ import { Perf, usePerf } from 'r3f-perf'
 import { useControls } from "leva"
 import * as THREE from 'three';
 import { CameraHelper } from 'three'
-
 
 const Loader = () => {
   const { active, progress, errors, item, loaded, total } = useProgress()
@@ -435,54 +434,79 @@ const PerfHook = () => {
   return null;
 };
 
-let camerasArray
-let currentCamera
-
 const Model = (props) => {
   const group = useRef();
 
   // Drei's useGLTF hook sets up draco automatically, that's how it differs from useLoader(GLTFLoader, url)
   // { nodes, materials } are extras that come from useLoader, these do not exist in threejs/GLTFLoader
   // nodes is a named collection of meshes, materials a named collection of materials
-  const { scene, nodes, materials, animations, cameras } = useGLTF("/assets/models/gltf/draco/dracoModels/atelier-v04.glb")
+  const { scene: sceneModel, nodes, materials, animations, cameras: camerasArray } = useGLTF("/assets/models/gltf/draco/dracoModels/atelier-v04.glb")
 
-  camerasArray = cameras
+  console.log(sceneModel); // Ma scene
+  console.log(camerasArray); // Mon tableau de cameras, ce sont les caméras du blender que je dois récupérer
+  console.log(animations); // Mon tableau d'animations liée aux caméras
 
   return (
     <group {...props}>
-      <primitive object={scene} dispose={null} />
+      <primitive object={sceneModel} dispose={null} />
+      <Camera cameraNode={camerasArray[0]} cameraParent={camerasArray[0].parent} />
     </group>
   )
 }
 
-const Camera = () => {
-  
+
+
+
+const Camera = ({ cameraNode, cameraParent }) => {
+  const { camera } = useThree()
+
+  useEffect(() => {
+    camera.position.copy(cameraParent.position) //Dans l'idéal, ça devrait être la cameraNode
+    camera.rotation.copy(cameraNode.rotation)
+    // La rotation est en radian et en plus de cela, ça renvoit n'importe quoi
+    camera.scale.copy(cameraNode.position)
+
+    camera.fov = cameraNode.fov
+    camera.near = cameraNode.near
+    camera.far = cameraNode.far
+
+    camera.updateMatrix()
+    camera.updateMatrixWorld()
+    camera.updateProjectionMatrix()
+
+    camera.matrixWorldNeedsUpdate = true
+
+  }, [cameraNode, cameraParent, camera])
+
+  useFrame((state) => {
+    // console.log(state);
+
+    camera.updateMatrix()
+    camera.updateMatrixWorld()
+    camera.updateProjectionMatrix()
+
+    camera.matrixWorldNeedsUpdate = true
+  })
+
   return (
-    <PerspectiveCamera
-      // makeDefault // Registers it as the default camera system-wide (default=false)
-    // {...props} // All THREE.PerspectiveCamera props are valid
-    >
-      <mesh />
-    </PerspectiveCamera>)
+    null
+  )
 }
 
+
 const SingleAtelierPage = () => {
-  const ref = useRef()
   const cameraBtn = useRef()
 
   const {
     enableOrbitControl
   } = useControls({
-    enableOrbitControl: true
+    enableOrbitControl: false
   })
 
 
   const handleCamera = () => {
 
   }
-
-  // setCamerasArray(cameras)
-  // console.log(camerasArray);
 
   return (
     <>
@@ -491,18 +515,26 @@ const SingleAtelierPage = () => {
         Camera 1
       </button>
 
-      <Canvas pixelRatio={[1, 2]}>
+      <Canvas
+        pixelRatio={[1, 2]}
+        resize={{ scroll: false }}
+      // onCreated={({ camera }) => {
+      //   camera.rotation.set(10, 10, 10)
+      // }}
+      >
         <ambientLight intensity={0.3} />
         <spotLight intensity={0.3} angle={0.1} penumbra={1} position={[5, 25, 20]} />
         <Suspense fallback={<Loader />}>
-          <Camera />
           <Model />
           {/* <Environment files="royal_esplanade_1k.hdr" /> */}
           {/* <ContactShadows rotation-x={Math.PI / 2} position={[0, -0.8, 0]} opacity={0.25} width={10} height={10} blur={2} far={1} /> */}
         </Suspense>
-        {enableOrbitControl === true && <OrbitControls
-          // minPolarAngle={Math.PI / 2} maxPolarAngle={Math.PI / 2} 
-          enableZoom={true} enablePan={true} />}
+        {enableOrbitControl &&
+          <OrbitControls
+            // minPolarAngle={Math.PI / 2} maxPolarAngle={Math.PI / 2} 
+            enable={enableOrbitControl} enableZoom={true} enablePan={true}
+          />
+        }
         <Perf trackGPU={true} openByDefault={true} showGraph={true} position={'bottom-right'} />
       </Canvas>
     </>
