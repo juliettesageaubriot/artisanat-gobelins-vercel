@@ -25,6 +25,7 @@ class AssetsLoader {
     }
 
     _setup() {
+        this.addLoaderBar()
         this._promises = [];
         this._dracoLoader.setDecoderPath('/assets/models/gltf/draco/');
         this._loader.setDRACOLoader(this._dracoLoader);
@@ -34,8 +35,6 @@ class AssetsLoader {
     }
 
     loadAssets() {
-
-        this.addLoaderBar()
 
         models.map((elm) => {
             let promise = new Promise((resolve) => {
@@ -52,7 +51,6 @@ class AssetsLoader {
 
         Promise.all(this._promises).then(() => {
             this.removeLoader()
-            // progress.end()
         });
 
         return Promise.all(this._promises);
@@ -103,7 +101,6 @@ class AssetsLoader {
         });
         bar.animate(1.0);  // Number from 0.0 to 1.0
     }
-
 
     removeLoader() {
         const loader = document.getElementById('assetLoader')
