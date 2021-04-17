@@ -1,5 +1,4 @@
 import Layout from '@components/Structure/Layout/Layout'
-import WebFont from '@components/Structure/Fonts/TheFonts'
 
 import localforage from "localforage";
 
@@ -42,7 +41,6 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <Layout>
-      <WebFont />
       <Component {...pageProps} />
     </Layout>
   )

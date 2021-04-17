@@ -1,11 +1,1 @@
 @import "@assets/_mandatory";
-
-.loader {
-  color: yellow;
-}
-:global(.wf-active) {
-  .loader {
-    opacity: 0;
-    pointer-events: none;
-  }
-}

@@ -9,7 +9,7 @@ import TheBreadcrumb from '@components/Breadcrumb/TheBreadcrumb';
 import useBreadcrumb from '@hooks/useBreadcrumb'
 import ThreeScene from '@/three-utils/SetUpThree/threeScene';
 import TheAudioSnippet from '@components/AudioSnippet/TheAudioSnippet';
-import TheLoaderThree from '@components/Structure/LoaderThree/TheLoaderThree'
+import TheLoader from '@/components/Structure/Loader/TheLoader'
 
 const SingleAtelierPage = () => {
   const { isShowingBreadcrumb, toggle } = useBreadcrumb();
@@ -32,7 +32,7 @@ const SingleAtelierPage = () => {
   return (
     <>
       <section>
-        <TheLoaderThree />
+        <TheLoader />
         {/* <TheAudioSnippet play={isPlaying} shouldPlayOnStart={isShouldPlayOnStart} sound_url={"assets/audios/test_song.mp3"}/>
         <TheBreadcrumb isShowing={isShowingBreadcrumb} hide={toggle} /> */}
         <div ref={ref} />

@@ -47,7 +47,9 @@ const IntroEpisodePage = () => {
                 <p>Regards d’artisans nous invite à nous glisser dans la peau d’un apprentit artisan, dans le cadre intime d’un ateliers, lieu de partage d’un savoir-faire.</p>
 
                 <div className={`${styles.immersion}`}>
-                  <span className={`${styles.hearphone}`}><i className="fal fa-headphones-alt"></i></span>
+                  <span className={`${styles.hearphone}`}>
+                    <i className="fal fa-headphones-alt"></i>
+                    </span>
                   <span>Utilisez un casque pour plus d’immersion !</span>
                 </div>
 

@@ -8,7 +8,6 @@ body {
   padding: 0;
 }
 
-
 html {
   &.own-html {
     width: 100%;
@@ -38,15 +37,8 @@ html {
         height: 100%;
       }
     }
-    &:not(.wf-active) {
-      #bodySite {
-        font-family: $font-body;
-      }
-    }
-    &.wf-active {
-      #bodySite {
-        font-family: $font-body-wf;
-      }
+    #bodySite {
+      font-family: $font-body;
     }
   }
 }
