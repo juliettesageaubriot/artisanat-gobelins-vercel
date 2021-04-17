@@ -1,5 +1,5 @@
 //utils
-import bindAll from './SetUpThree/bindAll';
+import bindAll from './SetUpThree/bindAll.js';
 
 
 //Class CameraManager takes the currentCamera, the several scene cameras and the animationManager of the cameras

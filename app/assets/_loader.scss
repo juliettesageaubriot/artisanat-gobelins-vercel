@@ -1,0 +1,55 @@
+@import "./mandatory";
+
+.loader {
+  &-three {
+    // display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: $color-white;
+    pointer-events: none;
+    transition: 1s ease-in-out all;
+    opacity: 0;
+
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+    &.actived {
+      // display: block;
+      transition: 1s ease-in-out all;
+      opacity: 1;
+    }
+
+    .logo-loader {
+      width: 300px;
+      margin-bottom: 40px;
+    }
+
+    .container {
+      &-loader {
+        .hand {
+          width: 20px;
+        }
+
+        @for $i from 0 through 100 {
+          .hand {
+            &[translatevalue="#{$i}"] {
+              transform: translateX($i * 3px + 20px);
+            }
+          }
+        }
+
+        .percent-loader {
+          position: relative;
+        }
+      }
+    }
+  }
+}

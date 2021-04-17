@@ -3,7 +3,7 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 //utils
-import bindAll from './bindAll';
+import bindAll from './bindAll.js';
 
 //modules
 import AssetsLoader from './AssetsLoader';
