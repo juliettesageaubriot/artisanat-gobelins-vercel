@@ -9,6 +9,8 @@ import bindAll from './bindAll';
 import AssetsLoader from './AssetsLoader';
 import AnimationManager from "@three-utils/animationManager.js";
 import CameraManager from "@three-utils/cameraManager.js";
+import { SetupColorPicker } from '@helpers/colorPickersHelper';
+
 // import ThreeModele from './ThreeModele';
 
 const SETTINGS = {
@@ -31,7 +33,11 @@ class ThreeScene {
             '_setCameraAnimationPlay',
             '_setCameraAnimationReverse',
             '_setOrbitalControls',
-            '_orbitControlsHandler'
+            '_orbitControlsHandler',
+            '_mousemoveHandler',
+            '_mousePointerUpHandler',
+            '_mousePointerDownHandler',
+            'rayCastHandler'
         );
 
         this._canvas = canvas;
@@ -53,11 +59,50 @@ class ThreeScene {
         this._atelierV04Group = new THREE.Group;
 
         this._colorPickerTestObject = [];
+        this._vitrailObjects = [];
 
         this._setup();
         this._loadAssets();
         this._scene.add(this._vitrailGroup, this._atelierGroup, this._atelierV04Group);
         
+    }
+
+    _setup() {
+        this._scene = new THREE.Scene();
+
+        this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
+        this._camera.position.set(0, 1, 0);
+        this._scene.add(this._camera);
+
+        this._ambientLight = new THREE.AmbientLight(0xffffff, 1)
+        this._scene.add(this._ambientLight);
+        
+        this._renderer = new THREE.WebGLRenderer({
+            //canvas: this._canvas,
+            antialias: true,
+        });
+
+        this._renderer.shadowMap.enabled = true;
+        this._renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+        this._canvas.appendChild(this._renderer.domElement);
+
+        this._mouse = new THREE.Vector2();
+        this._isMouseDown = false;
+        this._rayCaster = new THREE.Raycaster();
+
+        this._colorPicked = {
+            current: null,
+            old: null
+        }
+
+        this._currentIntersect = null;
+
+        // this._setOrbitalControls();
+        this._setupEventListeners();
+        this._resizeHandler();
+        this._setEnvironmentMap();
+        this._setNewState();
     }
 
     _setCameraAnimationPlay(index) {
@@ -97,10 +142,10 @@ class ThreeScene {
 
                 if ("colorPickerGroup" === child.name) {
                     this._vitrailGroup.add(child);
-                    // SetupColorPicker(child, objectToTest, vitrailObjects);
+                    SetupColorPicker(child, this._colorPickerTestObject, this._vitrailObjects);
 
                     this._vitrailGroup.position.set(-1.5, 1, 2.2);
-                    this._vitrailGroup.rotation.set(0, Math.PI / 2, 0);
+                    this._vitrailGroup.rotation.set(0, Math.PI, 0);
                     this._vitrailGroup.scale.set(0.7, 0.7, 0.7);
 
                 } else if ("atelier_03" === child.name) {
@@ -136,54 +181,50 @@ class ThreeScene {
         this._animateCameraReverse(SETTINGS.idCamera[1]);
     }
 
-    _setup() {
-        this._scene = new THREE.Scene();
-
-        this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
-        this._camera.position.set(0, 1, 0);
-        this._scene.add(this._camera);
-
-        this._ambientLight = new THREE.AmbientLight(0xffffff, 1)
-        this._scene.add(this._ambientLight);
-        
-        this._renderer = new THREE.WebGLRenderer({
-            //canvas: this._canvas,
-            antialias: true,
-        });
-
-        this._renderer.shadowMap.enabled = true;
-        this._renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-        this._canvas.appendChild(this._renderer.domElement);
-
-        this._mouse = new THREE.Vector2();
-        this._rayCaster = new THREE.Raycaster();
-
-        // this._setOrbitalControls();
-        this._setupEventListeners();
-        this._resizeHandler();
-        this._setEnvironmentMap();
-        this._setNewState();
-    }
-
     _rayCast(e) {
         if (!SETTINGS.enableRaycast) return;
 
         this._mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
         this._mouse.y = - (e.clientY / window.innerHeight) * 2 + 1;
 
+        
+
         this._rayCaster.setFromCamera(this._mouse, this._camera);
 
-        let intersects = this._rayCaster.intersectObjects(this._colorPickerTestObject, true);
+        let intersects = this._rayCaster.intersectObjects(this._colorPickerTestObject);
 
-        if (intersects[0]) {
-            console.log(intersects[0]);
-            //this.rayCastHandler(intersects[0]);
-        }
+        this.rayCastHandler(intersects);
     }
 
-    rayCastHandler(object) {
-        //Action à faire sur le raycast
+    rayCastHandler(intersects) {
+
+        if (intersects[0]) {
+            this._object = intersects[0].object;
+            if (this._currentIntersect) {
+              if (this._isMouseDown === true) {
+                this._currentIntersect.material.color = this._colorPicked.old;
+              }
+            }
+            this._currentIntersect = this._object;
+            // console.log('mouse enter')
+            this._colorPicked.old = this._currentIntersect.material.color;
+            if (this._isMouseDown === true && this._vitrailObjects.includes(this._currentIntersect.name)) {
+                this._currentIntersect.material.color = this._colorPicked.current;
+            }
+          }
+          else {
+            if (this._currentIntersect) {
+            //   console.log('mouse leave')
+              if (this._isMouseDown === true) {
+                this._currentIntersect.material.color = this._colorPicked.old;
+              }
+              this._colorPicked.old = null;
+              // console.log(currentIntersect.name);
+  
+            }
+  
+            this._currentIntersect = null
+          }
     }
 
     _animateCameraPlay(index) {
@@ -242,32 +283,56 @@ class ThreeScene {
         this._width = window.innerWidth;
         this._height = window.innerHeight;
 
-        // this.el.width = this._width;
-        // this.el.height = this._height;
-
         this._resize(this._width, this._height);
     }
 
     _mousePointerDownHandler(e) {
         // console.log("pointer down" , e)
-        // rayCast(e);
+        this._isMouseDown = true;
+        if (this._currentIntersect) {
+          switch (this._currentIntersect.name) {
+            case "green":
+              this._colorPicked.current = this._currentIntersect.material.color;
+            //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "green");
+            //   cursorColorPickerInner.current.style.transform = "scale(1.5)"
+              break
+            case "purple":
+                this._colorPicked.current = this._currentIntersect.material.color;
+            //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "purple");
+            //   cursorColorPickerInner.current.style.transform = "scale(1.5)"
+              break
+            case "white":
+                this._colorPicked.current = this._currentIntersect.material.color;
+            //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "white");
+            //   cursorColorPickerInner.current.style.transform = "scale(1.5)"
+              break
+          }
+        }
     }
 
     _mousePointerUpHandler(e) {
         // console.log("pointer up", e)
         // rayCast(e);
+        this._isMouseDown = false;
+        if (this._currentIntersect) {
+          if (this._vitrailObjects.includes(this._currentIntersect.name)) {
+            this._currentIntersect.material.color = this._colorPicked.current;
+          }
+          this._colorPicked.current = null;
+        //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "default");
+        //   cursorColorPickerInner.current.style.transform = "scale(.8)"
+        } else {
+            this._colorPicked.current = null;
+        //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "default");
+        //   cursorColorPickerInner.current.style.transform = "scale(.8)"
+        }
     }
 
     _mousemoveHandler(e) {
-        this._mousePosition = {
-            x: e.clientX - this._width/2,
-            y: e.clientY - this._height/2,
-        }
-        // console.log(e);
+        this._rayCast(e);
     }
 
     _render() {
-        // this._delta += 0.01;
         const elapsedTime = this._clock.getElapsedTime();
         const deltaTime = elapsedTime - this._previousTime;
         this._previousTime = elapsedTime;

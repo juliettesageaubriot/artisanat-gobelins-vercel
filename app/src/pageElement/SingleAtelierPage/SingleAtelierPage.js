@@ -30,7 +30,6 @@ const SingleAtelierPage = () => {
   return (
     <>
       <section>
-        <TheAudioSnippet play={isPlaying} sound_url={"assets/audios/test_song.mp3"}/>
         <TheBreadcrumb isShowing={isShowingBreadcrumb} hide={toggle} />
         <div ref={ref} />
         <div className={styles.colorPickerContainer} ref={cursorColorPickerContainer}>
