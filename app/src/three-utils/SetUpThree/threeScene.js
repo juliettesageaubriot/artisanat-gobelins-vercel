@@ -159,7 +159,7 @@ class ThreeScene {
                     this.cameraAnimator = new AnimationManager(child, this._cameraAnimations);
                     this.cameraManager = new CameraManager(this._camera, this._cameras, this.cameraAnimator);
 
-                    this.breadcrumbManager = new BreadcrumbManager(true, 0);
+                    this.breadcrumbManager = new BreadcrumbManager(true, 0, "La découpe du tracé");
 
                     // console.log(this._cameras)
                 } else if ("CameraAnim1_Orientation" === child.name) {
@@ -399,7 +399,7 @@ class ThreeScene {
     _setToggleBreadcrumb() {
         this.breadcrumbManager.breadcrumbToggle()
 
-        let breadcrumbElm = document.querySelector('.breadcrumb_container')
+        const breadcrumbElm = document.querySelector('.breadcrumb_container')
         if (this.breadcrumbManager.show === false) {
             breadcrumbElm.classList.remove('show')
         } else {
@@ -411,7 +411,7 @@ class ThreeScene {
         // let ateliersNumber = 5
         this.breadcrumbManager.addStepBreadcrumb()
         
-        let breadcrumbElm = document.querySelector('.breadcrumb_container')
+        const breadcrumbElm = document.querySelector('.breadcrumb_container')
         // let breadcrumbUl = document.querySelector('.list-breadcrumb')
         // let li = breadcrumbUl.childNodes[this.breadcrumbManager.step - 1]
 
@@ -420,6 +420,10 @@ class ThreeScene {
         // Si jamais les designs veulent changer la couleurs quand ça a été actif
         // if(this.breadcrumbManager.step > ateliersNumber) return
         // li.classList.add('actived')
+    }
+
+    _setNameAtelierBreadcrumb(name) {
+        this.breadcrumbManager.changeNameAtelier(name)
     }
 
 }
