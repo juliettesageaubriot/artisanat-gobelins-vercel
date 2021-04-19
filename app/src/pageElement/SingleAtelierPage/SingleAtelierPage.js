@@ -21,7 +21,7 @@ const SingleAtelierPage = () => {
   const cursorColorPickerInner = useRef(null);
 
   const state = {
-    function1: () => {setIsPlaying(true)}
+    function1: () => { setIsPlaying(true) }
   }
 
   useEffect(() => {
@@ -33,8 +33,7 @@ const SingleAtelierPage = () => {
     <>
       <section>
         <TheLoader />
-        {/* <TheAudioSnippet play={isPlaying} shouldPlayOnStart={isShouldPlayOnStart} sound_url={"assets/audios/test_song.mp3"}/>
-        <TheBreadcrumb isShowing={isShowingBreadcrumb} hide={toggle} /> */}
+        <TheBreadcrumb isShowing={isShowingBreadcrumb} hide={toggle} />
         <div ref={ref} />
         <div className={styles.colorPickerContainer} ref={cursorColorPickerContainer}>
           <div className={styles.colorPickerInner} ref={cursorColorPickerInner}></div>
