@@ -10,6 +10,7 @@ import AssetsLoader from './AssetsLoader';
 import AnimationManager from "@three-utils/animationManager.js";
 import CameraManager from "@three-utils/cameraManager.js";
 import { SetupColorPicker } from '@helpers/colorPickersHelper';
+import BreadcrumbManager from '@/three-utils/breadcrumbManager';
 
 // import ThreeModele from './ThreeModele';
 
@@ -37,7 +38,8 @@ class ThreeScene {
             '_mousemoveHandler',
             '_mousePointerUpHandler',
             '_mousePointerDownHandler',
-            'rayCastHandler'
+            'rayCastHandler',
+
         );
 
         this._canvas = canvas;
@@ -64,7 +66,7 @@ class ThreeScene {
         this._setup();
         this._loadAssets();
         this._scene.add(this._vitrailGroup, this._atelierGroup, this._atelierV04Group);
-        
+
     }
 
     _setup() {
@@ -76,7 +78,7 @@ class ThreeScene {
 
         this._ambientLight = new THREE.AmbientLight(0xffffff, 1)
         this._scene.add(this._ambientLight);
-        
+
         this._renderer = new THREE.WebGLRenderer({
             //canvas: this._canvas,
             antialias: true,
@@ -127,11 +129,11 @@ class ThreeScene {
     }
 
     _createModels() {
-        for(let name in this._models) {
+        for (let name in this._models) {
             this.object = this._models[name].scene;
 
             this.object.traverse(child => {
-                
+
 
                 if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
                     // child.material.envMap = environmentMap
@@ -156,9 +158,11 @@ class ThreeScene {
 
                     this.cameraAnimator = new AnimationManager(child, this._cameraAnimations);
                     this.cameraManager = new CameraManager(this._camera, this._cameras, this.cameraAnimator);
-                    
+
+                    this.breadcrumbManager = new BreadcrumbManager(true, 0);
+
                     // console.log(this._cameras)
-                } else if("CameraAnim1_Orientation" === child.name) {
+                } else if ("CameraAnim1_Orientation" === child.name) {
 
                     // console.log(child)
                     this._camera = child;
@@ -187,7 +191,7 @@ class ThreeScene {
         this._mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
         this._mouse.y = - (e.clientY / window.innerHeight) * 2 + 1;
 
-        
+
 
         this._rayCaster.setFromCamera(this._mouse, this._camera);
 
@@ -201,9 +205,9 @@ class ThreeScene {
         if (intersects[0]) {
             this._object = intersects[0].object;
             if (this._currentIntersect) {
-              if (this._isMouseDown === true) {
-                this._currentIntersect.material.color = this._colorPicked.old;
-              }
+                if (this._isMouseDown === true) {
+                    this._currentIntersect.material.color = this._colorPicked.old;
+                }
             }
             this._currentIntersect = this._object;
             // console.log('mouse enter')
@@ -211,27 +215,27 @@ class ThreeScene {
             if (this._isMouseDown === true && this._vitrailObjects.includes(this._currentIntersect.name)) {
                 this._currentIntersect.material.color = this._colorPicked.current;
             }
-          }
-          else {
+        }
+        else {
             if (this._currentIntersect) {
-            //   console.log('mouse leave')
-              if (this._isMouseDown === true) {
-                this._currentIntersect.material.color = this._colorPicked.old;
-              }
-              this._colorPicked.old = null;
-              // console.log(currentIntersect.name);
-  
+                //   console.log('mouse leave')
+                if (this._isMouseDown === true) {
+                    this._currentIntersect.material.color = this._colorPicked.old;
+                }
+                this._colorPicked.old = null;
+                // console.log(currentIntersect.name);
+
             }
-  
+
             this._currentIntersect = null
-          }
+        }
     }
 
     _animateCameraPlay(index) {
         let buttonCamera1 = document.createElement("button");
         buttonCamera1.style.position = "absolute";
         buttonCamera1.style.top = (1 + (index * 30)) + "px";
-        buttonCamera1.innerHTML = "Camera "+ (index + 1);
+        buttonCamera1.innerHTML = "Camera " + (index + 1);
 
         // // 2. Append somewhere
         let body = document.getElementsByTagName("body")[0];
@@ -247,7 +251,7 @@ class ThreeScene {
         let buttonCamera1 = document.createElement("button");
         buttonCamera1.style.position = "absolute";
         buttonCamera1.style.top = (60 + (index * 30)) + "px";
-        buttonCamera1.innerHTML = "Camera reverse"+ (index + 1);
+        buttonCamera1.innerHTML = "Camera reverse" + (index + 1);
 
         // // 2. Append somewhere
         let body = document.getElementsByTagName("body")[0];
@@ -290,23 +294,23 @@ class ThreeScene {
         // console.log("pointer down" , e)
         this._isMouseDown = true;
         if (this._currentIntersect) {
-          switch (this._currentIntersect.name) {
-            case "green":
-              this._colorPicked.current = this._currentIntersect.material.color;
-            //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "green");
-            //   cursorColorPickerInner.current.style.transform = "scale(1.5)"
-              break
-            case "purple":
-                this._colorPicked.current = this._currentIntersect.material.color;
-            //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "purple");
-            //   cursorColorPickerInner.current.style.transform = "scale(1.5)"
-              break
-            case "white":
-                this._colorPicked.current = this._currentIntersect.material.color;
-            //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "white");
-            //   cursorColorPickerInner.current.style.transform = "scale(1.5)"
-              break
-          }
+            switch (this._currentIntersect.name) {
+                case "green":
+                    this._colorPicked.current = this._currentIntersect.material.color;
+                    //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "green");
+                    //   cursorColorPickerInner.current.style.transform = "scale(1.5)"
+                    break
+                case "purple":
+                    this._colorPicked.current = this._currentIntersect.material.color;
+                    //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "purple");
+                    //   cursorColorPickerInner.current.style.transform = "scale(1.5)"
+                    break
+                case "white":
+                    this._colorPicked.current = this._currentIntersect.material.color;
+                    //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "white");
+                    //   cursorColorPickerInner.current.style.transform = "scale(1.5)"
+                    break
+            }
         }
     }
 
@@ -315,16 +319,16 @@ class ThreeScene {
         // rayCast(e);
         this._isMouseDown = false;
         if (this._currentIntersect) {
-          if (this._vitrailObjects.includes(this._currentIntersect.name)) {
-            this._currentIntersect.material.color = this._colorPicked.current;
-          }
-          this._colorPicked.current = null;
-        //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "default");
-        //   cursorColorPickerInner.current.style.transform = "scale(.8)"
+            if (this._vitrailObjects.includes(this._currentIntersect.name)) {
+                this._currentIntersect.material.color = this._colorPicked.current;
+            }
+            this._colorPicked.current = null;
+            //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "default");
+            //   cursorColorPickerInner.current.style.transform = "scale(.8)"
         } else {
             this._colorPicked.current = null;
-        //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "default");
-        //   cursorColorPickerInner.current.style.transform = "scale(.8)"
+            //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "default");
+            //   cursorColorPickerInner.current.style.transform = "scale(.8)"
         }
     }
 
@@ -372,16 +376,16 @@ class ThreeScene {
             'assets/textures/environmentMaps/ny.png',
             'assets/textures/environmentMaps/pz.png',
             'assets/textures/environmentMaps/nz.png'
-          ])
+        ])
         environmentMap.encoding = THREE.sRGBEncoding;
         this._scene.background = environmentMap;
         this._scene.environment = environmentMap;
     }
 
     _setOrbitalControls() {
-      this._controls = new OrbitControls(this._camera, this._canvas);
-      this._controls.target.set(0, 0, 0);
-      this._controls.enableDamping = true;
+        this._controls = new OrbitControls(this._camera, this._canvas);
+        this._controls.target.set(0, 0, 0);
+        this._controls.enableDamping = true;
     }
 
     _orbitControlsHandler() {
@@ -389,9 +393,35 @@ class ThreeScene {
     }
 
     _setNewState() {
-        // this._state.function1();
+        // this._state.toggleBreadcrumb();
     }
-    
+
+    _setToggleBreadcrumb() {
+        this.breadcrumbManager.breadcrumbToggle()
+
+        let breadcrumbElm = document.querySelector('.breadcrumb_container')
+        if (this.breadcrumbManager.show === false) {
+            breadcrumbElm.classList.remove('show')
+        } else {
+            breadcrumbElm.classList.add('show')
+        }
+    }
+
+    _setAddSetpBreadcrumb() {
+        // let ateliersNumber = 5
+        this.breadcrumbManager.addStepBreadcrumb()
+        
+        let breadcrumbElm = document.querySelector('.breadcrumb_container')
+        // let breadcrumbUl = document.querySelector('.list-breadcrumb')
+        // let li = breadcrumbUl.childNodes[this.breadcrumbManager.step - 1]
+
+        breadcrumbElm.setAttribute('data-step', this.breadcrumbManager.step)
+        
+        // Si jamais les designs veulent changer la couleurs quand ça a été actif
+        // if(this.breadcrumbManager.step > ateliersNumber) return
+        // li.classList.add('actived')
+    }
+
 }
 
 export default ThreeScene;

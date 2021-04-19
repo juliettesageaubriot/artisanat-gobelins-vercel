@@ -1,0 +1,20 @@
+@import '@assets/_mandatory';
+
+.breadcrumb {
+  &_container {
+    display: none;
+    &.show {
+      display: block;
+    }
+  }
+  &__inner {
+    ul {
+      // li {
+      //   // Je gère seulement ceux qui ont été actived et le current actuel mais il garde la class
+      //   &.actived {
+      //     background-color: red;
+      //   }
+      // }
+    }
+  }
+}

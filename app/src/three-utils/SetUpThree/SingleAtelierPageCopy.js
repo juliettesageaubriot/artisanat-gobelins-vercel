@@ -14,7 +14,7 @@ import AnimationManager from "@three-utils/animationManager.js";
 import CameraManager from "@three-utils/cameraManager.js";
 
 import TheBreadcrumb from '@components/Breadcrumb/TheBreadcrumb';
-import useBreadcrumb from '@hooks/useBreadcrumb'
+import useBreadcrumb from '@/three-utils/breadcrumbManager'
 import ThreeScene from '@/three-utils/SetUpThree/threeScene';
 
 const SingleAtelierPage = () => {

@@ -6,13 +6,16 @@ import styles from "./styles.module.scss"
 
 //components
 import TheBreadcrumb from '@components/Breadcrumb/TheBreadcrumb';
-import useBreadcrumb from '@hooks/useBreadcrumb'
+import useBreadcrumb from '@/three-utils/breadcrumbManager'
 import ThreeScene from '@/three-utils/SetUpThree/threeScene';
 import TheAudioSnippet from '@components/AudioSnippet/TheAudioSnippet';
 import TheLoader from '@/components/Structure/Loader/TheLoader'
 
 const SingleAtelierPage = () => {
-  const { isShowingBreadcrumb, toggle } = useBreadcrumb();
+  //Breadcrumb states
+  // const { isShowingBreadcrumb, toggle, setIsShowingBreadcrumb, addStep } = useBreadcrumb();
+
+  // Sound states
   const [isPlaying, setIsPlaying] = useState(false)
   const [isShouldPlayOnStart, setIsShouldPlayOnStart] = useState(false)
 
@@ -21,7 +24,10 @@ const SingleAtelierPage = () => {
   const cursorColorPickerInner = useRef(null);
 
   const state = {
-    function1: () => { setIsPlaying(true) }
+    playSound: () => { setIsPlaying(true) },
+    stopSound: () => { setIsPlaying(false) },
+    // showBreadcumb: () => {setIsShowingBreadcrumb(true)},
+    // hideBreadcrumb: () => {setIsShowingBreadcrumb(false)},
   }
 
   useEffect(() => {
@@ -29,11 +35,14 @@ const SingleAtelierPage = () => {
     const threeScene = new ThreeScene(canvas, state);
   }, [])
 
+
   return (
     <>
       <section>
         <TheLoader />
-        <TheBreadcrumb isShowing={isShowingBreadcrumb} hide={toggle} />
+        <TheBreadcrumb 
+        // isShowing={isShowingBreadcrumb} hide={toggle}
+        />
         <div ref={ref} />
         <div className={styles.colorPickerContainer} ref={cursorColorPickerContainer}>
           <div className={styles.colorPickerInner} ref={cursorColorPickerInner}></div>
