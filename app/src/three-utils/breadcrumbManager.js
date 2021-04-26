@@ -1,7 +1,6 @@
 export default class BreadcrumbManager {
-  constructor(show, step, atelierName) {
+  constructor(show, atelierName) {
     this.show = show;
-    this.step = step;
     this.atelierName = atelierName
   }
 
@@ -10,11 +9,6 @@ export default class BreadcrumbManager {
     console.log(this.show);
 
     return this.show
-  }
-
-  addStepBreadcrumb() {
-    this.step = this.step + 1
-    return this.step
   }
 
   changeNameAtelier(name) {

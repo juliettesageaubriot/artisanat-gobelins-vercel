@@ -9,8 +9,10 @@ import bindAll from './bindAll.js';
 import AssetsLoader from './AssetsLoader';
 import AnimationManager from "@three-utils/animationManager.js";
 import CameraManager from "@three-utils/cameraManager.js";
+import BreadcrumbManager from '@/three-utils/breadcrumbManager.js';
+import StepManager from "@three-utils/stepManager.js"
+
 import { SetupColorPicker } from '@helpers/colorPickersHelper';
-import BreadcrumbManager from '@/three-utils/breadcrumbManager';
 
 // import ThreeModele from './ThreeModele';
 
@@ -159,7 +161,8 @@ class ThreeScene {
                     this.cameraAnimator = new AnimationManager(child, this._cameraAnimations);
                     this.cameraManager = new CameraManager(this._camera, this._cameras, this.cameraAnimator);
 
-                    this.breadcrumbManager = new BreadcrumbManager(true, 0, "La découpe du tracé");
+                    this.breadcrumbManager = new BreadcrumbManager(true, "La découpe du tracé");
+                    this.addStepManager = new StepManager(0, 0);
 
                     // console.log(this._cameras)
                 } else if ("CameraAnim1_Orientation" === child.name) {
@@ -407,23 +410,30 @@ class ThreeScene {
         }
     }
 
-    _setAddSetpBreadcrumb() {
-        // let ateliersNumber = 5
-        this.breadcrumbManager.addStepBreadcrumb()
-        
-        const breadcrumbElm = document.querySelector('.breadcrumb_container')
-        // let breadcrumbUl = document.querySelector('.list-breadcrumb')
-        // let li = breadcrumbUl.childNodes[this.breadcrumbManager.step - 1]
-
-        breadcrumbElm.setAttribute('data-step', this.breadcrumbManager.step)
-        
-        // Si jamais les designs veulent changer la couleurs quand ça a été actif
-        // if(this.breadcrumbManager.step > ateliersNumber) return
-        // li.classList.add('actived')
-    }
-
     _setNameAtelierBreadcrumb(name) {
         this.breadcrumbManager.changeNameAtelier(name)
+    }
+
+    _setAddSubStep() {
+        this.addStepManager.addSubStep()
+        console.log(this.addStepManager.subStep)
+    }
+
+    _setAddGlobalStep() {
+        // let ateliersNumber = 5
+
+        this.addStepManager.addGlobalStep()
+        console.log(this.addStepManager.globalStep)
+
+        const breadcrumbElm = document.querySelector('.breadcrumb_container')
+        // let breadcrumbUl = document.querySelector('.list-breadcrumb')
+        // let li = breadcrumbUl.childNodes[this.addStepManager.globalStep - 1]
+
+        breadcrumbElm.setAttribute('data-step', this.addStepManager.globalStep)
+
+        // Si jamais les designs veulent changer la couleurs quand ça a été actif
+        // if(this.addStepManager.globalStep > ateliersNumber) return
+        // li.classList.add('actived')
     }
 
 }
