@@ -1,6 +1,7 @@
 //vendors
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { DragControls } from 'three/examples/jsm/controls/DragControls.js'
 
 //utils
 import bindAll from './bindAll.js';
@@ -41,7 +42,7 @@ class ThreeScene {
             '_mousePointerUpHandler',
             '_mousePointerDownHandler',
             'rayCastHandler',
-
+            '_dragAndDropControls'
         );
 
         this._canvas = canvas;
@@ -64,6 +65,8 @@ class ThreeScene {
 
         this._colorPickerTestObject = [];
         this._vitrailObjects = [];
+
+        this._dragItems = [];
 
         this._setup();
         this._loadAssets();
@@ -136,7 +139,6 @@ class ThreeScene {
 
             this.object.traverse(child => {
 
-
                 if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
                     // child.material.envMap = environmentMap
                     // child.material.envMapIntensity = 5
@@ -149,7 +151,7 @@ class ThreeScene {
                     SetupColorPicker(child, this._colorPickerTestObject, this._vitrailObjects);
 
                     this._vitrailGroup.position.set(-1.5, 1, 2.2);
-                    this._vitrailGroup.rotation.set(0, Math.PI, 0);
+                    this._vitrailGroup.rotation.set(0, Math.PI / 2, 0);
                     this._vitrailGroup.scale.set(0.7, 0.7, 0.7);
 
                 } else if ("atelier_03" === child.name) {
@@ -169,6 +171,8 @@ class ThreeScene {
 
                     // console.log(child)
                     this._camera = child;
+                } else if("IPHONE001" === child.name) {
+                    this._dragItems.push(child);
                 }
             })
         }
@@ -181,6 +185,7 @@ class ThreeScene {
     _start() {
         this._createModels(this._models);
         //Action à faire au démarrage
+        this._dragAndDropControls();
 
         this._animateCameraPlay(SETTINGS.idCamera[0]);
         this._animateCameraPlay(SETTINGS.idCamera[1]);
@@ -397,6 +402,34 @@ class ThreeScene {
 
     _setNewState() {
         // this._state.toggleBreadcrumb();
+    }
+
+    _dragAndDropControls() {
+        this._dragAndDropControls = new DragControls( this._dragItems, this._camera, this._renderer.domElement);
+
+        this._dragAndDropControls.addEventListener( 'dragstart', function ( event ) {
+
+            event.object.material.emissive.set( 0xaaaaaa );
+            
+            // console.log(event.object.position);
+        
+        } );
+
+        this._dragAndDropControls.addEventListener ( 'drag', function( event ) {
+
+            if(event.object.position.y < 1.05) {
+                event.object.position.y = 1.05;
+            }
+
+        })
+        
+        this._dragAndDropControls.addEventListener( 'dragend', function ( event ) {
+        
+            event.object.material.emissive.set( 0x000000 );
+            
+            // console.log(event.object.position);
+        
+        } );
     }
 
     _setToggleBreadcrumb() {
