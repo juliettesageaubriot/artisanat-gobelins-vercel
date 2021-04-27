@@ -21,7 +21,7 @@ const SETTINGS = {
     enableRaycast: true,
     enableOrbitControl: false,
     idCamera: [0, 1, 2],
-    enableDragAndDrop: false
+    enableDragAndDrop: true
 }
 
 class ThreeScene {
@@ -44,7 +44,8 @@ class ThreeScene {
             '_mousePointerDownHandler',
             'rayCastHandler',
             '_dragAndDropControls',
-            '_colorPickerHandler'
+            '_colorPickerHandler',
+            '_toggleDragAndDropControls'
         );
 
         this._canvas = canvas;
@@ -66,7 +67,11 @@ class ThreeScene {
         this._atelierV04Group = new THREE.Group;
         
         //Raycast Arrays
-        this._colorPickerTestObject = [];
+        this._paperCutOutRaycastObject = [];
+        this._colorPickerRaycastObject = [];
+        this._glassCutOutRaycastObject = [];
+
+        //ColorPickerName Array
         this._vitrailObjects = [];
 
         //Draggable Objects
@@ -113,6 +118,8 @@ class ThreeScene {
 
         this._currentIntersect = null;
 
+        this._enableDragAndDrop = true;
+
         // this._setOrbitalControls();
         this._setupEventListeners();
         this._resizeHandler();
@@ -123,6 +130,8 @@ class ThreeScene {
     _setCameraAnimationPlay(index) {
         this._camera = this._cameras[index];
         this.cameraManager.StartAnimation(index);
+        this._stepManager.addGlobalStep();
+        this._toggleDragAndDropControls();
     }
     _setCameraAnimationReverse(index) {
         this._camera = this._cameras[index];
@@ -156,11 +165,11 @@ class ThreeScene {
 
                 if ("colorPickerGroup" === child.name) {
                     this._vitrailGroup.add(child);
-                    SetupColorPicker(child, this._colorPickerTestObject, this._vitrailObjects);
+                    SetupColorPicker(child, this._colorPickerRaycastObject, this._vitrailObjects);
 
-                    // this._vitrailGroup.position.set(-1.5, 1, 2.2);
-                    this._vitrailGroup.position.set(0.5, 1, -1.5);
-                    this._vitrailGroup.rotation.set(0, Math.PI, 0);
+                    this._vitrailGroup.position.set(-1.5, 1, 2.2);
+                    // this._vitrailGroup.position.set(0.5, 1, -1.5);
+                    this._vitrailGroup.rotation.set(0, Math.PI / 2, 0);
                     this._vitrailGroup.scale.set(0.7, 0.7, 0.7);
 
                 } else if ("atelier_03" === child.name) {
@@ -179,6 +188,7 @@ class ThreeScene {
                     this._camera = child;
                 } else if("IPHONE001" === child.name) {
                     this._dragItems.push(child);
+                    this._paperCutOutRaycastObject.push(child);
                 }
             })
         }
@@ -207,9 +217,32 @@ class ThreeScene {
 
         this._rayCaster.setFromCamera(this._mouse, this._camera);
 
-        let intersects = this._rayCaster.intersectObjects(this._colorPickerTestObject);
+        let intersects = this._setRaycastObjectCheck();
 
         this.rayCastHandler(intersects);
+    }
+
+    _setRaycastObjectCheck() {
+        this._globalStep = this._stepManager._globalStep;
+        this._subStep = this._stepManager._subStep;
+
+        this._currentRaycastObject = [];
+        
+        if(this._globalStep === 0) {
+
+            this._currentRaycastObject = this._paperCutOutRaycastObject;
+
+        } else if(this._globalStep === 1) {
+
+            this._currentRaycastObject = this._colorPickerRaycastObject;
+
+        } else if(this._globalStep === 2) {
+
+            this._currentRaycastObject = this._glassCutOutRaycastObject;
+
+        }
+
+        return this._rayCaster.intersectObjects(this._currentRaycastObject);
     }
 
     rayCastHandler(intersects) {
@@ -220,7 +253,7 @@ class ThreeScene {
 
             switch (this._subStep) {
                 case 0 :
-                    //console.log("sous-étape 1");
+                    this._paperCutOutDragAndDropHandler(intersects[0]);
                     break;
                 case 1 :
                     //console.log("sous-étape 2");
@@ -332,6 +365,23 @@ class ThreeScene {
         }
     }
 
+    _paperCutOutDragAndDropHandler(intersect) {
+        if (intersect) {
+            this._object = intersect.object;
+            console.log(this._object);
+        }
+        else {
+           
+        }
+    }
+
+    _paperCutOutMouseDown() {
+        console.log("paper cut out mousedown");
+    }
+    _paperCutOutMouseUp() {
+        console.log("paper cut out mouseup");
+    }
+
     _animateCameraPlay(index) {
         let buttonCamera1 = document.createElement("button");
         buttonCamera1.style.position = "absolute";
@@ -400,7 +450,7 @@ class ThreeScene {
 
             switch (this._subStep) {
                 case 0 :
-                    // console.log("sous-étape 1");
+                    this._paperCutOutMouseDown();
                     break;
                 case 1 :
                     // console.log("sous-étape 2");
@@ -448,7 +498,7 @@ class ThreeScene {
 
             switch (this._subStep) {
                 case 0 :
-                    // console.log("sous-étape 1");
+                    this._paperCutOutMouseUp();
                     break;
                 case 1 :
                     // console.log("sous-étape 2");
@@ -552,31 +602,48 @@ class ThreeScene {
 
     _dragAndDropControls() {
         if (!SETTINGS.enableDragAndDrop) return;
+
         this._dragAndDropControls = new DragControls( this._dragItems, this._camera, this._renderer.domElement);
 
-        this._dragAndDropControls.addEventListener( 'dragstart', function ( event ) {
+        this._dragAndDropControls.enabled = true;
+        this._enableDragAndDrop = true;
+
+        this._dragStart = (event) => {
 
             event.object.material.emissive.set( 0xaaaaaa );
-            
-            // console.log(event.object.position);
-        
-        } );
 
-        this._dragAndDropControls.addEventListener ( 'drag', function( event ) {
+        }
+        this._drag = (event) => {
 
             if(event.object.position.y < 1.05) {
                 event.object.position.y = 1.05;
             }
 
-        })
-        
-        this._dragAndDropControls.addEventListener( 'dragend', function ( event ) {
-        
+        }
+        this._dragEnd = (event) => {
+
             event.object.material.emissive.set( 0x000000 );
-            
-            // console.log(event.object.position);
+        }
+
+        this._toggleDragAndDropControls();
         
-        } );
+    }
+
+    _toggleDragAndDropControls() {
+        //On utilise cette fonction afin de toggle le drag and drop
+        if(this._enableDragAndDrop) {
+            this._dragAndDropControls.addEventListener( 'dragstart', this._dragStart);
+            this._dragAndDropControls.addEventListener ( 'drag', this._drag)
+            this._dragAndDropControls.addEventListener( 'dragend', this._dragEnd);
+            this._enableDragAndDrop = false;
+            this._dragAndDropControls.enabled = true;
+        } else {
+            this._dragAndDropControls.removeEventListener( 'dragstart', this._dragStart);
+            this._dragAndDropControls.removeEventListener( 'drag', this._drag);
+            this._dragAndDropControls.removeEventListener( 'dragend', this._dragEnd);
+            this._enableDragAndDrop = true;
+            this._dragAndDropControls.enabled = false;
+        }
     }
 
     _setToggleBreadcrumb() {
