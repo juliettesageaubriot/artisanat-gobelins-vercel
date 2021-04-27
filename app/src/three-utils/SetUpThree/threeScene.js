@@ -220,10 +220,10 @@ class ThreeScene {
 
             switch (this._subStep) {
                 case 0 :
-                    console.log("sous-étape 1");
+                    //console.log("sous-étape 1");
                     break;
                 case 1 :
-                    console.log("sous-étape 2");
+                    //console.log("sous-étape 2");
                     break;
             }
 
@@ -236,22 +236,22 @@ class ThreeScene {
             switch (this._subStep) {
 
                 case 0 :
-                    console.log("sous-étape 1: drag and drop patron sur bout de verre");
+                    //console.log("sous-étape 1: drag and drop patron sur bout de verre");
                     break;
                 case 1 :
-                    console.log("sous-étape 2: découpe du verre");
+                    // console.log("sous-étape 2: découpe du verre");
                     break;
                 case 2 :
-                    console.log("sous-étape 3: drag and drop pour enlever le bout de papier");
+                    // console.log("sous-étape 3: drag and drop pour enlever le bout de papier");
                     break;
                 case 3 :
-                    console.log("sous-étape 4: Jauge de pression pour casser le bout de verre");
+                    // console.log("sous-étape 4: Jauge de pression pour casser le bout de verre");
                     break;
                 case 4 :
-                    console.log("sous-étape 5: cassage des derniers petits bout de verre");
+                    // console.log("sous-étape 5: cassage des derniers petits bout de verre");
                     break;
                 case 5 :
-                    console.log("sous-étape 5: drag and drop au milieu du vitrail fini");
+                    // console.log("sous-étape 5: drag and drop au milieu du vitrail fini");
                     break;
             }
 
@@ -395,15 +395,15 @@ class ThreeScene {
         this._isMouseDown = true;
         this._globalStep = this._stepManager._globalStep;
         this._subStep = this._stepManager._subStep;
-        
+
         if(this._globalStep === 0) {
 
             switch (this._subStep) {
                 case 0 :
-                    console.log("sous-étape 1");
+                    // console.log("sous-étape 1");
                     break;
                 case 1 :
-                    console.log("sous-étape 2");
+                    // console.log("sous-étape 2");
                     break;
             }
 
@@ -416,22 +416,22 @@ class ThreeScene {
             switch (this._subStep) {
 
                 case 0 :
-                    console.log("sous-étape 1: drag and drop patron sur bout de verre");
+                    // console.log("sous-étape 1: drag and drop patron sur bout de verre");
                     break;
                 case 1 :
-                    console.log("sous-étape 2: découpe du verre");
+                    // console.log("sous-étape 2: découpe du verre");
                     break;
                 case 2 :
-                    console.log("sous-étape 3: drag and drop pour enlever le bout de papier");
+                    // console.log("sous-étape 3: drag and drop pour enlever le bout de papier");
                     break;
                 case 3 :
-                    console.log("sous-étape 4: Jauge de pression pour casser le bout de verre");
+                    // console.log("sous-étape 4: Jauge de pression pour casser le bout de verre");
                     break;
                 case 4 :
-                    console.log("sous-étape 5: cassage des derniers petits bout de verre");
+                    // console.log("sous-étape 5: cassage des derniers petits bout de verre");
                     break;
                 case 5 :
-                    console.log("sous-étape 5: drag and drop au milieu du vitrail fini");
+                    // console.log("sous-étape 5: drag and drop au milieu du vitrail fini");
                     break;
             }
 
@@ -448,10 +448,10 @@ class ThreeScene {
 
             switch (this._subStep) {
                 case 0 :
-                    console.log("sous-étape 1");
+                    // console.log("sous-étape 1");
                     break;
                 case 1 :
-                    console.log("sous-étape 2");
+                    // console.log("sous-étape 2");
                     break;
             }
 
@@ -464,22 +464,22 @@ class ThreeScene {
             switch (this._subStep) {
 
                 case 0 :
-                    console.log("sous-étape 1: drag and drop patron sur bout de verre");
+                    // console.log("sous-étape 1: drag and drop patron sur bout de verre");
                     break;
                 case 1 :
-                    console.log("sous-étape 2: découpe du verre");
+                    // console.log("sous-étape 2: découpe du verre");
                     break;
                 case 2 :
-                    console.log("sous-étape 3: drag and drop pour enlever le bout de papier");
+                    // console.log("sous-étape 3: drag and drop pour enlever le bout de papier");
                     break;
                 case 3 :
-                    console.log("sous-étape 4: Jauge de pression pour casser le bout de verre");
+                    // console.log("sous-étape 4: Jauge de pression pour casser le bout de verre");
                     break;
                 case 4 :
-                    console.log("sous-étape 5: cassage des derniers petits bout de verre");
+                    // console.log("sous-étape 5: cassage des derniers petits bout de verre");
                     break;
                 case 5 :
-                    console.log("sous-étape 5: drag and drop au milieu du vitrail fini");
+                    // console.log("sous-étape 5: drag and drop au milieu du vitrail fini");
                     break;
             }
 
