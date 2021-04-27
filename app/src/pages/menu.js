@@ -1,3 +1,4 @@
+import ChoixEpisodeAtelierPage from '@/pageElement/ChoixEpisodePage/ChoixEpisodePage'
 import TheSeo from '@components/Structure/Seo/TheSeo'
 
 const Menu = () => {
@@ -7,7 +8,7 @@ const Menu = () => {
       title="regards d'artisans"
       description="description du projet"
       />
-      <h1>menu</h1>
+      <ChoixEpisodeAtelierPage />
     </>
   )
 }

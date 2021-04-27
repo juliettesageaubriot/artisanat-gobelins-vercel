@@ -1,0 +1,12 @@
+@import "./mandatory";
+
+.menu-modal {
+  &_container {
+    opacity: 1;
+    pointer-events: visible;
+    &.invisible {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+}

@@ -6,7 +6,6 @@ import styles from "./styles.module.scss"
 
 //components
 import TheBreadcrumb from '@components/Breadcrumb/TheBreadcrumb';
-import useBreadcrumb from '@/three-utils/breadcrumbManager'
 import ThreeScene from '@/three-utils/SetUpThree/threeScene';
 import TheAudioSnippet from '@components/AudioSnippet/TheAudioSnippet';
 import TheLoader from '@/components/Structure/Loader/TheLoader'

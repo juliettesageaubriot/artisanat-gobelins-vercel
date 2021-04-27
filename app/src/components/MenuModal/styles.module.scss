@@ -1,0 +1,101 @@
+@import "@assets/_mandatory";
+
+.menu-modal {
+  &_container {
+    position: absolute;
+    // top: 60%;
+    // left: 90%;
+    transform: translate(-50%, -50%);
+    max-width: 230px;
+    width: 100%;
+    padding: 20px 20px 30px 20px;
+    background-image: url("/assets/images/ui/modal-menu/background.png");
+    background-repeat: round;
+
+    @for $i from 0 through 100 {
+      &[data-left="#{$i}"] {
+        left: $i + 0%;
+      }
+      &[data-top="#{$i}"] {
+        top: $i + 0%;
+      }
+    }
+  }
+  &__inner {
+    .modal {
+      display: flex;
+      flex-flow: row wrap;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      .head {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+
+        font-size: 13px;
+        border-bottom: 1px solid $color-cyan;
+        padding-bottom: 2px;
+        .circle {
+          position: relative;
+          padding: 0 12px;
+          border-radius: 50%;
+          width: 10px;
+          &:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: $color-cyan;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+          }
+        }
+        .episode {
+          font-weight: $ft-bold;
+        }
+      }
+      .content {
+        display: flex;
+        flex-flow: row wrap;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        margin-top: 20px;
+        h1 {
+          font-family: $font-title;
+          font-size: 25px;
+          font-weight: $ft-light;
+          margin-bottom: 5px;
+        }
+        span {
+          font-size: 16px;
+          font-family: $font-title;
+          font-weight: $ft-light;
+          text-align: center;
+        }
+      }
+      .bottom {
+        display: flex;
+        flex-flow: row wrap;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        margin-top: 30px;
+        a {
+          span {
+            font-size: 13px;
+          }
+        }
+        .disponible {
+          font-size: 12px;
+          margin-top: 5px;
+        }
+      }
+    }
+  }
+}

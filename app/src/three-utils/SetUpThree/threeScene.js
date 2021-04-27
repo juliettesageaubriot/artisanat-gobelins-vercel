@@ -41,7 +41,6 @@ class ThreeScene {
             '_mousePointerUpHandler',
             '_mousePointerDownHandler',
             'rayCastHandler',
-
         );
 
         this._canvas = canvas;

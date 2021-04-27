@@ -6,5 +6,9 @@
     {
         "name": "scene-atelier-v04",
         "url": "/assets/models/gltf/draco/dracoModels/atelier-v04.glb"
+    },
+    {
+        "name": "scene-menu",
+        "url": "/assets/models/gltf/draco/dracoModels/menu.glb"
     }
 ]
