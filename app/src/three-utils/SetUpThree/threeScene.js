@@ -20,7 +20,8 @@ import { SetupColorPicker } from '@helpers/colorPickersHelper';
 const SETTINGS = {
     enableRaycast: true,
     enableOrbitControl: false,
-    idCamera: [0, 1, 2]
+    idCamera: [0, 1, 2],
+    enableDragAndDrop: false
 }
 
 class ThreeScene {
@@ -42,14 +43,15 @@ class ThreeScene {
             '_mousePointerUpHandler',
             '_mousePointerDownHandler',
             'rayCastHandler',
-            '_dragAndDropControls'
+            '_dragAndDropControls',
+            '_colorPickerHandler'
         );
 
         this._canvas = canvas;
 
         this._state = state;
 
-        // this._delta = 0;
+        //Clock delta
         this._clock = new THREE.Clock()
         this._previousTime = 0;
 
@@ -62,10 +64,12 @@ class ThreeScene {
         this._vitrailGroup = new THREE.Group;
         this._atelierGroup = new THREE.Group;
         this._atelierV04Group = new THREE.Group;
-
+        
+        //Raycast Arrays
         this._colorPickerTestObject = [];
         this._vitrailObjects = [];
 
+        //Draggable Objects
         this._dragItems = [];
 
         this._setup();
@@ -97,6 +101,10 @@ class ThreeScene {
         this._mouse = new THREE.Vector2();
         this._isMouseDown = false;
         this._rayCaster = new THREE.Raycaster();
+
+        this._stepManager = new StepManager(0, 0);
+
+        this._breadcrumbManager = new BreadcrumbManager(true, "La découpe du tracé");
 
         this._colorPicked = {
             current: null,
@@ -150,8 +158,9 @@ class ThreeScene {
                     this._vitrailGroup.add(child);
                     SetupColorPicker(child, this._colorPickerTestObject, this._vitrailObjects);
 
-                    this._vitrailGroup.position.set(-1.5, 1, 2.2);
-                    this._vitrailGroup.rotation.set(0, Math.PI / 2, 0);
+                    // this._vitrailGroup.position.set(-1.5, 1, 2.2);
+                    this._vitrailGroup.position.set(0.5, 1, -1.5);
+                    this._vitrailGroup.rotation.set(0, Math.PI, 0);
                     this._vitrailGroup.scale.set(0.7, 0.7, 0.7);
 
                 } else if ("atelier_03" === child.name) {
@@ -162,10 +171,7 @@ class ThreeScene {
 
                     this.cameraAnimator = new AnimationManager(child, this._cameraAnimations);
                     this.cameraManager = new CameraManager(this._camera, this._cameras, this.cameraAnimator);
-
-                    this.breadcrumbManager = new BreadcrumbManager(true, "La découpe du tracé");
-                    this.addStepManager = new StepManager(0, 0);
-
+                    
                     // console.log(this._cameras)
                 } else if ("CameraAnim1_Orientation" === child.name) {
 
@@ -199,8 +205,6 @@ class ThreeScene {
         this._mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
         this._mouse.y = - (e.clientY / window.innerHeight) * 2 + 1;
 
-
-
         this._rayCaster.setFromCamera(this._mouse, this._camera);
 
         let intersects = this._rayCaster.intersectObjects(this._colorPickerTestObject);
@@ -209,9 +213,62 @@ class ThreeScene {
     }
 
     rayCastHandler(intersects) {
+        this._globalStep = this._stepManager._globalStep;
+        this._subStep = this._stepManager._subStep;
 
-        if (intersects[0]) {
-            this._object = intersects[0].object;
+        if(this._globalStep === 0) {
+
+            switch (this._subStep) {
+                case 0 :
+                    console.log("sous-étape 1");
+                    break;
+                case 1 :
+                    console.log("sous-étape 2");
+                    break;
+            }
+
+        } else if(this._globalStep === 1) {
+
+            this._colorPickerHandler(intersects[0]);
+
+        } else if(this._globalStep === 2) {
+
+            switch (this._subStep) {
+
+                case 0 :
+                    console.log("sous-étape 1: drag and drop patron sur bout de verre");
+                    break;
+                case 1 :
+                    console.log("sous-étape 2: découpe du verre");
+                    break;
+                case 2 :
+                    console.log("sous-étape 3: drag and drop pour enlever le bout de papier");
+                    break;
+                case 3 :
+                    console.log("sous-étape 4: Jauge de pression pour casser le bout de verre");
+                    break;
+                case 4 :
+                    console.log("sous-étape 5: cassage des derniers petits bout de verre");
+                    break;
+                case 5 :
+                    console.log("sous-étape 5: drag and drop au milieu du vitrail fini");
+                    break;
+            }
+
+        }
+
+        
+    }
+
+    _colorPickerHandler(intersect) {
+        //On pourrait également utiliser cette technique
+        // this._globalStep = this._stepManager._globalStep;
+        // this._subStep = this._stepManager._subStep;
+
+        // if(this._globalStep !== 1) return
+        if (intersect) {
+            this._object = intersect.object;
+            //console.log(this._object);
             if (this._currentIntersect) {
                 if (this._isMouseDown === true) {
                     this._currentIntersect.material.color = this._colorPicked.old;
@@ -236,6 +293,42 @@ class ThreeScene {
             }
 
             this._currentIntersect = null
+        }
+    }
+
+    _colorPickerMouseDown() {
+        if (this._currentIntersect) {
+            switch (this._currentIntersect.name) {
+                case "green":
+                    this._colorPicked.current = this._currentIntersect.material.color;
+                    //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "green");
+                    //   cursorColorPickerInner.current.style.transform = "scale(1.5)"
+                    break
+                case "purple":
+                    this._colorPicked.current = this._currentIntersect.material.color;
+                    //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "purple");
+                    //   cursorColorPickerInner.current.style.transform = "scale(1.5)"
+                    break
+                case "white":
+                    this._colorPicked.current = this._currentIntersect.material.color;
+                    //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "white");
+                    //   cursorColorPickerInner.current.style.transform = "scale(1.5)"
+                    break
+            }
+        }
+    }
+    _colorPickerMouseUp() {
+        if (this._currentIntersect) {
+            if (this._vitrailObjects.includes(this._currentIntersect.name)) {
+                this._currentIntersect.material.color = this._colorPicked.current;
+            }
+            this._colorPicked.current = null;
+            //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "default");
+            //   cursorColorPickerInner.current.style.transform = "scale(.8)"
+        } else {
+            this._colorPicked.current = null;
+            //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "default");
+            //   cursorColorPickerInner.current.style.transform = "scale(.8)"
         }
     }
 
@@ -299,44 +392,97 @@ class ThreeScene {
     }
 
     _mousePointerDownHandler(e) {
-        // console.log("pointer down" , e)
         this._isMouseDown = true;
-        if (this._currentIntersect) {
-            switch (this._currentIntersect.name) {
-                case "green":
-                    this._colorPicked.current = this._currentIntersect.material.color;
-                    //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "green");
-                    //   cursorColorPickerInner.current.style.transform = "scale(1.5)"
-                    break
-                case "purple":
-                    this._colorPicked.current = this._currentIntersect.material.color;
-                    //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "purple");
-                    //   cursorColorPickerInner.current.style.transform = "scale(1.5)"
-                    break
-                case "white":
-                    this._colorPicked.current = this._currentIntersect.material.color;
-                    //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "white");
-                    //   cursorColorPickerInner.current.style.transform = "scale(1.5)"
-                    break
+        this._globalStep = this._stepManager._globalStep;
+        this._subStep = this._stepManager._subStep;
+        
+        if(this._globalStep === 0) {
+
+            switch (this._subStep) {
+                case 0 :
+                    console.log("sous-étape 1");
+                    break;
+                case 1 :
+                    console.log("sous-étape 2");
+                    break;
             }
+
+        } else if(this._globalStep === 1) {
+
+            this._colorPickerMouseDown();
+
+        } else if(this._globalStep === 2) {
+
+            switch (this._subStep) {
+
+                case 0 :
+                    console.log("sous-étape 1: drag and drop patron sur bout de verre");
+                    break;
+                case 1 :
+                    console.log("sous-étape 2: découpe du verre");
+                    break;
+                case 2 :
+                    console.log("sous-étape 3: drag and drop pour enlever le bout de papier");
+                    break;
+                case 3 :
+                    console.log("sous-étape 4: Jauge de pression pour casser le bout de verre");
+                    break;
+                case 4 :
+                    console.log("sous-étape 5: cassage des derniers petits bout de verre");
+                    break;
+                case 5 :
+                    console.log("sous-étape 5: drag and drop au milieu du vitrail fini");
+                    break;
+            }
+
         }
+        
     }
 
     _mousePointerUpHandler(e) {
-        // console.log("pointer up", e)
-        // rayCast(e);
         this._isMouseDown = false;
-        if (this._currentIntersect) {
-            if (this._vitrailObjects.includes(this._currentIntersect.name)) {
-                this._currentIntersect.material.color = this._colorPicked.current;
+        this._globalStep = this._stepManager._globalStep;
+        this._subStep = this._stepManager._subStep;
+
+        if(this._globalStep === 0) {
+
+            switch (this._subStep) {
+                case 0 :
+                    console.log("sous-étape 1");
+                    break;
+                case 1 :
+                    console.log("sous-étape 2");
+                    break;
             }
-            this._colorPicked.current = null;
-            //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "default");
-            //   cursorColorPickerInner.current.style.transform = "scale(.8)"
-        } else {
-            this._colorPicked.current = null;
-            //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "default");
-            //   cursorColorPickerInner.current.style.transform = "scale(.8)"
+
+        } else if(this._globalStep === 1) {
+
+            this._colorPickerMouseUp();
+
+        } else if(this._globalStep === 2) {
+
+            switch (this._subStep) {
+
+                case 0 :
+                    console.log("sous-étape 1: drag and drop patron sur bout de verre");
+                    break;
+                case 1 :
+                    console.log("sous-étape 2: découpe du verre");
+                    break;
+                case 2 :
+                    console.log("sous-étape 3: drag and drop pour enlever le bout de papier");
+                    break;
+                case 3 :
+                    console.log("sous-étape 4: Jauge de pression pour casser le bout de verre");
+                    break;
+                case 4 :
+                    console.log("sous-étape 5: cassage des derniers petits bout de verre");
+                    break;
+                case 5 :
+                    console.log("sous-étape 5: drag and drop au milieu du vitrail fini");
+                    break;
+            }
+
         }
     }
 
@@ -405,6 +551,7 @@ class ThreeScene {
     }
 
     _dragAndDropControls() {
+        if (!SETTINGS.enableDragAndDrop) return;
         this._dragAndDropControls = new DragControls( this._dragItems, this._camera, this._renderer.domElement);
 
         this._dragAndDropControls.addEventListener( 'dragstart', function ( event ) {
