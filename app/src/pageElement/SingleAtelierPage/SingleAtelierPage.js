@@ -61,6 +61,7 @@ const SingleAtelierPage = () => {
         <TheBreadcrumb 
         // isShowing={isShowingBreadcrumb} hide={toggle}
         />
+        <div className={styles.pressureGauge} id="pressureGauge"></div>
         <div ref={ref} />
         <div className={styles.colorPickerContainer} ref={cursorColorPickerContainer}>
           <div className={styles.colorPickerInner} ref={cursorColorPickerInner}></div>

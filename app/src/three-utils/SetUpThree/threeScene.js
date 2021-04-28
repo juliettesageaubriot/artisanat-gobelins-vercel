@@ -12,8 +12,10 @@ import AnimationManager from "@three-utils/animationManager.js";
 import CameraManager from "@three-utils/cameraManager.js";
 import BreadcrumbManager from '@/three-utils/breadcrumbManager.js';
 import StepManager from "@three-utils/stepManager.js"
+import UIManager from "@/three-utils/UIManager.js";
 
 import { SetupColorPicker } from '@helpers/colorPickersHelper';
+
 
 // import ThreeModele from './ThreeModele';
 
@@ -45,7 +47,9 @@ class ThreeScene {
             'rayCastHandler',
             '_dragAndDropControls',
             '_colorPickerHandler',
-            '_toggleDragAndDropControls'
+            '_toggleDragAndDropControls',
+            '_glassCutOutPressureGauge',
+            '_pressureGaugeHandler'
         );
 
         this._canvas = canvas;
@@ -107,9 +111,13 @@ class ThreeScene {
         this._isMouseDown = false;
         this._rayCaster = new THREE.Raycaster();
 
-        this._stepManager = new StepManager(0, 0);
+        this._stepManager = new StepManager(3, 2);
 
         this._breadcrumbManager = new BreadcrumbManager(true, "La découpe du tracé");
+
+        this._UIManager = new UIManager();
+
+        this._pressureGaugeValue = 0;
 
         this._colorPicked = {
             current: null,
@@ -256,7 +264,7 @@ class ThreeScene {
                     this._paperCutOutDragAndDropHandler(intersects[0]);
                     break;
                 case 1 :
-                    //console.log("sous-étape 2");
+                    this._paperCutOutScrollAnimHandler(intersects[0]);
                     break;
             }
 
@@ -279,6 +287,7 @@ class ThreeScene {
                     break;
                 case 3 :
                     // console.log("sous-étape 4: Jauge de pression pour casser le bout de verre");
+                    this._glassCutOutPressureGauge(intersects[0]);
                     break;
                 case 4 :
                     // console.log("sous-étape 5: cassage des derniers petits bout de verre");
@@ -377,10 +386,47 @@ class ThreeScene {
 
     _paperCutOutMouseDown() {
         console.log("paper cut out mousedown");
+        
     }
     _paperCutOutMouseUp() {
         console.log("paper cut out mouseup");
     }
+
+    _paperCutOutScrollAnimHandler(intersect) {
+        if (intersect) {
+            this._object = intersect.object;
+            console.log(this._object);
+        }
+        else {
+           
+        }
+    }
+
+    _glassCutOutPressureGauge(intersect) {
+        if (intersect) {
+            this._object = intersect.object;
+            console.log(this._object);
+        }
+        else {
+           
+        }
+    }
+
+    _glassCutOutPressureGaugeMouseDown() {
+        console.log("glass mouse down");
+    }
+    _glassCutOutPressureGaugeMouseUp() {
+        console.log("glass mouse up")
+        if(this._pressureGaugeValue > 80 && this._pressureGaugeValue < 100) {
+            console.log("vous avez gagné !");
+        } else {
+            console.log("vous avez perdu !");
+            this._pressureGaugeValue = 0;
+            this._UIManager.UI.pressureGauge.style.transform = `scale(1)`;
+        }
+    }
+
+    
 
     _animateCameraPlay(index) {
         let buttonCamera1 = document.createElement("button");
@@ -476,6 +522,7 @@ class ThreeScene {
                     break;
                 case 3 :
                     // console.log("sous-étape 4: Jauge de pression pour casser le bout de verre");
+                    this._glassCutOutPressureGaugeMouseDown();
                     break;
                 case 4 :
                     // console.log("sous-étape 5: cassage des derniers petits bout de verre");
@@ -524,6 +571,7 @@ class ThreeScene {
                     break;
                 case 3 :
                     // console.log("sous-étape 4: Jauge de pression pour casser le bout de verre");
+                    this._glassCutOutPressureGaugeMouseUp();
                     break;
                 case 4 :
                     // console.log("sous-étape 5: cassage des derniers petits bout de verre");
@@ -548,6 +596,8 @@ class ThreeScene {
         if (this.cameraAnimator) {
             this.cameraAnimator.update(deltaTime)
         }
+
+        this._pressureGaugeHandler(deltaTime);
 
         // this._orbitControlsHandler();
 
@@ -681,6 +731,19 @@ class ThreeScene {
         // Si jamais les designs veulent changer la couleurs quand ça a été actif
         // if(this.addStepManager.globalStep > ateliersNumber) return
         // li.classList.add('actived')
+    }
+
+    _pressureGaugeHandler(deltaTime) {
+        this._globalStep = this._stepManager._globalStep;
+        this._subStep = this._stepManager._subStep;
+
+        if(this._globalStep !== 2 || this._subStep !== 3) return;
+
+        if(this._isMouseDown) {
+            this._pressureGaugeValue += Math.ceil(deltaTime);
+            console.log(this._pressureGaugeValue);
+            this._UIManager.UI.pressureGauge.style.transform = `scale(${1 + this._pressureGaugeValue / 100})`;
+        }
     }
 
 }
