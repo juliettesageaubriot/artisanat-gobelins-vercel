@@ -26,6 +26,7 @@ class ThreeSceneMenu {
       '_resizeHandler',
       '_setupEventListeners',
       '_setEnvironmentMap',
+      '_setTextureLoader',
       '_assetsLoadedHandler',
       '_setOrbitalControls',
       '_orbitControlsHandler',
@@ -51,6 +52,10 @@ class ThreeSceneMenu {
     this._chapeauGroup = new THREE.Group;
 
     this._chaptersTestObject = []
+
+    this._loadingManager
+    this._textureLoader
+    this._colorTexture
 
     this._setup();
     this._loadAssets();
@@ -85,6 +90,7 @@ class ThreeSceneMenu {
       current: null,
       old: null
     }
+
 
     this._currentIntersect = null;
 
@@ -142,8 +148,6 @@ class ThreeSceneMenu {
     this._mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
     this._mouse.y = - (e.clientY / window.innerHeight) * 2 + 1;
 
-
-
     this._rayCaster.setFromCamera(this._mouse, this._camera);
 
     let intersects = this._rayCaster.intersectObjects(this._chaptersTestObject, false);
@@ -152,8 +156,20 @@ class ThreeSceneMenu {
   }
 
   rayCastHandler(intersects) {
+    this._object
+
     this._currentModal;
     this._previousModal;
+
+    this._currentObjectName
+    this._previousObjectName
+
+    this._currentMaterial
+    this._newMaterial
+
+    console.log(this._currentMaterial);
+
+    this._setNewMaterial = false
 
     if (intersects[0]) {
       this._object = intersects[0].object;
@@ -164,26 +180,60 @@ class ThreeSceneMenu {
 
       this._currentObjectName = this._currentIntersect.name;
       this.idChapterHovered.SetCurrentIdHovered(this._currentObjectName);
+      console.log(this._currentObjectName);
+
+      this._currentMaterial = this._setTextureLoader(this.idChapterHovered.currentMaterial)
+      this._newMaterial = this._setTextureLoader(this.idChapterHovered.newMaterial)
+
       this._modal.current = this.idChapterHovered.currentID;
-      
+
       this._idModal = 'modal-menu-' + this._modal.current;
       this._currentModal = document.getElementById(this._idModal);
       this._currentModal.classList.remove('invisible');
 
+
       if (this._currentModal !== this._previousModal) {
-        if(this._previousModal)
+        if (this._previousModal) {
           this._previousModal.classList.add('invisible');
+        }
       }
+
+      this._currentIntersect.material = new THREE.MeshBasicMaterial({ map: this._newMaterial })
+      this._currentIntersect.material.needsUpdate = true;
+
+      // console.log(this._setNewMaterial);
+
       //   console.log('mouse enter')
     }
     else {
-        if (this._currentIntersect) {
-            //   _previousModal.log('mouse leave')
-            this._previousModal = this._currentModal;
-            document.querySelector("html").style.cursor = "initial";
-        }
+      if (this._currentIntersect) {
+        //   _previousModal.log('mouse leave')
+        this._previousModal = this._currentModal;
+        this._previousObjectName = this._currentObjectName;
+
+        this._currentIntersect.material = new THREE.MeshBasicMaterial({ map: this._currentMaterial })
+        this._currentIntersect.material.needsUpdate = true;
+
+        document.querySelector("html").style.cursor = "initial";
+      }
     }
 
+  }
+
+  _setTextureLoader(elementTexture) {
+    this._loadingManager = new THREE.LoadingManager()
+    this._textureLoader = new THREE.TextureLoader(this._loadingManager)
+
+    if (elementTexture) {
+      this.colorTexture = this._textureLoader.load(elementTexture)
+
+      this.colorTexture.wrapS = THREE.RepeatWrapping;
+      this.colorTexture.wrapT = THREE.RepeatWrapping;
+      this.colorTexture.flipY = false
+      this.colorTexture.flipX = false
+    }
+
+    return (this.colorTexture)
   }
 
   _mousemoveHandler(e) {
@@ -245,6 +295,7 @@ class ThreeSceneMenu {
     window.addEventListener('resize', this._resizeHandler);
     window.addEventListener('mousemove', this._mousemoveHandler);
   }
+
 
   _setEnvironmentMap() {
     const cubeTextureLoader = new THREE.CubeTextureLoader();
