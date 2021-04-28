@@ -61,7 +61,8 @@ class ThreeSceneMenu {
     this._scene = new THREE.Scene();
 
     this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
-    this._camera.position.set(3, 1, 4);
+    this._camera.position.set(3, 1, 3.5);
+    this._camera.rotation.set(0, 0, 0)
     this._scene.add(this._camera);
 
     this._ambientLight = new THREE.AmbientLight(0xffffff, 1)
@@ -173,7 +174,6 @@ class ThreeSceneMenu {
         if(this._previousModal)
           this._previousModal.classList.add('invisible');
       }
-
       //   console.log('mouse enter')
     }
     else {

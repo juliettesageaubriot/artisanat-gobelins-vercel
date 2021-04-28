@@ -20,7 +20,7 @@ const MenuModal = ({ id, title, caption, duration, date, left, top, disponibilit
           </div>
 
           <div className={styles.bottom}>
-            <Link href={url} >
+            <Link href={url}>
               <a className={`${styles.link} link link-primary ${disponibility === true ? "" : "nodispo"}`}>
                 {disponibility === true ?
                   <span>J'entre dans l'atelier</span>

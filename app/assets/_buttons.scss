@@ -53,18 +53,42 @@
 // link global link
 .link {
   &-primary {
-    // background-color: $color-primary;
-    // width: 150px;
+    position: relative;
     padding: 10px 12px;
-    // height: 40px;
     text-decoration: none;
     color: $color-black;
-    background-image: url("/assets/images/ui/cta/inside-atelier.png");
-    background-repeat: round;
-    &.nodispo {
-      filter: grayscale(100%);
-      cursor: initial;
+    overflow: hidden;
+
+    &:after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      transform: translate(-100%, -50%);
+      background-image: url("/assets/images/ui/cta/inside-atelier.png");
+      background-repeat: round;
+      z-index: -1;
+      transition: 0.2s ease all;
     }
+
+    &:hover {
+      &:after {
+        // left: 50%;
+        transform: translate(0, -50%);
+        transition: 0.2s ease all;
+      }
+    }
+
+    &.nodispo {
+      cursor: initial;
+      pointer-events: none;
+      span {
+        background-color: $color-grey-100;
+      }
+    }
+
     span {
       padding: 5px 10px;
       border: 1px solid $color-black;
