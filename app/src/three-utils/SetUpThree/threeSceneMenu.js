@@ -151,7 +151,7 @@ class ThreeSceneMenu {
   }
 
   rayCastHandler(intersects) {
-    this._currentModel;
+    this._currentModal;
     this._previousModal;
 
     if (intersects[0]) {
