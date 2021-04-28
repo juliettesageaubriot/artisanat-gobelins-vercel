@@ -26,7 +26,8 @@ class ThreeSceneMenu {
       '_resizeHandler',
       '_setupEventListeners',
       '_setEnvironmentMap',
-      '_setTextureLoader',
+      // '_setTextureLoader',
+      '_loadTexture',
       '_assetsLoadedHandler',
       '_setOrbitalControls',
       '_orbitControlsHandler',
@@ -53,9 +54,29 @@ class ThreeSceneMenu {
 
     this._chaptersTestObject = []
 
+    this._newColorTextureHover = []
+    this._currentColorTextureHover = []
+
+    this._newMaterialArray = [
+      '/assets/textures/menu/newMaterials/vitrail_plomb_baseColor.png',
+      '/assets/textures/menu/newMaterials/vitrail_verre_baseColor.png',
+      '/assets/textures/menu/newMaterials/collier_baseColor.png',
+      '/assets/textures/menu/newMaterials/buste_baseColor.png',
+      '/assets/textures/menu/newMaterials/contreBasse_baseColor.png',
+      '/assets/textures/menu/newMaterials/chapeau_baseColor.png'
+    ]
+
+    this._currentMaterialArray = [
+      '/assets/textures/menu/currentMaterials/vitrail_plomb_baseColor.png',
+      '/assets/textures/menu/currentMaterials/vitrail_verre_baseColor.png',
+      '/assets/textures/menu/currentMaterials/collier_baseColor.png',
+      '/assets/textures/menu/currentMaterials/buste_baseColor.png',
+      '/assets/textures/menu/currentMaterials/contreBasse_baseColor.png',
+      '/assets/textures/menu/currentMaterials/chapeau_baseColor.png'
+    ]
+
     this._loadingManager
     this._textureLoader
-    this._colorTexture
 
     this._setup();
     this._loadAssets();
@@ -98,6 +119,7 @@ class ThreeSceneMenu {
     this._setupEventListeners();
     this._resizeHandler();
     this._setEnvironmentMap();
+    this._loadTexture();
   }
 
   _loadAssets() {
@@ -164,13 +186,6 @@ class ThreeSceneMenu {
     this._currentObjectName
     this._previousObjectName
 
-    this._currentMaterial
-    this._newMaterial
-
-    console.log(this._currentMaterial);
-
-    this._setNewMaterial = false
-
     if (intersects[0]) {
       this._object = intersects[0].object;
 
@@ -180,10 +195,6 @@ class ThreeSceneMenu {
 
       this._currentObjectName = this._currentIntersect.name;
       this.idChapterHovered.SetCurrentIdHovered(this._currentObjectName);
-      console.log(this._currentObjectName);
-
-      this._currentMaterial = this._setTextureLoader(this.idChapterHovered.currentMaterial)
-      this._newMaterial = this._setTextureLoader(this.idChapterHovered.newMaterial)
 
       this._modal.current = this.idChapterHovered.currentID;
 
@@ -198,7 +209,7 @@ class ThreeSceneMenu {
         }
       }
 
-      this._currentIntersect.material = new THREE.MeshBasicMaterial({ map: this._newMaterial })
+      this._currentIntersect.material = new THREE.MeshBasicMaterial({ map: this._newColorTextureHover[this.idChapterHovered.textureID] })
       this._currentIntersect.material.needsUpdate = true;
 
       // console.log(this._setNewMaterial);
@@ -208,10 +219,11 @@ class ThreeSceneMenu {
     else {
       if (this._currentIntersect) {
         //   _previousModal.log('mouse leave')
+        
         this._previousModal = this._currentModal;
         this._previousObjectName = this._currentObjectName;
 
-        this._currentIntersect.material = new THREE.MeshBasicMaterial({ map: this._currentMaterial })
+        this._currentIntersect.material = new THREE.MeshBasicMaterial({ map: this._currentColorTextureHover[this.idChapterHovered.textureID] })
         this._currentIntersect.material.needsUpdate = true;
 
         document.querySelector("html").style.cursor = "initial";
@@ -220,20 +232,33 @@ class ThreeSceneMenu {
 
   }
 
-  _setTextureLoader(elementTexture) {
+  _loadTexture() {
+
     this._loadingManager = new THREE.LoadingManager()
     this._textureLoader = new THREE.TextureLoader(this._loadingManager)
 
-    if (elementTexture) {
-      this.colorTexture = this._textureLoader.load(elementTexture)
+    this._newMaterialArray.map((url) => {
+      this.colorTextureInstance = this._textureLoader.load(url);
 
-      this.colorTexture.wrapS = THREE.RepeatWrapping;
-      this.colorTexture.wrapT = THREE.RepeatWrapping;
-      this.colorTexture.flipY = false
-      this.colorTexture.flipX = false
-    }
+      this.colorTextureInstance.wrapS = THREE.RepeatWrapping;
+      this.colorTextureInstance.wrapT = THREE.RepeatWrapping;
+      this.colorTextureInstance.flipY = false;
+      this.colorTextureInstance.flipX = false;
 
-    return (this.colorTexture)
+      this._newColorTextureHover.push(this.colorTextureInstance);
+    })
+
+    this._currentMaterialArray.map((url) => {
+      this.colorTextureInstance = this._textureLoader.load(url);
+
+      this.colorTextureInstance.wrapS = THREE.RepeatWrapping;
+      this.colorTextureInstance.wrapT = THREE.RepeatWrapping;
+      this.colorTextureInstance.flipY = false;
+      this.colorTextureInstance.flipX = false;
+
+      this._currentColorTextureHover.push(this.colorTextureInstance);
+    })
+
   }
 
   _mousemoveHandler(e) {

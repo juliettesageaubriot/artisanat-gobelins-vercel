@@ -7,39 +7,33 @@ export default class MenuHoveredManager {
     switch (name) {
       case "vitrail_1":
         this.currentID = 1
-        this.newMaterial = '/assets/textures/menu/newMaterials/vitrail_plomb_baseColor.png'
-        this.currentMaterial = '/assets/textures/menu/currentMaterials/vitrail_plomb_baseColor.png'
+        this.textureID = 0
         break;
       case "vitrail_2":
         this.currentID = 1
-        this.newMaterial = '/assets/textures/menu/newMaterials/vitrail_verre_baseColor.png'
-        this.currentMaterial = '/assets/textures/menu/currentMaterials/vitrail_verre_baseColor.png'
+        this.textureID = 1
         break;
 
       case "collier_1":
         this.currentID = 2
-        this.newMaterial = '/assets/textures/menu/newMaterials/collier_baseColor.png'
-        this.currentMaterial = '/assets/textures/menu/currentMaterials/collier_baseColor.png'
+        this.textureID = 2
         break;
       case "collier_2":
         this.currentID = 2
-        this.newMaterial = '/assets/textures/menu/newMaterials/buste_baseColor.png'
-        this.currentMaterial = '/assets/textures/menu/currentMaterials/buste_baseColor.png'
+        this.textureID = 3
         break;
 
       case "violoncelle":
         this.currentID = 3
-        this.newMaterial = '/assets/textures/menu/newMaterials/contreBasse_baseColor.png'
-        this.currentMaterial = '/assets/textures/menu/currentMaterials/contreBasse_baseColor.png'
+        this.textureID = 4
         break;
 
       case "chapeau":
         this.currentID = 4
-        this.newMaterial = '/assets/textures/menu/newMaterials/chapeau_baseColor.png'
-        this.currentMaterial = '/assets/textures/menu/currentMaterials/chapeau_baseColor.png'
+        this.textureID = 5
         break;
     }
 
-    return (this.currentID, this.newMaterial, this.currentMaterial);
+    return (this.currentID, this.textureID, this.newMaterial, this.currentMaterial);
   }
 }
