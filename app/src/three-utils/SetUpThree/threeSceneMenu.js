@@ -151,50 +151,39 @@ class ThreeSceneMenu {
   }
 
   rayCastHandler(intersects) {
-    let modals = document.querySelectorAll('.menu-modals')
-    const modalsArray = [...modals]
+    this._currentModel;
+    this._previousModal;
 
     if (intersects[0]) {
+      this._object = intersects[0].object;
+
+      this._currentIntersect = this._object;
+
       document.querySelector("html").style.cursor = "pointer";
 
-      this._currentObjectName = intersects[0].object.name
-      this.idChapterHovered.SetCurrentIdHovered(this._currentObjectName)
-      this._modal.current = this.idChapterHovered.currentID
+      this._currentObjectName = this._currentIntersect.name;
+      this.idChapterHovered.SetCurrentIdHovered(this._currentObjectName);
+      this._modal.current = this.idChapterHovered.currentID;
+      
+      this._idModal = 'modal-menu-' + this._modal.current;
+      this._currentModal = document.getElementById(this._idModal);
+      this._currentModal.classList.remove('invisible');
 
-      let idModal = 'modal-menu-' + this._modal.current;
+      if (this._currentModal !== this._previousModal) {
+        if(this._previousModal)
+          this._previousModal.classList.add('invisible');
+      }
 
-      let currentModal = document.getElementById(idModal)
-
-      // if (this._modal.current) {
-      //   // Le rend visible
-      //   currentModal.classList.remove('invisible')
-
-      //   modalsArray.map((elm) => {
-      //     // console.log(elm.getAttribute('class'));
-      //     if (elm.getAttribute('class').includes('invisible')) {
-      //       console.log(elm); 
-      //     }
-      //   })
-      // }
-
-      // if (this._modal.current !== this._modal.old) {
-      //   this._modal.old = this._modal.current
-      // }
-
-      dataMenu.map((elm) => {
-        // if (elm.id === this._modal.current) {
-        //   currentModal.classList.remove('invisible')
-        // } else {
-        //   if (prevModal) prevModal.classList.add('invisible')
-        // }
-        // this._modal.old = this._modal.current
-        // console.log(prevModal);
-      })
-
-    } else {
-      // currentModal.style.opacity = "1"
-      document.querySelector("html").style.cursor = "initial";
+      //   console.log('mouse enter')
     }
+    else {
+        if (this._currentIntersect) {
+            //   _previousModal.log('mouse leave')
+            this._previousModal = this._currentModal;
+            document.querySelector("html").style.cursor = "initial";
+        }
+    }
+
   }
 
   _mousemoveHandler(e) {
