@@ -3,14 +3,14 @@
         "id": 0,
         "text": "Je suis un subtitle et je m'affiche 5 secondes oulalala", 
         "duration": "5000",
-        "appear": false,
-        "audioSource": ""
+        "appear": true,
+        "audioSource": "assets/audios/test_song.mp3"
       },
       {
         "id": 1,
         "text": "Je suis un subtitle et je m'affiche 3 secondes oulalala", 
         "duration": "3000",
         "appear": false,
-        "audioSource": ""
+        "audioSource": "assets/audios/test_song.mp3"
       }
 ]
