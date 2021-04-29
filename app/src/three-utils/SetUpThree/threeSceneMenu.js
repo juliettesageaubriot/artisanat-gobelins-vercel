@@ -94,6 +94,10 @@ class ThreeSceneMenu {
     this._ambientLight = new THREE.AmbientLight(0xffffff, 1)
     this._scene.add(this._ambientLight);
 
+    // this._directionalLight = new THREE.DirectionalLight(0xffffff, 1)
+    // this._directionalLight.position.set(3, 1, 3.5)
+    // this._scene.add(this._directionalLight);
+
     this._renderer = new THREE.WebGLRenderer({
       //canvas: this._canvas,
       antialias: true,
@@ -101,6 +105,8 @@ class ThreeSceneMenu {
 
     this._renderer.shadowMap.enabled = true;
     this._renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    this._renderer.toneMapping = THREE.NoToneMapping
+    this._renderer.outputEncoding = THREE.sRGBEncoding
 
     this._canvas.appendChild(this._renderer.domElement);
 
@@ -142,6 +148,7 @@ class ThreeSceneMenu {
         if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
           // child.material.envMap = environmentMap
           // child.material.envMapIntensity = 5
+
           child.castShadow = true
           child.receiveShadow = true
         }
@@ -219,7 +226,7 @@ class ThreeSceneMenu {
     else {
       if (this._currentIntersect) {
         //   _previousModal.log('mouse leave')
-        
+
         this._previousModal = this._currentModal;
         this._previousObjectName = this._currentObjectName;
 
@@ -244,6 +251,7 @@ class ThreeSceneMenu {
       this.colorTextureInstance.wrapT = THREE.RepeatWrapping;
       this.colorTextureInstance.flipY = false;
       this.colorTextureInstance.flipX = false;
+      this.colorTextureInstance.encoding = THREE.sRGBEncoding;
 
       this._newColorTextureHover.push(this.colorTextureInstance);
     })
@@ -255,6 +263,7 @@ class ThreeSceneMenu {
       this.colorTextureInstance.wrapT = THREE.RepeatWrapping;
       this.colorTextureInstance.flipY = false;
       this.colorTextureInstance.flipX = false;
+      this.colorTextureInstance.encoding = THREE.sRGBEncoding;
 
       this._currentColorTextureHover.push(this.colorTextureInstance);
     })
