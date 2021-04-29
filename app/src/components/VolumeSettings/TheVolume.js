@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 import Howler from 'react-howler';
 import localforage from "localforage";
 
-const TheVolume = ({absolute}) => {
+const TheVolume = ({ absolute }) => {
 
     const slider = useRef(null);
     const [volume, setVolume] = useState(0.5);
@@ -12,13 +12,12 @@ const TheVolume = ({absolute}) => {
     const handleChange = (e) => {
         setVolume(e.target.value / 100);
     }
-    useEffect( async () => {
+    useEffect(async () => {
         const currentGlobalVolume = await localforage.getItem("globalVolume");
-        if(currentGlobalVolume) {
+        if (currentGlobalVolume) {
             setVolume(currentGlobalVolume);
             console.log(currentGlobalVolume)
         }
-        
     }, [])
 
     useEffect(() => {
@@ -26,14 +25,23 @@ const TheVolume = ({absolute}) => {
         localforage.setItem("globalVolume", volume);
     }, [volume])
 
-    return ( 
-        <div className={`${styles["volumeContainer"]} ${absolute ? "" : styles["isNotAbsolute"]}`}>    
+    console.log(volume);
+    return (
+        <div className={`${styles["volumeContainer"]} ${absolute ? "" : styles["isNotAbsolute"]}`}>
             <div className={styles["volumeSlider"]}>
-                <label>Volume</label>
-                <input type="range" min="0" max="100" value={volume * 100} className={styles["slider"]} ref={slider} onChange={handleChange}/>
+                {/* <label>Volume</label> */}
+                <input type="range" min="0" max="100" value={volume * 100} className={styles["slider"]} ref={slider} onChange={handleChange} />
+            </div>
+
+            <div className={`${styles['sound-container']}`}>
+                {0 === volume ?
+                    <img src="/assets/images/ui/sound/son_coupe_hover.png" />
+                    :
+                    <img src="/assets/images/ui/sound/son_hover.png" />
+                }
             </div>
         </div>
-     );
+    );
 }
- 
+
 export default TheVolume;

@@ -94,10 +94,6 @@ class ThreeSceneMenu {
     this._ambientLight = new THREE.AmbientLight(0xffffff, 1)
     this._scene.add(this._ambientLight);
 
-    // this._directionalLight = new THREE.DirectionalLight(0xffffff, 1)
-    // this._directionalLight.position.set(3, 1, 3.5)
-    // this._scene.add(this._directionalLight);
-
     this._renderer = new THREE.WebGLRenderer({
       //canvas: this._canvas,
       antialias: true,

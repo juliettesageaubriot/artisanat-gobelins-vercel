@@ -1,29 +1,29 @@
-@import '@assets/_mandatory';
+@import "@assets/_mandatory";
 
 .volumeContainer {
     position: absolute;
-    background-color: #C4C4C4;
+    background-color: #c4c4c4;
     bottom: 0;
     right: 0;
     height: 40px;
     width: 40px;
     border-radius: 7.5px;
     margin: 30px;
-    border: 1px solid #C4C4C4;
+    border: 1px solid #c4c4c4;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: .3s all ease-in-out;
+    transition: 0.3s all ease-in-out;
 
     &.isNotAbsolute {
         position: static;
-        
+
         margin-left: auto;
     }
 
     &:hover {
         background-color: transparent;
-        border: 1px solid #254EDA;
+        border: 1px solid #254eda;
 
         .volumeSlider {
             opacity: 1;
@@ -36,32 +36,47 @@
         width: 75px;
         transform: rotate(-90deg);
         opacity: 0;
-        transition: .3s all ease-in-out;
+        transition: 0.3s all ease-in-out;
         .slider {
             -webkit-appearance: none;
             border-radius: 20px;
             appearance: none;
             width: 100%;
             height: 10px;
-            background-color: #C4C4C4;
+            background-color: #c4c4c4;
             outline: none;
         }
-        
+
         .slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
             width: 10px;
             height: 10px;
             //transform: scale(attr(data-volume) /);
-            background: #254EDA;
+            background: #254eda;
             cursor: pointer;
         }
-        
+
         .slider::-moz-range-thumb {
             width: 10px;
-            height: 10px; 
-            background: #254EDA; 
+            height: 10px;
+            background: #254eda;
             cursor: pointer;
         }
-      }
+    }
+
+    .sound-container {
+        position: relative;
+        width: 40px;
+        height: 40px;
+        img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
 }
