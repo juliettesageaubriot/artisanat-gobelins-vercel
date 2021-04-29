@@ -19,15 +19,15 @@ const SETTINGS = {
 }
 
 class ThreeSceneMenu {
-  constructor(canvas) {
+  constructor(canvas, state) {
     bindAll(
       this,
       '_tickHandler',
       '_resizeHandler',
       '_setupEventListeners',
       '_setEnvironmentMap',
-      // '_setTextureLoader',
       '_loadTexture',
+      // '_loadSoundsChaptersHovered',
       '_assetsLoadedHandler',
       '_setOrbitalControls',
       '_orbitControlsHandler',
@@ -35,6 +35,8 @@ class ThreeSceneMenu {
     )
 
     this._canvas = canvas;
+
+    this._state = state;
 
     // this._delta = 0;
     this._clock = new THREE.Clock()
@@ -56,6 +58,7 @@ class ThreeSceneMenu {
 
     this._newColorTextureHover = []
     this._currentColorTextureHover = []
+    // this._soundChapterHovered = []
 
     this._newMaterialArray = [
       '/assets/textures/menu/newMaterials/vitrail_plomb_baseColor.png',
@@ -73,6 +76,13 @@ class ThreeSceneMenu {
       '/assets/textures/menu/currentMaterials/buste_baseColor.png',
       '/assets/textures/menu/currentMaterials/contreBasse_baseColor.png',
       '/assets/textures/menu/currentMaterials/chapeau_baseColor.png'
+    ]
+
+    this._soundsChaptersHoveredArray = [
+      'assets/audios/menu/chapters/vitrailliste.mp3',
+      'assets/audios/menu/chapters/joallier.mp3',
+      'assets/audios/menu/chapters/luthier.mp3',
+      'assets/audios/menu/chapters/chapelier.mp3',
     ]
 
     this._loadingManager
@@ -122,6 +132,10 @@ class ThreeSceneMenu {
     this._resizeHandler();
     this._setEnvironmentMap();
     this._loadTexture();
+    this._setNewState();
+    this._setNewAudioHovered()
+    // this._loadSoundsChaptersHovered(this._camera)
+
   }
 
   _loadAssets() {
@@ -215,7 +229,7 @@ class ThreeSceneMenu {
       this._currentIntersect.material = new THREE.MeshBasicMaterial({ map: this._newColorTextureHover[this.idChapterHovered.textureID] })
       this._currentIntersect.material.needsUpdate = true;
 
-      // console.log(this._setNewMaterial);
+      this._setNewAudioHovered(this._soundsChaptersHoveredArray[this.idChapterHovered.soundID])
 
       //   console.log('mouse enter')
     }
@@ -265,6 +279,15 @@ class ThreeSceneMenu {
     })
 
   }
+
+  // _loadSoundsChaptersHovered(camera) {
+  //   this._listener = new THREE.AudioListener();
+  //   camera.add(this._listener)
+
+  //   this._soundsChaptersHoveredArray.map((url) => {
+  //     this._soundChapterHovered.push(url)
+  //   })
+  // }
 
   _mousemoveHandler(e) {
     this._rayCast(e);
@@ -350,6 +373,14 @@ class ThreeSceneMenu {
 
   _orbitControlsHandler() {
     // this._controls.update();
+  }
+
+  _setNewState() {
+    // this._state.toggleBreadcrumb();
+  }
+
+  _setNewAudioHovered(url) {
+    this._state.handleUrl(url)
   }
 
 }

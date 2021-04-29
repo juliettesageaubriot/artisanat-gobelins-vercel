@@ -25,7 +25,6 @@ const TheVolume = ({ absolute }) => {
         localforage.setItem("globalVolume", volume);
     }, [volume])
 
-    console.log(volume);
     return (
         <div className={`${styles["volumeContainer"]} ${absolute ? "" : styles["isNotAbsolute"]}`}>
             <div className={styles["volumeSlider"]}>
