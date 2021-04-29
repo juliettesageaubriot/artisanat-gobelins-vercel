@@ -758,7 +758,7 @@ class ThreeScene {
         this._numberOfWheelEvent = 100;
         
         
-        if(e.deltaY > 0 && this._scrollTimeline <= this._animationDuration) {
+        if(e.deltaY > 0) {
             this._scrollTimeline += this._animationDuration / this._numberOfWheelEvent;
             this._scrollY += 1;
             this._paperCutOutScrollAnimation();
