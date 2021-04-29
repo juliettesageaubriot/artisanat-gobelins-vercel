@@ -26,6 +26,8 @@ class ThreeSceneMenu {
       '_resizeHandler',
       '_setupEventListeners',
       '_setEnvironmentMap',
+      // '_setTextureLoader',
+      '_loadTexture',
       '_assetsLoadedHandler',
       '_setOrbitalControls',
       '_orbitControlsHandler',
@@ -52,6 +54,30 @@ class ThreeSceneMenu {
 
     this._chaptersTestObject = []
 
+    this._newColorTextureHover = []
+    this._currentColorTextureHover = []
+
+    this._newMaterialArray = [
+      '/assets/textures/menu/newMaterials/vitrail_plomb_baseColor.png',
+      '/assets/textures/menu/newMaterials/vitrail_verre_baseColor.png',
+      '/assets/textures/menu/newMaterials/collier_baseColor.png',
+      '/assets/textures/menu/newMaterials/buste_baseColor.png',
+      '/assets/textures/menu/newMaterials/contreBasse_baseColor.png',
+      '/assets/textures/menu/newMaterials/chapeau_baseColor.png'
+    ]
+
+    this._currentMaterialArray = [
+      '/assets/textures/menu/currentMaterials/vitrail_plomb_baseColor.png',
+      '/assets/textures/menu/currentMaterials/vitrail_verre_baseColor.png',
+      '/assets/textures/menu/currentMaterials/collier_baseColor.png',
+      '/assets/textures/menu/currentMaterials/buste_baseColor.png',
+      '/assets/textures/menu/currentMaterials/contreBasse_baseColor.png',
+      '/assets/textures/menu/currentMaterials/chapeau_baseColor.png'
+    ]
+
+    this._loadingManager
+    this._textureLoaderg
+
     this._setup();
     this._loadAssets();
     this._scene.add(this._vitrailGroup, this._collierGroup, this._violoncelleGroup, this._chapeauGroup);
@@ -75,6 +101,8 @@ class ThreeSceneMenu {
 
     this._renderer.shadowMap.enabled = true;
     this._renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    this._renderer.toneMapping = THREE.NoToneMapping
+    this._renderer.outputEncoding = THREE.sRGBEncoding
 
     this._canvas.appendChild(this._renderer.domElement);
 
@@ -86,12 +114,14 @@ class ThreeSceneMenu {
       old: null
     }
 
+
     this._currentIntersect = null;
 
     // this._setOrbitalControls();
     this._setupEventListeners();
     this._resizeHandler();
     this._setEnvironmentMap();
+    this._loadTexture();
   }
 
   _loadAssets() {
@@ -114,6 +144,7 @@ class ThreeSceneMenu {
         if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
           // child.material.envMap = environmentMap
           // child.material.envMapIntensity = 5
+
           child.castShadow = true
           child.receiveShadow = true
         }
@@ -142,8 +173,6 @@ class ThreeSceneMenu {
     this._mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
     this._mouse.y = - (e.clientY / window.innerHeight) * 2 + 1;
 
-
-
     this._rayCaster.setFromCamera(this._mouse, this._camera);
 
     let intersects = this._rayCaster.intersectObjects(this._chaptersTestObject, false);
@@ -152,8 +181,13 @@ class ThreeSceneMenu {
   }
 
   rayCastHandler(intersects) {
+    this._object
+
     this._currentModal;
     this._previousModal;
+
+    this._currentObjectName
+    this._previousObjectName
 
     if (intersects[0]) {
       this._object = intersects[0].object;
@@ -164,25 +198,71 @@ class ThreeSceneMenu {
 
       this._currentObjectName = this._currentIntersect.name;
       this.idChapterHovered.SetCurrentIdHovered(this._currentObjectName);
+
       this._modal.current = this.idChapterHovered.currentID;
-      
+
       this._idModal = 'modal-menu-' + this._modal.current;
       this._currentModal = document.getElementById(this._idModal);
       this._currentModal.classList.remove('invisible');
 
+
       if (this._currentModal !== this._previousModal) {
-        if(this._previousModal)
+        if (this._previousModal) {
           this._previousModal.classList.add('invisible');
+        }
       }
+
+      this._currentIntersect.material = new THREE.MeshBasicMaterial({ map: this._newColorTextureHover[this.idChapterHovered.textureID] })
+      this._currentIntersect.material.needsUpdate = true;
+
+      // console.log(this._setNewMaterial);
+
       //   console.log('mouse enter')
     }
     else {
-        if (this._currentIntersect) {
-            //   _previousModal.log('mouse leave')
-            this._previousModal = this._currentModal;
-            document.querySelector("html").style.cursor = "initial";
-        }
+      if (this._currentIntersect) {
+        //   _previousModal.log('mouse leave')
+
+        this._previousModal = this._currentModal;
+        this._previousObjectName = this._currentObjectName;
+
+        this._currentIntersect.material = new THREE.MeshBasicMaterial({ map: this._currentColorTextureHover[this.idChapterHovered.textureID] })
+        this._currentIntersect.material.needsUpdate = true;
+
+        document.querySelector("html").style.cursor = "initial";
+      }
     }
+
+  }
+
+  _loadTexture() {
+
+    this._loadingManager = new THREE.LoadingManager()
+    this._textureLoader = new THREE.TextureLoader(this._loadingManager)
+
+    this._newMaterialArray.map((url) => {
+      this.colorTextureInstance = this._textureLoader.load(url);
+
+      this.colorTextureInstance.wrapS = THREE.RepeatWrapping;
+      this.colorTextureInstance.wrapT = THREE.RepeatWrapping;
+      this.colorTextureInstance.flipY = false;
+      this.colorTextureInstance.flipX = false;
+      this.colorTextureInstance.encoding = THREE.sRGBEncoding;
+
+      this._newColorTextureHover.push(this.colorTextureInstance);
+    })
+
+    this._currentMaterialArray.map((url) => {
+      this.colorTextureInstance = this._textureLoader.load(url);
+
+      this.colorTextureInstance.wrapS = THREE.RepeatWrapping;
+      this.colorTextureInstance.wrapT = THREE.RepeatWrapping;
+      this.colorTextureInstance.flipY = false;
+      this.colorTextureInstance.flipX = false;
+      this.colorTextureInstance.encoding = THREE.sRGBEncoding;
+
+      this._currentColorTextureHover.push(this.colorTextureInstance);
+    })
 
   }
 
@@ -245,6 +325,7 @@ class ThreeSceneMenu {
     window.addEventListener('resize', this._resizeHandler);
     window.addEventListener('mousemove', this._mousemoveHandler);
   }
+
 
   _setEnvironmentMap() {
     const cubeTextureLoader = new THREE.CubeTextureLoader();

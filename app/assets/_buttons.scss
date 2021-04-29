@@ -94,4 +94,18 @@
       border: 1px solid $color-black;
     }
   }
+
+  &-discover {
+    position: relative;
+    background-color: $color-primary;
+    width: 120px;
+    padding: 10px;
+    border-radius: 20px;
+    a {
+      text-decoration: none;
+      span {
+        color: $color-white;
+      }
+    }
+  }
 }
