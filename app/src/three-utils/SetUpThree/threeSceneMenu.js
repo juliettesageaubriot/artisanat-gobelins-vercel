@@ -72,7 +72,7 @@ class ThreeSceneMenu {
       '/assets/textures/menu/currentMaterials/collier_baseColor.png',
       '/assets/textures/menu/currentMaterials/buste_baseColor.png',
       '/assets/textures/menu/currentMaterials/contreBasse_baseColor.png',
-      '/assets/textures/menu/currentMaterials/chapeau_baseColosr.png'
+      '/assets/textures/menu/currentMaterials/chapeau_baseColor.png'
     ]
 
     this._loadingManager
