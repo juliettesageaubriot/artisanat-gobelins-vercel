@@ -49,7 +49,9 @@ class ThreeScene {
             '_colorPickerHandler',
             '_toggleDragAndDropControls',
             '_glassCutOutPressureGauge',
-            '_pressureGaugeHandler'
+            '_pressureGaugeHandler',
+            '_paperCutOutScrollHandler',
+            '_paperCutOutScrollAnimation'
         );
 
         this._canvas = canvas;
@@ -111,13 +113,16 @@ class ThreeScene {
         this._isMouseDown = false;
         this._rayCaster = new THREE.Raycaster();
 
-        this._stepManager = new StepManager(3, 2);
+        this._stepManager = new StepManager(4, 2);
 
         this._breadcrumbManager = new BreadcrumbManager(true, "La découpe du tracé");
 
         this._UIManager = new UIManager();
 
         this._pressureGaugeValue = 0;
+
+        this._scrollTimeline = 0;
+        this._scrollY = 0;
 
         this._colorPicked = {
             current: null,
@@ -138,8 +143,8 @@ class ThreeScene {
     _setCameraAnimationPlay(index) {
         this._camera = this._cameras[index];
         this.cameraManager.StartAnimation(index);
-        this._stepManager.addGlobalStep();
-        this._toggleDragAndDropControls();
+        // this._stepManager.addGlobalStep();
+        // this._toggleDragAndDropControls();
     }
     _setCameraAnimationReverse(index) {
         this._camera = this._cameras[index];
@@ -619,6 +624,7 @@ class ThreeScene {
         window.addEventListener('pointerdown', this._mousePointerDownHandler);
         window.addEventListener('pointerup', this._mousePointerUpHandler);
         window.addEventListener('mousemove', this._mousemoveHandler);
+        window.addEventListener('wheel', this._paperCutOutScrollHandler);
     }
 
     _setEnvironmentMap() {
@@ -744,6 +750,24 @@ class ThreeScene {
             console.log(this._pressureGaugeValue);
             this._UIManager.UI.pressureGauge.style.transform = `scale(${1 + this._pressureGaugeValue / 100})`;
         }
+    }
+
+    _paperCutOutScrollHandler(e) {
+        // console.log(e);
+        this._animationDuration = 4.166;
+        this._numberOfWheelEvent = 100;
+        
+        
+        if(e.deltaY > 0 && this._scrollTimeline <= this._animationDuration) {
+            this._scrollTimeline += this._animationDuration / this._numberOfWheelEvent;
+            this._scrollY += 1;
+            this._paperCutOutScrollAnimation();
+        }
+        console.log(this._scrollTimeline + " : " + this._scrollY);
+    }
+
+    _paperCutOutScrollAnimation() {
+        this.cameraManager.ScrollAnimation(0, this._scrollTimeline);
     }
 
 }

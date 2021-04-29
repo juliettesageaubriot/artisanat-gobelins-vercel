@@ -38,6 +38,18 @@ export default class AnimationManager {
     this.action.play();
   }
 
+  playScrollAnimation(index, scrollTimeline) {
+    this.action = this.mixer.clipAction(this.animations[index]);
+    this.action.timeScale = 1;
+    this.action.play();
+    this.action.setLoop(THREE.LoopOnce);
+    this.action.clampWhenFinished = true;
+    this.action.paused = false;
+    setTimeout(() => {
+      this.action.paused = true;
+    }, scrollTimeline * 100);
+  }
+
   update(delta) {
     if(this.mixer) {
       this.mixer.update(delta);
