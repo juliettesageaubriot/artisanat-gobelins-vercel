@@ -24,4 +24,8 @@ export default class CameraManager {
     ReverseAnimation(index) {
         this.cameraAnimations.playClipReverseByIndex(index);
     }
+
+    ScrollAnimation(index, scrollTimeline) {
+        this.cameraAnimations.playScrollAnimation(index, scrollTimeline);
+    }
 }

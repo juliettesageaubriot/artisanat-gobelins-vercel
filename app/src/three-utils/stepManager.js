@@ -1,16 +1,21 @@
+//vendors
+import localforage from "localforage";
+
 export default class StepManager {
   constructor(subStep, globalStep) {
-    this.subStep = subStep;
-    this.globalStep = globalStep;
+    this._subStep = subStep;
+    this._globalStep = globalStep;
   }
 
   addSubStep() {
-    this.subStep = this.subStep + 1;
-    return this.subStep;
+    this._subStep = this._subStep + 1;
+    localforage.setItem("globalStep", this._subStep);
+    return this._subStep;
   }
 
   addGlobalStep() {
-    this.globalStep = this.globalStep + 1;
-    return this.globalStep;
+    this._globalStep = this._globalStep + 1;
+    localforage.setItem("globalStep", this._globalStep);
+    return this._globalStep;
   }
 }
