@@ -29,14 +29,20 @@ const ChoixEpisodeAtelierPage = () => {
   useEffect(() => {
     const canvas = ref.current
     const threeScene = new ThreeSceneMenu(canvas, state);
+    return () => {
+      setUrl()
+      setIsPlaying()
+      threeScene
+    }
   }, [])
+
 
   return (
     <section>
       <TheLoader />
       <TheVolume absolute={true} />
 
-      {!!url && <TheAudioSnippet sound_url={url} play={true} shouldPlayOnStart={false} loop={false} /> }
+      {!!url && <TheAudioSnippet sound_url={url} play={true} shouldPlayOnStart={false} loop={false} />}
       <TheAudioSnippet sound_url="/assets/audios/menu/menu.mp3" play={true} shouldPlayOnStart={true} loop={true} />
       {
         dataMenu.map((elm, i) => {

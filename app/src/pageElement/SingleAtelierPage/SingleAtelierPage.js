@@ -10,6 +10,8 @@ import ThreeScene from '@/three-utils/SetUpThree/threeScene';
 import TheAudioSnippet from '@components/AudioSnippet/TheAudioSnippet';
 import TheLoader from '@/components/Structure/Loader/TheLoader'
 
+import useIsMounted from '@hooks/useIsMounted'
+
 //datas
 import audioDatas from "assets/data/subtitles.json";
 import TheSubTitle from '@/components/Subtitle/TheSubTitle';
@@ -18,8 +20,7 @@ import TheToolChoiceButton from '@/components/ToolChoiceButton/TheToolChoiceButt
 import toolsData from '@assets/data/tools.json'
 
 const SingleAtelierPage = () => {
-  //Breadcrumb states
-  // const { isShowingBreadcrumb, toggle, setIsShowingBreadcrumb, addStep } = useBreadcrumb();
+  const isMounted = useIsMounted();
 
   // Sound states
   const [isPlaying, setIsPlaying] = useState(false)
@@ -40,10 +41,11 @@ const SingleAtelierPage = () => {
     setToolsArray2: () => { setCurrentStepTools(data.toolsArray2) }
   }
 
-
   useEffect(() => {
     const canvas = ref.current
-    const threeScene = new ThreeScene(canvas, state);
+    const threeScene = new ThreeScene(canvas, state)
+    
+    // if (!isMounted.current) { threeScene }
   }, [])
 
   const handleAudio0 = () => {
