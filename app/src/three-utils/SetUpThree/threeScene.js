@@ -113,7 +113,7 @@ class ThreeScene {
         this._isMouseDown = false;
         this._rayCaster = new THREE.Raycaster();
 
-        this._stepManager = new StepManager(4, 2);
+        this._stepManager = new StepManager(0, 0);
 
         this._breadcrumbManager = new BreadcrumbManager(true, "La découpe du tracé");
 
@@ -143,6 +143,7 @@ class ThreeScene {
     _setCameraAnimationPlay(index) {
         this._camera = this._cameras[index];
         this.cameraManager.StartAnimation(index);
+        console.log(this._stepManager._globalStep);
         // this._stepManager.addGlobalStep();
         // this._toggleDragAndDropControls();
     }
@@ -768,6 +769,11 @@ class ThreeScene {
 
     _paperCutOutScrollAnimation() {
         this.cameraManager.ScrollAnimation(0, this._scrollTimeline);
+    }
+    
+    addStep() {
+        this._stepManager.addGlobalStep();
+        console.log(this._stepManager._globalStep);
     }
 
 }

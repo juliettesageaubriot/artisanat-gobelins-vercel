@@ -1,16 +1,9 @@
 [
     {
         "id": 0,
-        "text": "Je suis un subtitle et je m'affiche 5 secondes oulalala", 
-        "duration": "5000",
-        "appear": true,
-        "audioSource": "assets/audios/test_song.mp3"
-      },
-      {
-        "id": 1,
-        "text": "Je suis un subtitle et je m'affiche 3 secondes oulalala", 
+        "text": "Salut ! Tu tombes bien ! Aujourd'hui, tu vas m'aider à créer une vitrerie géométrique. C'est sur ce genre de pièce qu'on apprend les bases du métier. Je t'ai préparé le tracé à l'échelle 1 \n regarde sur le bureau !", 
         "duration": "3000",
-        "appear": false,
+        "appear": true,
         "audioSource": "assets/audios/test_song.mp3"
       }
 ]

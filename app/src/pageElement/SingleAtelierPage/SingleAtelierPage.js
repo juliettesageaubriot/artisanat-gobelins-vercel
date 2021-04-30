@@ -8,20 +8,28 @@ import styles from "./styles.module.scss"
 import TheBreadcrumb from '@components/Breadcrumb/TheBreadcrumb';
 import ThreeScene from '@/three-utils/SetUpThree/threeScene';
 import TheAudioSnippet from '@components/AudioSnippet/TheAudioSnippet';
-import TheLoader from '@/components/Structure/Loader/TheLoader'
+import TheLoader from '@/components/Structure/Loader/TheLoader';
+import TheSubTitle from '@/components/Subtitle/TheSubTitle';
+import TheVolume from '@components/VolumeSettings/TheVolume';
 
 //datas
 import audioDatas from "assets/data/subtitles.json";
-import TheSubTitle from '@/components/Subtitle/TheSubTitle';
+import stepValidationDatas from "assets/data/step-validation.json";
+import TheStepValidation from '@/components/StepValidation/TheStepValidation';
+
 
 const SingleAtelierPage = () => {
   //Breadcrumb states
   // const { isShowingBreadcrumb, toggle, setIsShowingBreadcrumb, addStep } = useBreadcrumb();
 
+  //Three Scene
+  let threeScene;
+
   // Sound states
   const [isPlaying, setIsPlaying] = useState(false)
   const [isShouldPlayOnStart, setIsShouldPlayOnStart] = useState(false)
   const [currentSubtitle, setCurrentSubtitle] = useState(0);
+  const [currentValidationStep, setCurrentValidationStep] = useState();
 
   const ref = useRef(null)
   const cursorColorPickerContainer = useRef(null);
@@ -30,14 +38,19 @@ const SingleAtelierPage = () => {
   const state = {
     playSound: () => { setIsPlaying(true) },
     stopSound: () => { setIsPlaying(false) },
+
     // showBreadcumb: () => {setIsShowingBreadcrumb(true)},
     // hideBreadcrumb: () => {setIsShowingBreadcrumb(false)},
   }
 
   useEffect(() => {
     const canvas = ref.current
-    const threeScene = new ThreeScene(canvas, state);
+    threeScene = new ThreeScene(canvas, state);
   }, [])
+
+  useEffect(() => {
+
+  }, [currentValidationStep])
 
   const handleAudio0 = () => {
     setCurrentSubtitle(0);
@@ -46,21 +59,34 @@ const SingleAtelierPage = () => {
     setCurrentSubtitle(1);
   }
 
-  const audioItems = audioDatas.map((elm, index) => {
-      return <TheSubTitle content={elm} currentSubtitle={currentSubtitle} key={index} />
+  const subtitleItems = audioDatas.map((elm, index) => {
+      return <TheSubTitle content={elm} currentSubtitle={currentSubtitle} key={index} onEnd={() => threeScene.addStep()} />
   });
+
+  const stepValidationItems = stepValidationDatas.map((elm, index) => {
+    return <TheStepValidation 
+              title={elm.title} 
+              btnText={elm.btnText} 
+              destination={elm.destination} 
+              key={index} 
+              appear={currentValidationStep === index} 
+              onClick={() => setCurrentValidationStep(currentValidationStep + 1)} 
+            />
+  })
 
   return (
     <>
       <section>
-        {/* { audioItems } */}
-        <TheAudioSnippet sound_url={"assets/audios/test_song.mp3"} play/>
+        { subtitleItems }
+        { stepValidationItems }
+        {/* <TheAudioSnippet sound_url={"assets/audios/test_song.mp3"} play/> */}
         {/* <button style={{position: "absolute",right:"0"}} onClick={handleAudio0}>Audio 0</button>
         <button style={{position: "absolute",right:"40px"}} onClick={handleAudio1}>Audio 1</button> */}
         <TheLoader />
         <TheBreadcrumb 
         // isShowing={isShowingBreadcrumb} hide={toggle}
         />
+        <TheVolume absolute />
         <div className={styles.pressureGauge} id="pressureGauge"></div>
         <div ref={ref} />
         <div className={styles.colorPickerContainer} ref={cursorColorPickerContainer}>
