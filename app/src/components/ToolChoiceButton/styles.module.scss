@@ -1,91 +1,80 @@
-.tool-choice_container {
-    height: 90px;
-    width: 90px;
-    position: relative;
+@import "@assets/_mandatory";
 
-    &__inner {
-        height: 75px;
-        width: 75px;
-
-        background-color: #254EDA;
-
-        border: 2px solid #254EDA;
-        border-radius: 10px;
-
-        position: absolute;
-        bottom: 0;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        transition: .3s all ease-in-out;
-
-        cursor: pointer;
-
-        img {
-            width: 50%;
-        }
-
-        &:hover {
-            background-color: #f3f3f3;
-
-        }
-    }
-
-    &__plus-info {
-        height: 30px;
-        width: 30px;
-
-        background-color: #728BD7;
-
-        border: 2px solid #728BD7;
-
-        border-radius: 3px;
-
+.tool-choice {
+    &_container {
         position: absolute;
         top: 0;
         right: 0;
-
-        transition: .3s all ease-in-out;
-
-        cursor: pointer;
-
-        &___vertical-bar {
-            height: 80%;
-            width: 2px;
-
-            background-color: #ffffff;
-
-            position: absolute;
-            left: 50%;
-            top: 50%;
-
-            transform: translate(-50%, -50%);
-
-        }
-
-        &___horizontal-bar {
-            height: 2px;
-            width: 80%;
-
-            background-color: #ffffff;
-
-            position: absolute;
-            left: 50%;
-            top: 50%;
-
-            transform: translate(-50%, -50%);
-        }
-
-        &:hover {
-            background-color: #ffffff;
-
-            .tool-choice_container__plus-info___vertical-bar {
-                background-color: #728BD7;
+        max-width: 230px;
+        width: 100%;
+    }
+    &__inner {
+        .head {
+            display: flex;
+            flex-flow: row wrap;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 10px;
+            li {
+                list-style: none;
+                button {
+                    position: relative;
+                    width: 60px;
+                    height: 60px;
+                    cursor: pointer;
+                    border: none;
+                    img {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+                }
+                & + li {
+                    padding-left: 10px;
+                }
             }
-            .tool-choice_container__plus-info___horizontal-bar {
-                background-color: #728BD7;
+        }
+        .content {
+            padding: 10px;
+            background-color: rgba($color-white, 0.8);
+            
+            h2 {
+                font-size: 15px;
+                font-weight: $ft-normal;
+                margin-bottom: 20px;
+                span {
+                    font-size: 17px;
+                    margin-top: 5px;
+                    font-weight: $ft-bold;
+                }
+            }
+            &-display {
+                overflow: hidden;
+                height: 0;
+                background-color: transparent;
+                &.open {
+                    height: 100%;
+                }
+            }
+        }
+
+        .open-button {
+            padding: 10px;
+            width: 100%;
+            // height: 30px;
+            border: none;
+            background-color: rgba($color-white, 0.8);
+            cursor: pointer;
+            i {
+                padding: 0 10px;
+                &.rotate {
+                    transform: rotate(-180deg);
+                }
             }
         }
     }

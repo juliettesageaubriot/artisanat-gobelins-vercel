@@ -13,6 +13,9 @@ import TheLoader from '@/components/Structure/Loader/TheLoader'
 //datas
 import audioDatas from "assets/data/subtitles.json";
 import TheSubTitle from '@/components/Subtitle/TheSubTitle';
+import TheToolChoiceButton from '@/components/ToolChoiceButton/TheToolChoiceButton';
+
+import toolsData from '@assets/data/tools.json'
 
 const SingleAtelierPage = () => {
   //Breadcrumb states
@@ -22,17 +25,21 @@ const SingleAtelierPage = () => {
   const [isPlaying, setIsPlaying] = useState(false)
   const [isShouldPlayOnStart, setIsShouldPlayOnStart] = useState(false)
   const [currentSubtitle, setCurrentSubtitle] = useState(0);
+  const [currentStepTools, setCurrentStepTools] = useState([])
 
   const ref = useRef(null)
   const cursorColorPickerContainer = useRef(null);
   const cursorColorPickerInner = useRef(null);
+ 
+  const data = toolsData;
 
   const state = {
     playSound: () => { setIsPlaying(true) },
     stopSound: () => { setIsPlaying(false) },
-    // showBreadcumb: () => {setIsShowingBreadcrumb(true)},
-    // hideBreadcrumb: () => {setIsShowingBreadcrumb(false)},
+    setToolsArray1: () => {setCurrentStepTools(data.toolsArray1)},
+    setToolsArray2: () => {setCurrentStepTools(data.toolsArray2)}
   }
+
 
   useEffect(() => {
     const canvas = ref.current
@@ -45,6 +52,9 @@ const SingleAtelierPage = () => {
   const handleAudio1 = () => {
     setCurrentSubtitle(1);
   }
+
+  // console.log("currentTools", currentTools);
+
 
   const audioItems = audioDatas.map((elm, index) => {
       return <TheSubTitle content={elm} currentSubtitle={currentSubtitle} key={index} />
@@ -60,6 +70,7 @@ const SingleAtelierPage = () => {
         <TheBreadcrumb 
         // isShowing={isShowingBreadcrumb} hide={toggle}
         />
+        <TheToolChoiceButton array={currentStepTools}/>
         <div className={styles.pressureGauge} id="pressureGauge"></div>
         <div ref={ref} />
         <div className={styles.colorPickerContainer} ref={cursorColorPickerContainer}>

@@ -653,7 +653,7 @@ class ThreeScene {
     }
 
     _setNewState() {
-        // this._state.toggleBreadcrumb();
+        this._state.setToolsArray1()
     }
 
     _dragAndDropControls() {

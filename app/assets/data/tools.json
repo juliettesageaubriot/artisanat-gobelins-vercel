@@ -1,0 +1,40 @@
+{
+  "toolsArray1": [{
+      "id": 0,
+      "title": "le coupe-verre0",
+      "noActiveImg": "/assets/images/ui/tools/ciseaux.png",
+      "activeImg": "/assets/images/ui/tools/ciseaux_actif.png",
+      "content": "Outil utilisé pour la découpe du verre sur lequel il marque une amorce avec une molette dure ou un diamant."
+    },
+    {
+      "id": 1,
+      "title": "le coupe-verre1",
+      "noActiveImg": "/assets/images/ui/tools/ciseaux.png",
+      "activeImg": "/assets/images/ui/tools/ciseaux_actif.png",
+      "content": "Deuxième contenu"
+    }
+  ],
+
+  "toolsArray2": [{
+      "id": 0,
+      "title": "le coupe-verre0",
+      "noActiveImg": "/assets/images/ui/tools/ciseaux.png",
+      "activeImg": "/assets/images/ui/tools/ciseaux_actif.png",
+      "content": "Outil utilisé pour la découpe du verre sur lequel il marque une amorce avec une molette dure ou un diamant."
+    },
+    {
+      "id": 1,
+      "title": "le coupe-verre1",
+      "noActiveImg": "/assets/images/ui/tools/ciseaux.png",
+      "activeImg": "/assets/images/ui/tools/ciseaux_actif.png",
+      "content": "Outil utilisé pour la découpe du verre sur lequel il marque une amorce avec une molette dure ou un diamant."
+    },
+    {
+      "id": 2,
+      "title": "le coupe-verre2",
+      "noActiveImg": "/assets/images/ui/tools/ciseaux.png",
+      "activeImg": "/assets/images/ui/tools/ciseaux_actif.png",
+      "content": "Outil utilisé pour la découpe du verre sur lequel il marque une amorce avec une molette dure ou un diamant."
+    }
+  ]
+}
