@@ -30,14 +30,14 @@ const SingleAtelierPage = () => {
   const ref = useRef(null)
   const cursorColorPickerContainer = useRef(null);
   const cursorColorPickerInner = useRef(null);
- 
+
   const data = toolsData;
 
   const state = {
     playSound: () => { setIsPlaying(true) },
     stopSound: () => { setIsPlaying(false) },
-    setToolsArray1: () => {setCurrentStepTools(data.toolsArray1)},
-    setToolsArray2: () => {setCurrentStepTools(data.toolsArray2)}
+    setToolsArray1: () => { setCurrentStepTools(data.toolsArray1) },
+    setToolsArray2: () => { setCurrentStepTools(data.toolsArray2) }
   }
 
 
@@ -57,7 +57,7 @@ const SingleAtelierPage = () => {
 
 
   const audioItems = audioDatas.map((elm, index) => {
-      return <TheSubTitle content={elm} currentSubtitle={currentSubtitle} key={index} />
+    return <TheSubTitle content={elm} currentSubtitle={currentSubtitle} key={index} />
   });
 
   return (
@@ -67,10 +67,15 @@ const SingleAtelierPage = () => {
         {/* <button style={{position: "absolute",right:"0"}} onClick={handleAudio0}>Audio 0</button>
         <button style={{position: "absolute",right:"40px"}} onClick={handleAudio1}>Audio 1</button> */}
         <TheLoader />
-        <TheBreadcrumb 
+        <TheBreadcrumb
         // isShowing={isShowingBreadcrumb} hide={toggle}
         />
-        <TheToolChoiceButton array={currentStepTools}/>
+        <TheToolChoiceButton array={currentStepTools} />
+
+        <a href="/menu" className={`link-before ${styles['link-before']}`}>
+          <span>Épisodes</span>
+        </a>
+
         <div className={styles.pressureGauge} id="pressureGauge"></div>
         <div ref={ref} />
         <div className={styles.colorPickerContainer} ref={cursorColorPickerContainer}>

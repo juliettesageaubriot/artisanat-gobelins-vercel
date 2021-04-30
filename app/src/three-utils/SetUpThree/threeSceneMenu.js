@@ -217,7 +217,11 @@ class ThreeSceneMenu {
 
       this._idModal = 'modal-menu-' + this._modal.current;
       this._currentModal = document.getElementById(this._idModal);
-      this._currentModal.classList.remove('invisible');
+
+      // if(!!this._currentModal) return;
+      if (this._currentModal) {
+        this._currentModal.classList.remove('invisible');
+      }
 
 
       if (this._currentModal !== this._previousModal) {
@@ -279,15 +283,6 @@ class ThreeSceneMenu {
     })
 
   }
-
-  // _loadSoundsChaptersHovered(camera) {
-  //   this._listener = new THREE.AudioListener();
-  //   camera.add(this._listener)
-
-  //   this._soundsChaptersHoveredArray.map((url) => {
-  //     this._soundChapterHovered.push(url)
-  //   })
-  // }
 
   _mousemoveHandler(e) {
     this._rayCast(e);
