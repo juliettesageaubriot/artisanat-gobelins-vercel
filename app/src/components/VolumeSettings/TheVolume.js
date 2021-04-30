@@ -11,9 +11,10 @@ const TheVolume = ({ absolute }) => {
 
 
     const handleChange = (e) => {
-        setVolume(e.target.value / 100);
-        console.log(e.target.value / 100)
-        setPreviousVolume(e.target.value / 100);
+        const currentVolume = e.target.value / 100;
+        setVolume(currentVolume);
+        console.log(currentVolume)
+        setPreviousVolume(currentVolume);
     }
     useEffect(async () => {
         const currentGlobalVolume =  await localforage.getItem("globalVolume");
