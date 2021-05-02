@@ -7,21 +7,28 @@ const TheVolume = ({ absolute }) => {
 
     const slider = useRef(null);
     const [volume, setVolume] = useState(0.5);
+    const [previousVolume, setPreviousVolume] = useState(0);
 
 
     const handleChange = (e) => {
-        setVolume(e.target.value / 100);
+        const currentVolume = e.target.value / 100;
+        setVolume(currentVolume);
+        console.log(currentVolume)
+        setPreviousVolume(currentVolume);
     }
     useEffect(async () => {
-        const currentGlobalVolume = await localforage.getItem("globalVolume");
+        const currentGlobalVolume =  await localforage.getItem("globalVolume");
         if (currentGlobalVolume) {
             setVolume(currentGlobalVolume);
-            console.log(currentGlobalVolume)
         }
-    }, [])
+    }, []);
+
+    const handleClick = () => {
+        volume === 0 ? setVolume(previousVolume) : setVolume(0);
+    };
 
     useEffect(() => {
-        window.Howler.volume(volume)
+        window.Howler.volume(volume);
         localforage.setItem("globalVolume", volume);
     }, [volume])
 
@@ -32,7 +39,7 @@ const TheVolume = ({ absolute }) => {
                 <input type="range" min="0" max="100" value={volume * 100} className={styles["slider"]} ref={slider} onChange={handleChange} />
             </div>
 
-            <div className={`${styles['sound-container']}`}>
+            <div className={`${styles['sound-container']}`} onClick={handleClick}>
                 {0 === volume ?
                     <img src="/assets/images/ui/sound/son_coupe_hover.png" />
                     :
