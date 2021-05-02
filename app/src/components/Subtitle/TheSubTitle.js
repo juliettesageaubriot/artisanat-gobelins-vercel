@@ -4,54 +4,50 @@ import styles from './styles.module.scss'
 
 const TheSubTitle = ({content, currentSubtitle, onEnd}) => {
     const [isVisible, setIsVisible] = useState(false);
-    const [replay, setReplay] = useState(false);
-    const [canReplay, setCanReplay] = useState(false);
+    const [play, setPlay] = useState(false);
+    const [possibleToReplay, setIsPossibleToReplay] = useState(false);
 
     useEffect(() => {
-       setTimeout(() => {
-        console.log(content.id);
         if(currentSubtitle === content.id) {
+            //Affiche le sous-titre
             setIsVisible(true);
+            //Joue le son
+            setPlay(true);
             setTimeout(() => {
                 console.log("Fin de la réplique");
                 setTimeout(() => {
-                    setCanReplay(true);
-                }, 2000);
+                    //Temps d'attente pour que la réplique se replay
+                    handleReplay();
+                }, 5000);
+                //Enleve le sous-titre
                 setIsVisible(false);
+                //Affiche le bouton de replay
+                setIsPossibleToReplay(true);
             }, content.duration);
         }
-       }, 3000);
     }, [currentSubtitle]);
 
     const handleReplay = () => {
+        console.log("replay");
+        //Affiche le sous-titre
         setIsVisible(true);
-        setReplay(true);
+        //Joue le son
+        setPlay(true);
+        //Enleve le bouton de replay
+        setIsPossibleToReplay(false);
         setTimeout(() => {
-            setReplay(false);
-            console.log("A la fin du replay, je disparais");
+            console.log("Fin du replay");
             setIsVisible(false);
         }, content.duration);
     }
 
-    useEffect(() => {
-        if(canReplay)
-            setTimeout(() => {
-                setCanReplay(false);
-                console.log("Je n'ai pas voulu replay, je passe à la prochaine ");
-                setReplay(false);
-                setIsVisible(false);
-                //Fonction qui s'execute à la fin du subtitle
-                // onEnd();    
-            }, 5000);
-    }, [canReplay])
-
     return ( 
         <div className={`${styles["subtitle_container"]}`}>
-            <TheAudioSnippet sound_url={content.audioSource} shouldPlayOnStart play={replay}/>
+            <TheAudioSnippet sound_url={content.audioSource} play={play}/>
             <p className={`${styles["subtitle_container__subtitle"]} ${isVisible ? styles["appear"] : ""}`}>
                 { content.text }
             </p>
-            <button className={`${styles["subtitle_container__replay-button"]} ${canReplay ? styles["repeat"] : ""}`} onClick={handleReplay}>
+            <button className={`${styles["subtitle_container__replay-button"]} ${possibleToReplay ? styles["show"] : ""}`} onClick={handleReplay}>
                 <p>Peux-tu répéter stp ?</p>
                 <img src="/assets/images/ui/subtitle/CTA_repeat.png" alt="repeat button"/>
             </button>

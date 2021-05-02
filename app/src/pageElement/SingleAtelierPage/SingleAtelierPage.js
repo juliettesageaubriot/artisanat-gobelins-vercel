@@ -28,7 +28,7 @@ const SingleAtelierPage = () => {
   // Sound states
   const [isPlaying, setIsPlaying] = useState(false)
   const [isShouldPlayOnStart, setIsShouldPlayOnStart] = useState(false)
-  const [currentSubtitle, setCurrentSubtitle] = useState(0);
+  const [currentSubtitle, setCurrentSubtitle] = useState(30);
   const [currentValidationStep, setCurrentValidationStep] = useState();
 
   const ref = useRef(null)
@@ -80,8 +80,8 @@ const SingleAtelierPage = () => {
         { subtitleItems }
         { stepValidationItems }
         {/* <TheAudioSnippet sound_url={"assets/audios/test_song.mp3"} play/> */}
-        {/* <button style={{position: "absolute",right:"0"}} onClick={handleAudio0}>Audio 0</button>
-        <button style={{position: "absolute",right:"40px"}} onClick={handleAudio1}>Audio 1</button> */}
+        <button style={{position: "absolute",right:"0"}} onClick={handleAudio0}>Audio 0</button>
+        <button style={{position: "absolute",right:"40px"}} onClick={handleAudio1}>Audio 1</button>
         <TheLoader />
         <TheBreadcrumb 
         // isShowing={isShowingBreadcrumb} hide={toggle}

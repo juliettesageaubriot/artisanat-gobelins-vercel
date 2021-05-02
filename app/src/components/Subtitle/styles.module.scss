@@ -4,16 +4,15 @@
 
     width: 100vw;
 
-    background-color: saddlebrown;
-
-    opacity: 1;
+    // background-color: rgba($color: #000000, $alpha: .4);
+    //background-color: red;
 
     &__subtitle {
         width: 40%;
 
         position: relative;
         left: 50%;
-        transform: translate(-50%, 50px);
+        transform: translateX(-50%);
 
         text-align: center;
 
@@ -22,14 +21,13 @@
         font-size: 18px;
         line-height: 1.5;
 
-        color: white;
+        color: black;
 
         opacity: 0;
 
 
         &.appear {
             opacity: 1;
-            transform: translate(-50%, 0);
         }
 
     }
@@ -42,7 +40,7 @@
         height: 40px;
         width: 40px;
 
-        background-color: transparent;
+        background-color: black;
         border: transparent;
 
         border-top: 2px solid transparent;
@@ -50,13 +48,16 @@
         border-bottom: 2px solid transparent;
 
         cursor: pointer;
+        
+        pointer-events: none;
+        
+        opacity: 0;
 
         display: flex;
         align-items: center;
         justify-content: center;
 
         transition: .8s all ease-in-out;
-        background-color: transparent;
 
         img {
             width: 90%;
@@ -104,12 +105,17 @@
                 opacity: 1;
             }
         }
+
+        &.show {
+            cursor: pointer;
+            pointer-events: all;
+            opacity: 1;
+        }
     }
 
     
 
     // &.appear {
-    //     transform: translateY(0);
     //     opacity: 1;
     // }
 
