@@ -2,7 +2,7 @@
     {
       "id": 0,
       "text": "Salut ! Tu tombes bien ! Tu vas pouvoir m'aider à créer une vitrerie géométrique.", 
-      "duration": "4000",
+      "duration": "5000",
       "audioSource": "assets/audios/subtitles/01_VF_Présentation_01.mp3",
       "action": "next"
     },

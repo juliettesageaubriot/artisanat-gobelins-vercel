@@ -61,33 +61,35 @@ const SingleAtelierPage = () => {
 
   const handleAudio0 = () => {
     setCurrentSubtitle(0);
+    // console.log(currentSubtitle)
   }
   const handleAudio1 = () => {
     setCurrentSubtitle(1);
+    // console.log(currentSubtitle)
   }
 
-  const nextAudio = (action) => {
-    console.log(action);
-    if(action === "next") {
-      setCurrentSubtitle(currentSubtitle + 1);
-    } else if(action === "cam1") {
-      threeScene._setCameraAnimationPlay(0);
-      setTimeout(() => {
-        setCurrentSubtitle(2);
-      }, 3000)
-    } else if(action === "cam2") {
-      // threeScene._setCameraAnimationPlay(1);
-      // setCurrentSubtitle();
-    }
-  }
+  // const nextAudio = (action) => {
+  //   console.log(action);
+  //   if(action === "next") {
+  //     setCurrentSubtitle(currentSubtitle + 1);
+  //   } else if(action === "cam1") {
+  //     threeScene._setCameraAnimationPlay(0);
+  //     setTimeout(() => {
+  //       setCurrentSubtitle(2);
+  //     }, 3000)
+  //   } else if(action === "cam2") {
+  //     // threeScene._setCameraAnimationPlay(1);
+  //     // setCurrentSubtitle();
+  //   }
+  // }
 
-  const nextStep = () => {
-    threeScene._setCameraAnimationPlay(1);
-    // threeScene._stepManager.setStep(0, 1);
-    setCurrentSubtitle(5);
-    setCurrentValidationStep(null);
-    console.log(threeScene._stepManager._globalStep)
-  }
+  // const nextStep = () => {
+  //   threeScene._setCameraAnimationPlay(1);
+  //   // threeScene._stepManager.setStep(0, 1);
+  //   setCurrentSubtitle(5);
+  //   setCurrentValidationStep(null);
+  //   console.log(threeScene._stepManager._globalStep)
+  // }
 
 
   // console.log("currentTools", currentTools);
@@ -97,7 +99,7 @@ const SingleAtelierPage = () => {
                 content={elm} 
                 currentSubtitle={currentSubtitle} 
                 key={index} 
-                onEnd={() => nextAudio(elm.action)} 
+                onEnd={() => console.log("End of the subtitle")} 
               />
   });
 
@@ -108,7 +110,7 @@ const SingleAtelierPage = () => {
               destination={elm.destination} 
               key={index} 
               appear={currentValidationStep === index} 
-              onClick={() => nextStep()} 
+              onClick={() => console.log("Change step")} 
             />
   });
 
@@ -118,8 +120,8 @@ const SingleAtelierPage = () => {
         { subtitleItems }
         { stepValidationItems }
         {/* <TheAudioSnippet sound_url={"assets/audios/test_song.mp3"} play/> */}
-        {/* <button style={{position: "absolute",right:"0"}} onClick={handleAudio0}>Audio 0</button>
-        <button style={{position: "absolute",right:"40px"}} onClick={handleAudio1}>Audio 1</button> */}
+        <button style={{position: "absolute",right:"0"}} onClick={handleAudio0}>Audio 0</button>
+        <button style={{position: "absolute",right:"70px"}} onClick={handleAudio1}>Audio 1</button>
         <TheLoader />
         <TheBreadcrumb
         // isShowing={isShowingBreadcrumb} hide={toggle}
@@ -129,6 +131,8 @@ const SingleAtelierPage = () => {
         <a href="/menu" className={`link-before ${styles['link-before']}`}>
           <span>Épisodes</span>
         </a>
+
+        <div className={styles["page-singleAtelier"]}></div>
 
         <TheVolume absolute />
         <div className={styles.pressureGauge} id="pressureGauge"></div>

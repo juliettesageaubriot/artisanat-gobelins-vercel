@@ -1,15 +1,15 @@
 @import '@assets/_mandatory';
 
-// .page-singleAtelier {
-//     background: rgb(255,255,255);
-//     background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(37,48,11,0.05085784313725494) 82%, rgba(0,0,0,0.20772058823529416) 100%);
-//     height: 100vh;
-//     width: 100vw;
-//     position: absolute;
-//     bottom: 0;
-//     z-index: 0;
-//     opacity: .6;
-// }
+.page-singleAtelier {
+    background: rgb(255,255,255);
+    background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(37,48,11,0.12648809523809523) 88%, rgba(0,0,0,0.29175420168067223) 100%);
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    bottom: 0;
+    z-index: 0;
+    pointer-events: none;
+}
 
 .pressureGauge {
     position: absolute;
@@ -27,5 +27,12 @@
     position: absolute;
     bottom: 5%;
     left: 2%;
+    color: white;
+    border: 2px solid #ffffff;
+    z-index: 1;
+
+    span {
+        color: white;
+    }
 }
 
