@@ -810,6 +810,11 @@ class ThreeScene {
         console.log(this._stepManager._globalStep);
     }
 
+    testOnEndSound(action) {
+        console.log("Fin d'un subtitle: " + action)
+        this._state.setNextSubtitle();
+    }
+
 }
 
 export default ThreeScene;

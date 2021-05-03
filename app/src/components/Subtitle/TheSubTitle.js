@@ -4,38 +4,19 @@ import styles from './styles.module.scss'
 
 const TheSubTitle = ({content, currentSubtitle, onEnd}) => {
     const [isVisible, setIsVisible] = useState(false);
-    const [display, setDisplay] = useState(false);
+    const [displayButton, setDisplayButton] = useState(false);
     const [play, setPlay] = useState(false);
     const [possibleToReplay, setIsPossibleToReplay] = useState(false);
     const [myTimeOut, setMyTimeOut] = useState();
+    const [myTimeOutReplay, setMyTimeOutReplay] = useState();
+    const [myTimeOutNoLongerReplay, setMyTimeOutNoLongerReplay] = useState();
 
     useEffect(() => {
         if(currentSubtitle === content.id) {
-            setDisplay(true);
-            // //Affiche le sous-titre
-            // setIsVisible(true);
-            // //Joue le son
-            // setPlay(true);
-            // setMyTimeOut(setTimeout(() => {
-            //     console.log("Fin de la réplique");
-            //     setPlay(false);
-            //     setTimeout(() => {
-            //         console.log("maintenant c'est possible de replay")
-            //         //Temps d'attente pour que la réplique se replay
-            //         setIsPossibleToReplay(true);
-            //         setTimeout(() => {
-            //             console.log("Plus possible de replay, on passe à la suite !")
-            //             setIsPossibleToReplay(false);
-            //             setDisplay(false);
-            //             // onEnd();
-            //         }, 5000);
-            //     }, 5000);
-            //     //Enleve le sous-titre
-            //     setIsVisible(false);
-            // }, content.duration));
+            setDisplayButton(true);
             playTimeOut();
         } else {
-            setDisplay(false);
+            setDisplayButton(false);
         }
     }, [currentSubtitle]);
 
@@ -45,19 +26,19 @@ const TheSubTitle = ({content, currentSubtitle, onEnd}) => {
         //Joue le son
         setPlay(true);
         setMyTimeOut(setTimeout(() => {
-            console.log("Fin de la réplique");
+            console.log("Fin de la réplique 1");
             setPlay(false);
-            setTimeout(() => {
-                console.log("maintenant c'est possible de replay")
+            setMyTimeOutReplay(setTimeout(() => {
+                console.log("maintenant c'est possible de replay 2")
                 //Temps d'attente pour que la réplique se replay
                 setIsPossibleToReplay(true);
-                setTimeout(() => {
-                    console.log("Plus possible de replay, on passe à la suite !")
+                setMyTimeOutNoLongerReplay(setTimeout(() => {
+                    console.log("Plus possible de replay, on passe à la suite ! 3")
                     setIsPossibleToReplay(false);
-                    setDisplay(false);
-                    // onEnd();
-                }, 5000);
-            }, 5000);
+                    setDisplayButton(false);
+                    onEnd();
+                }, 5000));
+            }, 2000));
             //Enleve le sous-titre
             setIsVisible(false);
         }, content.duration));
@@ -65,8 +46,11 @@ const TheSubTitle = ({content, currentSubtitle, onEnd}) => {
 
     const handleReplayButton = () => {
         clearTimeout(myTimeOut);
+        clearTimeout(myTimeOutReplay);
+        clearTimeout(myTimeOutNoLongerReplay);
         console.log("replay");
         setPlay(false);
+        setIsPossibleToReplay(false);
         setTimeout(() => {
             playTimeOut();
         }, 1000);
@@ -78,7 +62,7 @@ const TheSubTitle = ({content, currentSubtitle, onEnd}) => {
             <p className={`${styles["subtitle_container__subtitle"]} ${isVisible ? styles["appear"] : ""}`}>
                 { content.text }
             </p>
-            <button className={`${styles["subtitle_container__replay-button"]} ${possibleToReplay ? styles["show"] : ""} ${display ? styles["visible"] : ""}`} onClick={handleReplayButton}>
+            <button className={`${styles["subtitle_container__replay-button"]} ${possibleToReplay ? styles["show"] : ""} ${displayButton ? styles["visible"] : ""}`} onClick={handleReplayButton}>
                 <p>Peux-tu répéter stp ?</p>
                 <img src="/assets/images/ui/subtitle/CTA_repeat.png" alt="repeat button"/>
             </button>

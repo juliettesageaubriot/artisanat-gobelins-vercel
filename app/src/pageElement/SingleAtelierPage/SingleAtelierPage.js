@@ -46,6 +46,7 @@ const SingleAtelierPage = () => {
     playSound: () => { setIsPlaying(true) },
     stopSound: () => { setIsPlaying(false) },
     start: () => { setCurrentSubtitle(0); },
+    setNextSubtitle: () => {setCurrentSubtitle(1)},
     setToolsArray1: () => { setCurrentStepTools(data.toolsArray1) },
     setToolsArray2: () => { setCurrentStepTools(data.toolsArray2) },
     setStepValidation: (index) => { setCurrentValidationStep(index)}
@@ -99,7 +100,7 @@ const SingleAtelierPage = () => {
                 content={elm} 
                 currentSubtitle={currentSubtitle} 
                 key={index} 
-                onEnd={() => console.log("End of the subtitle")} 
+                onEnd={() => threeScene.testOnEndSound(elm.actionOnEnd)} 
               />
   });
 
