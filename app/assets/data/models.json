@@ -8,7 +8,15 @@
         "url": "/assets/models/gltf/draco/dracoModels/atelier-v04.glb"
     },
     {
+        "name": "scene-atelier-v17",
+        "url": "/assets/models/gltf/draco/dracoModels/atelier_v17.glb"
+    },
+    {
         "name": "scene-menu",
         "url": "/assets/models/gltf/draco/dracoModels/menu.glb"
+    },
+    {
+        "name": "scene-feuille",
+        "url": "/assets/models/gltf/draco/dracoModels/feuille_v04.glb"
     }
 ]

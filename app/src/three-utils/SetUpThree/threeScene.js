@@ -129,6 +129,8 @@ class ThreeScene {
             old: null
         }
 
+        this._feuilleAnimations = [];
+
         this._currentIntersect = null;
 
         this._enableDragAndDrop = true;
@@ -141,15 +143,16 @@ class ThreeScene {
     }
 
     _setCameraAnimationPlay(index) {
+        if(index === "none") return;
         this._camera = this._cameras[index];
         this.cameraManager.StartAnimation(index);
-        console.log(this._stepManager._globalStep);
+        // console.log(this._stepManager._globalStep);
         // this._stepManager.addGlobalStep();
         // this._toggleDragAndDropControls();
     }
     _setCameraAnimationReverse(index) {
         this._camera = this._cameras[index];
-        this.cameraManager.ReverseAnimation(index);
+        this.cameraManager.ReverseAnimation(index)
     }
 
     _loadAssets() {
@@ -167,6 +170,7 @@ class ThreeScene {
     _createModels() {
         for (let name in this._models) {
             this.object = this._models[name].scene;
+            console.log(this.object)
 
             this.object.traverse(child => {
 
@@ -184,18 +188,38 @@ class ThreeScene {
                     this._vitrailGroup.position.set(-1.5, 1, 2.2);
                     // this._vitrailGroup.position.set(0.5, 1, -1.5);
                     this._vitrailGroup.rotation.set(0, Math.PI / 2, 0);
-                    this._vitrailGroup.scale.set(0.7, 0.7, 0.7);
+                    this._vitrailGroup.scale.set(0.2, 0.2, 0.2);
 
                 } else if ("atelier_03" === child.name) {
-                    this._addToScene(child)
+                    this._addToScene(child);
+
+                    child.traverse(child => {
+                        if(child.name === "VERRE001") {
+                            console.log(child)
+                            child.material.opacity = 0;
+                            child.material.transparent = true;
+                            this._colorPickerRaycastObject.push(child)
+                        }
+                    })
 
                     this._cameras = [...this._models[name].cameras];
                     this._cameraAnimations = [...this._models[name].animations];
 
                     this.cameraAnimator = new AnimationManager(child, this._cameraAnimations);
+                    // console.log(this._cameraAnimations);
                     this.cameraManager = new CameraManager(this._camera, this._cameras, this.cameraAnimator);
                     
-                    // console.log(this._cameras)
+                } else if("atelier_v16" === child.name) {
+                    // this._addToScene(child);
+                    // console.log(this._models[name].cameras);
+                    // console.log(child)
+
+                    // this._cameras = [...this._models[name].cameras];
+                    // this._cameraAnimations = [...this._models[name].animations];
+
+                    // this.cameraAnimator = new AnimationManager(child, this._cameraAnimations);
+                    // console.log(this._cameraAnimations)
+                    // this.cameraManager = new CameraManager(this._camera, this._cameras, this.cameraAnimator);
                 } else if ("CameraAnim1_Orientation" === child.name) {
 
                     // console.log(child)
@@ -203,6 +227,19 @@ class ThreeScene {
                 } else if("IPHONE001" === child.name) {
                     this._dragItems.push(child);
                     this._paperCutOutRaycastObject.push(child);
+                } else if("feuille" === child.name) {
+                    this._feuilleAnimations = [...this._models[name].animations];
+                    console.log(this._feuilleAnimations)
+                    console.log(child);
+                    this._addToScene(child);
+                    this.feuilleAnimator = new AnimationManager(child, this._feuilleAnimations);
+                    this.feuilleManager = new CameraManager(this._camera, this._cameras, this.feuilleAnimator);
+                    
+                    // setTimeout(() => {
+                    //     this._feuilleAnimations.map((animation, i) => {
+                    //         this.feuilleManager.StartAnimation(i);
+                    //     });
+                    // }, 3000)
                 }
             })
         }
@@ -217,10 +254,12 @@ class ThreeScene {
         //Action à faire au démarrage
         this._dragAndDropControls();
 
-        this._animateCameraPlay(SETTINGS.idCamera[0]);
-        this._animateCameraPlay(SETTINGS.idCamera[1]);
-        this._animateCameraReverse(SETTINGS.idCamera[0]);
-        this._animateCameraReverse(SETTINGS.idCamera[1]);
+        this._state.start();
+
+        // this._animateCameraPlay(SETTINGS.idCamera[0]);
+        // this._animateCameraPlay(SETTINGS.idCamera[1]);
+        // this._animateCameraReverse(SETTINGS.idCamera[0]);
+        // this._animateCameraReverse(SETTINGS.idCamera[1]);
     }
 
     _rayCast(e) {
@@ -244,7 +283,8 @@ class ThreeScene {
         
         if(this._globalStep === 0) {
 
-            this._currentRaycastObject = this._paperCutOutRaycastObject;
+            // this._currentRaycastObject = this._paperCutOutRaycastObject;
+            this._currentRaycastObject = this._colorPickerRaycastObject;
 
         } else if(this._globalStep === 1) {
 
@@ -267,7 +307,7 @@ class ThreeScene {
 
             switch (this._subStep) {
                 case 0 :
-                    this._paperCutOutDragAndDropHandler(intersects[0]);
+                    this._colorPickerHandler(intersects[0]);
                     break;
                 case 1 :
                     this._paperCutOutScrollAnimHandler(intersects[0]);
@@ -384,6 +424,9 @@ class ThreeScene {
         if (intersect) {
             this._object = intersect.object;
             console.log(this._object);
+            // setInterval(() => {
+            //     console.log(this._object);
+            // }, 1000)
         }
         else {
            
@@ -502,7 +545,7 @@ class ThreeScene {
 
             switch (this._subStep) {
                 case 0 :
-                    this._paperCutOutMouseDown();
+                    this._colorPickerMouseDown();
                     break;
                 case 1 :
                     // console.log("sous-étape 2");
@@ -548,10 +591,9 @@ class ThreeScene {
         this._subStep = this._stepManager._subStep;
 
         if(this._globalStep === 0) {
-
             switch (this._subStep) {
                 case 0 :
-                    this._paperCutOutMouseUp();
+                    this._colorPickerMouseUp();
                     break;
                 case 1 :
                     // console.log("sous-étape 2");
@@ -601,6 +643,9 @@ class ThreeScene {
 
         if (this.cameraAnimator) {
             this.cameraAnimator.update(deltaTime)
+        }
+        if (this.feuilleAnimator) {
+            this.feuilleAnimator.update(deltaTime)
         }
 
         this._pressureGaugeHandler(deltaTime);
@@ -755,7 +800,7 @@ class ThreeScene {
 
     _paperCutOutScrollHandler(e) {
         // console.log(e);
-        this._animationDuration = 4.166;
+        this._animationDuration = 5.5;
         this._numberOfWheelEvent = 100;
         
         
@@ -763,17 +808,26 @@ class ThreeScene {
             this._scrollTimeline += this._animationDuration / this._numberOfWheelEvent;
             this._scrollY += 1;
             this._paperCutOutScrollAnimation();
+            setTimeout(() => {
+                this._state.setStepValidation(0);
+            }, 4000)
         }
         console.log(this._scrollTimeline + " : " + this._scrollY);
     }
 
     _paperCutOutScrollAnimation() {
-        this.cameraManager.ScrollAnimation(0, this._scrollTimeline);
+        this._feuilleAnimations.map((animations, index) => {
+            this.feuilleManager.ScrollAnimation(index , this._scrollTimeline);
+        })
     }
     
     addStep() {
         this._stepManager.addGlobalStep();
         console.log(this._stepManager._globalStep);
+    }
+
+    cameraAnim(index) {
+        this._setCameraAnimationPlay(index);
     }
 
 }

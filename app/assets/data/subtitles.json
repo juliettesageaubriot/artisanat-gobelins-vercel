@@ -3,55 +3,64 @@
       "id": 0,
       "text": "Salut ! Tu tombes bien ! Tu vas pouvoir m'aider à créer une vitrerie géométrique.", 
       "duration": "4000",
-      "audioSource": "assets/audios/subtitles/01_VF_Présentation_01.mp3"
+      "audioSource": "assets/audios/subtitles/01_VF_Présentation_01.mp3",
+      "action": "next"
     },
     {
       "id": 1,
       "text": "C'est sur ce genre de pièce qu'on apprend les bases du métier. Je t'ai préparé le tracé à l'échelle 1. Regarde sur le bureau !", 
       "duration": "6000",
-      "audioSource": "assets/audios/subtitles/01_VF_Présentation_02.mp3"
+      "audioSource": "assets/audios/subtitles/01_VF_Présentation_02.mp3",
+      "action": "cam1"
     },
     {
       "id": 2,
       "text": "Commence par découper le patron de chaque pièce de verre. Je te laisse le faire à la main, c'est important pour apprendre...", 
       "duration": "5000",
-      "audioSource": "assets/audios/subtitles/02_VF_Etape1_01.mp3"
+      "audioSource": "assets/audios/subtitles/02_VF_Etape1_01.mp3",
+      "action": "next"
     },
     {
       "id": 3,
       "text": "Maintenant notre métier n'est pas si old school qu'on voudrait le laisser croire.", 
       "duration": "4000",
-      "audioSource": "assets/audios/subtitles/02_VF_Etape1_02.mp3"
+      "audioSource": "assets/audios/subtitles/02_VF_Etape1_02.mp3",
+      "action": "next"
     },
     {
       "id": 4,
       "text": "Les nouvelles technologies sont même nos alliées !", 
       "duration": "2000",
-      "audioSource": "assets/audios/subtitles/02_VF_Etape1_03.mp3"
+      "audioSource": "assets/audios/subtitles/02_VF_Etape1_03.mp3",
+      "action": "none"
     },
     {
       "id": 5,
       "text": "Viens par-là on va choisir le verre.", 
       "duration": "2000",
-      "audioSource": "assets/audios/subtitles/03_VF_Transition_Atelier_01.mp3"
+      "audioSource": "assets/audios/subtitles/03_VF_Transition_Atelier_01.mp3",
+      "action": "cam2"
     },
     {
       "id": 6,
       "text": "J'ai préparé une préselection de nuances, tu n'auras plus qu'à choisir...", 
       "duration": "3000",
-      "audioSource": "assets/audios/subtitles/04_VF_Etape_2_01.mp3"
+      "audioSource": "assets/audios/subtitles/04_VF_Etape_2_01.mp3",
+      "action": "next"
     },
     {
       "id": 7,
       "text": "Le métier de vitrailliste est très complet, il implique des gestes manuels, de la créativité, de la technique,...", 
       "duration": "6000",
-      "audioSource": "assets/audios/subtitles/04_VF_Etape_2_02.mp3"
+      "audioSource": "assets/audios/subtitles/04_VF_Etape_2_02.mp3",
+      "action": "next"
     },
     {
       "id": 8,
       "text": "Quel dommage qu'il soit parfois présenté comme une voie de secours.", 
       "duration": "3000",
-      "audioSource": "assets/audios/subtitles/04_VF_Etape_2_03.mp3"
+      "audioSource": "assets/audios/subtitles/04_VF_Etape_2_03.mp3",
+      "action": "none"
     },
     {
       "id": 9,

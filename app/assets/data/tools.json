@@ -1,4 +1,13 @@
 {
+  "toolsArray0": [{
+    "id": 0,
+      "title": "les ciseaux trois lames",
+      "noActiveImg": "/assets/images/ui/tools/ciseaux.png",
+      "activeImg": "/assets/images/ui/tools/ciseaux_actif.png",
+      "content": "Ils permettent de retirer aux gabarits en papier une largeur d'environ 1.2mm correspondant à l'âme du plomb."
+    }
+  ],
+
   "toolsArray1": [{
       "id": 0,
       "title": "le coupe-verre0",

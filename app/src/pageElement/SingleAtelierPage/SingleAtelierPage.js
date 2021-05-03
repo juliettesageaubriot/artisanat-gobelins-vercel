@@ -27,13 +27,13 @@ const SingleAtelierPage = () => {
   const isMounted = useIsMounted();
 
   //Three Scene
-  let threeScene;
+  const [threeScene, setThreeScene]= useState(null)
 
   // Sound states
   const [isPlaying, setIsPlaying] = useState(false)
   const [isShouldPlayOnStart, setIsShouldPlayOnStart] = useState(false)
   const [currentSubtitle, setCurrentSubtitle] = useState(30);
-  const [currentStepTools, setCurrentStepTools] = useState([])
+  const [currentStepTools, setCurrentStepTools] = useState(toolsData.toolsArray0)
   const [currentValidationStep, setCurrentValidationStep] = useState();
 
   const ref = useRef(null)
@@ -45,18 +45,19 @@ const SingleAtelierPage = () => {
   const state = {
     playSound: () => { setIsPlaying(true) },
     stopSound: () => { setIsPlaying(false) },
+    start: () => { setCurrentSubtitle(0); },
     setToolsArray1: () => { setCurrentStepTools(data.toolsArray1) },
-    setToolsArray2: () => { setCurrentStepTools(data.toolsArray2) }
+    setToolsArray2: () => { setCurrentStepTools(data.toolsArray2) },
+    setStepValidation: (index) => { setCurrentValidationStep(index)}
   }
 
   useEffect(() => {
     const canvas = ref.current
-    threeScene = new ThreeScene(canvas, state);
+    setThreeScene(new ThreeScene(canvas, state));
+
+
+    setCurrentStepTools(data.toolsArray0);
   }, [])
-
-  useEffect(() => {
-
-  }, [currentValidationStep])
 
   const handleAudio0 = () => {
     setCurrentSubtitle(0);
@@ -65,10 +66,39 @@ const SingleAtelierPage = () => {
     setCurrentSubtitle(1);
   }
 
+  const nextAudio = (action) => {
+    console.log(action);
+    if(action === "next") {
+      setCurrentSubtitle(currentSubtitle + 1);
+    } else if(action === "cam1") {
+      threeScene._setCameraAnimationPlay(0);
+      setTimeout(() => {
+        setCurrentSubtitle(2);
+      }, 3000)
+    } else if(action === "cam2") {
+      // threeScene._setCameraAnimationPlay(1);
+      // setCurrentSubtitle();
+    }
+  }
+
+  const nextStep = () => {
+    threeScene._setCameraAnimationPlay(1);
+    // threeScene._stepManager.setStep(0, 1);
+    setCurrentSubtitle(5);
+    setCurrentValidationStep(null);
+    console.log(threeScene._stepManager._globalStep)
+  }
+
+
   // console.log("currentTools", currentTools);
 
   const subtitleItems = audioDatas.map((elm, index) => {
-      return <TheSubTitle content={elm} currentSubtitle={currentSubtitle} key={index} onEnd={() => threeScene.addStep()} />
+      return <TheSubTitle 
+                content={elm} 
+                currentSubtitle={currentSubtitle} 
+                key={index} 
+                onEnd={() => nextAudio(elm.action)} 
+              />
   });
 
   const stepValidationItems = stepValidationDatas.map((elm, index) => {
@@ -78,9 +108,9 @@ const SingleAtelierPage = () => {
               destination={elm.destination} 
               key={index} 
               appear={currentValidationStep === index} 
-              onClick={() => setCurrentValidationStep(currentValidationStep + 1)} 
+              onClick={() => nextStep()} 
             />
-  })
+  });
 
   return (
     <>
@@ -88,8 +118,8 @@ const SingleAtelierPage = () => {
         { subtitleItems }
         { stepValidationItems }
         {/* <TheAudioSnippet sound_url={"assets/audios/test_song.mp3"} play/> */}
-        <button style={{position: "absolute",right:"0"}} onClick={handleAudio0}>Audio 0</button>
-        <button style={{position: "absolute",right:"40px"}} onClick={handleAudio1}>Audio 1</button>
+        {/* <button style={{position: "absolute",right:"0"}} onClick={handleAudio0}>Audio 0</button>
+        <button style={{position: "absolute",right:"40px"}} onClick={handleAudio1}>Audio 1</button> */}
         <TheLoader />
         <TheBreadcrumb
         // isShowing={isShowingBreadcrumb} hide={toggle}

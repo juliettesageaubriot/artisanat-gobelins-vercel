@@ -18,4 +18,9 @@ export default class StepManager {
     localforage.setItem("globalStep", this._globalStep);
     return this._globalStep;
   }
+
+  setStep(subStep, globalStep) {
+    this._subStep = subStep;
+    this._globalStep = globalStep;
+  }
 }

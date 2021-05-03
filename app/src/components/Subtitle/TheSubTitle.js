@@ -4,6 +4,7 @@ import styles from './styles.module.scss'
 
 const TheSubTitle = ({content, currentSubtitle, onEnd}) => {
     const [isVisible, setIsVisible] = useState(false);
+    const [display, setDisplay] = useState(false);
     const [play, setPlay] = useState(false);
     const [possibleToReplay, setIsPossibleToReplay] = useState(false);
 
@@ -17,12 +18,14 @@ const TheSubTitle = ({content, currentSubtitle, onEnd}) => {
                 console.log("Fin de la réplique");
                 setTimeout(() => {
                     //Temps d'attente pour que la réplique se replay
-                    handleReplay();
+                    setIsPossibleToReplay(true);
+                    setTimeout(() => {
+                        setIsPossibleToReplay(false);
+                        onEnd();
+                    }, 5000);
                 }, 5000);
                 //Enleve le sous-titre
                 setIsVisible(false);
-                //Affiche le bouton de replay
-                setIsPossibleToReplay(true);
             }, content.duration);
         }
     }, [currentSubtitle]);
@@ -38,6 +41,7 @@ const TheSubTitle = ({content, currentSubtitle, onEnd}) => {
         setTimeout(() => {
             console.log("Fin du replay");
             setIsVisible(false);
+            onEnd();
         }, content.duration);
     }
 
@@ -47,7 +51,7 @@ const TheSubTitle = ({content, currentSubtitle, onEnd}) => {
             <p className={`${styles["subtitle_container__subtitle"]} ${isVisible ? styles["appear"] : ""}`}>
                 { content.text }
             </p>
-            <button className={`${styles["subtitle_container__replay-button"]} ${possibleToReplay ? styles["show"] : ""}`} onClick={handleReplay}>
+            <button className={`${styles["subtitle_container__replay-button"]} ${possibleToReplay ? styles["show"] : ""} ${styles["visible"]}`} onClick={handleReplay}>
                 <p>Peux-tu répéter stp ?</p>
                 <img src="/assets/images/ui/subtitle/CTA_repeat.png" alt="repeat button"/>
             </button>
