@@ -6,7 +6,7 @@ import styles from "./styles.module.scss"
 
 //components
 import TheBreadcrumb from '@components/Breadcrumb/TheBreadcrumb';
-import ThreeScene from '@/three-utils/SetUpThree/threeScene';
+import ThreeScene from '@/jsLogic/three/scenes/threeScene';
 import TheAudioSnippet from '@components/AudioSnippet/TheAudioSnippet';
 import TheLoader from '@/components/Structure/Loader/TheLoader';
 import TheSubTitle from '@/components/Subtitle/TheSubTitle';

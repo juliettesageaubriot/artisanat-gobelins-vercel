@@ -14,5 +14,9 @@
     {
         "name": "scene-feuille",
         "url": "/assets/models/gltf/draco/dracoModels/feuille_v04.glb"
+    },
+    {
+        "name": "scene-piece-verre",
+        "url": "/assets/models/gltf/draco/dracoModels/piece-decoupee.glb"
     }
 ]

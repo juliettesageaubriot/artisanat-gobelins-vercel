@@ -34,6 +34,9 @@
       "@nodeModules/*": [
         "node_modules/*"
       ],
+      "@jsLogic/*": [
+        "src/jsLogic/*"
+      ],
     }
   },
   "exclude": [

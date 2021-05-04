@@ -3,14 +3,14 @@
       "id": 0,
       "text": "Salut ! Tu tombes bien ! Tu vas pouvoir m'aider à créer une vitrerie géométrique.", 
       "duration": "5000",
-      "audioSource": "assets/audios/subtitles/01_VF_Présentation_01.mp3",
+      "audioSource": "assets/audios/subtitles/01_VF_Presentation_01.mp3",
       "actionOnEnd": "next"
     },
     {
       "id": 1,
       "text": "C'est sur ce genre de pièce qu'on apprend les bases du métier. Je t'ai préparé le tracé à l'échelle 1. Regarde sur le bureau !", 
       "duration": "6000",
-      "audioSource": "assets/audios/subtitles/01_VF_Présentation_02.mp3",
+      "audioSource": "assets/audios/subtitles/01_VF_Presentation_02.mp3",
       "actionOnEnd": "cam1"
     },
     {
