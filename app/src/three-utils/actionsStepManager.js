@@ -53,7 +53,9 @@ class ActionsStepManager {
           28: () => this._stepTwentyHeight(),
           29: () => this._stepTwentyNine(),
           30: () => this._stepThirty(),
-          31: () => this._stepThirtyOne()
+          31: () => this._stepThirtyOne(),
+          32: () => this._stepThirtyTwo(),
+          33: () => this._stepThirtyThree(),
         };
         
         return actions[action]();
@@ -94,102 +96,105 @@ class ActionsStepManager {
         this._breadCrumb.changeNameAtelier("Choix des couleurs");
     }
     _stepNine() {
-       this._setCurrentSubtitle(6);
+        this.setCameraAnimation(2);
     }
     _stepTen() {
-       this._setCurrentSubtitle(7);
+       this._setCurrentSubtitle(6);
     }
     _stepEleven() {
-       this._setCurrentSubtitle(8);
+       this._setCurrentSubtitle(7);
     }
     _stepTwelve() {
+       this._setCurrentSubtitle(8);
+    }
+    _stepThirteen() {
        this._UIManager.setDragAndDropPicto();
        this._allowedDragAndDrop = true;
        this._state.setNewToolsArray(2);
     }
-    _stepThirteen() {
+    _stepFourteen() {
         this._state.setCurrentValidationStep(0);
         this._allowedScroll = false;
     }
-    _stepFourteen() {
+    _stepFifteen() {
         this._setCurrentSubtitle(9);
-        this.setCameraAnimation(2);
+        this.setCameraAnimation(3);
         this._breadCrumb.changeNameAtelier("La découpe du verre");
     }
-    _stepFifteen() {
-        this._setCurrentSubtitle(10);
-    }
     _stepSixteen() {
-        this._setCurrentSubtitle(11);
+        this.setCameraAnimation(4);
     }
     _stepSeventeen() {
+        this._setCurrentSubtitle(10);
+    }
+    _stepHeighteen() {
+        this._setCurrentSubtitle(11);
+    }
+    _stepNineteen() {
         this._UIManager.setDragAndDropPicto();
         this._allowedDragAndDrop = true;
         this._state.setNewToolsArray(3);
     }
-    _stepHeighteen() {
+    _stepTwenty() {
         this._setCurrentSubtitle(12);
         this._allowedDragAndDrop = false;
     }
-    _stepNineteen() {
+    _stepTwentyOne() {
         this._setCurrentSubtitle(13);
     }
-    _stepTwenty() {
+    _stepTwentyTwo() {
         this._UIManager.setDrawTheLinePicto();
         this._allowedDrawTheLine = true;
         this._stepManager.addSubStep();
     }
-    _stepTwentyOne() {
+    _stepTwentyThree() {
         this._UIManager.setDragAndDropPicto();
         this._allowedDrawTheLine = false;
         this._allowedDragAndDrop = true;
         this._stepManager.addSubStep();
     }
-    _stepTwentyTwo() {
+    _stepTwentyFour() {
         this._setCurrentSubtitle(14);
         this._allowedDragAndDrop = false;
     }
-    _stepTwentyThree() {
+    _stepTwentyFive() {
         this._UIManager.setPressureGaugePicto();
         this._allowedPressureGauge = true;
         this._stepManager.addSubStep();
     }
-    _stepTwentyFour() {
+    _stepTwentySix() {
         this._setCurrentSubtitle(15);
         this._allowedPressureGauge = false;
     }
-    _stepTwentyFive() {
+    _stepTwentySeven() {
         this._UIManager.setCassageDeVerrePicto();
         this._allowedCassageDeVerre = true;
         this._stepManager.addSubStep();
     }
-    _stepTwentySix() {
+    _stepTwentyHeight() {
         //Apparition du vitrail
         this._allowedCassageDeVerre = false;
     }
-    _stepTwentySeven() {
+    _stepTwentyNine() {
         this._setCurrentSubtitle(16);
     }
-    _stepTwentyHeight() {
+    _stepThirty() {
         this._UIManager.setDragAndDropPicto();
         this._allowedDragAndDrop = true;
         this._stepManager.addSubStep();
     }
-    _stepTwentyNine() {
+    _stepThirtyOne() {
         this.setCurrentValidationStep(2);
     }
-    _stepThirty() {
+    _stepThirtyTwo() {
         this._setCurrentSubtitle(17);
         //On voit le vitrail fini
     }
-    _stepThirtyOne() {
+    _stepThirtyThree() {
         this._setCurrentSubtitle(18);
         //Mise en situation dans le bar
-        //this.setCameraAnimation(3);
+        //this.setCameraAnimation(4);
     }
-
-    
-
 }
 
 export default ActionsStepManager;
