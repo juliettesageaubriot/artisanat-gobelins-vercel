@@ -170,10 +170,8 @@ class ThreeScene {
     _createModels() {
         for (let name in this._models) {
             this.object = this._models[name].scene;
-            console.log(this.object)
 
             this.object.traverse(child => {
-
                 if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
                     // child.material.envMap = environmentMap
                     // child.material.envMapIntensity = 5
@@ -190,37 +188,39 @@ class ThreeScene {
                     this._vitrailGroup.rotation.set(0, Math.PI / 2, 0);
                     this._vitrailGroup.scale.set(0.2, 0.2, 0.2);
 
-                } else if ("atelier_03" === child.name) {
-                    this._addToScene(child);
+                } 
+                // else if ("atelier_03" === child.name) {
+                //     this._addToScene(child);
 
-                    child.traverse(child => {
-                        if(child.name === "VERRE001") {
-                            console.log(child)
-                            child.material.opacity = 0;
-                            child.material.transparent = true;
-                            this._colorPickerRaycastObject.push(child)
-                        }
-                    })
+                //     child.traverse(child => {
+                //         if(child.name === "VERRE001") {
+                //             console.log(child)
+                //             child.material.opacity = 0;
+                //             child.material.transparent = true;
+                //             this._colorPickerRaycastObject.push(child)
+                //         }
+                //     })
+
+                //     this._cameras = [...this._models[name].cameras];
+                //     this._cameraAnimations = [...this._models[name].animations];
+
+                //     this.cameraAnimator = new AnimationManager(child, this._cameraAnimations);
+                //     // console.log(this._cameraAnimations);
+                //     this.cameraManager = new CameraManager(this._camera, this._cameras, this.cameraAnimator);
+                    
+                // } 
+                else if("atelier" === child.name) {
+                    this._addToScene(child);
+                    console.log(this._models[name].cameras);
+                    // console.log(child)
 
                     this._cameras = [...this._models[name].cameras];
                     this._cameraAnimations = [...this._models[name].animations];
 
                     this.cameraAnimator = new AnimationManager(child, this._cameraAnimations);
-                    // console.log(this._cameraAnimations);
-                    this.cameraManager = new CameraManager(this._camera, this._cameras, this.cameraAnimator);
-                    
-                } else if("atelier_v16" === child.name) {
-                    // this._addToScene(child);
-                    // console.log(this._models[name].cameras);
-                    // console.log(child)
-
-                    // this._cameras = [...this._models[name].cameras];
-                    // this._cameraAnimations = [...this._models[name].animations];
-
-                    // this.cameraAnimator = new AnimationManager(child, this._cameraAnimations);
                     // console.log(this._cameraAnimations)
-                    // this.cameraManager = new CameraManager(this._camera, this._cameras, this.cameraAnimator);
-                } else if ("CameraAnim1_Orientation" === child.name) {
+                    this.cameraManager = new CameraManager(this._camera, this._cameras, this.cameraAnimator);
+                } else if ("CameraAtelier1_Orientation" === child.name) {
 
                     // console.log(child)
                     this._camera = child;
