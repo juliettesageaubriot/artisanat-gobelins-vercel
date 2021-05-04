@@ -18,6 +18,9 @@ class ActionsStepManager {
         this._allowedDrawTheLine = false;
         this._allowedPressureGauge = false;
         this._allowedCassageDeVerre = false;
+
+        //curretnSubtitle
+        this._currentSubtitle = 1;
     }
 
     actionsManager(action) {

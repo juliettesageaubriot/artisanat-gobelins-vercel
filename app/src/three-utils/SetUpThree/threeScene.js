@@ -113,7 +113,7 @@ class ThreeScene {
         this._isMouseDown = false;
         this._rayCaster = new THREE.Raycaster();
 
-        this._stepManager = new StepManager(0, 0);
+        this._stepManager = new StepManager(1, 2);
 
         this._breadcrumbManager = new BreadcrumbManager(true, "La découpe du tracé");
 
@@ -311,6 +311,7 @@ class ThreeScene {
                     break;
                 case 1 :
                     // console.log("sous-étape 2: découpe du verre");
+                    this._glassCutOut(intersects[0]);
                     break;
                 case 2 :
                     // console.log("sous-étape 3: drag and drop pour enlever le bout de papier");
@@ -445,6 +446,45 @@ class ThreeScene {
         }
     }
 
+    _glassCutOut(intersect) {
+        if (intersect) {
+            this._object = intersect.object;
+            console.log(this._object);
+            if (this._currentIntersect) {
+                // if (this._isMouseDown === true) {
+                //     this._currentIntersect.material.color = this._colorPicked.old;
+                // }
+            }
+            this._currentIntersect = this._object;
+            console.log('mouse enter')
+            // this._colorPicked.old = this._currentIntersect.material.color;
+            // if (this._isMouseDown === true && this._vitrailObjects.includes(this._currentIntersect.name)) {
+            //     this._currentIntersect.material.color = this._colorPicked.current;
+            // }
+        }
+        else {
+            if (this._currentIntersect) {
+                  console.log('mouse leave')
+                // if (this._isMouseDown === true) {
+                //     this._currentIntersect.material.color = this._colorPicked.old;
+                // }
+                // this._colorPicked.old = null;
+                // console.log(currentIntersect.name);
+
+            }
+
+            // this._currentIntersect = null
+        }
+    }
+
+    _glassCutOutMouseDown() {
+        console.log("glass mouse down");
+    }
+
+    _glassCutOutMouseUp() {
+        console.log("glass mouse up");
+    }
+
     _glassCutOutPressureGaugeMouseDown() {
         console.log("glass mouse down");
     }
@@ -549,6 +589,7 @@ class ThreeScene {
                     break;
                 case 1 :
                     // console.log("sous-étape 2: découpe du verre");
+                    this._glassCutOutMouseDown();
                     break;
                 case 2 :
                     // console.log("sous-étape 3: drag and drop pour enlever le bout de papier");
@@ -597,6 +638,7 @@ class ThreeScene {
                     break;
                 case 1 :
                     // console.log("sous-étape 2: découpe du verre");
+                    this._glassCutOutMouseUp();
                     break;
                 case 2 :
                     // console.log("sous-étape 3: drag and drop pour enlever le bout de papier");
