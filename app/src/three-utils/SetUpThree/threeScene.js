@@ -71,7 +71,7 @@ class ThreeScene {
         this._vitrailGroup = new THREE.Group;
         this._atelierGroup = new THREE.Group;
         this._atelierV04Group = new THREE.Group;
-        
+
         //Raycast Arrays
         this._paperCutOutRaycastObject = [];
         this._colorPickerRaycastObject = [];
@@ -143,7 +143,7 @@ class ThreeScene {
     }
 
     _setCameraAnimationPlay(index) {
-        if(index === "none") return;
+        if (index === "none") return;
         this._camera = this._cameras[index];
         this.cameraManager.StartAnimation(index);
         // console.log(this._stepManager._globalStep);
@@ -170,10 +170,8 @@ class ThreeScene {
     _createModels() {
         for (let name in this._models) {
             this.object = this._models[name].scene;
-            // console.log(this.object)
 
             this.object.traverse(child => {
-
                 if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
                     // child.material.envMap = environmentMap
                     // child.material.envMapIntensity = 5
@@ -190,41 +188,37 @@ class ThreeScene {
                     this._vitrailGroup.rotation.set(0, Math.PI / 2, 0);
                     this._vitrailGroup.scale.set(0.2, 0.2, 0.2);
 
-                } else if ("atelier_03" === child.name) {
+                } else if ("atelier" === child.name) {
                     this._addToScene(child);
+                    console.log(this._models[name].cameras);
+                    // console.log(child)
 
                     this._cameras = [...this._models[name].cameras];
                     this._cameraAnimations = [...this._models[name].animations];
 
                     this.cameraAnimator = new AnimationManager(child, this._cameraAnimations);
-                    // console.log(this._cameraAnimations);
-                    this.cameraManager = new CameraManager(this._camera, this._cameras, this.cameraAnimator);
-                    
-                } else if("atelier_v16" === child.name) {
-                    // this._addToScene(child);
-                    // console.log(this._models[name].cameras);
-                    // console.log(child)
-
-                    // this._cameras = [...this._models[name].cameras];
-                    // this._cameraAnimations = [...this._models[name].animations];
-
-                    // this.cameraAnimator = new AnimationManager(child, this._cameraAnimations);
                     // console.log(this._cameraAnimations)
-                    // this.cameraManager = new CameraManager(this._camera, this._cameras, this.cameraAnimator);
-                } else if ("CameraAnim1_Orientation" === child.name) {
+                    this.cameraManager = new CameraManager(this._camera, this._cameras, this.cameraAnimator);
+                } else if ("CameraAtelier1_Orientation" === child.name) {
 
                     // console.log(child)
                     this._camera = child;
-                } else if("IPHONE001" === child.name) {
+                } else if ("IPHONE001" === child.name) {
                     this._dragItems.push(child);
                     this._paperCutOutRaycastObject.push(child);
-                } else if("feuille" === child.name) {
+                } else if ("feuille" === child.name) {
                     this._feuilleAnimations = [...this._models[name].animations];
                     // console.log(this._feuilleAnimations)
                     // console.log(child);
                     this._addToScene(child);
                     this.feuilleAnimator = new AnimationManager(child, this._feuilleAnimations);
                     this.feuilleManager = new CameraManager(this._camera, this._cameras, this.feuilleAnimator);
+
+                    // setTimeout(() => {
+                    //     this._feuilleAnimations.map((animation, i) => {
+                    //         this.feuilleManager.StartAnimation(i);
+                    //     });
+                    // }, 3000)
                 }
             })
         }
@@ -265,16 +259,16 @@ class ThreeScene {
         this._subStep = this._stepManager._subStep;
 
         this._currentRaycastObject = [];
-        
-        if(this._globalStep === 0) {
+
+        if (this._globalStep === 0) {
 
             this._currentRaycastObject = this._paperCutOutRaycastObject;
 
-        } else if(this._globalStep === 1) {
+        } else if (this._globalStep === 1) {
 
             this._currentRaycastObject = this._colorPickerRaycastObject;
 
-        } else if(this._globalStep === 2) {
+        } else if (this._globalStep === 2) {
 
             this._currentRaycastObject = this._glassCutOutRaycastObject;
 
@@ -287,50 +281,50 @@ class ThreeScene {
         this._globalStep = this._stepManager._globalStep;
         this._subStep = this._stepManager._subStep;
 
-        if(this._globalStep === 0) {
+        if (this._globalStep === 0) {
 
             switch (this._subStep) {
                 case 0 :
                     this._paperCutOutDragAndDropHandler(intersects[0]);
                     break;
-                case 1 :
+                case 1:
                     this._paperCutOutScrollAnimHandler(intersects[0]);
                     break;
             }
 
-        } else if(this._globalStep === 1) {
+        } else if (this._globalStep === 1) {
 
             this._colorPickerHandler(intersects[0]);
 
-        } else if(this._globalStep === 2) {
+        } else if (this._globalStep === 2) {
 
             switch (this._subStep) {
 
-                case 0 :
+                case 0:
                     //console.log("sous-étape 1: drag and drop patron sur bout de verre");
                     break;
-                case 1 :
+                case 1:
                     // console.log("sous-étape 2: découpe du verre");
                     this._glassCutOut(intersects[0]);
                     break;
-                case 2 :
+                case 2:
                     // console.log("sous-étape 3: drag and drop pour enlever le bout de papier");
                     break;
-                case 3 :
+                case 3:
                     // console.log("sous-étape 4: Jauge de pression pour casser le bout de verre");
                     this._glassCutOutPressureGauge(intersects[0]);
                     break;
-                case 4 :
+                case 4:
                     // console.log("sous-étape 5: cassage des derniers petits bout de verre");
                     break;
-                case 5 :
+                case 5:
                     // console.log("sous-étape 5: drag and drop au milieu du vitrail fini");
                     break;
             }
 
         }
 
-        
+
     }
 
     _colorPickerHandler(intersect) {
@@ -414,13 +408,13 @@ class ThreeScene {
             // }, 1000)
         }
         else {
-           
+
         }
     }
 
     _paperCutOutMouseDown() {
         console.log("paper cut out mousedown");
-        
+
     }
     _paperCutOutMouseUp() {
         console.log("paper cut out mouseup");
@@ -432,7 +426,7 @@ class ThreeScene {
             console.log(this._object);
         }
         else {
-           
+
         }
     }
 
@@ -442,7 +436,7 @@ class ThreeScene {
             console.log(this._object);
         }
         else {
-           
+
         }
     }
 
@@ -490,7 +484,7 @@ class ThreeScene {
     }
     _glassCutOutPressureGaugeMouseUp() {
         console.log("glass mouse up")
-        if(this._pressureGaugeValue > 80 && this._pressureGaugeValue < 100) {
+        if (this._pressureGaugeValue > 80 && this._pressureGaugeValue < 100) {
             console.log("vous avez gagné !");
         } else {
             console.log("vous avez perdu !");
@@ -499,7 +493,7 @@ class ThreeScene {
         }
     }
 
-    
+
 
     _animateCameraPlay(index) {
         let buttonCamera1 = document.createElement("button");
@@ -565,49 +559,49 @@ class ThreeScene {
         this._globalStep = this._stepManager._globalStep;
         this._subStep = this._stepManager._subStep;
 
-        if(this._globalStep === 0) {
+        if (this._globalStep === 0) {
 
             switch (this._subStep) {
                 case 0 :
                     this._paperCutOutMouseDown();
                     break;
-                case 1 :
+                case 1:
                     // console.log("sous-étape 2");
                     break;
             }
 
-        } else if(this._globalStep === 1) {
+        } else if (this._globalStep === 1) {
 
             this._colorPickerMouseDown();
 
-        } else if(this._globalStep === 2) {
+        } else if (this._globalStep === 2) {
 
             switch (this._subStep) {
 
-                case 0 :
+                case 0:
                     // console.log("sous-étape 1: drag and drop patron sur bout de verre");
                     break;
-                case 1 :
+                case 1:
                     // console.log("sous-étape 2: découpe du verre");
                     this._glassCutOutMouseDown();
                     break;
-                case 2 :
+                case 2:
                     // console.log("sous-étape 3: drag and drop pour enlever le bout de papier");
                     break;
-                case 3 :
+                case 3:
                     // console.log("sous-étape 4: Jauge de pression pour casser le bout de verre");
                     this._glassCutOutPressureGaugeMouseDown();
                     break;
-                case 4 :
+                case 4:
                     // console.log("sous-étape 5: cassage des derniers petits bout de verre");
                     break;
-                case 5 :
+                case 5:
                     // console.log("sous-étape 5: drag and drop au milieu du vitrail fini");
                     break;
             }
 
         }
-        
+
     }
 
     _mousePointerUpHandler(e) {
@@ -615,42 +609,42 @@ class ThreeScene {
         this._globalStep = this._stepManager._globalStep;
         this._subStep = this._stepManager._subStep;
 
-        if(this._globalStep === 0) {
+        if (this._globalStep === 0) {
             switch (this._subStep) {
                 case 0 :
                     this._paperCutOutMouseUp();
                     break;
-                case 1 :
+                case 1:
                     // console.log("sous-étape 2");
                     break;
             }
 
-        } else if(this._globalStep === 1) {
+        } else if (this._globalStep === 1) {
 
             this._colorPickerMouseUp();
 
-        } else if(this._globalStep === 2) {
+        } else if (this._globalStep === 2) {
 
             switch (this._subStep) {
 
-                case 0 :
+                case 0:
                     // console.log("sous-étape 1: drag and drop patron sur bout de verre");
                     break;
-                case 1 :
+                case 1:
                     // console.log("sous-étape 2: découpe du verre");
                     this._glassCutOutMouseUp();
                     break;
-                case 2 :
+                case 2:
                     // console.log("sous-étape 3: drag and drop pour enlever le bout de papier");
                     break;
-                case 3 :
+                case 3:
                     // console.log("sous-étape 4: Jauge de pression pour casser le bout de verre");
                     this._glassCutOutPressureGaugeMouseUp();
                     break;
-                case 4 :
+                case 4:
                     // console.log("sous-étape 5: cassage des derniers petits bout de verre");
                     break;
-                case 5 :
+                case 5:
                     // console.log("sous-étape 5: drag and drop au milieu du vitrail fini");
                     break;
             }
@@ -731,44 +725,44 @@ class ThreeScene {
     _dragAndDropControls() {
         if (!SETTINGS.enableDragAndDrop) return;
 
-        this._dragAndDropControls = new DragControls( this._dragItems, this._camera, this._renderer.domElement);
+        this._dragAndDropControls = new DragControls(this._dragItems, this._camera, this._renderer.domElement);
 
         this._dragAndDropControls.enabled = true;
         this._enableDragAndDrop = true;
 
         this._dragStart = (event) => {
 
-            event.object.material.emissive.set( 0xaaaaaa );
+            event.object.material.emissive.set(0xaaaaaa);
 
         }
         this._drag = (event) => {
 
-            if(event.object.position.y < 1.05) {
+            if (event.object.position.y < 1.05) {
                 event.object.position.y = 1.05;
             }
 
         }
         this._dragEnd = (event) => {
 
-            event.object.material.emissive.set( 0x000000 );
+            event.object.material.emissive.set(0x000000);
         }
 
         this._toggleDragAndDropControls();
-        
+
     }
 
     _toggleDragAndDropControls() {
         //On utilise cette fonction afin de toggle le drag and drop
-        if(this._enableDragAndDrop) {
-            this._dragAndDropControls.addEventListener( 'dragstart', this._dragStart);
-            this._dragAndDropControls.addEventListener ( 'drag', this._drag)
-            this._dragAndDropControls.addEventListener( 'dragend', this._dragEnd);
+        if (this._enableDragAndDrop) {
+            this._dragAndDropControls.addEventListener('dragstart', this._dragStart);
+            this._dragAndDropControls.addEventListener('drag', this._drag)
+            this._dragAndDropControls.addEventListener('dragend', this._dragEnd);
             this._enableDragAndDrop = false;
             this._dragAndDropControls.enabled = true;
         } else {
-            this._dragAndDropControls.removeEventListener( 'dragstart', this._dragStart);
-            this._dragAndDropControls.removeEventListener( 'drag', this._drag);
-            this._dragAndDropControls.removeEventListener( 'dragend', this._dragEnd);
+            this._dragAndDropControls.removeEventListener('dragstart', this._dragStart);
+            this._dragAndDropControls.removeEventListener('drag', this._drag);
+            this._dragAndDropControls.removeEventListener('dragend', this._dragEnd);
             this._enableDragAndDrop = true;
             this._dragAndDropControls.enabled = false;
         }
@@ -815,9 +809,9 @@ class ThreeScene {
         this._globalStep = this._stepManager._globalStep;
         this._subStep = this._stepManager._subStep;
 
-        if(this._globalStep !== 2 || this._subStep !== 3) return;
+        if (this._globalStep !== 2 || this._subStep !== 3) return;
 
-        if(this._isMouseDown) {
+        if (this._isMouseDown) {
             this._pressureGaugeValue += Math.ceil(deltaTime);
             console.log(this._pressureGaugeValue);
             this._UIManager.UI.pressureGauge.style.transform = `scale(${1 + this._pressureGaugeValue / 100})`;
@@ -828,9 +822,9 @@ class ThreeScene {
         // console.log(e);
         this._animationDuration = 5.5;
         this._numberOfWheelEvent = 100;
-        
-        
-        if(e.deltaY > 0) {
+
+
+        if (e.deltaY > 0) {
             this._scrollTimeline += this._animationDuration / this._numberOfWheelEvent;
             this._scrollY += 1;
             this._paperCutOutScrollAnimation();
@@ -843,10 +837,10 @@ class ThreeScene {
 
     _paperCutOutScrollAnimation() {
         this._feuilleAnimations.map((animations, index) => {
-            this.feuilleManager.ScrollAnimation(index , this._scrollTimeline);
+            this.feuilleManager.ScrollAnimation(index, this._scrollTimeline);
         })
     }
-    
+
     addStep() {
         this._stepManager.addGlobalStep();
         console.log(this._stepManager._globalStep);
