@@ -376,7 +376,7 @@ class ThreeScene {
                     this._glassCutOutPinceAGruger(intersects[0])
                     break;
                 case 5:
-                    // console.log("sous-étape 5: drag and drop au milieu du vitrail fini");
+                    // console.log("sous-étape 6: drag and drop au milieu du vitrail fini");
                     break;
             }
 
