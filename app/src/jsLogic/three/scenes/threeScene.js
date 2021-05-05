@@ -400,7 +400,7 @@ class ThreeScene {
         // // 3. Add event handler
         buttonCamera1.addEventListener("click", () => {
             this._setCameraAnimationPlay(index, actionIndex);
-            this._UIManager.setTracePicto(50, 30)
+            this._UIManager.setScrollPicto(50, 30)
         });
     }
 
@@ -417,6 +417,7 @@ class ThreeScene {
         // // 3. Add event handler
         buttonCamera1.addEventListener("click", () => {
             this._setCameraAnimationReverse(index);
+            this._UIManager.removeScrollPicto()
         });
     }
 
@@ -678,14 +679,14 @@ class ThreeScene {
 
     _setAddSubStep() {
         this.addStepManager.addSubStep()
-        console.log(this.addStepManager.subStep)
+        // console.log(this.addStepManager.subStep)
     }
 
     _setAddGlobalStep() {
         // let ateliersNumber = 5
 
         this.addStepManager.addGlobalStep()
-        console.log(this.addStepManager.globalStep)
+        // console.log(this.addStepManager.globalStep)
 
         const breadcrumbElm = document.querySelector('.breadcrumb_container')
         // let breadcrumbUl = document.querySelector('.list-breadcrumb')
@@ -706,7 +707,7 @@ class ThreeScene {
 
         if (this._isMouseDown) {
             this._pressureGaugeValue += Math.ceil(deltaTime);
-            console.log(this._pressureGaugeValue);
+            // console.log(this._pressureGaugeValue);
             this._UIManager.UI.pressureGauge.style.transform = `scale(${1 + this._pressureGaugeValue / 100})`;
         }
     }
