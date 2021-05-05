@@ -10,7 +10,7 @@ import dataMenu from '@assets/data/content-menu.json'
 import styles from "./styles.module.scss"
 
 //components
-import ThreeSceneMenu from '@jsLogic/three/threeSceneMenu';
+import ThreeSceneMenu from '@jsLogic/three/scenes/threeSceneMenu';
 
 const ChoixEpisodeAtelierPage = () => {
   const ref = useRef(null)
