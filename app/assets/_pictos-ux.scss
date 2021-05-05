@@ -8,24 +8,4 @@
   transform: translate(-50%, -50%);
   opacity: 0;
   transition: 0.8s ease-in-out all;
-  &.click-gruger {
-    top: 50%;
-    left: 20%;
-  }
-  &.drag-and-drop {
-    top: 50%;
-    left: 30%;
-  }
-  &.jauge-pression {
-    top: 50%;
-    left: 40%;
-  }
-  &.scroll {
-    top: 50%;
-    left: 50%;
-  }
-  &.trace-glissiere {
-    top: 50%;
-    left: 60%;
-  }
 }

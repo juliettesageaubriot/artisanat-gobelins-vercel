@@ -135,11 +135,11 @@ const SingleAtelierPage = () => {
 
         <div className={styles["page-singleAtelier"]}></div>
 
-        <img src="/assets/images/ui/pictos-ux/click-gruger.gif" alt="Picto UX pour le click gruger" className="picto-ux click-gruger" id="clickGruger"/>
+        <img src="/assets/images/ui/pictos-ux/click-points.gif" alt="Picto UX pour le click gruger" className="picto-ux click-points" id="clickPoints"/>
         <img src="/assets/images/ui/pictos-ux/drag-and-drop.gif" alt="Picto UX pour le drag and drop" className="picto-ux drag-and-drop" id="dragAndDrop"/>
-        <img src="/assets/images/ui/pictos-ux/jauge-pression.gif" alt="Picto UX pour la jauge de pression" className="picto-ux jauge-pression" id="jaugePression"/>
+        <img src="/assets/images/ui/pictos-ux/pression.gif" alt="Picto UX pour la jauge de pression" className="picto-ux pression" id="pression"/>
         <img src="/assets/images/ui/pictos-ux/scroll.gif" alt="Picto UX pour le scroll" className="picto-ux scroll" id="scroll"/>
-        <img src="/assets/images/ui/pictos-ux/trace-glissiere.gif" alt="Picto UX pour la trace glissière" className="picto-ux trace-glissiere" id="traceGlissiere"/>
+        <img src="/assets/images/ui/pictos-ux/trace.gif" alt="Picto UX pour la trace glissière" className="picto-ux trace" id="trace"/>
 
         <TheVolume absolute />
         <div className={styles.pressureGauge} id="pressureGauge"></div>

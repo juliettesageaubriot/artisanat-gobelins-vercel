@@ -8,45 +8,57 @@ class UIManager {
     _setUI() {
         this.UI.pressureGauge = document.querySelector("#pressureGauge");
 
-        this.UI.clickGruger = document.querySelector("#clickGruger")
+        this.UI.clickPoints = document.querySelector("#clickPoints")
         this.UI.dragAndDrop = document.querySelector("#dragAndDrop")
-        this.UI.jaugePression = document.querySelector("#jaugePression")
+        this.UI.pression = document.querySelector("#pression")
         this.UI.scroll = document.querySelector("#scroll")
-        this.UI.traceGlissiere = document.querySelector("#traceGlissiere")
+        this.UI.trace = document.querySelector("#trace")
     }
 
-    _setClickGruger() {
-        this.UI.clickGruger.style.opacity = 1
+    //Renseigner simplement le top et le left des éléments
+
+    setClickPointsPicto(top, left) {
+        this.UI.clickPoints.style.opacity = 1
+        this.UI.clickPoints.style.top = top + "%"
+        this.UI.clickPoints.style.left = left + "%"
         setTimeout(() => {
-            this.UI.clickGruger.style.opacity = 0
+            this.UI.clickPoints.style.opacity = 0
         }, 8000);
     }
 
-    _setDragAndDropPicto() {
+    setDragAndDropPicto(top, left) {
         this.UI.dragAndDrop.style.opacity = 1
+        this.UI.dragAndDrop.style.top = top + "%"
+        this.UI.dragAndDrop.style.left = left + "%"
         setTimeout(() => {
             this.UI.dragAndDrop.style.opacity = 0
         }, 8000);
     }
 
-    _setJaugePression() {
-        this.UI.jaugePression.style.opacity = 1
+    setPressionPicto(top, left) {
+        this.UI.pression.style.opacity = 1
+        this.UI.pression.style.top = top + "%"
+        this.UI.pression.style.left = left + "%"
         setTimeout(() => {
-            this.UI.jaugePression.style.opacity = 0
+            this.UI.pression.style.opacity = 0
         }, 8000);
     }
 
-    _setScroll() {
+    setScrollPicto(top, left) {
         this.UI.scroll.style.opacity = 1
+        this.UI.scroll.style.top = top + "%"
+        this.UI.scroll.style.left = left + "%"
         setTimeout(() => {
             this.UI.scroll.style.opacity = 0
         }, 8000);
     }
 
-    _setTraceGlissiere() {
-        this.UI.traceGlissiere.style.opacity = 1
+    setTracePicto(top, left) {
+        this.UI.trace.style.opacity = 1
+        this.UI.trace.style.top = top + "%"
+        this.UI.trace.style.left = left + "%"
         setTimeout(() => {
-            this.UI.traceGlissiere.style.opacity = 0
+            this.UI.trace.style.opacity = 0
         }, 8000);
     }
 }

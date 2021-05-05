@@ -84,7 +84,7 @@ class ActionsStepManager {
         this._setCurrentSubtitle(4);
     }
     _stepSix() {
-       this._UIManager.setScrollPicto();
+       this._UIManager.setScrollPicto(50, 50);
        this._allowedScroll = true;
        this._state.setNewToolsArray(1);
     }
@@ -111,7 +111,7 @@ class ActionsStepManager {
        this._setCurrentSubtitle(8);
     }
     _stepThirteen() {
-       this._UIManager.setDragAndDropPicto();
+       this._UIManager.setDragAndDropPicto(50, 50);
        this._allowedDragAndDrop = true;
        this._state.setNewToolsArray(2);
     }
@@ -134,7 +134,7 @@ class ActionsStepManager {
         this._setCurrentSubtitle(11);
     }
     _stepNineteen() {
-        this._UIManager.setDragAndDropPicto();
+        this._UIManager.setDragAndDropPicto(50, 50);
         this._allowedDragAndDrop = true;
         this._state.setNewToolsArray(3);
     }
@@ -146,12 +146,12 @@ class ActionsStepManager {
         this._setCurrentSubtitle(13);
     }
     _stepTwentyTwo() {
-        this._UIManager.setDrawTheLinePicto();
+        this._UIManager.setTracePicto(50, 50);
         this._allowedDrawTheLine = true;
         this._stepManager.addSubStep();
     }
     _stepTwentyThree() {
-        this._UIManager.setDragAndDropPicto();
+        this._UIManager.setDragAndDropPicto(50, 50);
         this._allowedDrawTheLine = false;
         this._allowedDragAndDrop = true;
         this._stepManager.addSubStep();
@@ -161,7 +161,7 @@ class ActionsStepManager {
         this._allowedDragAndDrop = false;
     }
     _stepTwentyFive() {
-        this._UIManager.setPressureGaugePicto();
+        this._UIManager.setPressionPicto(50, 50);
         this._allowedPressureGauge = true;
         this._stepManager.addSubStep();
     }
@@ -170,7 +170,7 @@ class ActionsStepManager {
         this._allowedPressureGauge = false;
     }
     _stepTwentySeven() {
-        this._UIManager.setCassageDeVerrePicto();
+        this._UIManager.setClickPointsPicto(50, 50);
         this._allowedCassageDeVerre = true;
         this._stepManager.addSubStep();
     }
@@ -182,7 +182,7 @@ class ActionsStepManager {
         this._setCurrentSubtitle(16);
     }
     _stepThirty() {
-        this._UIManager.setDragAndDropPicto();
+        this._UIManager.setDragAndDropPicto(50, 50);
         this._allowedDragAndDrop = true;
         this._stepManager.addSubStep();
     }
