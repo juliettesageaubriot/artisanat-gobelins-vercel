@@ -27,7 +27,7 @@ const SingleAtelierPage = () => {
   const isMounted = useIsMounted();
 
   //Three Scene
-  const [threeScene, setThreeScene]= useState(null)
+  const [threeScene, setThreeScene] = useState(null)
 
   // Sound states
   const [isPlaying, setIsPlaying] = useState(false)
@@ -46,10 +46,10 @@ const SingleAtelierPage = () => {
     playSound: () => { setIsPlaying(true) },
     stopSound: () => { setIsPlaying(false) },
     start: () => { setCurrentSubtitle(0); },
-    setNextSubtitle: () => {setCurrentSubtitle(1)},
+    setNextSubtitle: () => { setCurrentSubtitle(1) },
     setToolsArray1: () => { setCurrentStepTools(data.toolsArray1) },
     setToolsArray2: () => { setCurrentStepTools(data.toolsArray2) },
-    setStepValidation: (index) => { setCurrentValidationStep(index)}
+    setStepValidation: (index) => { setCurrentValidationStep(index) }
   }
 
   useEffect(() => {
@@ -96,33 +96,33 @@ const SingleAtelierPage = () => {
   // console.log("currentTools", currentTools);
 
   const subtitleItems = audioDatas.map((elm, index) => {
-      return <TheSubTitle 
-                content={elm} 
-                currentSubtitle={currentSubtitle} 
-                key={index} 
-                onEnd={() => threeScene.testOnEndSound(elm.actionOnEnd)} 
-              />
+    return <TheSubTitle
+      content={elm}
+      currentSubtitle={currentSubtitle}
+      key={index}
+      onEnd={() => threeScene.testOnEndSound(elm.actionOnEnd)}
+    />
   });
 
   const stepValidationItems = stepValidationDatas.map((elm, index) => {
-    return <TheStepValidation 
-              title={elm.title} 
-              btnText={elm.btnText} 
-              destination={elm.destination} 
-              key={index} 
-              appear={currentValidationStep === index} 
-              onClick={() => console.log("Change step")} 
-            />
+    return <TheStepValidation
+      title={elm.title}
+      btnText={elm.btnText}
+      destination={elm.destination}
+      key={index}
+      appear={currentValidationStep === index}
+      onClick={() => console.log("Change step")}
+    />
   });
 
   return (
     <>
       <section>
-        { subtitleItems }
-        { stepValidationItems }
+        {subtitleItems}
+        {stepValidationItems}
         {/* <TheAudioSnippet sound_url={"assets/audios/test_song.mp3"} play/> */}
-        <button style={{position: "absolute",right:"0"}} onClick={handleAudio0}>Audio 0</button>
-        <button style={{position: "absolute",right:"70px"}} onClick={handleAudio1}>Audio 1</button>
+        <button style={{ position: "absolute", right: "0" }} onClick={handleAudio0}>Audio 0</button>
+        <button style={{ position: "absolute", right: "70px" }} onClick={handleAudio1}>Audio 1</button>
         <TheLoader />
         <TheBreadcrumb
         // isShowing={isShowingBreadcrumb} hide={toggle}
@@ -134,6 +134,12 @@ const SingleAtelierPage = () => {
         </a>
 
         <div className={styles["page-singleAtelier"]}></div>
+
+        <img src="/assets/images/ui/pictos-ux/click-gruger.gif" alt="Picto UX pour le click gruger" className="picto-ux click-gruger" id="clickGruger"/>
+        <img src="/assets/images/ui/pictos-ux/drag-and-drop.gif" alt="Picto UX pour le drag and drop" className="picto-ux drag-and-drop" id="dragAndDrop"/>
+        <img src="/assets/images/ui/pictos-ux/jauge-pression.gif" alt="Picto UX pour la jauge de pression" className="picto-ux jauge-pression" id="jaugePression"/>
+        <img src="/assets/images/ui/pictos-ux/scroll.gif" alt="Picto UX pour le scroll" className="picto-ux scroll" id="scroll"/>
+        <img src="/assets/images/ui/pictos-ux/trace-glissiere.gif" alt="Picto UX pour la trace glissière" className="picto-ux trace-glissiere" id="traceGlissiere"/>
 
         <TheVolume absolute />
         <div className={styles.pressureGauge} id="pressureGauge"></div>
