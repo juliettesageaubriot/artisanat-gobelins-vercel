@@ -235,7 +235,7 @@ class ThreeScene {
                         if("Click1" === animation.name) {
 
                             this._piece_decoupeAnimationsClickOne.push(animation);
-                            console.log(this._piece_decoupeAnimationsClickOne)
+                            // console.log(this._piece_decoupeAnimationsClickOne)
 
                         } else if("Click2" === animation.name) {
 
@@ -248,11 +248,11 @@ class ThreeScene {
                         } else if("SuccessCut" === animation.name) {
 
                             this._piece_decoupeAnimationsSuccessCut.push(animation);
-                            console.log(this._piece_decoupeAnimationsSuccessCut)
+                            // console.log(this._piece_decoupeAnimationsSuccessCut)
 
                         }
                     })
-                    console.log(this._piece_decoupeAnimations);
+                    // console.log(this._piece_decoupeAnimations);
 
                     this._piece_decoupeAnimationsClickOneAnimator = new AnimationManager(child, this._piece_decoupeAnimationsClickOne);
                     this._piece_decoupeAnimationsClickTwoAnimator = new AnimationManager(child, this._piece_decoupeAnimationsClickTwo);
@@ -567,15 +567,15 @@ class ThreeScene {
     }
 
     _glassCutOutPressureGaugeMouseDown() {
-        console.log("glass mouse down");
+        // console.log("glass mouse down");
     }
     _glassCutOutPressureGaugeMouseUp() {
-        console.log("glass mouse up")
+        // console.log("glass mouse up")
         if (this._pressureGaugeValue > 80 && this._pressureGaugeValue < 100) {
-            console.log("vous avez gagné !");
+            // console.log("vous avez gagné !");
             this._piece_decoupeAnimationsSuccessCutAnimator.playClipByIndex(0);
         } else {
-            console.log("vous avez perdu !");
+            // console.log("vous avez perdu !");
             this._pressureGaugeValue = 0;
             this._UIManager.UI.pressureGauge.style.transform = `scale(1)`;
         }
@@ -596,7 +596,7 @@ class ThreeScene {
         // // 3. Add event handler
         buttonCamera1.addEventListener("click", () => {
             this._setCameraAnimationPlay(index);
-            this._UIManager.setTracePicto(50, 30)
+            this._UIManager.setScrollPicto(50, 30)
         });
     }
 
@@ -613,6 +613,7 @@ class ThreeScene {
         // // 3. Add event handler
         buttonCamera1.addEventListener("click", () => {
             this._setCameraAnimationReverse(index);
+            this._UIManager.removeScrollPicto()
         });
     }
 
@@ -887,14 +888,14 @@ class ThreeScene {
 
     _setAddSubStep() {
         this.addStepManager.addSubStep()
-        console.log(this.addStepManager.subStep)
+        // console.log(this.addStepManager.subStep)
     }
 
     _setAddGlobalStep() {
         // let ateliersNumber = 5
 
         this.addStepManager.addGlobalStep()
-        console.log(this.addStepManager.globalStep)
+        // console.log(this.addStepManager.globalStep)
 
         const breadcrumbElm = document.querySelector('.breadcrumb_container')
         // let breadcrumbUl = document.querySelector('.list-breadcrumb')
@@ -915,7 +916,7 @@ class ThreeScene {
 
         if (this._isMouseDown) {
             this._pressureGaugeValue += Math.ceil(deltaTime);
-            console.log(this._pressureGaugeValue);
+            // console.log(this._pressureGaugeValue);
             this._UIManager.UI.pressureGauge.style.transform = `scale(${1 + this._pressureGaugeValue / 100})`;
         }
     }

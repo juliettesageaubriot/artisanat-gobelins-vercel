@@ -13,7 +13,7 @@ const TheVolume = ({ absolute }) => {
     const handleChange = (e) => {
         const currentVolume = e.target.value / 100;
         setVolume(currentVolume);
-        console.log(currentVolume)
+        // console.log(currentVolume)
         setPreviousVolume(currentVolume);
     }
     useEffect(async () => {
