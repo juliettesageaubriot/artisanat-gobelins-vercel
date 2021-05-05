@@ -395,6 +395,7 @@ class ThreeScene {
         // // 3. Add event handler
         buttonCamera1.addEventListener("click", () => {
             this._setCameraAnimationPlay(index);
+            this._UIManager.setTracePicto(50, 30)
         });
     }
 

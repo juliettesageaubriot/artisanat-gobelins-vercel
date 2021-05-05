@@ -1,0 +1,11 @@
+@import "./mandatory";
+
+.picto-ux {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: 0.8s ease-in-out all;
+}
