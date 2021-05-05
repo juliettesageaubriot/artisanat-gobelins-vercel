@@ -6,13 +6,13 @@ import styles from "./styles.module.scss"
 
 //components
 import TheBreadcrumb from '@components/Breadcrumb/TheBreadcrumb';
-import ThreeScene from '@/jsLogic/three/scenes/threeScene';
+import ThreeScene from 'jsLogic/three/scenes/threeScene';
 import TheAudioSnippet from '@components/AudioSnippet/TheAudioSnippet';
-import TheLoader from '@/components/Structure/Loader/TheLoader';
-import TheSubTitle from '@/components/Subtitle/TheSubTitle';
+import TheLoader from '@components/Structure/Loader/TheLoader';
+import TheSubTitle from '@components/Subtitle/TheSubTitle';
 import TheVolume from '@components/VolumeSettings/TheVolume';
-import TheStepValidation from '@/components/StepValidation/TheStepValidation';
-import TheToolChoiceButton from '@/components/ToolChoiceButton/TheToolChoiceButton';
+import TheStepValidation from '@components/StepValidation/TheStepValidation';
+import TheToolChoiceButton from '@components/ToolChoiceButton/TheToolChoiceButton';
 
 import useIsMounted from '@hooks/useIsMounted'
 

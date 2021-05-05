@@ -1,6 +1,6 @@
 //react
 import React, { useEffect, useRef, useState } from 'react';
-import TheLoader from '@/components/Structure/Loader/TheLoader';
+import TheLoader from '@components/Structure/Loader/TheLoader';
 import MenuModal from '@components/MenuModal/MenuModal'
 import TheVolume from '@components/VolumeSettings/TheVolume'
 import TheAudioSnippet from '@components/AudioSnippet/TheAudioSnippet';
@@ -10,7 +10,7 @@ import dataMenu from '@assets/data/content-menu.json'
 import styles from "./styles.module.scss"
 
 //components
-import ThreeSceneMenu from '@/jsLogic/three/threeSceneMenu';
+import ThreeSceneMenu from '@jsLogic/three/threeSceneMenu';
 
 const ChoixEpisodeAtelierPage = () => {
   const ref = useRef(null)

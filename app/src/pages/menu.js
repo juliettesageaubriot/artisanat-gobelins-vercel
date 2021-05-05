@@ -1,4 +1,4 @@
-import ChoixEpisodeAtelierPage from '@/pageElement/ChoixEpisodePage/ChoixEpisodePage'
+import ChoixEpisodeAtelierPage from '@pageElement/ChoixEpisodePage/ChoixEpisodePage'
 import TheSeo from '@components/Structure/Seo/TheSeo'
 
 const Menu = () => {

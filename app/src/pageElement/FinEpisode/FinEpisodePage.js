@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import ThePrimaryButton from "@/components/PrimaryButton/ThePrimaryButton";
-import TheVolume from "@/components/VolumeSettings/TheVolume";
+import ThePrimaryButton from "@components/PrimaryButton/ThePrimaryButton";
+import TheVolume from "@components/VolumeSettings/TheVolume";
 import styles from "./styles.module.scss";
 
 const FinEpisodePage = () => {
