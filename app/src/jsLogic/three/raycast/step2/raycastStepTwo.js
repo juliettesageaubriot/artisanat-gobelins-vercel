@@ -57,10 +57,11 @@ export const _colorPickerMouseDown = (_currentIntersect, _colorPicked) => {
 }
 
 
-export const _colorPickerMouseUp = (_currentIntersect, _colorPicked, _vitrailObjects) => {
+export const _colorPickerMouseUp = (_currentIntersect, _colorPicked, _vitrailObjects, actionStepManager) => {
     if (_currentIntersect) {
         if (_vitrailObjects.includes(_currentIntersect.name)) {
             _currentIntersect.material.color = _colorPicked.current;
+            // actionStepManager.actionsManager(12);
         }
         _colorPicked.current = null;
         //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "default");

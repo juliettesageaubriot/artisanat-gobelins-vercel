@@ -33,13 +33,13 @@ export const _glassCutOutMouseDown = (_currentIntersect, _isRunningDecoupeTrace)
     }
 }
 
-export const _glassCutOutMouseUp = (_currentIntersect, _isRunningDecoupeTrace) => {
+export const _glassCutOutMouseUp = (_currentIntersect, _isRunningDecoupeTrace, actionStepManager) => {
     if (_currentIntersect && _isRunningDecoupeTrace === true) {
         switch (_currentIntersect.name) {
             case "fin":
                 console.log("je suis la fin")
                 _isRunningDecoupeTrace = false;
-                //Etape validé du coup actionstepmanager
+                // actionStepManager.actionsManager(22);
                 break
             default:
                 _isRunningDecoupeTrace = false;

@@ -7,12 +7,13 @@ import { DragControls } from 'three/examples/jsm/controls/DragControls.js'
 import bindAll from '@jsLogic/utils/bindAll';
 
 //modules
-import AssetsLoader from '@jsLogic/three/assetsLoader';
+import AssetsLoader from '@jsLogic/three/assetsLoader.js';
 import AnimationManager from "@jsLogic/three/animationManager.js";
 import CameraManager from "@jsLogic/three/cameraManager.js";
 import BreadcrumbManager from '@jsLogic/breadcrumb/breadcrumbManager.js';
 import StepManager from "@jsLogic/stepManager/stepManager.js"
 import UIManager from "@jsLogic/UIManager/UIManager.js";
+import ActionsStepManager from '@jsLogic/stepManager/actionsStepManager.js';
 
 import { SetupColorPicker } from '@jsLogic/utils/colorPickersHelper';
 
@@ -27,10 +28,12 @@ import { _glassCutOutPinceAGruger, _glassCutOutPinceAGrugerMouseDown, _glassCutO
 import { _mousePointerDownHandler } from '@jsLogic/three/mouseEvents/mouseDown/onMouseDownHandler';
 import { _mousePointerUpHandler } from '@jsLogic/three/mouseEvents/mouseUp/onMouseUpHandler';
 
+
 const SETTINGS = {
     enableRaycast: true,
     enableOrbitControl: false,
-    idCamera: [0, 1, 2],
+    idCamera: [0, 1, 2, 3, 4],
+    idCameraEndAction: [2, "none", 9, "none", 16],
     enableDragAndDrop: true
 }
 
@@ -127,6 +130,8 @@ class ThreeScene {
 
         this._UIManager = new UIManager();
 
+        this._actionStepManager = new ActionsStepManager(this._state, this._stepManager, this._UIManager, this._breadcrumbManager, this._setCameraAnimationPlay);
+
         this._pressureGaugeValue = 0;
 
         this._scrollTimeline = 0;
@@ -152,13 +157,13 @@ class ThreeScene {
         this._setNewState();
     }
 
-    _setCameraAnimationPlay(index) {
+    _setCameraAnimationPlay(index, actionIndex) {
         if (index === "none") return;
         this._camera = this._cameras[index];
         this.cameraManager.StartAnimation(index);
-        // console.log(this._stepManager._globalStep);
-        // this._stepManager.addGlobalStep();
-        // this._toggleDragAndDropControls();
+        this.cameraAnimator.mixer.addEventListener("finished", () => {
+            this._actionStepManager.actionsManager(actionIndex);
+        });
     }
     _setCameraAnimationReverse(index) {
         this._camera = this._cameras[index];
@@ -296,10 +301,10 @@ class ThreeScene {
 
         // this._state.start();
 
-        this._animateCameraPlay(SETTINGS.idCamera[0]);
-        this._animateCameraPlay(SETTINGS.idCamera[1]);
-        this._animateCameraReverse(SETTINGS.idCamera[0]);
-        this._animateCameraReverse(SETTINGS.idCamera[1]);
+        this._animateCameraPlay(SETTINGS.idCamera[0], SETTINGS.idCameraEndAction[0]);
+        this._animateCameraPlay(SETTINGS.idCamera[1], SETTINGS.idCameraEndAction[1]);
+        this._animateCameraReverse(SETTINGS.idCamera[0], SETTINGS.idCameraEndAction[0]);
+        this._animateCameraReverse(SETTINGS.idCamera[1], SETTINGS.idCameraEndAction[1]);
     }
 
     _rayCast(e) {
@@ -382,7 +387,7 @@ class ThreeScene {
 
     }
 
-    _animateCameraPlay(index) {
+    _animateCameraPlay(index, actionIndex) {
         let buttonCamera1 = document.createElement("button");
         buttonCamera1.style.position = "absolute";
         buttonCamera1.style.top = (1 + (index * 30)) + "px";
@@ -394,7 +399,7 @@ class ThreeScene {
 
         // // 3. Add event handler
         buttonCamera1.addEventListener("click", () => {
-            this._setCameraAnimationPlay(index);
+            this._setCameraAnimationPlay(index, actionIndex);
             this._UIManager.setTracePicto(50, 30)
         });
     }
@@ -496,7 +501,7 @@ class ThreeScene {
 
         } else if (this._globalStep === 1) {
 
-            _colorPickerMouseUp(this._currentIntersect, this._colorPicked, this._vitrailObjects);
+            _colorPickerMouseUp(this._currentIntersect, this._colorPicked, this._vitrailObjects, this._actionStepManager);
 
         } else if (this._globalStep === 2) {
 
@@ -507,18 +512,18 @@ class ThreeScene {
                     break;
                 case 1:
                     // console.log("sous-étape 2: découpe du verre");
-                    _glassCutOutMouseUp(this._currentIntersect, this._isRunningDecoupeTrace);
+                    _glassCutOutMouseUp(this._currentIntersect, this._isRunningDecoupeTrace, this._actionStepManager);
                     break;
                 case 2:
                     // console.log("sous-étape 3: drag and drop pour enlever le bout de papier");
                     break;
                 case 3:
                     // console.log("sous-étape 4: Jauge de pression pour casser le bout de verre");
-                    _glassCutOutPressureGaugeMouseUp(this._pressureGaugeValue, this._piece_decoupeAnimationsSuccessCutAnimator, this._UIManager.UI.pressureGauge);
+                    _glassCutOutPressureGaugeMouseUp(this._pressureGaugeValue, this._piece_decoupeAnimationsSuccessCutAnimator, this._UIManager.UI.pressureGauge, this._actionStepManager);
                     break;
                 case 4:
                     // console.log("sous-étape 5: cassage des derniers petits bout de verre");
-                    _glassCutOutPinceAGrugerMouseUp();
+                    _glassCutOutPinceAGrugerMouseUp(this._actionStepManager);
                     break;
                 case 5:
                     // console.log("sous-étape 5: drag and drop au milieu du vitrail fini");

@@ -12,6 +12,7 @@ export const _glassCutOutPinceAGrugerMouseDown = () => {
     console.log("pince à gruger mousedown");
 }
 
-export const _glassCutOutPinceAGrugerMouseUp = () => {
+export const _glassCutOutPinceAGrugerMouseUp = (actionStepManager) => {
     console.log("pince à gruger up");
+    // actionStepManager.actionsManager(27);
 }
