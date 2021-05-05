@@ -124,7 +124,7 @@ class ThreeScene {
         this._isMouseDown = false;
         this._rayCaster = new THREE.Raycaster();
 
-        this._stepManager = new StepManager(3, 2);
+        this._stepManager = new StepManager(1, 2);
 
         this._breadcrumbManager = new BreadcrumbManager(true, "La découpe du tracé");
 
@@ -349,11 +349,11 @@ class ThreeScene {
 
         if (this._globalStep === 0) {
 
-            _paperCutOutScrollAnimHandler(intersects[0]);
+            this._paperCutOutScrollAnimHandler(intersects[0]);
 
         } else if (this._globalStep === 1) {
 
-            _colorPickerHandler(intersects[0], this._currentIntersect, this._isMouseDown, this._colorPicked, this._vitrailObjects);
+            this._colorPickerHandler(intersects[0]);
 
         } else if (this._globalStep === 2) {
 
@@ -364,18 +364,18 @@ class ThreeScene {
                     break;
                 case 1:
                     // console.log("sous-étape 2: découpe du verre");
-                    _glassCutOut(intersects[0], this._currentIntersect, this._piece_decoupeeObjects, this._isRunningDecoupeTrace);
+                    this._glassCutOut(intersects[0]);
                     break;
                 case 2:
                     // console.log("sous-étape 3: drag and drop pour enlever le bout de papier");
                     break;
                 case 3:
                     // console.log("sous-étape 4: Jauge de pression pour casser le bout de verre");
-                    _glassCutOutPressureGauge(intersects[0]);
+                    this._glassCutOutPressureGauge(intersects[0]);
                     break;
                 case 4:
                     // console.log("sous-étape 5: cassage des derniers petits bout de verre");
-                    _glassCutOutPinceAGruger(intersects[0])
+                    this._glassCutOutPinceAGruger(intersects[0])
                     break;
                 case 5:
                     // console.log("sous-étape 6: drag and drop au milieu du vitrail fini");
@@ -448,6 +448,205 @@ class ThreeScene {
         this._resize(this._width, this._height);
     }
 
+    _colorPickerHandler(intersect) {
+        //On pourrait également utiliser cette technique
+        // this._globalStep = this._stepManager._globalStep;
+        // this._subStep = this._stepManager._subStep;
+
+        // if(this._globalStep !== 1) return
+        if (intersect) {
+            this._object = intersect.object;
+            //console.log(this._object);
+            if (this._currentIntersect) {
+                if (this._isMouseDown === true) {
+                    this._currentIntersect.material.color = this._colorPicked.old;
+                }
+            }
+            this._currentIntersect = this._object;
+            // console.log('mouse enter')
+            this._colorPicked.old = this._currentIntersect.material.color;
+            if (this._isMouseDown === true && this._vitrailObjects.includes(this._currentIntersect.name)) {
+                this._currentIntersect.material.color = this._colorPicked.current;
+            }
+        }
+        else {
+            if (this._currentIntersect) {
+                //   console.log('mouse leave')
+                if (this._isMouseDown === true) {
+                    this._currentIntersect.material.color = this._colorPicked.old;
+                }
+                this._colorPicked.old = null;
+                // console.log(currentIntersect.name);
+
+            }
+
+            this._currentIntersect = null
+        }
+    }
+
+    _colorPickerMouseDown() {
+        if (this._currentIntersect) {
+            switch (this._currentIntersect.name) {
+                case "green":
+                    this._colorPicked.current = this._currentIntersect.material.color;
+                    //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "green");
+                    //   cursorColorPickerInner.current.style.transform = "scale(1.5)"
+                    break
+                case "purple":
+                    this._colorPicked.current = this._currentIntersect.material.color;
+                    //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "purple");
+                    //   cursorColorPickerInner.current.style.transform = "scale(1.5)"
+                    break
+                case "white":
+                    this._colorPicked.current = this._currentIntersect.material.color;
+                    //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "white");
+                    //   cursorColorPickerInner.current.style.transform = "scale(1.5)"
+                    break
+            }
+        }
+    }
+    _colorPickerMouseUp() {
+        if (this._currentIntersect) {
+            if (this._vitrailObjects.includes(this._currentIntersect.name)) {
+                this._currentIntersect.material.color = this._colorPicked.current;
+                // this._actionStepManager.actionsManager(12);
+            }
+            this._colorPicked.current = null;
+            //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "default");
+            //   cursorColorPickerInner.current.style.transform = "scale(.8)"
+        } else {
+            this._colorPicked.current = null;
+            //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "default");
+            //   cursorColorPickerInner.current.style.transform = "scale(.8)"
+        }
+    }
+
+    _paperCutOutDragAndDropHandler(intersect) {
+        if (intersect) {
+            this._object = intersect.object;
+            console.log(this._object);
+            // setInterval(() => {
+            //     console.log(this._object);
+            // }, 1000)
+        }
+        else {
+
+        }
+    }
+
+    _paperCutOutMouseDown() {
+        console.log("paper cut out mousedown");
+
+    }
+    _paperCutOutMouseUp() {
+        console.log("paper cut out mouseup");
+    }
+
+    _paperCutOutScrollAnimHandler(intersect) {
+        if (intersect) {
+            this._object = intersect.object;
+            console.log(this._object);
+        }
+        else {
+
+        }
+    }
+
+    _glassCutOutPressureGauge(intersect) {
+        if (intersect) {
+            this._object = intersect.object;
+            // console.log(this._object);
+        }
+        else {
+
+        }
+    }
+
+    _glassCutOutPinceAGruger(intersect) {
+        if (intersect) {
+            this._object = intersect.object;
+            // console.log(this._object);
+        }
+        else {
+
+        }
+    }
+
+    _glassCutOutPinceAGrugerMouseDown() {
+        console.log("pince à gruger mousedown");
+    }
+
+    _glassCutOutPinceAGrugerMouseUp() {
+        console.log("pince à gruger up");
+        // this._actionStepManager.actionsManager(27);
+    }
+
+    _glassCutOut(intersect) {
+        if (intersect) {
+            this._object = intersect.object;
+            if (this._currentIntersect) {
+                //C'est ce qui se passe quand on vient de rentrer dans l'object
+                // console.log('mouse enter';
+                if(!this._piece_decoupeeObjects.includes(this._currentIntersect.name) && this._isRunningDecoupeTrace === true) {
+                    console.log("Vous avez raté ! Mince alors !");
+                    this._isRunningDecoupeTrace = false;
+                }
+            }
+
+            this._currentIntersect = this._object;
+        }
+        else {
+            if (this._currentIntersect) {
+                //Si on était sur un objet que l'on vient de quitter
+                // console.log('mouse leave')
+            }
+
+            this._currentIntersect = null
+        }
+    }
+
+    _glassCutOutMouseDown() {
+        if (this._currentIntersect) {
+            switch (this._currentIntersect.name) {
+                case "debut":
+                    console.log('je suis le début')
+                    this._isRunningDecoupeTrace = true;
+                    break
+            }
+        }
+    }
+
+    _glassCutOutMouseUp() {
+        if (this._currentIntersect && this._isRunningDecoupeTrace === true) {
+            switch (this._currentIntersect.name) {
+                case "fin":
+                    console.log("je suis la fin")
+                    this._isRunningDecoupeTrace = false;
+                    // this._actionStepManager.actionsManager(22);
+                    break
+                default:
+                    this._isRunningDecoupeTrace = false;
+                    console.log("perdu!")
+            }
+        }
+    }
+
+    _glassCutOutPressureGaugeMouseDown() {
+        console.log("glass mouse down");
+    }
+    _glassCutOutPressureGaugeMouseUp() {
+        console.log("glass mouse up")
+        if (this._pressureGaugeValue > 80 && this._pressureGaugeValue < 100) {
+            console.log("vous avez gagné !");
+            this._piece_decoupeAnimationsSuccessCutAnimator.playClipByIndex(0);
+            // this._actionStepManager.actionsManager(25);
+        } else {
+            console.log("vous avez perdu !");
+            this._pressureGaugeValue = 0;
+            this._UIManager.UI.pressureGauge.style.transform = `scale(1)`;
+        }
+    }
+
     _mousePointerDownHandler(e) {
         this._isMouseDown = true;
         this._globalStep = this._stepManager._globalStep;
@@ -455,11 +654,11 @@ class ThreeScene {
 
         if (this._globalStep === 0) {
 
-            _paperCutOutMouseDown();
+            this._paperCutOutMouseDown();
 
         } else if (this._globalStep === 1) {
 
-            _colorPickerMouseDown(this._currentIntersect, this._colorPicked);
+            this._colorPickerMouseDown(this._currentIntersect);
 
         } else if (this._globalStep === 2) {
 
@@ -470,18 +669,18 @@ class ThreeScene {
                     break;
                 case 1:
                     // console.log("sous-étape 2: découpe du verre");
-                    _glassCutOutMouseDown(this._currentIntersect, this._isRunningDecoupeTrace);
+                    this._glassCutOutMouseDown();
                     break;
                 case 2:
                     // console.log("sous-étape 3: drag and drop pour enlever le bout de papier");
                     break;
                 case 3:
                     // console.log("sous-étape 4: Jauge de pression pour casser le bout de verre");
-                    _glassCutOutPressureGaugeMouseDown();
+                    this._glassCutOutPressureGaugeMouseDown();
                     break;
                 case 4:
                     // console.log("sous-étape 5: cassage des derniers petits bout de verre");
-                    _glassCutOutPinceAGrugerMouseDown();
+                    this._glassCutOutPinceAGrugerMouseDown();
                     break;
                 case 5:
                     // console.log("sous-étape 5: drag and drop au milieu du vitrail fini");
@@ -498,11 +697,11 @@ class ThreeScene {
         this._subStep = this._stepManager._subStep;
 
         if (this._globalStep === 0) {
-            _paperCutOutMouseUp();
+            this._paperCutOutMouseUp();
 
         } else if (this._globalStep === 1) {
 
-            _colorPickerMouseUp(this._currentIntersect, this._colorPicked, this._vitrailObjects, this._actionStepManager);
+            this._colorPickerMouseUp();
 
         } else if (this._globalStep === 2) {
 
@@ -513,18 +712,18 @@ class ThreeScene {
                     break;
                 case 1:
                     // console.log("sous-étape 2: découpe du verre");
-                    _glassCutOutMouseUp(this._currentIntersect, this._isRunningDecoupeTrace, this._actionStepManager);
+                    this._glassCutOutMouseUp();
                     break;
                 case 2:
                     // console.log("sous-étape 3: drag and drop pour enlever le bout de papier");
                     break;
                 case 3:
                     // console.log("sous-étape 4: Jauge de pression pour casser le bout de verre");
-                    _glassCutOutPressureGaugeMouseUp(this._pressureGaugeValue, this._piece_decoupeAnimationsSuccessCutAnimator, this._UIManager.UI.pressureGauge, this._actionStepManager);
+                    this._glassCutOutPressureGaugeMouseUp();
                     break;
                 case 4:
                     // console.log("sous-étape 5: cassage des derniers petits bout de verre");
-                    _glassCutOutPinceAGrugerMouseUp(this._actionStepManager);
+                    this._glassCutOutPinceAGrugerMouseUp();
                     break;
                 case 5:
                     // console.log("sous-étape 5: drag and drop au milieu du vitrail fini");
@@ -732,6 +931,9 @@ class ThreeScene {
     _paperCutOutScrollAnimation() {
         this._feuilleAnimations.map((animations, index) => {
             this.feuilleManager.ScrollAnimation(index, this._scrollTimeline);
+            this.feuilleAnimator.mixer.addEventListener(() => {
+                console.log("scroll Animation end");
+            });
         })
     }   
 
