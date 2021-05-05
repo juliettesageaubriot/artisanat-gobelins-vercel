@@ -24,6 +24,8 @@ class ActionsStepManager {
     }
 
     actionsManager(action) {
+        if (typeof action === "string") return;
+        
         const actions = {
           0: () => this._stepOne(),
           1: () => this._stepTwo(),

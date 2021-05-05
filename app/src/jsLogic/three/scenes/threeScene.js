@@ -16,6 +16,17 @@ import UIManager from "@jsLogic/UIManager/UIManager.js";
 
 import { SetupColorPicker } from '@jsLogic/utils/colorPickersHelper';
 
+//raycasts handlers
+import { _paperCutOutScrollAnimHandler, _paperCutOutMouseDown, _paperCutOutMouseUp  } from '@jsLogic/three/raycast/step1/raycastStepOne';
+import { _colorPickerHandler, _colorPickerMouseDown, _colorPickerMouseUp } from '@jsLogic/three/raycast/step2/raycastStepTwo';
+import { _glassCutOut, _glassCutOutMouseDown, _glassCutOutMouseUp } from '@jsLogic/three/raycast/step3/subStep2/raycastStepThree2';
+import { _glassCutOutPressureGauge, _glassCutOutPressureGaugeMouseDown, _glassCutOutPressureGaugeMouseUp } from '@jsLogic/three/raycast/step3/subStep4/raycastStepThree4';
+import { _glassCutOutPinceAGruger, _glassCutOutPinceAGrugerMouseDown, _glassCutOutPinceAGrugerMouseUp } from '@jsLogic/three/raycast/step3/subStep5/raycastStepThree5';
+
+//mouse events
+import { _mousePointerDownHandler } from '@jsLogic/three/mouseEvents/mouseDown/onMouseDownHandler';
+import { _mousePointerUpHandler } from '@jsLogic/three/mouseEvents/mouseUp/onMouseUpHandler';
+
 const SETTINGS = {
     enableRaycast: true,
     enableOrbitControl: false,
@@ -43,13 +54,9 @@ class ThreeScene {
             '_mousePointerDownHandler',
             'rayCastHandler',
             '_dragAndDropControls',
-            '_colorPickerHandler',
             '_toggleDragAndDropControls',
-            '_glassCutOutPressureGauge',
-            '_pressureGaugeHandler',
             '_paperCutOutScrollHandler',
             '_paperCutOutScrollAnimation',
-            '_glassCutOut'
         );
 
         this._canvas = canvas;
@@ -235,7 +242,10 @@ class ThreeScene {
                         if("Click1" === animation.name) {
 
                             this._piece_decoupeAnimationsClickOne.push(animation);
+<<<<<<< HEAD
                             // console.log(this._piece_decoupeAnimationsClickOne)
+=======
+>>>>>>> 058cb22f1114cfad833c4ced47488fbe51b12811
 
                         } else if("Click2" === animation.name) {
 
@@ -248,11 +258,17 @@ class ThreeScene {
                         } else if("SuccessCut" === animation.name) {
 
                             this._piece_decoupeAnimationsSuccessCut.push(animation);
+<<<<<<< HEAD
                             // console.log(this._piece_decoupeAnimationsSuccessCut)
 
                         }
                     })
                     // console.log(this._piece_decoupeAnimations);
+=======
+
+                        }
+                    })
+>>>>>>> 058cb22f1114cfad833c4ced47488fbe51b12811
 
                     this._piece_decoupeAnimationsClickOneAnimator = new AnimationManager(child, this._piece_decoupeAnimationsClickOne);
                     this._piece_decoupeAnimationsClickTwoAnimator = new AnimationManager(child, this._piece_decoupeAnimationsClickTwo);
@@ -340,18 +356,11 @@ class ThreeScene {
 
         if (this._globalStep === 0) {
 
-            switch (this._subStep) {
-                case 0 :
-                    this._paperCutOutDragAndDropHandler(intersects[0]);
-                    break;
-                case 1:
-                    this._paperCutOutScrollAnimHandler(intersects[0]);
-                    break;
-            }
+            _paperCutOutScrollAnimHandler(intersects[0]);
 
         } else if (this._globalStep === 1) {
 
-            // this._colorPickerHandler(intersects[0]);
+            _colorPickerHandler(intersects[0], this._currentIntersect, this._isMouseDown, this._colorPicked, this._vitrailObjects);
 
         } else if (this._globalStep === 2) {
 
@@ -362,18 +371,18 @@ class ThreeScene {
                     break;
                 case 1:
                     // console.log("sous-étape 2: découpe du verre");
-                    this._glassCutOut(intersects[0]);
+                    _glassCutOut(intersects[0], this._currentIntersect, this._piece_decoupeeObjects, this._isRunningDecoupeTrace);
                     break;
                 case 2:
                     // console.log("sous-étape 3: drag and drop pour enlever le bout de papier");
                     break;
                 case 3:
                     // console.log("sous-étape 4: Jauge de pression pour casser le bout de verre");
-                    this._glassCutOutPressureGauge(intersects[0]);
+                    _glassCutOutPressureGauge(intersects[0]);
                     break;
                 case 4:
                     // console.log("sous-étape 5: cassage des derniers petits bout de verre");
-                    this._glassCutOutPinceAGruger(intersects[0])
+                    _glassCutOutPinceAGruger(intersects[0])
                     break;
                 case 5:
                     // console.log("sous-étape 6: drag and drop au milieu du vitrail fini");
@@ -385,6 +394,7 @@ class ThreeScene {
 
     }
 
+<<<<<<< HEAD
     _colorPickerHandler(intersect) {
         //On pourrait également utiliser cette technique
         // this._globalStep = this._stepManager._globalStep;
@@ -583,6 +593,8 @@ class ThreeScene {
 
 
 
+=======
+>>>>>>> 058cb22f1114cfad833c4ced47488fbe51b12811
     _animateCameraPlay(index) {
         let buttonCamera1 = document.createElement("button");
         buttonCamera1.style.position = "absolute";
@@ -651,18 +663,11 @@ class ThreeScene {
 
         if (this._globalStep === 0) {
 
-            switch (this._subStep) {
-                case 0 :
-                    this._paperCutOutMouseDown();
-                    break;
-                case 1:
-                    // console.log("sous-étape 2");
-                    break;
-            }
+            _paperCutOutMouseDown();
 
         } else if (this._globalStep === 1) {
 
-            this._colorPickerMouseDown();
+            _colorPickerMouseDown(this._currentIntersect, this._colorPicked);
 
         } else if (this._globalStep === 2) {
 
@@ -673,18 +678,18 @@ class ThreeScene {
                     break;
                 case 1:
                     // console.log("sous-étape 2: découpe du verre");
-                    this._glassCutOutMouseDown();
+                    _glassCutOutMouseDown(this._currentIntersect, this._isRunningDecoupeTrace);
                     break;
                 case 2:
                     // console.log("sous-étape 3: drag and drop pour enlever le bout de papier");
                     break;
                 case 3:
                     // console.log("sous-étape 4: Jauge de pression pour casser le bout de verre");
-                    this._glassCutOutPressureGaugeMouseDown();
+                    _glassCutOutPressureGaugeMouseDown();
                     break;
                 case 4:
                     // console.log("sous-étape 5: cassage des derniers petits bout de verre");
-                    this._glassCutOutPinceAGrugerMouseDown();
+                    _glassCutOutPinceAGrugerMouseDown();
                     break;
                 case 5:
                     // console.log("sous-étape 5: drag and drop au milieu du vitrail fini");
@@ -701,18 +706,11 @@ class ThreeScene {
         this._subStep = this._stepManager._subStep;
 
         if (this._globalStep === 0) {
-            switch (this._subStep) {
-                case 0 :
-                    this._paperCutOutMouseUp();
-                    break;
-                case 1:
-                    // console.log("sous-étape 2");
-                    break;
-            }
+            _paperCutOutMouseUp();
 
         } else if (this._globalStep === 1) {
 
-            this._colorPickerMouseUp();
+            _colorPickerMouseUp(this._currentIntersect, this._colorPicked, this._vitrailObjects);
 
         } else if (this._globalStep === 2) {
 
@@ -723,17 +721,18 @@ class ThreeScene {
                     break;
                 case 1:
                     // console.log("sous-étape 2: découpe du verre");
-                    this._glassCutOutMouseUp();
+                    _glassCutOutMouseUp(this._currentIntersect, this._isRunningDecoupeTrace);
                     break;
                 case 2:
                     // console.log("sous-étape 3: drag and drop pour enlever le bout de papier");
                     break;
                 case 3:
                     // console.log("sous-étape 4: Jauge de pression pour casser le bout de verre");
-                    this._glassCutOutPressureGaugeMouseUp();
+                    _glassCutOutPressureGaugeMouseUp(this._pressureGaugeValue, this._piece_decoupeAnimationsSuccessCutAnimator, this._UIManager.UI.pressureGauge);
                     break;
                 case 4:
                     // console.log("sous-étape 5: cassage des derniers petits bout de verre");
+                    _glassCutOutPinceAGrugerMouseUp();
                     break;
                 case 5:
                     // console.log("sous-étape 5: drag and drop au milieu du vitrail fini");
