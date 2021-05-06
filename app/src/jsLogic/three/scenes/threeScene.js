@@ -610,7 +610,7 @@ class ThreeScene {
                     this._isRunningDecoupeTrace = false;
                 }
 
-                if(parseInt(this._currentIntersect.name.substr(this._currentIntersect.name.length - 1)) < this._indexDecoupeTrace) {
+                if(parseInt(this._currentIntersect.name.substr(this._currentIntersect.name.length - 1)) < this._indexDecoupeTrace && this._isRunningDecoupeTrace === true) {
                     console.log("Vous avez raté ! Mince alors !");
                     this._isRunningDecoupeTrace = false;
                 } else {
@@ -987,7 +987,7 @@ class ThreeScene {
             if(artisane.name === artisaneName) {
                 artisane.material.opacity = artisane.material.opacity === 0 ? 1 : 0;
             }
-        }
+        } 
     }
 
 }
