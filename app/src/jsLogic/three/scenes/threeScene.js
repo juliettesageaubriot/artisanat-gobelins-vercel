@@ -60,6 +60,7 @@ class ThreeScene {
             '_toggleDragAndDropControls',
             '_paperCutOutScrollHandler',
             '_paperCutOutScrollAnimation',
+            '_toggleArtisaneOpacity'
         );
 
         this._canvas = canvas;
@@ -131,6 +132,8 @@ class ThreeScene {
         this._UIManager = new UIManager();
 
         this._actionStepManager = new ActionsStepManager(this._state, this._stepManager, this._UIManager, this._breadcrumbManager, this._setCameraAnimationPlay);
+
+        this._artisanes = [];
 
         this._pressureGaugeValue = 0;
 
@@ -209,7 +212,6 @@ class ThreeScene {
                 } else if ("atelier" === child.name) {
 
                     this._addToScene(child);
-                    // console.log(child)
 
                     this._cameras = [...this._models[name].cameras];
                     this._cameraAnimations = [...this._models[name].animations];
@@ -221,10 +223,17 @@ class ThreeScene {
 
                     this._camera = child;
 
-                } else if ("IPHONE001" === child.name) {
+                } else if ("artisane01" === child.name) {
 
-                    this._dragItems.push(child);
-                    this._paperCutOutRaycastObject.push(child);
+                    this._artisanes.push(child);
+
+                    // this._dragItems.push(child);
+                    // this._paperCutOutRaycastObject.push(child);
+
+                } else if("artisane02" === child.name) {
+
+                    this._artisanes.push(child);
+                    this._toggleArtisaneOpacity("artisane02");
 
                 } else if ("feuille" === child.name) {
 
@@ -973,14 +982,12 @@ class ThreeScene {
         })
     }   
 
-    addStep() {
-        this._stepManager.addGlobalStep();
-        console.log(this._stepManager._globalStep);
-    }
-
-    testOnEndSound(action) {
-        console.log("Fin d'un subtitle: " + action)
-        this._state.setNextSubtitle();
+    _toggleArtisaneOpacity(artisaneName) {
+        for(const artisane of this._artisanes) {
+            if(artisane.name === artisaneName) {
+                artisane.material.opacity = artisane.material.opacity === 0 ? 1 : 0;
+            }
+        }
     }
 
 }
