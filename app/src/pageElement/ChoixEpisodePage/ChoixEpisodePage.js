@@ -15,6 +15,9 @@ import ThreeSceneMenu from '@jsLogic/three/scenes/threeSceneMenu';
 const ChoixEpisodeAtelierPage = () => {
   const ref = useRef(null)
 
+  // overlay state
+  const [isReady, setIsready] = useState(false)
+
   // Sound states
   const [isShouldPlayOnStart, setIsShouldPlayOnStart] = useState(false)
 
@@ -36,11 +39,14 @@ const ChoixEpisodeAtelierPage = () => {
     }
   }, [])
 
+  const handleClick = () => {
+    setIsready(true)
+  }
+
 
   return (
     <section>
       <TheLoader />
-      <TheVolume absolute={true} />
 
       {!!url && <TheAudioSnippet sound_url={url} play={true} shouldPlayOnStart={false} loop={false} />}
       <TheAudioSnippet sound_url="/assets/audios/menu/menu.mp3" play={true} shouldPlayOnStart={true} loop={true} />
@@ -62,7 +68,22 @@ const ChoixEpisodeAtelierPage = () => {
           )
         })
       }
+      <div className={`${styles.menu} ${styles['menu-overlay']} ${true === isReady && styles['overlay-none']}`} id="menu-overlay">
+        <div className={`${styles['menu_container']}`}>
+          <img src="/assets/images/logo/logo_regards_dartisans.png" alt="logo Regards d'Artisans" />
+          <p className={styles.pitch}>Regards d'artisans nous invite à nous glisser dans la peau d'un apprenti artisan, dans le cadre intime d'un atelier, lieu de partage d'un savoir-faire.</p>
+          <p className={`upp ${styles.casque}`}>Pour une expérience optimale, utilisez un casque !</p>
+          <div className={`${styles["button-discover"]}`}>
+            <button className={`btn btn-primary`} id="discoverBtn" onClick={handleClick}>
+              <span>Je découvre</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <TheVolume absolute={true} />
       <div ref={ref} />
+
     </section>
   )
 }

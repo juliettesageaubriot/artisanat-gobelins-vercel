@@ -9,14 +9,13 @@ import models from "@assets/data/models.json"
 import bindAll from '../utils/bindAll.js';
 
 class AssetsLoader {
-    constructor(enableRaycastMenu) {
+    constructor() {
         bindAll(
             this,
             'loadAssets',
             'removeLoader',
             'setRaycast'
         );
-        this.enableRaycastMenu = enableRaycastMenu;
         this._loader = new GLTFLoader();
         this._dracoLoader = new DRACOLoader();
         this._models = {};
@@ -72,7 +71,7 @@ class AssetsLoader {
     }
 
     setRaycast() {
-        this.enableRaycastMenu = true
+        // this.enableRaycastMenu = true
         return this.enableRaycastMenu
     }
 

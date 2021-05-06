@@ -1,202 +1,204 @@
-// @import "_font-awesome/_variables";
+@import "_font-awesome/_variables";
 
-// @font-face {
-//     font-family: "Cirka";
-//     font-weight: normal;
-//     font-style: normal;
-//     src: url("#{$own-font-path}/cirka-regular.woff2") format("woff2"),
-//         url("#{$own-font-path}/cirka-regular.woff") format("woff");
-// }
+$own-font-path:'/assets/fonts' ;
 
-// @font-face {
-//     font-family: "Cirka";
-//     font-weight: bold;
-//     font-style: normal;
-//     src: url("#{$own-font-path}/cirka-bold.woff2") format("woff2"),
-//         url("#{$own-font-path}/cirka-bold.woff") format("woff");
-// }
+@font-face {
+    font-family: "Cirka";
+    font-weight: normal;
+    font-style: normal;
+    src: url("/assets/fonts/cirka-regular.woff2") format("woff2"),
+        url("/assets/fonts/cirka-regular.woff") format("woff");
+}
 
-// @font-face {
-//     font-family: "Cirka";
-//     font-weight: lighter;
-//     font-style: normal;
-//     src: url("#{$own-font-path}/cirka-light.woff2") format("woff2"),
-//         url("#{$own-font-path}/cirka-light.woff") format("woff");
-// }
+@font-face {
+    font-family: "Cirka";
+    font-weight: bold;
+    font-style: normal;
+    src: url("/assets/fonts/cirka-bold.woff2") format("woff2"),
+        url("/assets/fonts/cirka-bold.woff") format("woff");
+}
 
-// @font-face {
-//     font-family: 'OpenSans';
-//     src: url('#{$own-font-path}/opensans-bold-webfont.woff2') format('woff2'),
-//          url('#{$own-font-path}/opensans-bold-webfont.woff') format('woff');
-//     font-weight: 700;
-//     font-style: normal;
+@font-face {
+    font-family: "Cirka";
+    font-weight: lighter;
+    font-style: normal;
+    src: url("/assets/fonts/cirka-light.woff2") format("woff2"),
+        url("/assets/fonts/cirka-light.woff") format("woff");
+}
 
-// }
+@font-face {
+    font-family: 'OpenSans';
+    src: url('/assets/fonts/opensans-bold-webfont.woff2') format('woff2'),
+         url('/assets/fonts/opensans-bold-webfont.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
 
-// @font-face {
-//     font-family: 'OpenSans';
-//     src: url('#{$own-font-path}/opensans-bolditalic-webfont.woff2') format('woff2'),
-//          url('#{$own-font-path}/opensans-bolditalic-webfont.woff') format('woff');
-//     font-weight: normal;
-//     font-style: italic;
+}
 
-// }
+@font-face {
+    font-family: 'OpenSans';
+    src: url('/assets/fonts/opensans-bolditalic-webfont.woff2') format('woff2'),
+         url('/assets/fonts/opensans-bolditalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
 
-// @font-face {
-//     font-family: 'OpenSans';
-//     src: url('#{$own-font-path}/opensans-extrabold-webfont.woff2') format('woff2'),
-//          url('#{$own-font-path}/opensans-extrabold-webfont.woff') format('woff');
-//     font-weight: 800;
-//     font-style: normal;
+}
 
-// }
+@font-face {
+    font-family: 'OpenSans';
+    src: url('/assets/fonts/opensans-extrabold-webfont.woff2') format('woff2'),
+         url('/assets/fonts/opensans-extrabold-webfont.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
 
-// @font-face {
-//     font-family: 'OpenSans';
-//     src: url('#{$own-font-path}/opensans-extrabolditalic-webfont.woff2') format('woff2'),
-//          url('#{$own-font-path}/opensans-extrabolditalic-webfont.woff') format('woff');
-//     font-weight: 800;
-//     font-style: italic;
+}
 
-// }
+@font-face {
+    font-family: 'OpenSans';
+    src: url('/assets/fonts/opensans-extrabolditalic-webfont.woff2') format('woff2'),
+         url('/assets/fonts/opensans-extrabolditalic-webfont.woff') format('woff');
+    font-weight: 800;
+    font-style: italic;
 
-// @font-face {
-//     font-family: 'OpenSans';
-//     src: url('#{$own-font-path}/opensans-italic-webfont.woff2') format('woff2'),
-//          url('#{$own-font-path}/opensans-italic-webfont.woff') format('woff');
-//     font-weight: normal;
-//     font-style: italic;
+}
 
-// }
+@font-face {
+    font-family: 'OpenSans';
+    src: url('/assets/fonts/opensans-italic-webfont.woff2') format('woff2'),
+         url('/assets/fonts/opensans-italic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
 
-// @font-face {
-//     font-family: 'OpenSans';
-//     src: url('#{$own-font-path}/opensans-light-webfont.woff2') format('woff2'),
-//          url('#{$own-font-path}/opensans-light-webfont.woff') format('woff');
-//     font-weight: 300;
-//     font-style: normal;
+}
 
-// }
+@font-face {
+    font-family: 'OpenSans';
+    src: url('/assets/fonts/opensans-light-webfont.woff2') format('woff2'),
+         url('/assets/fonts/opensans-light-webfont.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
 
-// @font-face {
-//     font-family: 'OpenSans';
-//     src: url('#{$own-font-path}/opensans-lightitalic-webfont.woff2') format('woff2'),
-//          url('#{$own-font-path}/opensans-lightitalic-webfont.woff') format('woff');
-//     font-weight: 300;
-//     font-style: italic;
+}
 
-// }
+@font-face {
+    font-family: 'OpenSans';
+    src: url('/assets/fonts/opensans-lightitalic-webfont.woff2') format('woff2'),
+         url('/assets/fonts/opensans-lightitalic-webfont.woff') format('woff');
+    font-weight: 300;
+    font-style: italic;
 
-// @font-face {
-//     font-family: 'OpenSans';
-//     src: url('#{$own-font-path}/opensans-regular-webfont.woff2') format('woff2'),
-//          url('#{$own-font-path}/opensans-regular-webfont.woff') format('woff');
-//     font-weight: normal;
-//     font-style: normal;
+}
 
-// }
+@font-face {
+    font-family: 'OpenSans';
+    src: url('/assets/fonts/opensans-regular-webfont.woff2') format('woff2'),
+         url('/assets/fonts/opensans-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 
-// @font-face {
-//     font-family: 'OpenSans';
-//     src: url('#{$own-font-path}/opensans-semibold-webfont.woff2') format('woff2'),
-//          url('#{$own-font-path}/opensans-semibold-webfont.woff') format('woff');
-//     font-weight: 600;
-//     font-style: normal;
+}
 
-// }
+@font-face {
+    font-family: 'OpenSans';
+    src: url('/assets/fonts/opensans-semibold-webfont.woff2') format('woff2'),
+         url('/assets/fonts/opensans-semibold-webfont.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
 
-// @font-face {
-//     font-family: 'OpenSans';
-//     src: url('#{$own-font-path}/opensans-semibolditalic-webfont.woff2') format('woff2'),
-//          url('#{$own-font-path}/opensans-semibolditalic-webfont.woff') format('woff');
-//     font-weight: 600;
-//     font-style: italic;
+}
 
-// }
+@font-face {
+    font-family: 'OpenSans';
+    src: url('/assets/fonts/opensans-semibolditalic-webfont.woff2') format('woff2'),
+         url('/assets/fonts/opensans-semibolditalic-webfont.woff') format('woff');
+    font-weight: 600;
+    font-style: italic;
+
+}
 
 
 
-// @font-face {
-//     font-family: "Font Awesome 5 Pro";
-//     font-style: normal;
-//     font-weight: 400;
-//     font-display: $fa-font-display;
-//     src: url("#{$own-font-path}/fa-regular-400.woff2") format("woff2"),
-//         url("#{$own-font-path}/fa-regular-400.woff") format("woff"),
-//         url("#{$own-font-path}/fa-regular-400.ttf") format("truetype");
-// }
+@font-face {
+    font-family: "Font Awesome 5 Pro";
+    font-style: normal;
+    font-weight: 400;
+    font-display: $fa-font-display;
+    src: url("/assets/fonts/fa-regular-400.woff2") format("woff2"),
+        url("/assets/fonts/fa-regular-400.woff") format("woff"),
+        url("/assets/fonts/fa-regular-400.ttf") format("truetype");
+}
 
-// .far,
-// .fa-regular {
-//     font-family: "Font Awesome 5 Pro";
-//     font-weight: 400;
-// }
+.far,
+.fa-regular {
+    font-family: "Font Awesome 5 Pro";
+    font-weight: 400;
+}
 
-// @font-face {
-//     font-family: "Font Awesome 5 Pro";
-//     font-style: normal;
-//     font-weight: 300;
-//     font-display: $fa-font-display;
-//     src: url("#{$own-font-path}/fa-light-300.woff2") format("woff2"),
-//         url("#{$own-font-path}/fa-light-300.woff") format("woff"),
-//         url("#{$own-font-path}/fa-light-300.ttf") format("truetype");
-// }
+@font-face {
+    font-family: "Font Awesome 5 Pro";
+    font-style: normal;
+    font-weight: 300;
+    font-display: $fa-font-display;
+    src: url("/assets/fonts/fa-light-300.woff2") format("woff2"),
+        url("/assets/fonts/fa-light-300.woff") format("woff"),
+        url("/assets/fonts/fa-light-300.ttf") format("truetype");
+}
 
-// .fal,
-// .fa-light {
-//     font-family: "Font Awesome 5 Pro";
-//     font-weight: 300;
-// }
+.fal,
+.fa-light {
+    font-family: "Font Awesome 5 Pro";
+    font-weight: 300;
+}
 
-// @font-face {
-//     font-family: "Font Awesome 5 Pro";
-//     font-style: normal;
-//     font-weight: 900;
-//     font-display: $fa-font-display;
-//     src: url("#{$own-font-path}/fa-solid-900.woff2") format("woff2"),
-//         url("#{$own-font-path}/fa-solid-900.woff") format("woff"),
-//         url("#{$own-font-path}/fa-solid-900.ttf") format("truetype");
-// }
+@font-face {
+    font-family: "Font Awesome 5 Pro";
+    font-style: normal;
+    font-weight: 900;
+    font-display: $fa-font-display;
+    src: url("/assets/fonts/fa-solid-900.woff2") format("woff2"),
+        url("/assets/fonts/fa-solid-900.woff") format("woff"),
+        url("/assets/fonts/fa-solid-900.ttf") format("truetype");
+}
 
-// .fas,
-// .fa-solid {
-//     font-family: "Font Awesome 5 Pro";
-//     font-weight: 900;
-// }
+.fas,
+.fa-solid {
+    font-family: "Font Awesome 5 Pro";
+    font-weight: 900;
+}
 
-// @font-face {
-//     font-family: "Font Awesome 5 Pro";
-//     font-style: normal;
-//     font-weight: 300;
-//     font-display: $fa-font-display;
-//     src: url("#{$own-font-path}/fa-light-300.woff2") format("woff2"),
-//         url("#{$own-font-path}/fa-light-300.woff") format("woff"),
-//         url("#{$own-font-path}/fa-light-300.ttf") format("truetype");
-// }
+@font-face {
+    font-family: "Font Awesome 5 Pro";
+    font-style: normal;
+    font-weight: 300;
+    font-display: $fa-font-display;
+    src: url("/assets/fonts/fa-light-300.woff2") format("woff2"),
+        url("/assets/fonts/fa-light-300.woff") format("woff"),
+        url("/assets/fonts/fa-light-300.ttf") format("truetype");
+}
 
-// .fal,
-// .fa-light {
-//     font-family: "Font Awesome 5 Pro";
-//     font-weight: 300;
-// }
+.fal,
+.fa-light {
+    font-family: "Font Awesome 5 Pro";
+    font-weight: 300;
+}
 
-// @font-face {
-//     font-family: "Font Awesome 5 Brands";
-//     font-style: normal;
-//     font-weight: 400;
-//     font-display: $fa-font-display;
-//     src: url("#{$own-font-path}/fa-brands-400.woff2") format("woff2"),
-//         url("#{$own-font-path}/fa-brands-400.woff") format("woff"),
-//         url("#{$own-font-path}/fa-brands-400.ttf") format("truetype");
-// }
+@font-face {
+    font-family: "Font Awesome 5 Brands";
+    font-style: normal;
+    font-weight: 400;
+    font-display: $fa-font-display;
+    src: url("/assets/fonts/fa-brands-400.woff2") format("woff2"),
+        url("/assets/fonts/fa-brands-400.woff") format("woff"),
+        url("/assets/fonts/fa-brands-400.ttf") format("truetype");
+}
 
-// .fab,
-// .fa-brands {
-//     font-family: "Font Awesome 5 Brands";
-//     font-weight: 400;
-// }
-// @each $name, $icon in $fa-brand-icons {
-//     .#{$fa-css-prefix}-#{$name}:before {
-//         content: fa-content($icon);
-//     }
-// }
+.fab,
+.fa-brands {
+    font-family: "Font Awesome 5 Brands";
+    font-weight: 400;
+}
+@each $name, $icon in $fa-brand-icons {
+    .#{$fa-css-prefix}-#{$name}:before {
+        content: fa-content($icon);
+    }
+}

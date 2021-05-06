@@ -31,6 +31,7 @@ class ThreeSceneMenu {
       '_setOrbitalControls',
       '_orbitControlsHandler',
       '_mousemoveHandler',
+      '_setIsReadyRaycast'
     )
 
     this._canvas = canvas;
@@ -134,12 +135,13 @@ class ThreeSceneMenu {
     this._loadTexture();
     this._setNewState();
     this._setNewAudioHovered()
+    this._setIsReadyRaycast()
     // this._loadSoundsChaptersHovered(this._camera)
 
   }
 
   _loadAssets() {
-    this._loader = new AssetsLoader(this._enableRaycastMenu);
+    this._loader = new AssetsLoader();
     this._loader.loadAssets().then(this._assetsLoadedHandler);
   }
 
@@ -182,7 +184,8 @@ class ThreeSceneMenu {
   }
 
   _rayCast(e) {
-    if (this._loader.enableRaycastMenu === false) return;
+    //return la bonne valeur
+    if (this._enableRaycastMenu=== false) return;
 
     this._mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
     this._mouse.y = - (e.clientY / window.innerHeight) * 2 + 1;
@@ -376,6 +379,14 @@ class ThreeSceneMenu {
 
   _setNewAudioHovered(url) {
     this._state.handleUrl(url)
+  }
+
+  _setIsReadyRaycast() {
+    const discoverButton = document.getElementById('discoverBtn')
+    discoverButton.addEventListener('click', () => {
+      this._enableRaycastMenu = true
+    })
+    return this._enableRaycastMenu
   }
 
 }
