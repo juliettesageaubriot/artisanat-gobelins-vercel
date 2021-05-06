@@ -131,7 +131,7 @@ class ThreeScene {
 
         this._UIManager = new UIManager();
 
-        this._actionStepManager = new ActionsStepManager(this._state, this._stepManager, this._UIManager, this._breadcrumbManager, this._setCameraAnimationPlay);
+        this._actionStepManager = new ActionsStepManager(this._state, this._stepManager, this._UIManager, this._breadcrumbManager, this._setCameraAnimationPlay, this._toggleArtisaneOpacity);
 
         this._artisanes = [];
 

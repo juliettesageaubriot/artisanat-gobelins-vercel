@@ -2,7 +2,7 @@
 import bindAll from '@jsLogic/utils/bindAll';
 
 class ActionsStepManager {
-    constructor(state, stepManager, UIManager, breadCrumb, setCameraAnimation) {
+    constructor(state, stepManager, UIManager, breadCrumb, setCameraAnimation, toggleArtisane) {
         // bindAll(
         //     this,
         // );
@@ -11,6 +11,7 @@ class ActionsStepManager {
         this._UIManager = UIManager;
         this._breadCrumb = breadCrumb;
         this._setCameraAnimation = setCameraAnimation;
+        this._toggleArtisane = toggleArtisane;
 
         //Les débloquage d'interactions
         this._allowedScroll = false;
@@ -86,9 +87,11 @@ class ActionsStepManager {
         this._setCurrentSubtitle(4);
     }
     _stepSix() {
-       this._UIManager.setScrollPicto(50, 50);
-       this._allowedScroll = true;
-       this._state.setNewToolsArray(1);
+        this._UIManager.setScrollPicto(50, 50);
+        this._allowedScroll = true;
+        this._state.setNewToolsArray(1);
+        this._toggleArtisane(1);
+        this._toggleArtisane(0);
     }
     _stepSeven() {
         //A appeler sur la fin de l'interaction du scroll
