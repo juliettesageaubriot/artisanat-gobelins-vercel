@@ -14,7 +14,6 @@ class AssetsLoader {
             this,
             'loadAssets',
             'removeLoader',
-            'addLoaderBar'
         );
 
         this._loader = new GLTFLoader();
@@ -25,7 +24,6 @@ class AssetsLoader {
     }
 
     _setup() {
-        this.addLoaderBar()
         this._promises = [];
         this._dracoLoader.setDecoderPath('/assets/models/gltf/draco/');
         this._loader.setDRACOLoader(this._dracoLoader);
@@ -58,48 +56,6 @@ class AssetsLoader {
 
     getModels() {
         return this.models;
-    }
-
-    addLoaderBar() {
-        let HandElm = document.querySelector('.hand')
-        let ProgressBar = require('progressbar.js')
-
-        const params = {
-            colorCyan: '#94FEDF',
-            colorBlack: '#080808',
-        }
-
-        let bar = new ProgressBar.Line('.percent-loader', {
-            strokeWidth: 1,
-            easing: 'easeInOut',
-            duration: 1400,
-            color: params.colorBlack,
-            trailColor: params.colorCyan,
-            trailWidth: 1,
-            svgStyle: { width: '100%', height: '100%' },
-            text: {
-                style: {
-                    // Text color.
-                    // Default: same as stroke color (options.color)
-                    color: params.colorBlack,
-                    position: 'absolute',
-                    left: '0',
-                    top: '-15px',
-                    padding: 0,
-                    margin: 0,
-                    transform: null,
-                    fontFamily: "Cirka"
-                },
-                autoStyleContainer: false
-            },
-            // from: { color: '#94FEDF' },
-            // to: { color: '#94FEDF' },
-            step: (state, bar) => {
-                bar.setText(Math.round(bar.value() * 100) + ' %');
-                HandElm.setAttribute('translateValue', Math.round(bar.value() * 100))
-            }
-        });
-        bar.animate(1.0);  // Number from 0.0 to 1.0
     }
 
     removeLoader() {

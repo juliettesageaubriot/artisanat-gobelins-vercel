@@ -15,42 +15,81 @@
     transition: 1s ease-in-out all;
     opacity: 0;
     z-index: 10;
+    pointer-events: none;
 
     display: flex;
     flex-flow: row wrap;
     align-items: center;
     justify-content: center;
-    width: 100%;
+    .container {
+      position: relative;
+      width: 220px;
+      height: 380px;
+      // background-color: red;
+
+      .loader {
+        &_img {
+          position: absolute;
+          width: 100px;
+        }
+        &_pulse {
+          opacity: 0.2;
+          animation: 4s opacityPulse 0s infinite;
+        }
+        &_vitrail {
+          top: 0;
+          left: 0;
+          animation-delay: 0s;
+        }
+        &_chapeau {
+          top: 20px;
+          right: 0;
+          animation-delay: 1s;
+        }
+        &_contrebasse {
+          bottom: 0;
+          right: 0;
+          animation-delay: 2s;
+        }
+        &_collier {
+          bottom: 0;
+          left: 0;
+          animation-delay: 3s;
+        }
+        &_logo {
+          max-width: 250px;
+          width: 100%;
+
+          bottom: -150px;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
+    }
 
     &.actived {
       // display: block;
       transition: 1s ease-in-out all;
       opacity: 1;
+      pointer-events: visible;
     }
+  }
+}
 
-    .logo-loader {
-      width: 300px;
-      margin-bottom: 40px;
-    }
-
-    .container {
-      &-loader {
-        .hand {
-          width: 20px;
-        }
-
-        @for $i from 0 through 100 {
-          .hand {
-            &[translatevalue="#{$i}"] {
-              transform: translateX($i * 3px + 20px);
-            }
-          }
-        }
-
-        .percent-loader {
-          position: relative;
-        }
-      }
-    }
+@keyframes opacityPulse {
+  0% {
+    opacity: 0.2;
+  }
+  30% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 0.2;
   }
 }
