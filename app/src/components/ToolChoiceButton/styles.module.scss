@@ -3,10 +3,14 @@
 .tool-choice {
     &_container {
         position: absolute;
-        top: 5%;
-        right: 5%;
+        top: 30px;
+        right: 100px;
         max-width: 230px;
         width: 100%;
+        opacity: 0;
+
+        transition: 2s ease-in-out all;
+        transition-delay: 1s;
     }
     &__inner {
         .head {
@@ -24,6 +28,12 @@
                     height: 60px;
                     cursor: pointer;
                     border: none;
+                    transition: 0.8s ease-in all;
+                    &.actived {
+                        width: 70px;
+                        height: 70px;
+                        transition: 0.8s ease-in all;
+                    }
                     img {
                         position: absolute;
                         top: 50%;
@@ -42,7 +52,6 @@
         .content {
             padding: 10px;
             background-color: rgba($color-white, 0.8);
-            
             h2 {
                 font-size: 15px;
                 font-weight: $ft-normal;
@@ -54,11 +63,16 @@
                 }
             }
             &-display {
-                overflow: hidden;
-                height: 0;
+                max-height: 0;
                 background-color: transparent;
+                overflow: hidden;
+
+                transition: 0.6s ease-in-out max-height;
                 &.open {
-                    height: 100%;
+                    height: auto;
+                    max-height: 500px;
+
+                    transition: 0.8s ease-in-out max-height;
                 }
             }
         }
@@ -66,13 +80,14 @@
         .open-button {
             padding: 10px;
             width: 100%;
-            // height: 30px;
             border: none;
             background-color: rgba($color-white, 1);
             cursor: pointer;
             i {
                 padding: 0 10px;
+                transition: 0.2s ease-in all;
                 &.rotate {
+                    transition: 0.2s ease-in all;
                     transform: rotate(-180deg);
                 }
             }

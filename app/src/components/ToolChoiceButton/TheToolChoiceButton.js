@@ -18,14 +18,14 @@ const TheToolChoiceButton = ({ array }) => {
     }
 
     return (
-        <div className={styles["tool-choice_container"]}>
+        <div className={`${styles["tool-choice_container"]} tool-choice_container`} id="toolsModal">
             <div className={styles["tool-choice__inner"]}>
 
                 <ul className={styles.head}>
                     {array.map((elm, i) => {
                         return (
                             <li key={i} onClick={(event) => handleToolsClick(event)}>
-                                <button>
+                                <button className={`${isCurrentId === elm.id && styles.actived}`}>
                                     {isCurrentId === elm.id ?
                                         <img id={elm.id} src={elm.activeImg} />
                                         :

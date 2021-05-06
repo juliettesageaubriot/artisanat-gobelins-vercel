@@ -1,0 +1,10 @@
+.tool-choice {
+  &_container {
+    &.loaded {
+      right: 30px;
+      opacity: 1;
+      transition: 2s ease-in-out all;
+      transition-delay: 1s;
+    }
+  }
+}
