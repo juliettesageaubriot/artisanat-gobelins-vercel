@@ -1,7 +1,6 @@
 import React from "react"
 import TheSeo from '@components/Structure/Seo/TheSeo'
-import IntroEpisodePage from "@pageElement/IntroEpisodePage/IntroEpisodePage"
-import FinEpisodePage from "../pageElement/FinEpisode/FinEpisodePage"
+import ChoixEpisodeAtelierPage from "@/pageElement/ChoixEpisodePage/ChoixEpisodePage"
 
 const Page = () => {
   return (
@@ -10,8 +9,7 @@ const Page = () => {
         title="regards d'artisans"
         description="description du projet"
       />
-      <IntroEpisodePage />
-      {/* <FinEpisodePage /> */}
+      <ChoixEpisodeAtelierPage />
     </>
   )
 }

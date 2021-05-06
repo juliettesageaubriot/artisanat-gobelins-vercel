@@ -64,7 +64,10 @@ class AssetsLoader {
         const loader = document.getElementById('assetLoader')
         const toolsAnim = document.getElementById('toolsModal')
 
-        toolsAnim.classList.add('loaded')
+        if (!!toolsAnim) {
+            toolsAnim.classList.add('loaded')
+        }
+
         loader.classList.remove('actived')
     }
 
