@@ -55,8 +55,6 @@ const SingleAtelierPage = () => {
   useEffect(() => {
     const canvas = ref.current
     setThreeScene(new ThreeScene(canvas, state));
-
-
     setCurrentStepTools(data.toolsArray0);
   }, [])
 
@@ -69,38 +67,12 @@ const SingleAtelierPage = () => {
     // console.log(currentSubtitle)
   }
 
-  // const nextAudio = (action) => {
-  //   console.log(action);
-  //   if(action === "next") {
-  //     setCurrentSubtitle(currentSubtitle + 1);
-  //   } else if(action === "cam1") {
-  //     threeScene._setCameraAnimationPlay(0);
-  //     setTimeout(() => {
-  //       setCurrentSubtitle(2);
-  //     }, 3000)
-  //   } else if(action === "cam2") {
-  //     // threeScene._setCameraAnimationPlay(1);
-  //     // setCurrentSubtitle();
-  //   }
-  // }
-
-  // const nextStep = () => {
-  //   threeScene._setCameraAnimationPlay(1);
-  //   // threeScene._stepManager.setStep(0, 1);
-  //   setCurrentSubtitle(5);
-  //   setCurrentValidationStep(null);
-  //   console.log(threeScene._stepManager._globalStep)
-  // }
-
-
-  // console.log("currentTools", currentTools);
-
   const subtitleItems = audioDatas.map((elm, index) => {
     return <TheSubTitle
       content={elm}
       currentSubtitle={currentSubtitle}
       key={index}
-      onEnd={() => threeScene.testOnEndSound(elm.actionOnEnd)}
+      onEnd={() => threeScene._actionStepManager.actionsManager(elm.actionOnEnd)}
     />
   });
 
@@ -111,7 +83,7 @@ const SingleAtelierPage = () => {
       destination={elm.destination}
       key={index}
       appear={currentValidationStep === index}
-      onClick={() => console.log("Change step")}
+      onClick={() => threeScene._actionStepManager.actionsManager(elm.actionOnClick)}
     />
   });
 
