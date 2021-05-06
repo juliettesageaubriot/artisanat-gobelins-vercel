@@ -9,13 +9,14 @@ import models from "@assets/data/models.json"
 import bindAll from '../utils/bindAll.js';
 
 class AssetsLoader {
-    constructor() {
+    constructor(enableRaycastMenu) {
         bindAll(
             this,
             'loadAssets',
             'removeLoader',
+            'setRaycast'
         );
-
+        this.enableRaycastMenu = enableRaycastMenu;
         this._loader = new GLTFLoader();
         this._dracoLoader = new DRACOLoader();
         this._models = {};
@@ -49,6 +50,7 @@ class AssetsLoader {
 
         Promise.all(this._promises).then(() => {
             this.removeLoader()
+            this.setRaycast()
         });
 
         return Promise.all(this._promises);
@@ -61,6 +63,11 @@ class AssetsLoader {
     removeLoader() {
         const loader = document.getElementById('assetLoader')
         loader.classList.remove('actived')
+    }
+
+    setRaycast() {
+        this.enableRaycastMenu = true
+        return this.enableRaycastMenu
     }
 
 }

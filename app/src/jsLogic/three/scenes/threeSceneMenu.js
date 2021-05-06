@@ -27,7 +27,6 @@ class ThreeSceneMenu {
       '_setupEventListeners',
       '_setEnvironmentMap',
       '_loadTexture',
-      // '_loadSoundsChaptersHovered',
       '_assetsLoadedHandler',
       '_setOrbitalControls',
       '_orbitControlsHandler',
@@ -48,6 +47,8 @@ class ThreeSceneMenu {
 
     this._currentIntersectID = 0;
 
+    this._enableRaycastMenu = false
+
     //Groups
     this._vitrailGroup = new THREE.Group;
     this._collierGroup = new THREE.Group;
@@ -58,7 +59,6 @@ class ThreeSceneMenu {
 
     this._newColorTextureHover = []
     this._currentColorTextureHover = []
-    // this._soundChapterHovered = []
 
     this._newMaterialArray = [
       '/assets/textures/menu/newMaterials/vitrail_plomb_baseColor.png',
@@ -139,7 +139,7 @@ class ThreeSceneMenu {
   }
 
   _loadAssets() {
-    this._loader = new AssetsLoader();
+    this._loader = new AssetsLoader(this._enableRaycastMenu);
     this._loader.loadAssets().then(this._assetsLoadedHandler);
   }
 
@@ -182,7 +182,7 @@ class ThreeSceneMenu {
   }
 
   _rayCast(e) {
-    if (!SETTINGS.enableRaycast) return;
+    if (this._loader.enableRaycastMenu === false) return;
 
     this._mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
     this._mouse.y = - (e.clientY / window.innerHeight) * 2 + 1;
