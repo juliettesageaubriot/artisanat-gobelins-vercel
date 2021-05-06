@@ -143,6 +143,7 @@ class ThreeScene {
         }
 
         this._isRunningDecoupeTrace = false;
+        this._indexDecoupeTrace = 0;
 
         this._feuilleAnimations = [];
 
@@ -274,8 +275,16 @@ class ThreeScene {
 
                     child.traverse(child => {
                         this._glassCutOutRaycastObject.push(child);
-                        if("debut" === child.name || "milieu" === child.name || "fin" === child.name) {
+                        if("debut" === child.name 
+                            || "milieu1" === child.name 
+                            || "milieu2" === child.name 
+                            || "milieu3" === child.name 
+                            || "milieu4" === child.name 
+                            || "milieu5" === child.name 
+                            || "fin" === child.name) {
+
                             this._piece_decoupeeObjects.push(child.name);
+
                         }
                     });
 
@@ -591,6 +600,33 @@ class ThreeScene {
                     console.log("Vous avez raté ! Mince alors !");
                     this._isRunningDecoupeTrace = false;
                 }
+
+                if(parseInt(this._currentIntersect.name.substr(this._currentIntersect.name.length - 1)) < this._indexDecoupeTrace) {
+                    console.log("Vous avez raté ! Mince alors !");
+                    this._isRunningDecoupeTrace = false;
+                } else {
+                    switch(this._currentIntersect.name) {
+                        case "milieu1":
+                            this._indexDecoupeTrace = 1;
+                            break;
+                        case "milieu2":
+                            this._indexDecoupeTrace = 2;
+                            break;
+                        case "milieu3":
+                            this._indexDecoupeTrace = 3;
+                            break;
+                        case "milieu4":
+                            this._indexDecoupeTrace = 4;
+                            break;
+                        case "milieu5":
+                            this._indexDecoupeTrace = 5;
+                            break;
+                        default:
+                            this._indexDecoupeTrace = 0;
+                    }
+                }
+
+                
             }
 
             this._currentIntersect = this._object;
