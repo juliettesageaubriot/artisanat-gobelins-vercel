@@ -2,7 +2,7 @@
 import bindAll from '@jsLogic/utils/bindAll';
 
 class ActionsStepManager {
-    constructor(state, stepManager, UIManager, breadCrumb, setCameraAnimation, toggleArtisane) {
+    constructor(state, stepManager, UIManager, breadCrumb, setCameraAnimation, toggleArtisane, toggleDragAndDropControls) {
         // bindAll(
         //     this,
         // );
@@ -12,6 +12,7 @@ class ActionsStepManager {
         this._breadCrumb = breadCrumb;
         this._setCameraAnimation = setCameraAnimation;
         this._toggleArtisane = toggleArtisane;
+        this._toggleDragAndDrop = toggleDragAndDropControls;
 
         //Les débloquage d'interactions
         this._allowedScroll = false;
@@ -122,12 +123,14 @@ class ActionsStepManager {
     _stepThirteen() {
        this._UIManager.setDragAndDropPicto(50, 50);
        this._allowedDragAndDrop = true;
+       this._toggleDragAndDrop();
        this._state.setNewToolsArray(2);
     }
     _stepFourteen() {
         //A Appeler sur la fin du drag and drop
         this._state.setCurrentValidationStep(1);
-        this._allowedScroll = false;
+        this._allowedDragAndDrop = false;
+        this._toggleDragAndDrop();
     }
     _stepFifteen() {
         //A appeler sur le clique de la validation 1
@@ -149,12 +152,14 @@ class ActionsStepManager {
     _stepNineteen() {
         this._UIManager.setDragAndDropPicto(50, 50);
         this._allowedDragAndDrop = true;
+        this._toggleDragAndDrop();
         this._state.setNewToolsArray(3);
     }
     _stepTwenty() {
         //A appeler sur le succes du drag and drop
         this._setCurrentSubtitle(12);
         this._allowedDragAndDrop = false;
+        this._toggleDragAndDrop();
     }
     _stepTwentyOne() {
         this._setCurrentSubtitle(13);
@@ -169,12 +174,14 @@ class ActionsStepManager {
         this._UIManager.setDragAndDropPicto(50, 50);
         this._allowedDrawTheLine = false;
         this._allowedDragAndDrop = true;
+        this._toggleDragAndDrop();
         this._stepManager.addSubStep();
     }
     _stepTwentyFour() {
         //A appeler sur le success du drag and drop
         this._setCurrentSubtitle(14);
         this._allowedDragAndDrop = false;
+        this._toggleDragAndDrop();
     }
     _stepTwentyFive() {
         this._UIManager.setPressionPicto(50, 50);
@@ -203,11 +210,13 @@ class ActionsStepManager {
     _stepThirty() {
         this._UIManager.setDragAndDropPicto(50, 50);
         this._allowedDragAndDrop = true;
+        this._toggleDragAndDrop();
         this._stepManager.addSubStep();
     }
     _stepThirtyOne() {
         //sur le success du drag and drop
         this.setCurrentValidationStep(2);
+        this._toggleDragAndDrop();
     }
     _stepThirtyTwo() {
         this._setCurrentSubtitle(17);

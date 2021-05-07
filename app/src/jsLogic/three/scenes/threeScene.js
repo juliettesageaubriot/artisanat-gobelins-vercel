@@ -27,6 +27,7 @@ import { _glassCutOutPinceAGruger, _glassCutOutPinceAGrugerMouseDown, _glassCutO
 //mouse events
 import { _mousePointerDownHandler } from '@jsLogic/three/mouseEvents/mouseDown/onMouseDownHandler';
 import { _mousePointerUpHandler } from '@jsLogic/three/mouseEvents/mouseUp/onMouseUpHandler';
+import { Vector3 } from 'three/build/three.module';
 
 
 const SETTINGS = {
@@ -56,7 +57,7 @@ class ThreeScene {
             '_mousePointerUpHandler',
             '_mousePointerDownHandler',
             'rayCastHandler',
-            '_dragAndDropControls',
+            '_setDragAndDropControls',
             '_toggleDragAndDropControls',
             '_paperCutOutScrollHandler',
             '_paperCutOutScrollAnimation',
@@ -131,7 +132,7 @@ class ThreeScene {
 
         this._UIManager = new UIManager();
 
-        this._actionStepManager = new ActionsStepManager(this._state, this._stepManager, this._UIManager, this._breadcrumbManager, this._setCameraAnimationPlay, this._toggleArtisaneOpacity);
+        this._actionStepManager = new ActionsStepManager(this._state, this._stepManager, this._UIManager, this._breadcrumbManager, this._setCameraAnimationPlay, this._toggleArtisaneOpacity, this._toggleDragAndDropControls);
 
         this._artisanes = [];
 
@@ -147,12 +148,13 @@ class ThreeScene {
 
         this._isRunningDecoupeTrace = false;
         this._indexDecoupeTrace = 0;
+        this._pieceDecoupeDropZone;
 
         this._feuilleAnimations = [];
 
         this._currentIntersect = null;
 
-        this._enableDragAndDrop = true;
+        this._enableDragAndDrop = false;
 
         // this._setOrbitalControls();
         this._setupEventListeners();
@@ -166,7 +168,7 @@ class ThreeScene {
         this._camera = this._cameras[index];
         this.cameraManager.StartAnimation(index);
         this.cameraAnimator.mixer.addEventListener("finished", () => {
-            this._actionStepManager.actionsManager(actionIndex);
+            //this._actionStepManager.actionsManager(actionIndex);
         });
     }
     _setCameraAnimationReverse(index) {
@@ -219,16 +221,17 @@ class ThreeScene {
                     this.cameraAnimator = new AnimationManager(child, this._cameraAnimations);
                     this.cameraManager = new CameraManager(this._camera, this._cameras, this.cameraAnimator);
 
+                } else if('ciseau' === child.name) {
+
+                    // this._dragItems.push(child);
+
                 } else if ("CameraAtelier1_Orientation" === child.name) {
 
                     this._camera = child;
 
                 } else if ("artisane01" === child.name) {
 
-                    this._artisanes.push(child);
-
-                    // this._dragItems.push(child);
-                    // this._paperCutOutRaycastObject.push(child);
+                    this._artisanes.push(child);;
 
                 } else if("artisane02" === child.name) {
 
@@ -277,10 +280,6 @@ class ThreeScene {
                     this._piece_decoupeAnimationsClickTwoAnimator = new AnimationManager(child, this._piece_decoupeAnimationsClickTwo);
                     this._piece_decoupeAnimationsClickThreeAnimator = new AnimationManager(child, this._piece_decoupeAnimationsClickThree);
                     this._piece_decoupeAnimationsSuccessCutAnimator = new AnimationManager(child, this._piece_decoupeAnimationsSuccessCut);
-                    
-                    // setTimeout(() => {
-                    //     this._piece_decoupeAnimationsSuccessCutAnimator.playClipByIndex(0);
-                    // }, 5000);
 
                     child.traverse(child => {
                         this._glassCutOutRaycastObject.push(child);
@@ -294,10 +293,23 @@ class ThreeScene {
 
                             this._piece_decoupeeObjects.push(child.name);
 
+                        } else if("piece_principale" === child.name) {
+                            this._pieceDecoupeDropZone = child;
                         }
+
+
                     });
 
                     // console.log(this._glassCutOutRaycastObject);
+
+                    child.position.set(0, 1.2, -2.2);
+                    child.scale.set(0.10, 0.10, 0.10);
+                    child.rotation.set(-Math.PI / 2, 0, 0);
+
+                } else if("Piece_papier" == child.name) {
+
+                    this._addToScene(child);
+                    this._dragItems.push(child);
 
                     child.position.set(0, 1.2, -2.2);
                     child.scale.set(0.10, 0.10, 0.10);
@@ -315,7 +327,7 @@ class ThreeScene {
     _start() {
         this._createModels(this._models);
         //Action à faire au démarrage
-        // this._dragAndDropControls();
+        this._setDragAndDropControls();
 
         // this._state.start();
 
@@ -809,6 +821,8 @@ class ThreeScene {
         this._pressureGaugeHandler(deltaTime);
 
         // this._orbitControlsHandler();
+        if(this._dragAndDropTest) 
+            this._dragAndDropTest.update();
 
         this._renderer.render(this._scene, this._camera);
     }
@@ -860,7 +874,7 @@ class ThreeScene {
         this._state.setToolsArray1()
     }
 
-    _dragAndDropControls() {
+    _setDragAndDropControls() {
         if (!SETTINGS.enableDragAndDrop) return;
 
         this._dragAndDropControls = new DragControls(this._dragItems, this._camera, this._renderer.domElement);
@@ -868,12 +882,60 @@ class ThreeScene {
         this._dragAndDropControls.enabled = true;
         this._enableDragAndDrop = true;
 
+        this._initialPosition = {};
+        this._isOnTarget = false;
+
         this._dragStart = (event) => {
+            this._initialPosition.x = event.object.position.x;
+            this._initialPosition.y = event.object.position.y;
+            this._initialPosition.z = event.object.position.z;
 
-            event.object.material.emissive.set(0xaaaaaa);
+            // event.object.material.emissive.set(0xaaaaaa);
+            if (this._globalStep === 2 || this._subStep === 0) {
 
+                //Action à faire sur le premier drag and drop de l'atelier 3
+
+            } else if(this._globalStep === 2 || this._subStep === 2) {
+
+                //Action à faire sur le drag and drop out 
+
+            } else if(this._globalStep === 2 || this._subStep === 5) {
+
+                //Action à faire sur le dernier drag and drop de fin sur le vitrail de fin
+
+            }
+
+            
+
+            event.object.scale.set(1.2, 1.2, 1.2);
         }
         this._drag = (event) => {
+            //Launch un certain son pendant le drag and drop
+            // console.log(this._pieceDecoupeDropZone);
+            if (this._globalStep === 2 || this._subStep === 0) {
+
+                //Action à faire sur le premier drag and drop de l'atelier 3
+
+            } else if(this._globalStep === 2 || this._subStep === 2) {
+
+                //Action à faire sur le drag and drop out 
+
+            } else if(this._globalStep === 2 || this._subStep === 5) {
+
+                //Action à faire sur le dernier drag and drop de fin sur le vitrail de fin
+
+            }
+
+            if(this._detectCollision(this._pieceDecoupeDropZone, event.object)) {
+
+                this._isOnTarget = true;
+                console.log(this._isOnTarget);
+
+            } else {
+                this._isOnTarget = false;
+            }
+
+            event.object.position.z = this._initialPosition.z;
 
             if (event.object.position.y < 1.05) {
                 event.object.position.y = 1.05;
@@ -882,11 +944,53 @@ class ThreeScene {
         }
         this._dragEnd = (event) => {
 
-            event.object.material.emissive.set(0x000000);
+            if (this._globalStep === 2 || this._subStep === 0) {
+
+                //Action à faire sur le premier drag and drop de l'atelier 3
+
+            } else if(this._globalStep === 2 || this._subStep === 2) {
+
+                //Action à faire sur le drag and drop out 
+
+            } else if(this._globalStep === 2 || this._subStep === 5) {
+
+                //Action à faire sur le dernier drag and drop de fin sur le vitrail de fin
+
+            }
+            
+            if(this._isOnTarget) {
+                console.log("fin du drag and drop: Success");
+                //Launch un certain son success
+                // this._dragAndDropControls.enabled = false;
+                // this._toggleDragAndDropControls();
+            } else {
+                event.object.position.x = this._initialPosition.x;
+                event.object.position.y = this._initialPosition.y;
+                event.object.position.z = this._initialPosition.z;
+                //Launch un certain son fail
+            }
+            // event.object.material.emissive.set(0x000000);
+            // event.object.scale.set(1, 1, 1);
+            event.object.scale.set(1, 1, 1);
         }
 
         this._toggleDragAndDropControls();
 
+    }
+
+    _detectCollision(object1, object2) {
+        object1.geometry.computeBoundingBox();
+        object2.geometry.computeBoundingBox();
+        object1.updateMatrixWorld();
+        object2.updateMatrixWorld();
+      
+        var box1 = object1.geometry.boundingBox.clone();
+        box1.applyMatrix4(object1.matrixWorld);
+        
+        var box2 = object2.geometry.boundingBox.clone();
+        box2.applyMatrix4(object2.matrixWorld);
+        
+        return box1.intersectsBox(box2);
     }
 
     _toggleDragAndDropControls() {
@@ -966,9 +1070,6 @@ class ThreeScene {
             this._scrollTimeline += this._animationDuration / this._numberOfWheelEvent;
             this._scrollY += 1;
             this._paperCutOutScrollAnimation();
-            // setTimeout(() => {
-            //     this._state.setStepValidation(0);
-            // }, 4000)
         }
         //console.log(this._scrollTimeline + " : " + this._scrollY);
     }
