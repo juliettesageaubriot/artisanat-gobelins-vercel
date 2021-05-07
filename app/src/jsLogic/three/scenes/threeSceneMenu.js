@@ -62,14 +62,17 @@ class ThreeSceneMenu {
     this._currentColorTextureHover = []
 
     this._newMaterialArray = [
-      '/assets/textures/menu/newMaterials/vitrail_baseColor.jpg',
+      '/assets/textures/menu/newMaterials/verre_baseColor.png',
+      '/assets/textures/menu/newMaterials/plombs_baseColor.jpg',
       '/assets/textures/menu/newMaterials/collier_baseColor.jpg',
       '/assets/textures/menu/newMaterials/contreBasse_baseColor.jpg',
       '/assets/textures/menu/newMaterials/chapeau_baseColor.jpg'
     ]
 
     this._currentMaterialArray = [
-      '/assets/textures/menu/currentMaterials/vitrail_baseColor.jpg',
+      // '/assets/textures/menu/currentMaterials/vitrail_baseColor.jpg',
+      '',
+      '/assets/textures/menu/currentMaterials/plombs_baseColor.png',
       '/assets/textures/menu/currentMaterials/collier_baseColor.jpg',
       '/assets/textures/menu/currentMaterials/contreBasse_baseColor.jpg',
       '/assets/textures/menu/currentMaterials/chapeau_baseColor.jpg'
@@ -83,7 +86,10 @@ class ThreeSceneMenu {
     ]
 
     this._loadingManager
-    this._textureLoaderg
+
+    //Set the visible vitrail child
+    this._vitrailVisible
+
 
     this._setup();
     this._loadAssets();
@@ -121,7 +127,6 @@ class ThreeSceneMenu {
       old: null
     }
 
-
     this._currentIntersect = null;
 
     // this._setOrbitalControls();
@@ -132,7 +137,6 @@ class ThreeSceneMenu {
     this._setNewState();
     this._setNewAudioHovered()
     this._setIsReadyRaycast()
-    // this._loadSoundsChaptersHovered(this._camera)
 
   }
 
@@ -163,10 +167,17 @@ class ThreeSceneMenu {
         if ("menu" === child.name) {
           this._addToScene(child)
           console.log(child);
-          // SetupMenuChaptersRaycast(child, this._chaptersTestObject)
-          // this.idChapterHovered = new MenuHoveredManager(0);
+          SetupMenuChaptersRaycast(child, this._chaptersTestObject)
+          this.idChapterHovered = new MenuHoveredManager(0);
         }
-        if("cameraMenu_Orientation" === child.name) {
+        if ("vitrailVisible" === child.name) {
+          this._vitrailVisible = child;
+        }
+        if ("vitrail" === child.name) {
+          child.material.opacity = 0;
+          child.material.transparent = true;
+        }
+        if ("cameraMenu_Orientation" === child.name) {
           this._camera = child;
         }
       })
@@ -184,7 +195,7 @@ class ThreeSceneMenu {
 
   _rayCast(e) {
     //return la bonne valeur
-    if (this._enableRaycastMenu=== false) return;
+    if (this._enableRaycastMenu === false) return;
 
     this._mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
     this._mouse.y = - (e.clientY / window.innerHeight) * 2 + 1;
@@ -232,8 +243,22 @@ class ThreeSceneMenu {
         }
       }
 
-      this._currentIntersect.material = new THREE.MeshBasicMaterial({ map: this._newColorTextureHover[this.idChapterHovered.textureID] })
-      this._currentIntersect.material.needsUpdate = true;
+
+      if (0 === this.idChapterHovered.textureID) {
+        this._vitrailVisible.children.map((elm) => {
+
+          if ("vitrailVerre" === elm.name) {
+            elm.material = new THREE.MeshBasicMaterial({ map: this._newColorTextureHover[0] })
+          } else if ("vitrailPlomb" === elm.name) {
+            elm.material = new THREE.MeshBasicMaterial({ map: this._newColorTextureHover[1] })
+          }
+          elm.material.needsUpdate = true;
+        })
+      } else {
+        this._currentIntersect.material = new THREE.MeshBasicMaterial({ map: this._newColorTextureHover[this.idChapterHovered.textureID] })
+        this._currentIntersect.material.needsUpdate = true;
+      }
+
 
       this._setNewAudioHovered(this._soundsChaptersHoveredArray[this.idChapterHovered.soundID])
 
@@ -246,8 +271,22 @@ class ThreeSceneMenu {
         this._previousModal = this._currentModal;
         this._previousObjectName = this._currentObjectName;
 
-        this._currentIntersect.material = new THREE.MeshBasicMaterial({ map: this._currentColorTextureHover[this.idChapterHovered.textureID] })
-        this._currentIntersect.material.needsUpdate = true;
+        if (0 === this.idChapterHovered.textureID) {
+          this._vitrailVisible.children.map((elm) => {
+  
+            if ("vitrailVerre" === elm.name) {
+              //Add shader texture verre
+              // elm.material = new THREE.MeshBasicMaterial({ map: this._currentColorTextureHover[0] })
+            } else if ("vitrailPlomb" === elm.name) {
+              elm.material = new THREE.MeshBasicMaterial({ map: this._currentColorTextureHover[1] })
+            }
+            elm.material.needsUpdate = true;
+          })
+        } else {
+          this._currentIntersect.material = new THREE.MeshBasicMaterial({ map: this._currentColorTextureHover[this.idChapterHovered.textureID] })
+          this._currentIntersect.material.needsUpdate = true;
+        }
+        
 
         document.querySelector("html").style.cursor = "initial";
       }

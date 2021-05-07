@@ -17,15 +17,15 @@ export default class MenuHoveredManager {
         this.soundID = 1
         break;
 
-      case "contreBasse":
+      case "contrebasse":
         this.currentID = 3
-        this.textureID = 4
+        this.textureID = 3
         this.soundID = 2
         break;
 
       case "chapeau":
         this.currentID = 4
-        this.textureID = 5
+        this.textureID = 4
         this.soundID = 3
         break;
     }
