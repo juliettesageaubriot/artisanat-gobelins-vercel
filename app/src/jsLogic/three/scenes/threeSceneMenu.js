@@ -31,7 +31,8 @@ class ThreeSceneMenu {
       '_setOrbitalControls',
       '_orbitControlsHandler',
       '_mousemoveHandler',
-      '_setIsReadyRaycast'
+      '_setIsReadyRaycast',
+      '_setMouseMoveTargetCamera'
     )
 
     this._canvas = canvas;
@@ -90,6 +91,11 @@ class ThreeSceneMenu {
     //Set the visible vitrail child
     this._vitrailVisible
 
+    // Mouse target camera
+    this._windowHalf = new THREE.Vector2(window.innerWidth / 2, window.innerHeight);
+    this._mouse = new THREE.Vector2();
+    this._target = new THREE.Vector2();
+
 
     this._setup();
     this._loadAssets();
@@ -121,6 +127,7 @@ class ThreeSceneMenu {
 
     this._mouse = new THREE.Vector2();
     this._rayCaster = new THREE.Raycaster();
+    this._pointerControls
 
     this._modal = {
       current: null,
@@ -273,7 +280,7 @@ class ThreeSceneMenu {
 
         if (0 === this.idChapterHovered.textureID) {
           this._vitrailVisible.children.map((elm) => {
-  
+
             if ("vitrailVerre" === elm.name) {
               //Add shader texture verre
               // elm.material = new THREE.MeshBasicMaterial({ map: this._currentColorTextureHover[0] })
@@ -286,7 +293,7 @@ class ThreeSceneMenu {
           this._currentIntersect.material = new THREE.MeshBasicMaterial({ map: this._currentColorTextureHover[this.idChapterHovered.textureID] })
           this._currentIntersect.material.needsUpdate = true;
         }
-        
+
 
         document.querySelector("html").style.cursor = "initial";
       }
@@ -371,6 +378,12 @@ class ThreeSceneMenu {
   }
 
   _tick() {
+    this._target.x = (this._mouse.x) * 0.0003;
+
+    this._camera.rotation.y = (this._camera.rotation.y + (this._target.x - this._camera.rotation.y)) < 0.1325 && (this._camera.rotation.y + (this._target.x - this._camera.rotation.y)) > -0.1105
+      ? (this._camera.rotation.y + (this._target.x - this._camera.rotation.y))
+      : this._camera.rotation.y;
+
     this._render();
   }
 
@@ -383,6 +396,7 @@ class ThreeSceneMenu {
     this._tickHandler();
     window.addEventListener('resize', this._resizeHandler);
     window.addEventListener('mousemove', this._mousemoveHandler);
+    window.addEventListener('mousemove', this._setMouseMoveTargetCamera, false)
   }
 
 
@@ -425,6 +439,11 @@ class ThreeSceneMenu {
       this._enableRaycastMenu = true
     })
     return this._enableRaycastMenu
+  }
+
+  _setMouseMoveTargetCamera(event) {
+    if (this._enableRaycastMenu === false) return;
+    this._mouse.x = (- event.clientX + this._windowHalf.x);
   }
 
 }
