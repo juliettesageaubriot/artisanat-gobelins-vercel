@@ -81,7 +81,7 @@ const ChoixEpisodeAtelierPage = () => {
         </div>
       </div>
 
-      <TheVolume absolute={true} />
+      <TheVolume absolute={true} colorPicto="noir"/>
       <div ref={ref} />
 
     </section>

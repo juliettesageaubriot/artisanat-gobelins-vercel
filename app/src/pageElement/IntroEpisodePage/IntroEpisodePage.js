@@ -71,7 +71,7 @@ const IntroEpisodePage = () => {
           {/* <TheModal isShowing={isShowingWarning} hide={toggleWarning} content={modalTextWarning} />
             <TheModal isShowing={isShowingReturnExperience} hide={toggleReturnExperience} content={modalReturnExperience} /> */}
         </div>
-        <TheVolume absolute />
+        <TheVolume absolute colorPicto="blanc"/>
       </div>
     </section>
   )
