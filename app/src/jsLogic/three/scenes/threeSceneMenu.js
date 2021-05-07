@@ -62,21 +62,17 @@ class ThreeSceneMenu {
     this._currentColorTextureHover = []
 
     this._newMaterialArray = [
-      '/assets/textures/menu/newMaterials/vitrail_plomb_baseColor.png',
-      '/assets/textures/menu/newMaterials/vitrail_verre_baseColor.png',
-      '/assets/textures/menu/newMaterials/collier_baseColor.png',
-      '/assets/textures/menu/newMaterials/buste_baseColor.png',
-      '/assets/textures/menu/newMaterials/contreBasse_baseColor.png',
-      '/assets/textures/menu/newMaterials/chapeau_baseColor.png'
+      '/assets/textures/menu/newMaterials/vitrail_baseColor.jpg',
+      '/assets/textures/menu/newMaterials/collier_baseColor.jpg',
+      '/assets/textures/menu/newMaterials/contreBasse_baseColor.jpg',
+      '/assets/textures/menu/newMaterials/chapeau_baseColor.jpg'
     ]
 
     this._currentMaterialArray = [
-      '/assets/textures/menu/currentMaterials/vitrail_plomb_baseColor.png',
-      '/assets/textures/menu/currentMaterials/vitrail_verre_baseColor.png',
-      '/assets/textures/menu/currentMaterials/collier_baseColor.png',
-      '/assets/textures/menu/currentMaterials/buste_baseColor.png',
-      '/assets/textures/menu/currentMaterials/contreBasse_baseColor.png',
-      '/assets/textures/menu/currentMaterials/chapeau_baseColor.png'
+      '/assets/textures/menu/currentMaterials/vitrail_baseColor.jpg',
+      '/assets/textures/menu/currentMaterials/collier_baseColor.jpg',
+      '/assets/textures/menu/currentMaterials/contreBasse_baseColor.jpg',
+      '/assets/textures/menu/currentMaterials/chapeau_baseColor.jpg'
     ]
 
     this._soundsChaptersHoveredArray = [
@@ -97,8 +93,8 @@ class ThreeSceneMenu {
   _setup() {
     this._scene = new THREE.Scene();
 
-    this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
-    this._camera.position.set(3, 1, 3.5);
+    this._camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
+    this._camera.position.set(0, 1, 0);
     this._camera.rotation.set(0, 0, 0)
     this._scene.add(this._camera);
 
@@ -155,7 +151,6 @@ class ThreeSceneMenu {
   _createModels() {
     for (let name in this._models) {
       this.object = this._models[name].scene;
-
       this.object.traverse(child => {
         if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
           // child.material.envMap = environmentMap
@@ -165,10 +160,14 @@ class ThreeSceneMenu {
           child.receiveShadow = true
         }
 
-        if ("Menu" === child.name) {
+        if ("menu" === child.name) {
           this._addToScene(child)
-          SetupMenuChaptersRaycast(child, this._chaptersTestObject)
-          this.idChapterHovered = new MenuHoveredManager(0);
+          console.log(child);
+          // SetupMenuChaptersRaycast(child, this._chaptersTestObject)
+          // this.idChapterHovered = new MenuHoveredManager(0);
+        }
+        if("cameraMenu_Orientation" === child.name) {
+          this._camera = child;
         }
       })
     }
