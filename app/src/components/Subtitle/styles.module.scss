@@ -21,7 +21,7 @@
         font-size: 18px;
         line-height: 1.5;
 
-        color: rgba($color: #ffffff, $alpha: 1);
+        color: rgba($color: $color-white, $alpha: 1);
         
         z-index: 1;
 
@@ -66,10 +66,10 @@
         }
 
         &:hover {
-            border-top: 2px solid rgba($color: #ffffff, $alpha: .5);
-            border-right: 2px solid rgba($color: #ffffff, $alpha: .5);
-            border-bottom: 2px solid rgba($color: #ffffff, $alpha: .5);
-            background-color: rgba($color: #ffffff, $alpha: .1);
+            border-top: 2px solid rgba($color: $color-white, $alpha: .5);
+            border-right: 2px solid rgba($color: $color-white, $alpha: .5);
+            border-bottom: 2px solid rgba($color: $color-white, $alpha: .5);
+            background-color: rgba($color: $color-white, $alpha: .1);
             p {
                 opacity: 1;
             }
@@ -87,32 +87,32 @@
             align-items: center;
             justify-content: center;
 
-            border-top: 2px solid rgba($color: #ffffff, $alpha: .5);
-            border-left: 2px solid rgba($color: #ffffff, $alpha: .5);
-            border-bottom: 2px solid rgba($color: #ffffff, $alpha: .5);
+            border-top: 2px solid rgba($color: $color-white, $alpha: .5);
+            border-left: 2px solid rgba($color: $color-white, $alpha: .5);
+            border-bottom: 2px solid rgba($color: $color-white, $alpha: .5);
 
-            color: white;
+            color: $color-white;
 
-            background-color: rgba($color: #ffffff, $alpha: .1);
+            background-color: rgba($color: $color-white, $alpha: .1);
 
             opacity: 0;
         }
 
         &.repeat {
-            border-top: 2px solid rgba($color: #ffffff, $alpha: .5);
-            border-right: 2px solid rgba($color: #ffffff, $alpha: .5);
-            border-bottom: 2px solid rgba($color: #ffffff, $alpha: .5);
-            background-color: rgba($color: #ffffff, $alpha: .1);
+            border-top: 2px solid rgba($color: $color-white, $alpha: .5);
+            border-right: 2px solid rgba($color: $color-white, $alpha: .5);
+            border-bottom: 2px solid rgba($color: $color-white, $alpha: .5);
+            background-color: rgba($color: $color-white, $alpha: .1);
             p {
                 opacity: 1;
             }
         }
 
         &.show {
-            border-top: 2px solid rgba($color: #ffffff, $alpha: .5);
-            border-right: 2px solid rgba($color: #ffffff, $alpha: .5);
-            border-bottom: 2px solid rgba($color: #ffffff, $alpha: .5);
-            background-color: rgba($color: #ffffff, $alpha: .1);
+            border-top: 2px solid rgba($color: $color-white, $alpha: .5);
+            border-right: 2px solid rgba($color: $color-white, $alpha: .5);
+            border-bottom: 2px solid rgba($color: $color-white, $alpha: .5);
+            background-color: rgba($color: $color-white, $alpha: .1);
             p {
                 opacity: 1;
             }
