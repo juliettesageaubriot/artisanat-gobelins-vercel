@@ -92,7 +92,7 @@ class ThreeSceneMenu {
     this._vitrailVisible
 
     // Mouse target camera
-    this._windowHalf = new THREE.Vector2(window.innerWidth / 2, window.innerHeight);
+    this._windowHalf = new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2);
     this._mouse = new THREE.Vector2();
     this._target = new THREE.Vector2();
 
@@ -378,11 +378,11 @@ class ThreeSceneMenu {
   }
 
   _tick() {
-    this._target.x = (this._mouse.x) * 0.0003;
+    this._target.x = - (this._mouse.x) * 0.00012;
+    this._target.y = - (this._mouse.y) * 0.00012;
 
-    this._camera.rotation.y = (this._camera.rotation.y + (this._target.x - this._camera.rotation.y)) < 0.1325 && (this._camera.rotation.y + (this._target.x - this._camera.rotation.y)) > -0.1105
-      ? (this._camera.rotation.y + (this._target.x - this._camera.rotation.y))
-      : this._camera.rotation.y;
+    this._camera.rotation.y += (this._target.x - this._camera.rotation.y)
+    this._camera.rotation.x += (this._target.y - this._camera.rotation.x) + 300
 
     this._render();
   }
@@ -443,7 +443,8 @@ class ThreeSceneMenu {
 
   _setMouseMoveTargetCamera(event) {
     if (this._enableRaycastMenu === false) return;
-    this._mouse.x = (- event.clientX + this._windowHalf.x);
+    this._mouse.x = (event.clientX - this._windowHalf.x);
+    this._mouse.y = (event.clientY - this._windowHalf.y);
   }
 
 }
