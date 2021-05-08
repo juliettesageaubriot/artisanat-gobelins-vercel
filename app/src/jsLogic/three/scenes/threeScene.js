@@ -2,6 +2,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { DragControls } from 'three/examples/jsm/controls/DragControls.js'
+import { gsap } from 'gsap';
 
 //utils
 import bindAll from '@jsLogic/utils/bindAll';
@@ -126,7 +127,7 @@ class ThreeScene {
         this._isMouseDown = false;
         this._rayCaster = new THREE.Raycaster();
 
-        this._stepManager = new StepManager(1, 2);
+        this._stepManager = new StepManager(0, 2);
 
         this._breadcrumbManager = new BreadcrumbManager(true, "La découpe du tracé");
 
@@ -149,6 +150,7 @@ class ThreeScene {
         this._isRunningDecoupeTrace = false;
         this._indexDecoupeTrace = 0;
         this._pieceDecoupeDropZone;
+        this._pieceDecoupe;
 
         this._feuilleAnimations = [];
 
@@ -282,7 +284,9 @@ class ThreeScene {
                     this._piece_decoupeAnimationsSuccessCutAnimator = new AnimationManager(child, this._piece_decoupeAnimationsSuccessCut);
 
                     child.traverse(child => {
-                        this._glassCutOutRaycastObject.push(child);
+                        // if("surface_drop" !== child.name)
+                        //     this._glassCutOutRaycastObject.push(child);
+
                         if("debut" === child.name 
                             || "milieu1" === child.name 
                             || "milieu2" === child.name 
@@ -293,27 +297,29 @@ class ThreeScene {
 
                             this._piece_decoupeeObjects.push(child.name);
 
-                        } else if("piece_principale" === child.name) {
+                        } else if("surface_drop" === child.name) {
                             this._pieceDecoupeDropZone = child;
+                            child.material.opacity = 0;
+                        } else if("piece_principale_above" === child.name) {
+                            this._pieceDecoupe = child;
+                            child.material.opacity = 0;
+                            child.material.transparent = true;
                         }
 
 
                     });
 
-                    // console.log(this._glassCutOutRaycastObject);
+                    child.position.set(-0.25, 1.3, -2.2);
+                    child.rotation.set(-Math.PI / 3, -Math.PI, 0);
 
-                    child.position.set(0, 1.2, -2.2);
-                    child.scale.set(0.10, 0.10, 0.10);
-                    child.rotation.set(-Math.PI / 2, 0, 0);
+                } else if("papier_decoupe" == child.name) {
 
-                } else if("Piece_papier" == child.name) {
-
-                    this._addToScene(child);
+                    // this._addToScene(child);
                     this._dragItems.push(child);
 
-                    child.position.set(0, 1.2, -2.2);
-                    child.scale.set(0.10, 0.10, 0.10);
-                    child.rotation.set(-Math.PI / 2, 0, 0);
+                    // child.position.set(0, 1.2, -2.2);
+                    // child.scale.set(0.10, 0.10, 0.10);
+                    // child.rotation.set(-Math.PI / 2, 0, 0);
 
                 }
             })
@@ -880,6 +886,7 @@ class ThreeScene {
         this._dragAndDropControls = new DragControls(this._dragItems, this._camera, this._renderer.domElement);
 
         this._dragAndDropControls.enabled = true;
+        this._dragAndDropControls.transformGroup = true;
         this._enableDragAndDrop = true;
 
         this._initialPosition = {};
@@ -905,13 +912,9 @@ class ThreeScene {
 
             }
 
-            
-
-            event.object.scale.set(1.2, 1.2, 1.2);
+            gsap.to(event.object.scale, {x: 1.2, y: 1.2, z: 1.2, duration: .3});
         }
         this._drag = (event) => {
-            //Launch un certain son pendant le drag and drop
-            // console.log(this._pieceDecoupeDropZone);
             if (this._globalStep === 2 || this._subStep === 0) {
 
                 //Action à faire sur le premier drag and drop de l'atelier 3
@@ -926,52 +929,74 @@ class ThreeScene {
 
             }
 
-            if(this._detectCollision(this._pieceDecoupeDropZone, event.object)) {
+            // event.object.position.z = this._initialPosition.z;
 
-                this._isOnTarget = true;
-                console.log(this._isOnTarget);
-
-            } else {
-                this._isOnTarget = false;
-            }
-
-            event.object.position.z = this._initialPosition.z;
-
-            if (event.object.position.y < 1.05) {
-                event.object.position.y = 1.05;
-            }
+            // if (event.object.position.y < 1.05) {
+            //     event.object.position.y = 1.05;
+            // }
 
         }
         this._dragEnd = (event) => {
 
-            if (this._globalStep === 2 || this._subStep === 0) {
+            this._pourcentageIntersect = this._dragItems[0].children.filter( intersectObject => this._detectCollision(this._pieceDecoupeDropZone, intersectObject)).length;
+
+            if(this._pourcentageIntersect > 18) {
+                this._isOnTarget = true;
+            } else {
+                this._isOnTarget = false;
+            }
+
+            if (this._globalStep === 2 && this._subStep === 0) {
 
                 //Action à faire sur le premier drag and drop de l'atelier 3
+                if(this._isOnTarget) {
+                    console.log("fin du drag and drop: Success");
+                    //Launch un certain son success
+                    const {x, y, z} = this._pieceDecoupe.position;
+                    gsap.to(event.object.position, {x: x, y: y, z: z, duration: 1});
+                    this._stepManager.addSubStep();
+                    //Action a faire dans le step action manager
+                    
+                } else {
+                    const {x, y, z} = this._initialPosition;
+                    event.object.children.map(child => {
+                        if(child.material)
+                            child.material.transparent = true;
+                            gsap.to(child.material, {opacity: 0, duration: .5});
+                    })
+                    gsap.to(event.object.position, {x: x, y: y, z: z, duration: 0, delay: 0.5});
+                    event.object.children.map(child => {
+                        if(child.material)
+                            gsap.to(child.material, {opacity: 1, duration: .5, delay: 1});
+                    })
+                    //Launch un certain son fail
+                }
 
-            } else if(this._globalStep === 2 || this._subStep === 2) {
-
+            } else if(this._globalStep === 2 && this._subStep === 1) {
+                console.log("2eme drag and drop")
                 //Action à faire sur le drag and drop out 
+                if(this._isOnTarget) {
 
-            } else if(this._globalStep === 2 || this._subStep === 5) {
+                    gsap.to(event.object.position, {x: x, y: y, z: z, duration: 0, delay: 0.5});
+                    //Launch un certain son fail
+                    
+                } else {
+                    console.log("fin du drag and drop out: Success");
+                    event.object.children.map(child => {
+                        if(child.material)
+                            child.material.transparent = true;
+                            gsap.to(child.material, {opacity: 0, duration: .5});
+                    })
+                    //Launch un certain son Success
+                }
+
+            } else if(this._globalStep === 2 && this._subStep === 5) {
 
                 //Action à faire sur le dernier drag and drop de fin sur le vitrail de fin
 
             }
-            
-            if(this._isOnTarget) {
-                console.log("fin du drag and drop: Success");
-                //Launch un certain son success
-                // this._dragAndDropControls.enabled = false;
-                // this._toggleDragAndDropControls();
-            } else {
-                event.object.position.x = this._initialPosition.x;
-                event.object.position.y = this._initialPosition.y;
-                event.object.position.z = this._initialPosition.z;
-                //Launch un certain son fail
-            }
-            // event.object.material.emissive.set(0x000000);
-            // event.object.scale.set(1, 1, 1);
-            event.object.scale.set(1, 1, 1);
+
+            gsap.to(event.object.scale, {x: 1, y: 1, z: 1, duration: .3});
         }
 
         this._toggleDragAndDropControls();

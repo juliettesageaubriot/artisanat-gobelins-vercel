@@ -17,10 +17,6 @@
     },
     {
         "name": "scene-piece-verre",
-        "url": "/assets/models/gltf/draco/dracoModels/piece-decoupee2.glb"
-    },
-    {
-        "name": "scene-piece-papier",
-        "url": "/assets/models/gltf/draco/dracoModels/piece-papier.glb"
+        "url": "/assets/models/gltf/draco/dracoModels/piece-decoupee.glb"
     }
 ]
