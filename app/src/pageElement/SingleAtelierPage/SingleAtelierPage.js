@@ -46,7 +46,7 @@ const SingleAtelierPage = () => {
     playSound: () => { setIsPlaying(true) },
     stopSound: () => { setIsPlaying(false) },
     start: () => { setCurrentSubtitle(0); },
-    setNextSubtitle: () => { setCurrentSubtitle(1) },
+    setNextSubtitle: (index) => { setCurrentSubtitle(index) },
     setToolsArray1: () => { setCurrentStepTools(data.toolsArray1) },
     setToolsArray2: () => { setCurrentStepTools(data.toolsArray2) },
     setStepValidation: (index) => { setCurrentValidationStep(index) }

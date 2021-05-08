@@ -170,7 +170,8 @@ class ThreeScene {
         this._camera = this._cameras[index];
         this.cameraManager.StartAnimation(index);
         this.cameraAnimator.mixer.addEventListener("finished", () => {
-            //this._actionStepManager.actionsManager(actionIndex);
+            if(actionIndex === "none") return;
+            this._actionStepManager.actionsManager(actionIndex);
         });
     }
     _setCameraAnimationReverse(index) {
@@ -333,9 +334,10 @@ class ThreeScene {
     _start() {
         this._createModels(this._models);
         //Action à faire au démarrage
-        this._setDragAndDropControls();
+        // this._setDragAndDropControls();
 
         // this._state.start();
+        this._actionStepManager.actionsManager(0);
 
         this._animateCameraPlay(SETTINGS.idCamera[0], SETTINGS.idCameraEndAction[0]);
         this._animateCameraPlay(SETTINGS.idCamera[1], SETTINGS.idCameraEndAction[1]);

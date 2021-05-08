@@ -4,7 +4,7 @@
       "text": "Salut ! Tu tombes bien ! Tu vas pouvoir m'aider à créer une vitrerie géométrique.", 
       "duration": "5000",
       "audioSource": "assets/audios/subtitles/01_VF_Presentation_01.mp3",
-      "actionOnEnd": 0
+      "actionOnEnd": 1
     },
     {
       "id": 1,
@@ -16,114 +16,114 @@
     {
       "id": 2,
       "text": "Commence par découper le patron de chaque pièce de verre. Je te laisse le faire à la main, c'est important pour apprendre...", 
-      "duration": "5000",
+      "duration": "6000",
       "audioSource": "assets/audios/subtitles/02_VF_Etape1_01.mp3",
-      "actionOnEnd": 3
+      "actionOnEnd": 4
     },
     {
       "id": 3,
       "text": "Maintenant notre métier n'est pas si old school qu'on voudrait le laisser croire.", 
       "duration": "4000",
       "audioSource": "assets/audios/subtitles/02_VF_Etape1_02.mp3",
-      "actionOnEnd": 4
+      "actionOnEnd": 5
     },
     {
       "id": 4,
       "text": "Les nouvelles technologies sont même nos alliées !", 
       "duration": "2000",
       "audioSource": "assets/audios/subtitles/02_VF_Etape1_03.mp3",
-      "actionOnEnd": 5
+      "actionOnEnd": 6
     },
     {
       "id": 5,
       "text": "Viens par-là on va choisir le verre.", 
       "duration": "2000",
       "audioSource": "assets/audios/subtitles/03_VF_Transition_Atelier_01.mp3",
-      "actionOnEnd": 8
+      "actionOnEnd": 9
     },
     {
       "id": 6,
       "text": "J'ai préparé une préselection de nuances, tu n'auras plus qu'à choisir...", 
       "duration": "3000",
       "audioSource": "assets/audios/subtitles/04_VF_Etape_2_01.mp3",
-      "actionOnEnd": 10
+      "actionOnEnd": 11
     },
     {
       "id": 7,
       "text": "Le métier de vitrailliste est très complet, il implique des gestes manuels, de la créativité, de la technique,...", 
       "duration": "6000",
       "audioSource": "assets/audios/subtitles/04_VF_Etape_2_02.mp3",
-      "actionOnEnd": 11
+      "actionOnEnd": 12
     },
     {
       "id": 8,
       "text": "Quel dommage qu'il soit parfois présenté comme une voie de secours.", 
       "duration": "3000",
       "audioSource": "assets/audios/subtitles/04_VF_Etape_2_03.mp3",
-      "actionOnEnd": 12
+      "actionOnEnd": 13
     },
     {
       "id": 9,
       "text": "Belle harmonie  ! Voilà un morceau de verre de la couleur que tu as choisi, ça part en découpe !", 
       "duration": "5000",
       "audioSource": "assets/audios/subtitles/05_VF_Transition_Atelier_02.mp3",
-      "actionOnEnd": 15
+      "actionOnEnd": 16
     },
     {
       "id": 10,
       "text": "Je te laisse découper la partie centrale du vitrail dans le verre que tu as choisi.", 
       "duration": "3000",
       "audioSource": "assets/audios/subtitles/06_VF_Etape3_01a.mp3",
-      "actionOnEnd": 17
+      "actionOnEnd": 18
     },
     {
       "id": 11,
       "text": "Le mieux c'est de reprendre la pièce du patron correspondante et la superposer au verre.", 
       "duration": "4000",
       "audioSource": "assets/audios/subtitles/06_VF_Etape3_01b.mp3",
-      "actionOnEnd": 18
+      "actionOnEnd": 19
     },
     {
       "id": 12,
       "text": "C'est tout un métier aussi, de couper comme ça, il faut vraiment que la pièce de verre soit pile poil à la dimension du patron.", 
       "duration": "6000",
       "audioSource": "assets/audios/subtitles/06_VF_Etape3_01c.mp3",
-      "actionOnEnd": 20
+      "actionOnEnd": 21
     },
     {
       "id": 13,
       "text": "Si tu as une différence de quelques dixièmes, ben, ça ne rentre plus.", 
       "duration": "3000",
       "audioSource": "assets/audios/subtitles/06_VF_Etape3_01d.mp3",
-      "actionOnEnd": 21
+      "actionOnEnd": 22
     },
     {
       "id": 14,
       "text": "Il ne faut pas trop tarder à décrocher le verre avec la pince. Si c'est trop long, la coupe se referme !", 
       "duration": "5000",
       "audioSource": "assets/audios/subtitles/07_VF_Etape3_02.mp3",
-      "actionOnEnd": 24
+      "actionOnEnd": 25
     },
     {
       "id": 15,
       "text": "Tu peux enlever les irrégularités avec la pince à gruger pour avoir un rendu plus lisse.", 
       "duration": "4000",
       "audioSource": "assets/audios/subtitles/08_VF_Etape3_03.mp3",
-      "actionOnEnd": 26
+      "actionOnEnd": 27
     },
     {
       "id": 16,
       "text": "C'était la dernière pièce, bravo, tu peux la placer au centre.", 
       "duration": "3000",
       "audioSource": "assets/audios/subtitles/09_VF_Etape3_04.mp3",
-      "actionOnEnd": 29
+      "actionOnEnd": 30
     },
     {
       "id": 17,
       "text": "La partie la plus satisfaisante du métier c’est de voir ses créations prendre vie. Rien n'est plus beau que de donner une âme à un lieu. C'est un peu présompteux parfois mais c'est une grande responsabilité.", 
       "duration": "10000",
       "audioSource": "assets/audios/subtitles/10_VF_Mise en situation.mp3",
-      "actionOnEnd": 32
+      "actionOnEnd": 33
     },
     {
       "id": 18,
