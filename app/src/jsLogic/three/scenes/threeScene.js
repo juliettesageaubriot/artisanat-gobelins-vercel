@@ -972,7 +972,7 @@ class ThreeScene {
                     //Launch un certain son fail
                 }
 
-            } else if(this._globalStep === 2 && this._subStep === 1) {
+            } else if(this._globalStep === 2 && this._subStep === 2) {
                 console.log("2eme drag and drop")
                 //Action à faire sur le drag and drop out 
                 if(this._isOnTarget) {
