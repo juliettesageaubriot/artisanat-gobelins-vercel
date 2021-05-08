@@ -378,8 +378,8 @@ class ThreeSceneMenu {
   }
 
   _tick() {
-    this._target.x = - (this._mouse.x) * 0.00012;
-    this._target.y = - (this._mouse.y) * 0.00012;
+    this._target.x = - (this._mouse.x) * 0.00005;
+    this._target.y = - (this._mouse.y) * 0.00003;
 
     this._camera.rotation.y += (this._target.x - this._camera.rotation.y)
     this._camera.rotation.x += (this._target.y - this._camera.rotation.x) + 300
