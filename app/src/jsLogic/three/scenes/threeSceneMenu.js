@@ -1,6 +1,6 @@
 //vendors
 import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 //utils
 import bindAll from '@jsLogic/utils/bindAll';
@@ -11,6 +11,10 @@ import dataMenu from '@assets/data/content-menu.json'
 
 import { SetupMenuChaptersRaycast } from '@jsLogic/utils/menuChaptersRaycastHelper';
 import MenuHoveredManager from '@jsLogic/utils/menuHoveredManager'
+
+//shader
+import textureHoveredVertexShader from '../../../shaders/menu/texturesHovered/vertex.glsl'
+import textureHoveredFragmentShader from '../../../shaders/menu/texturesHovered/fragment.glsl'
 
 const SETTINGS = {
   enableRaycast: true,
@@ -182,6 +186,10 @@ class ThreeSceneMenu {
         }
         if ("vitrail" === child.name) {
           child.material.opacity = 0;
+          child.material = new THREE.ShaderMaterial({
+            vertexShader: textureHoveredVertexShader,
+            fragmentShader: textureHoveredFragmentShader
+          })
           child.material.transparent = true;
         }
         if ("cameraMenu_Orientation" === child.name) {
@@ -255,15 +263,15 @@ class ThreeSceneMenu {
         this._vitrailVisible.children.map((elm) => {
 
           if ("vitrailVerre" === elm.name) {
-            elm.material = new THREE.MeshBasicMaterial({ map: this._newColorTextureHover[0] })
+            // elm.material = new THREE.MeshBasicMaterial({ map: this._newColorTextureHover[0] })
           } else if ("vitrailPlomb" === elm.name) {
-            elm.material = new THREE.MeshBasicMaterial({ map: this._newColorTextureHover[1] })
+            // elm.material = new THREE.MeshBasicMaterial({ map: this._newColorTextureHover[1] })
           }
-          elm.material.needsUpdate = true;
+          // elm.material.needsUpdate = true;
         })
       } else {
-        this._currentIntersect.material = new THREE.MeshBasicMaterial({ map: this._newColorTextureHover[this.idChapterHovered.textureID] })
-        this._currentIntersect.material.needsUpdate = true;
+        // this._currentIntersect.material = new THREE.MeshBasicMaterial({ map: this._newColorTextureHover[this.idChapterHovered.textureID] })
+        // this._currentIntersect.material.needsUpdate = true;
       }
 
 
@@ -285,13 +293,13 @@ class ThreeSceneMenu {
               //Add shader texture verre
               // elm.material = new THREE.MeshBasicMaterial({ map: this._currentColorTextureHover[0] })
             } else if ("vitrailPlomb" === elm.name) {
-              elm.material = new THREE.MeshBasicMaterial({ map: this._currentColorTextureHover[1] })
+              // elm.material = new THREE.MeshBasicMaterial({ map: this._currentColorTextureHover[1] })
             }
-            elm.material.needsUpdate = true;
+            // elm.material.needsUpdate = true;
           })
         } else {
-          this._currentIntersect.material = new THREE.MeshBasicMaterial({ map: this._currentColorTextureHover[this.idChapterHovered.textureID] })
-          this._currentIntersect.material.needsUpdate = true;
+          // this._currentIntersect.material = new THREE.MeshBasicMaterial({ map: this._currentColorTextureHover[this.idChapterHovered.textureID] })
+          // this._currentIntersect.material.needsUpdate = true;
         }
 
 
