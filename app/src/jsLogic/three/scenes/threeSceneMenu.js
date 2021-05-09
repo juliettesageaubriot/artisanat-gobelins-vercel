@@ -36,7 +36,8 @@ class ThreeSceneMenu {
       '_orbitControlsHandler',
       '_mousemoveHandler',
       '_setIsReadyRaycast',
-      '_setMouseMoveTargetCamera'
+      '_setMouseMoveTargetCamera',
+      '_changeShaderTextureHovered'
     )
 
     this._canvas = canvas;
@@ -67,7 +68,8 @@ class ThreeSceneMenu {
     this._currentColorTextureHover = []
 
     this._newMaterialArray = [
-      '/assets/textures/menu/newMaterials/verre_baseColor.png',
+      // '/assets/textures/menu/newMaterials/verre_baseColor.png',
+      '',
       '/assets/textures/menu/newMaterials/plombs_baseColor.jpg',
       '/assets/textures/menu/newMaterials/collier_baseColor.jpg',
       '/assets/textures/menu/newMaterials/contreBasse_baseColor.jpg',
@@ -186,10 +188,6 @@ class ThreeSceneMenu {
         }
         if ("vitrail" === child.name) {
           child.material.opacity = 0;
-          child.material = new THREE.ShaderMaterial({
-            vertexShader: textureHoveredVertexShader,
-            fragmentShader: textureHoveredFragmentShader
-          })
           child.material.transparent = true;
         }
         if ("cameraMenu_Orientation" === child.name) {
@@ -265,12 +263,26 @@ class ThreeSceneMenu {
           if ("vitrailVerre" === elm.name) {
             // elm.material = new THREE.MeshBasicMaterial({ map: this._newColorTextureHover[0] })
           } else if ("vitrailPlomb" === elm.name) {
+            console.log('ALLLLO');
             // elm.material = new THREE.MeshBasicMaterial({ map: this._newColorTextureHover[1] })
+            elm.material = new THREE.ShaderMaterial({
+              vertexShader: textureHoveredVertexShader,
+              fragmentShader: textureHoveredFragmentShader,
+              uniforms: {
+                uTexture: { value: this._newColorTextureHover[1] }
+              }
+            })
           }
           // elm.material.needsUpdate = true;
         })
       } else {
-        // this._currentIntersect.material = new THREE.MeshBasicMaterial({ map: this._newColorTextureHover[this.idChapterHovered.textureID] })
+        this._currentIntersect.material = new THREE.ShaderMaterial({
+          vertexShader: textureHoveredVertexShader,
+          fragmentShader: textureHoveredFragmentShader,
+          uniforms: {
+            uTexture: { value: this._newColorTextureHover[this.idChapterHovered.textureID] }
+          }
+        })
         // this._currentIntersect.material.needsUpdate = true;
       }
 
@@ -292,13 +304,26 @@ class ThreeSceneMenu {
             if ("vitrailVerre" === elm.name) {
               //Add shader texture verre
               // elm.material = new THREE.MeshBasicMaterial({ map: this._currentColorTextureHover[0] })
+
             } else if ("vitrailPlomb" === elm.name) {
-              // elm.material = new THREE.MeshBasicMaterial({ map: this._currentColorTextureHover[1] })
+              elm.material = new THREE.ShaderMaterial({
+                vertexShader: textureHoveredVertexShader,
+                fragmentShader: textureHoveredFragmentShader,
+                uniforms: {
+                  uTexture: { value: this._currentColorTextureHover[1] }
+                }
+              })
             }
             // elm.material.needsUpdate = true;
           })
         } else {
-          // this._currentIntersect.material = new THREE.MeshBasicMaterial({ map: this._currentColorTextureHover[this.idChapterHovered.textureID] })
+          this._currentIntersect.material = new THREE.ShaderMaterial({
+            vertexShader: textureHoveredVertexShader,
+            fragmentShader: textureHoveredFragmentShader,
+            uniforms: {
+              uTexture: { value: this._currentColorTextureHover[this.idChapterHovered.textureID] }
+            }
+          })
           // this._currentIntersect.material.needsUpdate = true;
         }
 
@@ -338,6 +363,16 @@ class ThreeSceneMenu {
       this._currentColorTextureHover.push(this.colorTextureInstance);
     })
 
+  }
+
+  _changeShaderTextureHovered(texture) {
+    new THREE.ShaderMaterial({
+      vertexShader: textureHoveredVertexShader,
+      fragmentShader: textureHoveredFragmentShader,
+      uniforms: {
+        uTexture: { value: texture }
+      }
+    })
   }
 
   _mousemoveHandler(e) {
