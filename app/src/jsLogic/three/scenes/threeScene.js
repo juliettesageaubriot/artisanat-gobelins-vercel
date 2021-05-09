@@ -1,7 +1,12 @@
 //vendors
-import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import { DragControls } from 'three/examples/jsm/controls/DragControls.js'
+import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { DragControls } from 'three/examples/jsm/controls/DragControls.js';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
+import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass';
+import { LinearFilter } from 'three'
 import { gsap } from 'gsap';
 
 //utils
@@ -28,7 +33,6 @@ import { _glassCutOutPinceAGruger, _glassCutOutPinceAGrugerMouseDown, _glassCutO
 //mouse events
 import { _mousePointerDownHandler } from '@jsLogic/three/mouseEvents/mouseDown/onMouseDownHandler';
 import { _mousePointerUpHandler } from '@jsLogic/three/mouseEvents/mouseUp/onMouseUpHandler';
-import { Vector3 } from 'three/build/three.module';
 
 
 const SETTINGS = {
@@ -120,6 +124,39 @@ class ThreeScene {
 
         this._renderer.shadowMap.enabled = true;
         this._renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        this._renderer.setSize(window.innerwidth, window.innerHeight);
+        this._renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      
+        this._RenderTargetClass = null;
+
+        if(this._renderer.getPixelRatio() === 1 && this._renderer.capabilities.isWebGL2) {
+            this._RenderTargetClass = THREE.WebGLMultisampleRenderTarget;
+        } else {
+            this._RenderTargetClass = THREE.WebGLRenderTarget;
+        }
+
+        this._renderTarget = new this._RenderTargetClass(
+            800, 
+            600,
+            {
+                minFilter: LinearFilter,
+                magFilter: LinearFilter,
+                format: THREE.RGBAFormat,
+                encoding: THREE.sRGBEncoding
+            }
+        )
+
+        this._effectComposer = new EffectComposer(this._renderer, this._renderTarget);
+        this._effectComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        this._effectComposer.setSize(window.innerwidth, window.innerHeight);
+
+        this._renderPass = new RenderPass(this._scene, this._camera);
+        this._effectComposer.addPass(this._renderPass);
+
+        if(this._renderer.getPixelRatio() === 1 && this._renderer.capabilities.isWebGL2) {
+            this._smaaPass = new SMAAPass();
+            this._effectComposer.addPass(this._smaaPass);
+        }
 
         this._canvas.appendChild(this._renderer.domElement);
 
@@ -230,6 +267,7 @@ class ThreeScene {
 
                 } else if ("CameraAtelier1_Orientation" === child.name) {
 
+                    console.log(this._camera)
                     this._camera = child;
 
                 } else if ("artisane01" === child.name) {
@@ -336,8 +374,7 @@ class ThreeScene {
         //Action à faire au démarrage
         // this._setDragAndDropControls();
 
-        // this._state.start();
-        this._actionStepManager.actionsManager(0);
+        // this._actionStepManager.actionsManager(0);
 
         this._animateCameraPlay(SETTINGS.idCamera[0], SETTINGS.idCameraEndAction[0]);
         this._animateCameraPlay(SETTINGS.idCamera[1], SETTINGS.idCameraEndAction[1]);
@@ -477,6 +514,8 @@ class ThreeScene {
         this._camera.updateProjectionMatrix();
         this._renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         this._renderer.setSize(this._width, this._height);
+        this._effectComposer.setSize(this._width, this._height)
+        this._effectComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     }
 
     _resizeHandler() {
@@ -833,6 +872,7 @@ class ThreeScene {
             this._dragAndDropTest.update();
 
         this._renderer.render(this._scene, this._camera);
+        // this._effectComposer.render();
     }
 
     _tick() {
