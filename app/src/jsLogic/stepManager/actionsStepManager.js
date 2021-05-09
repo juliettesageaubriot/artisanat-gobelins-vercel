@@ -72,6 +72,10 @@ class ActionsStepManager {
         this._state.setNextSubtitle(index);
     }
 
+    // _setCurrentToolsArray(index) {
+    //     this._state.setToolsArray1();
+    // }
+
     _stepOne() {
         this._setCurrentSubtitle(0);
     }
@@ -94,7 +98,8 @@ class ActionsStepManager {
     _stepSeven() {
         this._UIManager.setScrollPicto(50, 50);
         this._allowedScroll = true;
-        this._state.setNewToolsArray(1);
+        this._state.setToolsArray1();
+        this._state._setCurrentStepValidation(0);
         this._toggleArtisane(1);
         this._toggleArtisane(0);
     }
@@ -128,7 +133,7 @@ class ActionsStepManager {
         this._UIManager.setDragAndDropPicto(50, 50);
        this._allowedDragAndDrop = true;
        this._toggleDragAndDrop();
-       this._state.setNewToolsArray(2);
+       this._state.setToolsArray2();
     }
     _stepFifteen() {
         //A Appeler sur la fin du drag and drop
@@ -156,7 +161,7 @@ class ActionsStepManager {
         this._UIManager.setDragAndDropPicto(50, 50);
         this._allowedDragAndDrop = true;
         this._toggleDragAndDrop();
-        this._state.setNewToolsArray(3);
+        this._state.setToolsArray3();
     }
     _stepTwentyOne() {
          //A appeler sur le succes du drag and drop

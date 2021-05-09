@@ -2,10 +2,12 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { DragControls } from 'three/examples/jsm/controls/DragControls.js';
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
-import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
-import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
+import { GlitchPass } from 'three/examples/jsm/postprocessing/GlitchPass.js';
+import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
+import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js';
 import { LinearFilter } from 'three'
 import { gsap } from 'gsap';
 
@@ -114,11 +116,11 @@ class ThreeScene {
         this._camera.position.set(0, 1, 0);
         this._scene.add(this._camera);
 
-        this._ambientLight = new THREE.AmbientLight(0xffffff, 1)
+        this._ambientLight = new THREE.AmbientLight(0xffffff, 1);
         this._scene.add(this._ambientLight);
 
         this._renderer = new THREE.WebGLRenderer({
-            //canvas: this._canvas,
+            canvas: this._canvas.current,
             antialias: true,
         });
 
@@ -152,6 +154,21 @@ class ThreeScene {
 
         this._renderPass = new RenderPass(this._scene, this._camera);
         this._effectComposer.addPass(this._renderPass);
+
+        // this._glitchPass = new GlitchPass();
+        // this._glitchPass.enabled = true;
+        // this._glitchPass.goWild = false;
+        // this._effectComposer.addPass(this._glitchPass);
+
+        this._outlinePass = new OutlinePass( new THREE.Vector2( window.innerWidth, window.innerHeight ), this._scene, this._camera );
+        this._outlinePass.pulsePeriod = 5;
+        this._outlinePass.edgeStrength = 3;
+        this._outlinePass.edgeThickness = 2;
+        this._outlinePass.edgeGlow = 1;
+        this._outlinePass.visibleEdgeColor = new THREE.Color( 0xffd700 );
+        this._outlinePass.hiddenEdgeColor = new THREE.Color( 0xffd700 );
+        this._outlinePass.enabled = true;
+        this._effectComposer.addPass( this._outlinePass );
 
         if(this._renderer.getPixelRatio() === 1 && this._renderer.capabilities.isWebGL2) {
             this._smaaPass = new SMAAPass();
@@ -199,7 +216,7 @@ class ThreeScene {
         this._setupEventListeners();
         this._resizeHandler();
         this._setEnvironmentMap();
-        this._setNewState();
+        // this._setNewState();
     }
 
     _setCameraAnimationPlay(index, actionIndex) {
@@ -269,6 +286,7 @@ class ThreeScene {
 
                     console.log(this._camera)
                     this._camera = child;
+                    this._renderPass.camera = child;
 
                 } else if ("artisane01" === child.name) {
 
@@ -343,6 +361,11 @@ class ThreeScene {
                             this._pieceDecoupe = child;
                             child.material.opacity = 0;
                             child.material.transparent = true;
+                        } else if("piece_principale" === child.name) {
+                            console.log(child)
+                            this._outlinePass.renderCamera = this._camera;
+                            this._outlinePass.selectedObjects = [child]
+                            console.log(this._outlinePass.selectedObjects)
                         }
 
 
@@ -372,7 +395,7 @@ class ThreeScene {
     _start() {
         this._createModels(this._models);
         //Action à faire au démarrage
-        // this._setDragAndDropControls();
+        //this._setDragAndDropControls();
 
         // this._actionStepManager.actionsManager(0);
 
@@ -871,8 +894,8 @@ class ThreeScene {
         if(this._dragAndDropTest) 
             this._dragAndDropTest.update();
 
-        this._renderer.render(this._scene, this._camera);
-        // this._effectComposer.render();
+        // this._renderer.render(this._scene, this._camera);
+        this._effectComposer.render();
     }
 
     _tick() {
@@ -916,10 +939,6 @@ class ThreeScene {
 
     _orbitControlsHandler() {
         this._controls.update();
-    }
-
-    _setNewState() {
-        this._state.setToolsArray1()
     }
 
     _setDragAndDropControls() {

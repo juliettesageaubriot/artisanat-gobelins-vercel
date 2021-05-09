@@ -47,8 +47,9 @@ const SingleAtelierPage = () => {
     stopSound: () => { setIsPlaying(false) },
     start: () => { setCurrentSubtitle(0); },
     setNextSubtitle: (index) => { setCurrentSubtitle(index) },
-    setToolsArray1: () => { setCurrentStepTools(data.toolsArray1) },
-    setToolsArray2: () => { setCurrentStepTools(data.toolsArray2) },
+    setToolsArray1: () => { setCurrentStepTools(data.toolsArray0) },
+    setToolsArray2: () => { setCurrentStepTools(data.toolsArray1) },
+    setToolsArray3: () => { setCurrentStepTools(data.toolsArray2) },
     setStepValidation: (index) => { setCurrentValidationStep(index) }
   }
 
