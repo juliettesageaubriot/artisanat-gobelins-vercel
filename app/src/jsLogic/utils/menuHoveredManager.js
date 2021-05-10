@@ -16,24 +16,30 @@ export default class MenuHoveredManager {
         this.currentID = 2
         this.textureID = 2
         this.soundID = 1
-        this.url = ""
+        this.url = "",
+        this.x = 1,
+        this.y = 1
         break;
 
       case "contrebasse":
         this.currentID = 3
         this.textureID = 3
         this.soundID = 2
-        this.url = ""
+        this.url = "",
+        this.x = 1,
+        this.y = 1
         break;
 
       case "chapeau":
         this.currentID = 4
         this.textureID = 4
         this.soundID = 3
-        this.url = ""
+        this.url = "",
+        this.x = 2,
+        this.y = 1
         break;
     }
 
-    return (this.currentID, this.textureID, this.soundID, this.url, this.newMaterial, this.currentMaterial);
+    return (this.currentID, this.textureID, this.soundID, this.url, this.x, this.y, this.newMaterial, this.currentMaterial);
   }
 }

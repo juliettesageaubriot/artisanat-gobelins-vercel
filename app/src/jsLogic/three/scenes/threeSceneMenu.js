@@ -16,6 +16,11 @@ import MenuHoveredManager from '@jsLogic/utils/menuHoveredManager'
 import textureHoveredVertexShader from '../../../shaders/menu/texturesHovered/vertex.glsl'
 import textureHoveredFragmentShader from '../../../shaders/menu/texturesHovered/fragment.glsl'
 
+import FresnelVertexShader from '../../../shaders/menu/light/vertex.glsl'
+import FresnelFragmentShader from '../../../shaders/menu/light/fragment.glsl'
+
+import { FresnelShader } from '@nodeModules/three/examples/jsm/shaders/FresnelShader.js';
+
 const SETTINGS = {
   enableRaycast: true,
   enableOrbitControl: false,
@@ -38,7 +43,9 @@ class ThreeSceneMenu {
       '_setIsReadyRaycast',
       '_setMouseMoveTargetCamera',
       '_setCirclePlaneSpot',
+      '_setTextureHovered',
       '_setClickUrl',
+      '_createSphereSpot'
     )
 
     this._canvas = canvas;
@@ -93,6 +100,12 @@ class ThreeSceneMenu {
     ]
 
     this._loadingManager
+
+    // Change texture
+    this._materialEnable = false
+
+    // spot freisnel shader
+    this._circle
 
     //Set the visible vitrail child
     this._vitrailVisible
@@ -150,8 +163,6 @@ class ThreeSceneMenu {
     this._setNewState();
     this._setNewAudioHovered()
     this._setIsReadyRaycast()
-    this._setCirclePlaneSpot()
-
   }
 
   _loadAssets() {
@@ -208,6 +219,7 @@ class ThreeSceneMenu {
         }
       })
     }
+    this._createSphereSpot()
   }
 
   _addToScene(object) {
@@ -269,91 +281,63 @@ class ThreeSceneMenu {
           this._previousModal.classList.add('invisible');
         }
       }
+      if (this._materialEnable === false) {
+        if (0 === this.idChapterHovered.textureID) {
 
-      if (0 === this.idChapterHovered.textureID) {
-        this._vitrailVisible.children.map((elm) => {
-          if ("vitrailVerre" === elm.name) {
-            elm.material = new THREE.ShaderMaterial({
-              vertexShader: textureHoveredVertexShader,
-              fragmentShader: textureHoveredFragmentShader,
-              transparent: true,
-              uniforms: {
-                uTexture: { value: this._newColorTextureHover[0] },
-                uOpacity: { value: 0.5 }
-              }
-            })
-            elm.material.opacity = 0
-          } else if ("vitrailPlomb" === elm.name) {
-            elm.material = new THREE.ShaderMaterial({
-              vertexShader: textureHoveredVertexShader,
-              fragmentShader: textureHoveredFragmentShader,
-              uniforms: {
-                uTexture: { value: this._newColorTextureHover[1] },
-                uOpacity: { value: 1.0 }
-              }
-            })
+          this._vitrailVisible.children.map((elm) => {
+            if ("vitrailVerre" === elm.name) {
+              elm.material = this._setTextureHovered(this._newColorTextureHover[0], 0.5)
+              elm.material.opacity = 0;
+            } else if ("vitrailPlomb" === elm.name) {
+              elm.material = this._setTextureHovered(this._newColorTextureHover[1], 1.0)
+              elm.material.needsUpdate = true;
+            }
+          })
+
+        } else {
+          if (this._materialEnable === false) {
+            this._currentIntersect.material = this._setTextureHovered(this._newColorTextureHover[this.idChapterHovered.textureID], 1.0)
+            this._currentIntersect.material.needsUpdate = true;
           }
-        })
-      } else {
-        this._currentIntersect.material = new THREE.ShaderMaterial({
-          vertexShader: textureHoveredVertexShader,
-          fragmentShader: textureHoveredFragmentShader,
-          uniforms: {
-            uTexture: { value: this._newColorTextureHover[this.idChapterHovered.textureID] },
-            uOpacity: { value: 1.0 }
-          }
-        })
+        }
+        this._setNewAudioHovered(this._soundsChaptersHoveredArray[this.idChapterHovered.soundID])
+        this._materialEnable = true
+        this._setCirclePlaneSpot(0.3, this.idChapterHovered.x, this.idChapterHovered.y, true)
+
+        //   console.log('mouse enter')
       }
 
+    } else {
+      if (this._materialEnable === true) {
 
-      this._setNewAudioHovered(this._soundsChaptersHoveredArray[this.idChapterHovered.soundID])
+        if (this._currentIntersect) {
+          //   _previousModal.log('mouse leave')
 
-      //   console.log('mouse enter')
-    }
-    else {
-      if (this._currentIntersect) {
-        //   _previousModal.log('mouse leave')
+          this._previousModal = this._currentModal;
+          this._previousObjectName = this._currentObjectName;
 
-        this._previousModal = this._currentModal;
-        this._previousObjectName = this._currentObjectName;
+          if (0 === this.idChapterHovered.textureID) {
+            this._vitrailVisible.children.map((elm) => {
 
-        if (0 === this.idChapterHovered.textureID) {
-          this._vitrailVisible.children.map((elm) => {
-
-            if ("vitrailVerre" === elm.name) {
-              elm.material = new THREE.ShaderMaterial({
-                vertexShader: textureHoveredVertexShader,
-                fragmentShader: textureHoveredFragmentShader,
-                transparent: true,
-                uniforms: {
-                  uTexture: { value: this._newColorTextureHover[0] },
-                  uOpacity: { value: 0.0 }
-                }
-              })
-            } else if ("vitrailPlomb" === elm.name) {
-              elm.material = new THREE.ShaderMaterial({
-                vertexShader: textureHoveredVertexShader,
-                fragmentShader: textureHoveredFragmentShader,
-                uniforms: {
-                  uTexture: { value: this._currentColorTextureHover[1] },
-                  uOpacity: { value: 1.0 }
-                }
-              })
+              if ("vitrailVerre" === elm.name) {
+                elm.material = this._setTextureHovered(this._newColorTextureHover[0], 0.0)
+              } else if ("vitrailPlomb" === elm.name) {
+                elm.material = this._setTextureHovered(this._currentColorTextureHover[1], 1.0)
+                elm.material.needsUpdate = true;
+              }
+            })
+          } else {
+            if (this._materialEnable === true) {
+              this._currentIntersect.material = this._setTextureHovered(this._currentColorTextureHover[this.idChapterHovered.textureID], 1.0)
+              this._currentIntersect.material.needsUpdate = true;
             }
-          })
-        } else {
-          this._currentIntersect.material = new THREE.ShaderMaterial({
-            vertexShader: textureHoveredVertexShader,
-            fragmentShader: textureHoveredFragmentShader,
-            uniforms: {
-              uTexture: { value: this._currentColorTextureHover[this.idChapterHovered.textureID] },
-              uOpacity: { value: 1.0 }
-            }
-          })
+          }
+          this._materialEnable = false
+          this._currentIntersect = null;
+          this._setCirclePlaneSpot(0, 0, 0, false);
+          document.querySelector("html").style.cursor = "initial";
+
         }
-
-        this._currentIntersect = null;
-        document.querySelector("html").style.cursor = "initial";
       }
     }
   }
@@ -389,14 +373,54 @@ class ThreeSceneMenu {
 
   }
 
-  _changeShaderTextureHovered(texture) {
-    new THREE.ShaderMaterial({
+  _createSphereSpot() {
+    this._geometrySpot = new THREE.SphereGeometry(0.5, 32, 32);
+    this._circle = new THREE.Mesh(this._geometrySpot, this._setCirclePlaneSpot(0, 0, 0, true));
+    this._scene.add(this._circle);
+    this._circle.position.set(3, 1, 1)
+    
+  }
+
+  _setCirclePlaneSpot(opacity, x, y, visible) {
+    console.log(this._circle);
+    // this._materialSpot = new THREE.ShaderMaterial({
+    //   vertexShader: FresnelVertexShader,
+    //   fragmentShader: FresnelFragmentShader,
+    //   transparent: true,
+    //   uniforms: {
+    //     baseColor: { value: new THREE.Vector3(255, 255, 255) },
+    //     fresnelColor: { value: new THREE.Vector3(255, 255, 255) },
+    //     fresnelFactor: 2,
+    //     powerOfFactor: { value: 5 },
+    //     cameraPositionModel: { value: new THREE.Vector3(0, 0, 5) },
+    //     alpha: { value: opacity },
+    //   },
+    // });
+
+    // this._materialSpot.uniformsNeedUpdate = true;
+    // this._materialSpot.needsUpdate = true;
+
+    // if(!!visible) {
+    //   this._materialSpot.dispose = false
+    // } else {
+    //   this._materialSpot.dispose = true
+    // }
+
+    // console.log(this._materialSpot);
+    // return this._materialSpot;
+  }
+
+  _setTextureHovered(texture, opacity) {
+    this._texture = new THREE.ShaderMaterial({
       vertexShader: textureHoveredVertexShader,
       fragmentShader: textureHoveredFragmentShader,
+      transparent: true,
       uniforms: {
-        uTexture: { value: texture }
+        uTexture: { value: texture },
+        uOpacity: { value: opacity }
       }
     })
+    return this._texture
   }
 
   _mousemoveHandler(e) {
@@ -451,6 +475,12 @@ class ThreeSceneMenu {
     this._camera.rotation.y += (this._target.x - this._camera.rotation.y)
     this._camera.rotation.x += (this._target.y - this._camera.rotation.x) + 300
 
+    // Fresnel animation
+    // if (!!this._circle) {
+    //   this._circle.rotation.y -= 0.015;
+    //   this._circle.rotation.x += 0.0075;
+    // }
+
     this._render();
   }
 
@@ -471,16 +501,15 @@ class ThreeSceneMenu {
     if (this._currentIntersect) {
       this._currentObjectName = this._currentIntersect.name;
       this.idChapterHovered.SetCurrentIdHovered(this._currentObjectName);
-      if(!!this.idChapterHovered.url) {
+      if (!!this.idChapterHovered.url) {
         document.location.href = this.idChapterHovered.url
       }
     }
   }
 
-
   _setEnvironmentMap() {
     const cubeTextureLoader = new THREE.CubeTextureLoader();
-    const environmentMap = cubeTextureLoader.load([
+    this._environmentMap = cubeTextureLoader.load([
       'assets/textures/environmentMaps/px.png',
       'assets/textures/environmentMaps/nx.png',
       'assets/textures/environmentMaps/py.png',
@@ -488,17 +517,11 @@ class ThreeSceneMenu {
       'assets/textures/environmentMaps/pz.png',
       'assets/textures/environmentMaps/nz.png'
     ])
-    environmentMap.encoding = THREE.sRGBEncoding;
-    this._scene.background = environmentMap;
-    this._scene.environment = environmentMap;
-  }
+    this._environmentMap.encoding = THREE.sRGBEncoding;
+    this._scene.background = this._environmentMap;
+    this._scene.environment = this._environmentMap;
 
-  _setCirclePlaneSpot() {
-    const geometry = new THREE.CircleGeometry(0.5, 32);
-    const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
-    const circle = new THREE.Mesh(geometry, material);
-    circle.position.set(2, 1, 0)
-    this._scene.add(circle);
+    return this._environmentMap;
   }
 
   _setOrbitalControls() {
