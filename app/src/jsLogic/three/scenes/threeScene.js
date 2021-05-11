@@ -181,7 +181,7 @@ class ThreeScene {
         this._isMouseDown = false;
         this._rayCaster = new THREE.Raycaster();
 
-        this._stepManager = new StepManager(0, 2);
+        this._stepManager = new StepManager(0, 1);
 
         this._breadcrumbManager = new BreadcrumbManager(true, "La découpe du tracé");
 
@@ -263,10 +263,12 @@ class ThreeScene {
                     this._vitrailGroup.add(child);
                     SetupColorPicker(child, this._colorPickerRaycastObject, this._vitrailObjects);
 
-                    this._vitrailGroup.position.set(-1.5, 1, 2.2);
-                    // this._vitrailGroup.position.set(0.5, 1, -1.5);
-                    this._vitrailGroup.rotation.set(0, Math.PI / 2, 0);
-                    this._vitrailGroup.scale.set(0.2, 0.2, 0.2);
+                    // this._vitrailGroup.position.set(-1.5, 1, 2.2);
+                    this._vitrailGroup.position.set(0, 1, -2);
+                    // this._vitrailGroup.rotation.set(0, Math.PI / 2, 0);
+                    this._vitrailGroup.rotation.set(0, Math.PI, 0);
+                    // this._vitrailGroup.scale.set(0.2, 0.2, 0.2);
+                    this._vitrailGroup.scale.set(0.5, 0.5, 0.5);
 
                 } else if ("atelier" === child.name) {
 
@@ -296,6 +298,7 @@ class ThreeScene {
 
                     this._artisanes.push(child);
                     this._toggleArtisaneOpacity("artisane02");
+                    this._toggleArtisaneOpacity("artisane01");
 
                 } else if ("feuille" === child.name) {
 
@@ -307,7 +310,7 @@ class ThreeScene {
 
                 } else if("Piece_decoupe" === child.name) {
 
-                    this._addToScene(child);
+                    // this._addToScene(child);
 
                     this._piece_decoupeAnimations = [...this._models[name].animations];
                     this._piece_decoupeAnimationsClickOne = [];
@@ -1173,6 +1176,7 @@ class ThreeScene {
         for(const artisane of this._artisanes) {
             if(artisane.name === artisaneName) {
                 artisane.material.opacity = artisane.material.opacity === 0 ? 1 : 0;
+                artisane.material.transparent = true;
             }
         } 
     }
