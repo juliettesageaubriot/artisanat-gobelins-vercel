@@ -17,8 +17,9 @@ export default class MenuHoveredManager {
         this.textureID = 2
         this.soundID = 1
         this.url = "",
-        this.x = 1,
+        this.x = 4.7,
         this.y = 1
+        this.z = 3
         break;
 
       case "contrebasse":
@@ -26,8 +27,9 @@ export default class MenuHoveredManager {
         this.textureID = 3
         this.soundID = 2
         this.url = "",
-        this.x = 1,
-        this.y = 1
+        this.x = 3.77,
+        this.y = 0.7
+        this.z = 2.2
         break;
 
       case "chapeau":
@@ -35,11 +37,12 @@ export default class MenuHoveredManager {
         this.textureID = 4
         this.soundID = 3
         this.url = "",
-        this.x = 2,
-        this.y = 1
+        this.x = 2.75,
+        this.y = 1.1
+        this.z = 1
         break;
     }
 
-    return (this.currentID, this.textureID, this.soundID, this.url, this.x, this.y, this.newMaterial, this.currentMaterial);
+    return (this.currentID, this.textureID, this.soundID, this.url, this.x, this.y, this.z, this.newMaterial, this.currentMaterial);
   }
 }

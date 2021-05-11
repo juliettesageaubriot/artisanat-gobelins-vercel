@@ -17,6 +17,5 @@ void main() {
   fresnelFactor = pow(fresnelFactor, powerOfFactor);
   inversefresnelFactor = pow(inversefresnelFactor, powerOfFactor);
   
-  gl_FragColor = vec4(fresnelColor, 0.0);
   gl_FragColor = vec4(fresnelFactor * baseColor + fresnelColor * inversefresnelFactor, alpha);
 }

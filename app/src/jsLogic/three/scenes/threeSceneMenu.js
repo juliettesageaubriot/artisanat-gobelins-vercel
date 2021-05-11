@@ -19,6 +19,8 @@ import textureHoveredFragmentShader from '../../../shaders/menu/texturesHovered/
 import FresnelVertexShader from '../../../shaders/menu/light/vertex.glsl'
 import FresnelFragmentShader from '../../../shaders/menu/light/fragment.glsl'
 
+import GodRaysFragmentShader from '../../../shaders/menu/godRays/fragment.glsl'
+
 import { FresnelShader } from '@nodeModules/three/examples/jsm/shaders/FresnelShader.js';
 
 const SETTINGS = {
@@ -42,10 +44,11 @@ class ThreeSceneMenu {
       '_mousemoveHandler',
       '_setIsReadyRaycast',
       '_setMouseMoveTargetCamera',
-      '_setCirclePlaneSpot',
+      '_setShaderSpot',
       '_setTextureHovered',
       '_setClickUrl',
-      '_createSphereSpot'
+      '_createSphereSpot',
+      '_setPositionAndVisibilitySpot'
     )
 
     this._canvas = canvas;
@@ -104,8 +107,6 @@ class ThreeSceneMenu {
     // Change texture
     this._materialEnable = false
 
-    // spot freisnel shader
-    this._circle
 
     //Set the visible vitrail child
     this._vitrailVisible
@@ -155,6 +156,10 @@ class ThreeSceneMenu {
 
     this._currentIntersect = null;
 
+    // spot freisnel shader
+    this._circle
+    this._materialSpot
+
     // this._setOrbitalControls();
     this._setupEventListeners();
     this._resizeHandler();
@@ -163,6 +168,8 @@ class ThreeSceneMenu {
     this._setNewState();
     this._setNewAudioHovered()
     this._setIsReadyRaycast()
+    this._setShaderSpot()
+    this._createSphereSpot()
   }
 
   _loadAssets() {
@@ -219,7 +226,6 @@ class ThreeSceneMenu {
         }
       })
     }
-    this._createSphereSpot()
   }
 
   _addToScene(object) {
@@ -293,17 +299,16 @@ class ThreeSceneMenu {
               elm.material.needsUpdate = true;
             }
           })
-
+          this._setPositionAndVisibilitySpot(this.idChapterHovered.x, this.idChapterHovered.y, this.idChapterHovered.z, false)
         } else {
           if (this._materialEnable === false) {
             this._currentIntersect.material = this._setTextureHovered(this._newColorTextureHover[this.idChapterHovered.textureID], 1.0)
             this._currentIntersect.material.needsUpdate = true;
+            this._setPositionAndVisibilitySpot(this.idChapterHovered.x, this.idChapterHovered.y, this.idChapterHovered.z, true)
           }
         }
         this._setNewAudioHovered(this._soundsChaptersHoveredArray[this.idChapterHovered.soundID])
         this._materialEnable = true
-        this._setCirclePlaneSpot(0.3, this.idChapterHovered.x, this.idChapterHovered.y, true)
-
         //   console.log('mouse enter')
       }
 
@@ -334,7 +339,8 @@ class ThreeSceneMenu {
           }
           this._materialEnable = false
           this._currentIntersect = null;
-          this._setCirclePlaneSpot(0, 0, 0, false);
+          // this._setShaderSpot(0.0, 0, 0, false);
+          this._setPositionAndVisibilitySpot(0, 0, 0, false)
           document.querySelector("html").style.cursor = "initial";
 
         }
@@ -373,42 +379,40 @@ class ThreeSceneMenu {
 
   }
 
+  _setPositionAndVisibilitySpot(x, y, z, visibility) {
+    this._circle.position.set(x, y, z)
+    this._circle.material.visible = visibility
+  }
+
+  _setShaderSpot() {
+    this._materialSpot = new THREE.ShaderMaterial({
+      vertexShader: FresnelVertexShader,
+      fragmentShader: FresnelFragmentShader,
+      transparent: true,
+      uniforms: {
+        baseColor: { value: new THREE.Vector3(255, 255, 255) },
+        fresnelColor: { value: new THREE.Vector3(100, 100, 100) },
+        fresnelFactor: 6, // pas touche
+        powerOfFactor: { value: 3 },
+        cameraPositionModel: { value: new THREE.Vector3(0, 0, 5) },
+        alpha: { value: 0.3 },
+        alphaTest: { value: 0.5 },
+      },
+    });
+    return this._materialSpot
+  }
+
   _createSphereSpot() {
     this._geometrySpot = new THREE.SphereGeometry(0.5, 32, 32);
-    this._circle = new THREE.Mesh(this._geometrySpot, this._setCirclePlaneSpot(0, 0, 0, true));
+    this._circle = new THREE.Mesh(this._geometrySpot, this._materialSpot);
     this._scene.add(this._circle);
+
     this._circle.position.set(3, 1, 1)
-    
+    this._circle.material.visible = false
+
+    return this._circle
   }
 
-  _setCirclePlaneSpot(opacity, x, y, visible) {
-    console.log(this._circle);
-    // this._materialSpot = new THREE.ShaderMaterial({
-    //   vertexShader: FresnelVertexShader,
-    //   fragmentShader: FresnelFragmentShader,
-    //   transparent: true,
-    //   uniforms: {
-    //     baseColor: { value: new THREE.Vector3(255, 255, 255) },
-    //     fresnelColor: { value: new THREE.Vector3(255, 255, 255) },
-    //     fresnelFactor: 2,
-    //     powerOfFactor: { value: 5 },
-    //     cameraPositionModel: { value: new THREE.Vector3(0, 0, 5) },
-    //     alpha: { value: opacity },
-    //   },
-    // });
-
-    // this._materialSpot.uniformsNeedUpdate = true;
-    // this._materialSpot.needsUpdate = true;
-
-    // if(!!visible) {
-    //   this._materialSpot.dispose = false
-    // } else {
-    //   this._materialSpot.dispose = true
-    // }
-
-    // console.log(this._materialSpot);
-    // return this._materialSpot;
-  }
 
   _setTextureHovered(texture, opacity) {
     this._texture = new THREE.ShaderMaterial({
