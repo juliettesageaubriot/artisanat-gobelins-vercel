@@ -44,11 +44,8 @@ class ThreeSceneMenu {
       '_mousemoveHandler',
       '_setIsReadyRaycast',
       '_setMouseMoveTargetCamera',
-      '_setShaderSpot',
       '_setTextureHovered',
-      '_setClickUrl',
-      '_createSphereSpot',
-      '_setPositionAndVisibilitySpot'
+      '_setClickUrl'
     )
 
     this._canvas = canvas;
@@ -73,18 +70,35 @@ class ThreeSceneMenu {
     this._violoncelleGroup = new THREE.Group;
     this._chapeauGroup = new THREE.Group;
 
-    this._chaptersTestObject = []
+    this.objectsCurrentRaycast = []
+    this.othersObjectsToChangeTexture = []
 
-    this._newColorTextureHover = []
+    this._newVitrailColorTextureHover = []
     this._currentColorTextureHover = []
 
-    this._newMaterialArray = [
-      '/assets/textures/menu/newMaterials/verre_baseColor.png',
-      '/assets/textures/menu/newMaterials/plombs_baseColor.jpg',
-      '/assets/textures/menu/newMaterials/collier_baseColor.jpg',
-      '/assets/textures/menu/newMaterials/contreBasse_baseColor.jpg',
-      '/assets/textures/menu/newMaterials/chapeau_baseColor.jpg'
+
+    this._vitrailArray = [
+      '/assets/textures/menu/newMaterials/vitrail/verre_baseColor.png',
+      '/assets/textures/menu/newMaterials/vitrail/plombs_baseColor.jpg',
+      '/assets/textures/menu/newMaterials/vitrail/collier_baseColor.jpg',
+      '/assets/textures/menu/newMaterials/vitrail/contreBasse_baseColor.jpg',
+      '/assets/textures/menu/newMaterials/vitrail/chapeau_baseColor.jpg',
+      '/assets/textures/menu/newMaterials/vitrail/sol_baseColor.jpg',
     ]
+
+    // this._newMaterialArray = [
+    //   '/assets/textures/menu/newMaterials/vitrail/verre_baseColor.png',
+    //   '/assets/textures/menu/newMaterials/vitrail/plombs_baseColor.jpg',
+
+    //   '/assets/textures/menu/newMaterials/collier/collier_baseColor.jpg',
+
+    //   '/assets/textures/menu/newMaterials/contrebasse/contreBasse_baseColor.jpg',
+
+    //   '/assets/textures/menu/newMaterials/chapeau/chapeau_baseColor.jpg',
+
+    // ]
+
+
 
     this._currentMaterialArray = [
       // '/assets/textures/menu/currentMaterials/vitrail_baseColor.jpg',
@@ -92,7 +106,8 @@ class ThreeSceneMenu {
       '/assets/textures/menu/currentMaterials/plombs_baseColor.png',
       '/assets/textures/menu/currentMaterials/collier_baseColor.jpg',
       '/assets/textures/menu/currentMaterials/contreBasse_baseColor.jpg',
-      '/assets/textures/menu/currentMaterials/chapeau_baseColor.jpg'
+      '/assets/textures/menu/currentMaterials/chapeau_baseColor.jpg',
+      '/assets/textures/menu/currentMaterials/sol_baseColor.jpg'
     ]
 
     this._soundsChaptersHoveredArray = [
@@ -107,6 +122,13 @@ class ThreeSceneMenu {
     // Change texture
     this._materialEnable = false
 
+    // chaque model
+    this._verreElm
+    this._plombElm
+    this._chapeauElm
+    this._contreBasseElm
+    this._collierElm
+    this._structureElm
 
     //Set the visible vitrail child
     this._vitrailVisible
@@ -168,8 +190,6 @@ class ThreeSceneMenu {
     this._setNewState();
     this._setNewAudioHovered()
     this._setIsReadyRaycast()
-    this._setShaderSpot()
-    this._createSphereSpot()
   }
 
   _loadAssets() {
@@ -198,8 +218,25 @@ class ThreeSceneMenu {
 
         if ("menu" === child.name) {
           this._addToScene(child)
-          SetupMenuChaptersRaycast(child, this._chaptersTestObject)
+          SetupMenuChaptersRaycast(child, this.objectsCurrentRaycast)
           this.idChapterHovered = new MenuHoveredManager(0);
+
+          child.children.map((elm) => {
+            switch (elm.name) {
+              case 'collier':
+                this._collierElm = elm
+                break;
+              case 'contrebasse':
+                this._contreBasseElm = elm
+                break;
+              case 'chapeau':
+                this._chapeauElm = elm
+                break;
+              case 'structure':
+                this._structureElm = elm
+                break;
+            }
+          })
         }
         if ("vitrailVisible" === child.name) {
           this._vitrailVisible = child;
@@ -210,7 +247,7 @@ class ThreeSceneMenu {
                 fragmentShader: textureHoveredFragmentShader,
                 transparent: true,
                 uniforms: {
-                  uTexture: { value: this._newColorTextureHover[0] },
+                  uTexture: { value: this._newVitrailColorTextureHover[0] },
                   uOpacity: { value: 0.0 }
                 }
               })
@@ -235,6 +272,7 @@ class ThreeSceneMenu {
   _start() {
     this._createModels(this._models);
     //Action à faire au démarrage
+    console.log(this._collierElm);
   }
 
   _rayCast(e) {
@@ -246,7 +284,7 @@ class ThreeSceneMenu {
 
     this._rayCaster.setFromCamera(this._mouse, this._camera);
 
-    let intersects = this._rayCaster.intersectObjects(this._chaptersTestObject, false);
+    let intersects = this._rayCaster.intersectObjects(this.objectsCurrentRaycast, false);
 
     this.rayCastHandler(intersects);
   }
@@ -259,7 +297,6 @@ class ThreeSceneMenu {
 
     this._currentObjectName
     this._previousObjectName
-
 
     if (intersects[0]) {
       this._object = intersects[0].object;
@@ -287,26 +324,50 @@ class ThreeSceneMenu {
           this._previousModal.classList.add('invisible');
         }
       }
-      if (this._materialEnable === false) {
-        if (0 === this.idChapterHovered.textureID) {
 
-          this._vitrailVisible.children.map((elm) => {
-            if ("vitrailVerre" === elm.name) {
-              elm.material = this._setTextureHovered(this._newColorTextureHover[0], 0.5)
-              elm.material.opacity = 0;
-            } else if ("vitrailPlomb" === elm.name) {
-              elm.material = this._setTextureHovered(this._newColorTextureHover[1], 1.0)
-              elm.material.needsUpdate = true;
-            }
-          })
-          this._setPositionAndVisibilitySpot(this.idChapterHovered.x, this.idChapterHovered.y, this.idChapterHovered.z, false)
-        } else {
-          if (this._materialEnable === false) {
-            this._currentIntersect.material = this._setTextureHovered(this._newColorTextureHover[this.idChapterHovered.textureID], 1.0)
-            this._currentIntersect.material.needsUpdate = true;
-            this._setPositionAndVisibilitySpot(this.idChapterHovered.x, this.idChapterHovered.y, this.idChapterHovered.z, true)
-          }
+      if (this._materialEnable === false) {
+
+        switch (this.idChapterHovered.textureID) {
+          case 0:
+            this._vitrailVisible.children.map((elm) => {
+              if ("vitrailVerre" === elm.name) {
+                elm.material = this._setTextureHovered(this._newVitrailColorTextureHover[0], 0.5)
+                elm.material.opacity = 0;
+              } else if ("vitrailPlomb" === elm.name) {
+                elm.material = this._setTextureHovered(this._newVitrailColorTextureHover[1], 1.0)
+                elm.material.needsUpdate = true;
+              }
+            })
+            this._collierElm.material = this._setTextureHovered(this._newVitrailColorTextureHover[2], 1.0)
+            this._contreBasseElm.material = this._setTextureHovered(this._newVitrailColorTextureHover[3], 1.0)
+            this._chapeauElm.material = this._setTextureHovered(this._newVitrailColorTextureHover[4], 1.0)
+            this._structureElm.material = this._setTextureHovered(this._newVitrailColorTextureHover[5], 1.0)
+            break;
         }
+
+        // if (0 === this.idChapterHovered.textureID) {
+        //   this._vitrailVisible.children.map((elm) => {
+        //     if ("vitrailVerre" === elm.name) {
+        // elm.material = this._setTextureHovered(this._newVitrailColorTextureHover[0], 0.5)
+        // elm.material.opacity = 0;
+        //     } else if ("vitrailPlomb" === elm.name) {
+        // elm.material = this._setTextureHovered(this._newVitrailColorTextureHover[1], 1.0)
+        // elm.material.needsUpdate = true;
+        //     }
+        //   })
+        // this._collierElm.material = this._setTextureHovered(this._newVitrailColorTextureHover[2], 1.0)
+        // this._contreBasseElm.material = this._setTextureHovered(this._newVitrailColorTextureHover[3], 1.0)
+        // this._chapeauElm.material = this._setTextureHovered(this._newVitrailColorTextureHover[4], 1.0)
+        // this._structureElm.material = this._setTextureHovered(this._newVitrailColorTextureHover[5], 1.0)
+
+        //   // this._setPositionAndVisibilitySpot(this.idChapterHovered.x, this.idChapterHovered.y, this.idChapterHovered.z, false)
+        // } else {
+        //   if (this._materialEnable === false) {
+        //     this._currentIntersect.material = this._setTextureHovered(this._newVitrailColorTextureHover[this.idChapterHovered.textureID], 1.0)
+        //     this._currentIntersect.material.needsUpdate = true;
+        //     // this._setPositionAndVisibilitySpot(this.idChapterHovered.x, this.idChapterHovered.y, this.idChapterHovered.z, true)
+        //   }
+        // }
         this._setNewAudioHovered(this._soundsChaptersHoveredArray[this.idChapterHovered.soundID])
         this._materialEnable = true
         //   console.log('mouse enter')
@@ -316,32 +377,55 @@ class ThreeSceneMenu {
       if (this._materialEnable === true) {
 
         if (this._currentIntersect) {
-          //   _previousModal.log('mouse leave')
 
           this._previousModal = this._currentModal;
           this._previousObjectName = this._currentObjectName;
-
-          if (0 === this.idChapterHovered.textureID) {
-            this._vitrailVisible.children.map((elm) => {
-
-              if ("vitrailVerre" === elm.name) {
-                elm.material = this._setTextureHovered(this._newColorTextureHover[0], 0.0)
-              } else if ("vitrailPlomb" === elm.name) {
-                elm.material = this._setTextureHovered(this._currentColorTextureHover[1], 1.0)
-                elm.material.needsUpdate = true;
-              }
-            })
-          } else {
-            if (this._materialEnable === true) {
-              this._currentIntersect.material = this._setTextureHovered(this._currentColorTextureHover[this.idChapterHovered.textureID], 1.0)
-              this._currentIntersect.material.needsUpdate = true;
+          if (this._materialEnable === true) {
+            switch (this.idChapterHovered.textureID) {
+              case 0:
+                this._vitrailVisible.children.map((elm) => {
+                  if ("vitrailVerre" === elm.name) {
+                    elm.material = this._setTextureHovered(this._currentColorTextureHover[0], 0.0)
+                    elm.material.opacity = 0;
+                  } else if ("vitrailPlomb" === elm.name) {
+                    elm.material = this._setTextureHovered(this._currentColorTextureHover[1], 1.0)
+                    elm.material.needsUpdate = true;
+                  }
+                })
+                this._collierElm.material = this._setTextureHovered(this._currentColorTextureHover[2], 1.0)
+                this._contreBasseElm.material = this._setTextureHovered(this._currentColorTextureHover[3], 1.0)
+                this._chapeauElm.material = this._setTextureHovered(this._currentColorTextureHover[4], 1.0)
+                this._structureElm.material = this._setTextureHovered(this._currentColorTextureHover[5], 1.0)
+                break;
             }
+
+            this._currentIntersect.material.needsUpdate = true;
+            this._materialEnable = false
+            this._currentIntersect = null;
+            document.querySelector("html").style.cursor = "initial";
           }
-          this._materialEnable = false
-          this._currentIntersect = null;
-          // this._setShaderSpot(0.0, 0, 0, false);
-          this._setPositionAndVisibilitySpot(0, 0, 0, false)
-          document.querySelector("html").style.cursor = "initial";
+
+          //   //   _previousModal.log('mouse leave')
+
+          //   if (0 === this.idChapterHovered.textureID) {
+          //     this._vitrailVisible.children.map((elm) => {
+
+          //       if ("vitrailVerre" === elm.name) {
+          //         elm.material = this._setTextureHovered(this._newVitrailColorTextureHover[0], 0.0)
+          //       } else if ("vitrailPlomb" === elm.name) {
+          //         elm.material = this._setTextureHovered(this._currentColorTextureHover[1], 1.0)
+          //         elm.material.needsUpdate = true;
+          //       }
+          //     })
+          //   } else {
+          //     if (this._materialEnable === true) {
+          //       this._currentIntersect.material = this._setTextureHovered(this._currentColorTextureHover[this.idChapterHovered.textureID], 1.0)
+          //       this._currentIntersect.material.needsUpdate = true;
+          //     }
+          //   }
+          //   // this._setShaderSpot(0.0, 0, 0, false);
+          //   // this._setPositionAndVisibilitySpot(0, 0, 0, false)
+          //   
 
         }
       }
@@ -353,7 +437,7 @@ class ThreeSceneMenu {
     this._loadingManager = new THREE.LoadingManager()
     this._textureLoader = new THREE.TextureLoader(this._loadingManager)
 
-    this._newMaterialArray.map((url) => {
+    this._vitrailArray.map((url) => {
       this.colorTextureInstance = this._textureLoader.load(url);
 
       this.colorTextureInstance.wrapS = THREE.RepeatWrapping;
@@ -362,7 +446,7 @@ class ThreeSceneMenu {
       this.colorTextureInstance.flipX = false;
       this.colorTextureInstance.encoding = THREE.sRGBEncoding;
 
-      this._newColorTextureHover.push(this.colorTextureInstance);
+      this._newVitrailColorTextureHover.push(this.colorTextureInstance);
     })
 
     this._currentMaterialArray.map((url) => {
@@ -378,41 +462,6 @@ class ThreeSceneMenu {
     })
 
   }
-
-  _setPositionAndVisibilitySpot(x, y, z, visibility) {
-    this._circle.position.set(x, y, z)
-    this._circle.material.visible = visibility
-  }
-
-  _setShaderSpot() {
-    this._materialSpot = new THREE.ShaderMaterial({
-      vertexShader: FresnelVertexShader,
-      fragmentShader: FresnelFragmentShader,
-      transparent: true,
-      uniforms: {
-        baseColor: { value: new THREE.Vector3(255, 255, 255) },
-        fresnelColor: { value: new THREE.Vector3(100, 100, 100) },
-        fresnelFactor: 6, // pas touche
-        powerOfFactor: { value: 3 },
-        cameraPositionModel: { value: new THREE.Vector3(0, 0, 5) },
-        alpha: { value: 0.3 },
-        alphaTest: { value: 0.5 },
-      },
-    });
-    return this._materialSpot
-  }
-
-  _createSphereSpot() {
-    this._geometrySpot = new THREE.SphereGeometry(0.5, 32, 32);
-    this._circle = new THREE.Mesh(this._geometrySpot, this._materialSpot);
-    this._scene.add(this._circle);
-
-    this._circle.position.set(3, 1, 1)
-    this._circle.material.visible = false
-
-    return this._circle
-  }
-
 
   _setTextureHovered(texture, opacity) {
     this._texture = new THREE.ShaderMaterial({
