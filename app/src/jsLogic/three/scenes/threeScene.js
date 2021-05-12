@@ -233,6 +233,18 @@ class ThreeScene {
         this.cameraManager.ReverseAnimation(index)
     }
 
+    _setfeuilleLeveAnimationPlay(index, actionIndex) {
+        if (index === "none") return;
+        
+        this._feuilleAnimations.map((animations, index) => {
+            this.feuilleLeveAnimator.playClipByIndex(index);
+        })
+        this.feuilleLeveAnimator.mixer.addEventListener("finished", () => {
+            if(actionIndex === "none") return;
+            this._actionStepManager.actionsManager(actionIndex);
+        });
+    }
+
     _loadAssets() {
         this._loader = new AssetsLoader();
         this._loader.loadAssets().then(this._assetsLoadedHandler);
@@ -397,7 +409,7 @@ class ThreeScene {
         //Action à faire au démarrage
         //this._setDragAndDropControls();
 
-        // this._actionStepManager.actionsManager(0);
+        this._actionStepManager.actionsManager(0);
 
         this._animateCameraPlay(SETTINGS.idCamera[0], SETTINGS.idCameraEndAction[0]);
         this._animateCameraPlay(SETTINGS.idCamera[1], SETTINGS.idCameraEndAction[1]);

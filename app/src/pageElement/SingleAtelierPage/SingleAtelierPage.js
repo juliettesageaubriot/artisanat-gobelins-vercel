@@ -93,7 +93,7 @@ const SingleAtelierPage = () => {
       <section>
         {subtitleItems}
         {stepValidationItems}
-        {/* <TheAudioSnippet sound_url={"assets/audios/test_song.mp3"} play/> */}
+        <TheAudioSnippet sound_url={"assets/audios/atelier/main_musique_atelier.mp3"} play loop specificVolume={0.2}/>
         <button style={{ position: "absolute", right: "0" }} onClick={handleAudio0}>Audio 0</button>
         <button style={{ position: "absolute", right: "70px" }} onClick={handleAudio1}>Audio 1</button>
         <TheLoader />
