@@ -18,7 +18,7 @@ export default class MenuHoveredManager {
 
       case "collier":
         this.currentID = 2
-        this.textureID = 2
+        this.textureID = 1
         this.soundID = 1
         this.url = ""
 
@@ -29,7 +29,7 @@ export default class MenuHoveredManager {
 
       case "contrebasse":
         this.currentID = 3
-        this.textureID = 3
+        this.textureID = 2
         this.soundID = 2
         this.url = ""
 
@@ -40,7 +40,7 @@ export default class MenuHoveredManager {
 
       case "chapeau":
         this.currentID = 4
-        this.textureID = 4
+        this.textureID = 3
         this.soundID = 3
         this.url = ""
 
