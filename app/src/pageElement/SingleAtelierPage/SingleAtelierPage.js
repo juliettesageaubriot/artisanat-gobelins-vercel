@@ -59,14 +59,6 @@ const SingleAtelierPage = () => {
     setCurrentStepTools(data.toolsArray0);
   }, [])
 
-  const handleAudio0 = () => {
-    setCurrentSubtitle(0);
-    // console.log(currentSubtitle)
-  }
-  const handleAudio1 = () => {
-    setCurrentSubtitle(1);
-    // console.log(currentSubtitle)
-  }
 
   const subtitleItems = audioDatas.map((elm, index) => {
     return <TheSubTitle
@@ -94,8 +86,6 @@ const SingleAtelierPage = () => {
         {subtitleItems}
         {stepValidationItems}
         <TheAudioSnippet sound_url={"assets/audios/atelier/main_musique_atelier.mp3"} play loop specificVolume={0.2}/>
-        <button style={{ position: "absolute", right: "0" }} onClick={handleAudio0}>Audio 0</button>
-        <button style={{ position: "absolute", right: "70px" }} onClick={handleAudio1}>Audio 1</button>
         <TheLoader />
         <TheBreadcrumb
         // isShowing={isShowingBreadcrumb} hide={toggle}

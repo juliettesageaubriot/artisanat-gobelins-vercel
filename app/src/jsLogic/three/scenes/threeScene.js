@@ -409,7 +409,7 @@ class ThreeScene {
         //Action à faire au démarrage
         //this._setDragAndDropControls();
 
-        this._actionStepManager.actionsManager(0);
+        // this._actionStepManager.actionsManager(0);
 
         this._animateCameraPlay(SETTINGS.idCamera[0], SETTINGS.idCameraEndAction[0]);
         this._animateCameraPlay(SETTINGS.idCamera[1], SETTINGS.idCameraEndAction[1]);
