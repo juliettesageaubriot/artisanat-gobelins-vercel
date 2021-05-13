@@ -44,7 +44,8 @@ class ThreeSceneMenu {
       '_setTextureVitrail',
       '_setTextureContrebasse',
       '_setTextureChapeau',
-      '_setTextureCollier'
+      '_setTextureCollier',
+      '_setMouseScss',
     )
 
     this._canvas = canvas;
@@ -302,8 +303,6 @@ class ThreeSceneMenu {
 
       this._increase = true
 
-      document.querySelector("html").style.cursor = "pointer";
-
       this._currentObjectName = this._currentIntersect.name;
       this.idChapterHovered.SetCurrentIdHovered(this._currentObjectName);
 
@@ -325,6 +324,7 @@ class ThreeSceneMenu {
             this._contreBasseElm.material = this._setTextureContrebasse(this._currentTexture[2], this._newVitrailColorTextureHover[2], 1.0)
             this._chapeauElm.material = this._setTextureChapeau(this._currentTexture[3], this._newVitrailColorTextureHover[3], 1.0)
             this._structureElm.material = this._setTextureStructure(this._currentTexture[4], this._newVitrailColorTextureHover[4], 1.0)
+            this._setMouseScss(true, false)
             break;
           case 1:
             this._vitrailElm.material = this._setTextureVitrail(this._currentTexture[0], this._newCollierColorTextureHover[0], 1.0)
@@ -332,6 +332,7 @@ class ThreeSceneMenu {
             this._contreBasseElm.material = this._setTextureContrebasse(this._currentTexture[2], this._newCollierColorTextureHover[2], 1.0)
             this._chapeauElm.material = this._setTextureChapeau(this._currentTexture[3], this._newCollierColorTextureHover[3], 1.0)
             this._structureElm.material = this._setTextureStructure(this._currentTexture[4], this._newCollierColorTextureHover[4], 1.0)
+            this._setMouseScss(false, true)
             break;
           case 2:
             this._vitrailElm.material = this._setTextureVitrail(this._currentTexture[0], this._newContrebasseColorTextureHover[0], 1.0)
@@ -339,6 +340,7 @@ class ThreeSceneMenu {
             this._contreBasseElm.material = this._setTextureContrebasse(this._currentTexture[2], this._newContrebasseColorTextureHover[2], 1.0)
             this._chapeauElm.material = this._setTextureChapeau(this._currentTexture[3], this._newContrebasseColorTextureHover[3], 1.0)
             this._structureElm.material = this._setTextureStructure(this._currentTexture[4], this._newContrebasseColorTextureHover[4], 1.0)
+            this._setMouseScss(false, true)
             break;
           case 3:
             this._vitrailElm.material = this._setTextureVitrail(this._currentTexture[0], this._newChapeauColorTextureHover[0], 1.0)
@@ -346,6 +348,7 @@ class ThreeSceneMenu {
             this._contreBasseElm.material = this._setTextureContrebasse(this._currentTexture[2], this._newChapeauColorTextureHover[2], 1.0)
             this._chapeauElm.material = this._setTextureChapeau(this._currentTexture[3], this._newChapeauColorTextureHover[3], 1.0)
             this._structureElm.material = this._setTextureStructure(this._currentTexture[4], this._newChapeauColorTextureHover[4], 1.0)
+            this._setMouseScss(false, true)
             break;
         }
         this._setNewAudioHovered(this._soundsChaptersHoveredArray[this.idChapterHovered.soundID])
@@ -368,7 +371,8 @@ class ThreeSceneMenu {
             this._materialEnable = false
             this._currentIntersect = null;
             this._increase = false
-            document.querySelector("html").style.cursor = "initial";
+            document.querySelector("html").style.cursor = "url('/assets/images/ui/cursor/cursor.svg') 0 0, auto";
+            // this._removeInactifMouse()
           }
         }
       }
@@ -671,6 +675,14 @@ class ThreeSceneMenu {
     this._mouse.y = (event.clientY - this._windowHalf.y);
   }
 
+  _setMouseScss(active, inactif) {
+    const cursor = document.querySelector("html");
+    if (active === true) {
+      cursor.style.cursor = "url('/assets/images/ui/cursor/cursor.svg') 0 0, auto";
+    } else if (inactif === true) {
+      cursor.style.cursor = "url('/assets/images/ui/cursor/cursor-inactif.svg') 0 0, auto";
+    }
+  }
 }
 
 export default ThreeSceneMenu;

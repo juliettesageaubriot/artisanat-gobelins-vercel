@@ -15,6 +15,7 @@ html {
     overflow: hidden;
     // background-color: $color-html;
     scroll-behavior: smooth;
+    cursor: url("/assets/images/ui/cursor/cursor.svg") 0 0, auto;
     .skip-main {
       position: absolute;
       top: -1000px;
