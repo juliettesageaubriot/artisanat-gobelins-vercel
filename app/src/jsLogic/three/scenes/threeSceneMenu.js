@@ -270,12 +270,6 @@ class ThreeSceneMenu {
   _start() {
     this._createModels(this._models);
     //Action à faire au démarrage
-
-    // console.log('vitrail', this._newVitrailColorTextureHover)
-    // console.log('chapeau', this._newChapeauColorTextureHover)
-    // console.log('collier', this._newCollierColorTextureHover)
-    // console.log('contrebasse', this._newContrebasseColorTextureHover)
-
   }
 
   _rayCast(e) {
@@ -318,16 +312,8 @@ class ThreeSceneMenu {
       this._idModal = 'modal-menu-' + this._modal.current;
       this._currentModal = document.getElementById(this._idModal);
 
-      // if(!!this._currentModal) return;
       if (this._currentModal) {
         this._currentModal.classList.remove('invisible');
-      }
-
-
-      if (this._currentModal !== this._previousModal) {
-        if (this._previousModal) {
-          this._previousModal.classList.add('invisible');
-        }
       }
 
       if (this._materialEnable === false) {
@@ -371,10 +357,14 @@ class ThreeSceneMenu {
       if (this._materialEnable === true) {
 
         if (this._currentIntersect) {
-          this._previousModal = this._currentModal;
-          this._previousObjectName = this._currentObjectName;
+          if (this._currentModal) {
+            this._currentModal.classList.add('invisible');
+          }
+          // this._previousModal = this._currentModal;
+          // this._previousObjectName = this._currentObjectName;
           if (this._materialEnable === true) {
             this._currentIntersect.material.needsUpdate = true;
+
             this._materialEnable = false
             this._currentIntersect = null;
             this._increase = false
@@ -585,26 +575,26 @@ class ThreeSceneMenu {
 
 
     // if (this._textureShaderStructure || this._textureShaderVitrail || this._textureShaderCollier || this._textureShaderContrebasse || this._textureShaderChapeau) {
-      // this._textureShader.uniforms.uTime.value = time / 1000;
+    // this._textureShader.uniforms.uTime.value = time / 1000;
 
 
-      if (this._increase === true) {
-        if (this._progress < 1) {
-          this._progress += 0.05;
-        }
-      } else if (this._increase === false) {
-        if (this._progress > 0) {
-          this._progress -= 0.05;
-        }
+    if (this._increase === true) {
+      if (this._progress < 1) {
+        this._progress += 0.05;
       }
-      if (this._progress) {
-        if (this._textureShaderStructure) this._textureShaderStructure.uniforms.progress.value = this._progress;
-        if (this._textureShaderVitrail) this._textureShaderVitrail.uniforms.progress.value = this._progress
-        if (this._textureShaderCollier) this._textureShaderCollier.uniforms.progress.value = this._progress
-        if (this._textureShaderContrebasse) this._textureShaderContrebasse.uniforms.progress.value = this._progress
-        if (this._textureShaderChapeau) this._textureShaderChapeau.uniforms.progress.value = this._progress
-
+    } else if (this._increase === false) {
+      if (this._progress > 0) {
+        this._progress -= 0.05;
       }
+    }
+    if (this._progress) {
+      if (this._textureShaderStructure) this._textureShaderStructure.uniforms.progress.value = this._progress;
+      if (this._textureShaderVitrail) this._textureShaderVitrail.uniforms.progress.value = this._progress
+      if (this._textureShaderCollier) this._textureShaderCollier.uniforms.progress.value = this._progress
+      if (this._textureShaderContrebasse) this._textureShaderContrebasse.uniforms.progress.value = this._progress
+      if (this._textureShaderChapeau) this._textureShaderChapeau.uniforms.progress.value = this._progress
+
+    }
     // }
     this._render();
   }

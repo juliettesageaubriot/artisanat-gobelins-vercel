@@ -10,10 +10,6 @@ export default class MenuHoveredManager {
         this.textureID = 0
         this.soundID = 0
         this.url = "/single-ateliers"
-
-        this._contreBasseTexture = 0
-        this._chapeauTexture = 0
-        this._collierTexture = 0
         break;
 
       case "collier":
@@ -21,10 +17,6 @@ export default class MenuHoveredManager {
         this.textureID = 1
         this.soundID = 1
         this.url = ""
-
-        this._vitrailTexture = 0
-        this._contreBasseTexture = 0
-        this._chapeauTexture = 0
         break;
 
       case "contrebasse":
@@ -32,10 +24,6 @@ export default class MenuHoveredManager {
         this.textureID = 2
         this.soundID = 2
         this.url = ""
-
-        this._vitrailTexture = 0
-        this._chapeauTexture = 0
-        this._collierTexture = 0
         break;
 
       case "chapeau":
@@ -43,13 +31,9 @@ export default class MenuHoveredManager {
         this.textureID = 3
         this.soundID = 3
         this.url = ""
-
-        this._vitrailTexture = 0
-        this._contreBasseTexture = 0
-        this._collierTexture = 0
         break;
     }
 
-    return (this.currentID, this.textureID, this.soundID, this.url, this.x, this.y, this.z, this.newMaterial, this.currentMaterial);
+    return (this.currentID, this.textureID, this.soundID, this.url);
   }
 }

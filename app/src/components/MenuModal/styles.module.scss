@@ -6,11 +6,11 @@
     // top: 60%;
     // left: 90%;
     transform: translate(-50%, -50%);
-    max-width: 230px;
+    max-width: 240px;
     width: 100%;
     padding: 20px 20px 30px 20px;
-    background-image: url("/assets/images/ui/modal-menu/background.png");
-    background-repeat: round;
+    // background-image: url("/assets/images/ui/modal-menu/background.png");
+    // background-repeat: round;
 
     @for $i from 0 through 100 {
       &[data-left="#{$i}"] {
@@ -56,44 +56,33 @@
           }
         }
         .episode {
+          font-family: 'OpenSansBold';
           font-weight: $ft-bold;
         }
       }
+
+      .disponible {
+        font-size: 13px;
+        margin-top: 5px;
+      }
+
       .content {
         display: flex;
         flex-flow: row wrap;
         align-items: center;
         justify-content: center;
         width: 100%;
-        margin-top: 20px;
         h1 {
-          font-family: $font-title;
-          font-size: 25px;
+          font-family: 'CirkaBold';
+          font-size: 30px;
           font-weight: $ft-light;
           margin-bottom: 5px;
         }
         span {
-          font-size: 16px;
+          font-size: 18px;
           font-family: $font-title;
           font-weight: $ft-light;
           text-align: center;
-        }
-      }
-      .bottom {
-        display: flex;
-        flex-flow: row wrap;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        margin-top: 30px;
-        a {
-          span {
-            font-size: 13px;
-          }
-        }
-        .disponible {
-          font-size: 12px;
-          margin-top: 5px;
         }
       }
     }
