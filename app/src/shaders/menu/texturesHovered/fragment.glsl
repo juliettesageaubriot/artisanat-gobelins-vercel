@@ -12,7 +12,7 @@ void main() {
   vec3 img2 = texture2D(uTexture2, vUv).xyz;
 
   vec3 color = mix(img1, img2, progress);
-  gl_FragColor = vec4(color, 1.0);
+  gl_FragColor = vec4(color, uOpacity);
 
   // vec4 textureColor = texture2D(uTexture1, vUv);
   // gl_FragColor = textureColor;

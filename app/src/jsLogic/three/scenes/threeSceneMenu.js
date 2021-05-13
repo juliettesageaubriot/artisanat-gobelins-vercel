@@ -41,8 +41,7 @@ class ThreeSceneMenu {
       '_setMouseMoveTargetCamera',
       '_setClickUrl',
       '_setTextureStructure',
-      '_setTextureVerre',
-      '_setTexturePlombs',
+      '_setTextureVitrail',
       '_setTextureContrebasse',
       '_setTextureChapeau',
       '_setTextureCollier'
@@ -82,8 +81,7 @@ class ThreeSceneMenu {
     this._newContrebasseColorTextureHover = []
 
     this._vitrailArray = [
-      '/assets/textures/menu/newMaterials/vitrail/verre_baseColor.png',
-      '/assets/textures/menu/newMaterials/vitrail/plombs_baseColor.jpg',
+      '/assets/textures/menu/newMaterials/vitrail/vitrail_baseColor.jpg',
       '/assets/textures/menu/newMaterials/vitrail/collier_baseColor.jpg',
       '/assets/textures/menu/newMaterials/vitrail/contreBasse_baseColor.jpg',
       '/assets/textures/menu/newMaterials/vitrail/chapeau_baseColor.jpg',
@@ -91,6 +89,7 @@ class ThreeSceneMenu {
     ]
 
     this._collierArray = [
+      '/assets/textures/menu/newMaterials/collier/vitrail_baseColor.jpg',
       '/assets/textures/menu/newMaterials/collier/collier_baseColor.jpg',
       '/assets/textures/menu/newMaterials/collier/contreBasse_baseColor.jpg',
       '/assets/textures/menu/newMaterials/collier/chapeau_baseColor.jpg',
@@ -98,6 +97,7 @@ class ThreeSceneMenu {
     ]
 
     this._chapeauArray = [
+      '/assets/textures/menu/newMaterials/chapeau/vitrail_baseColor.jpg',
       '/assets/textures/menu/newMaterials/chapeau/collier_baseColor.jpg',
       '/assets/textures/menu/newMaterials/chapeau/contreBasse_baseColor.jpg',
       '/assets/textures/menu/newMaterials/chapeau/chapeau_baseColor.jpg',
@@ -105,6 +105,7 @@ class ThreeSceneMenu {
     ]
 
     this._contrebasseArray = [
+      '/assets/textures/menu/newMaterials/contrebasse/vitrail_baseColor.jpg',
       '/assets/textures/menu/newMaterials/contrebasse/collier_baseColor.jpg',
       '/assets/textures/menu/newMaterials/contrebasse/contreBasse_baseColor.jpg',
       '/assets/textures/menu/newMaterials/contrebasse/chapeau_baseColor.jpg',
@@ -112,9 +113,7 @@ class ThreeSceneMenu {
     ]
 
     this._currentMaterialArray = [
-      // '/assets/textures/menu/currentMaterials/vitrail_baseColor.jpg',
-      '',
-      '/assets/textures/menu/currentMaterials/plombs_baseColor.png',
+      '/assets/textures/menu/currentMaterials/vitrail_baseColor.jpg',
       '/assets/textures/menu/currentMaterials/collier_baseColor.jpg',
       '/assets/textures/menu/currentMaterials/contreBasse_baseColor.jpg',
       '/assets/textures/menu/currentMaterials/chapeau_baseColor.jpg',
@@ -127,12 +126,6 @@ class ThreeSceneMenu {
       'assets/audios/menu/chapters/luthier.mp3',
       'assets/audios/menu/chapters/chapelier.mp3',
     ]
-
-    // this._textureShaderStructure
-    // this._textureShaderVitrail
-    // this._textureShaderCollier
-    // this._textureShaderContrebasse
-    // this._textureShaderChapeau
 
     this._progress = 0
     this._increase
@@ -241,9 +234,13 @@ class ThreeSceneMenu {
           this._addToScene(child)
           SetupMenuChaptersRaycast(child, this.objectsCurrentRaycast)
           this.idChapterHovered = new MenuHoveredManager(0);
-
+          console.log(child);
           child.children.map((elm) => {
             switch (elm.name) {
+
+              case 'vitrail':
+                this._vitrailElm = elm
+                break;
               case 'collier':
                 this._collierElm = elm
                 break;
@@ -258,26 +255,6 @@ class ThreeSceneMenu {
                 break;
             }
           })
-        }
-        if ("vitrailVisible" === child.name) {
-          this._vitrailVisible = child;
-          child.children.map((elm) => {
-            if ("vitrailVerre" === elm.name) {
-              elm.material = new THREE.ShaderMaterial({
-                vertexShader: textureHoveredVertexShader,
-                fragmentShader: textureHoveredFragmentShader,
-                transparent: true,
-                uniforms: {
-                  uTexture: { value: this._newVitrailColorTextureHover[0] },
-                  uOpacity: { value: 0.0 }
-                }
-              })
-            }
-          })
-        }
-        if ("vitrail" === child.name) {
-          child.material.opacity = 0;
-          child.material.transparent = true;
         }
         if ("cameraMenu_Orientation" === child.name) {
           this._camera = child;
@@ -357,37 +334,32 @@ class ThreeSceneMenu {
 
         switch (this.idChapterHovered.textureID) {
           case 0:
-            this._vitrailVisible.children.map((elm) => {
-            // if ("vitrailVerre" === elm.name) {
-            //   elm.material = this._setTextureVerre(this._currentTexture[0], this._newVitrailColorTextureHover[0], 1.0)
-            //   elm.material.opacity = 0;
-            // } else if ("vitrailPlomb" === elm.name) {
-            //   elm.material = this._setTexturePlombs(this._currentTexture[1], this._newVitrailColorTextureHover[1], 1.0)
-            //   elm.material.needsUpdate = true;
-            // }
-            })
-            this._collierElm.material = this._setTextureCollier(this._currentTexture[2], this._newVitrailColorTextureHover[2], 1.0)
-            this._contreBasseElm.material = this._setTextureContrebasse(this._currentTexture[3], this._newVitrailColorTextureHover[3], 1.0)
-            this._chapeauElm.material = this._setTextureChapeau(this._currentTexture[4], this._newVitrailColorTextureHover[4], 1.0)
-            this._structureElm.material = this._setTextureStructure(this._currentTexture[5], this._newVitrailColorTextureHover[5], 1.0)
+            this._vitrailElm.material = this._setTextureVitrail(this._currentTexture[0], this._newVitrailColorTextureHover[0], 1.0)
+            this._collierElm.material = this._setTextureCollier(this._currentTexture[1], this._newVitrailColorTextureHover[1], 1.0)
+            this._contreBasseElm.material = this._setTextureContrebasse(this._currentTexture[2], this._newVitrailColorTextureHover[2], 1.0)
+            this._chapeauElm.material = this._setTextureChapeau(this._currentTexture[3], this._newVitrailColorTextureHover[3], 1.0)
+            this._structureElm.material = this._setTextureStructure(this._currentTexture[4], this._newVitrailColorTextureHover[4], 1.0)
             break;
           case 1:
-            this._collierElm.material = this._setTextureCollier(this._currentTexture[2], this._newCollierColorTextureHover[0], 1.0)
-            this._contreBasseElm.material = this._setTextureContrebasse(this._currentTexture[3], this._newCollierColorTextureHover[1], 1.0)
-            this._chapeauElm.material = this._setTextureChapeau(this._currentTexture[4], this._newCollierColorTextureHover[2], 1.0)
-            this._structureElm.material = this._setTextureStructure(this._currentTexture[5], this._newCollierColorTextureHover[3], 1.0)
+            this._vitrailElm.material = this._setTextureVitrail(this._currentTexture[0], this._newCollierColorTextureHover[0], 1.0)
+            this._collierElm.material = this._setTextureCollier(this._currentTexture[1], this._newCollierColorTextureHover[1], 1.0)
+            this._contreBasseElm.material = this._setTextureContrebasse(this._currentTexture[2], this._newCollierColorTextureHover[2], 1.0)
+            this._chapeauElm.material = this._setTextureChapeau(this._currentTexture[3], this._newCollierColorTextureHover[3], 1.0)
+            this._structureElm.material = this._setTextureStructure(this._currentTexture[4], this._newCollierColorTextureHover[4], 1.0)
             break;
           case 2:
-            this._collierElm.material = this._setTextureCollier(this._currentTexture[2], this._newContrebasseColorTextureHover[0], 1.0)
-            this._contreBasseElm.material = this._setTextureContrebasse(this._currentTexture[3], this._newContrebasseColorTextureHover[1], 1.0)
-            this._chapeauElm.material = this._setTextureChapeau(this._currentTexture[4], this._newContrebasseColorTextureHover[2], 1.0)
-            this._structureElm.material = this._setTextureStructure(this._currentTexture[5], this._newContrebasseColorTextureHover[3], 1.0)
+            this._vitrailElm.material = this._setTextureVitrail(this._currentTexture[0], this._newContrebasseColorTextureHover[0], 1.0)
+            this._collierElm.material = this._setTextureCollier(this._currentTexture[1], this._newContrebasseColorTextureHover[1], 1.0)
+            this._contreBasseElm.material = this._setTextureContrebasse(this._currentTexture[2], this._newContrebasseColorTextureHover[2], 1.0)
+            this._chapeauElm.material = this._setTextureChapeau(this._currentTexture[3], this._newContrebasseColorTextureHover[3], 1.0)
+            this._structureElm.material = this._setTextureStructure(this._currentTexture[4], this._newContrebasseColorTextureHover[4], 1.0)
             break;
           case 3:
-            this._collierElm.material = this._setTextureCollier(this._currentTexture[2], this._newChapeauColorTextureHover[0], 1.0)
-            this._contreBasseElm.material = this._setTextureContrebasse(this._currentTexture[3], this._newChapeauColorTextureHover[1], 1.0)
-            this._chapeauElm.material = this._setTextureChapeau(this._currentTexture[4], this._newChapeauColorTextureHover[2], 1.0)
-            this._structureElm.material = this._setTextureStructure(this._currentTexture[5], this._newChapeauColorTextureHover[3], 1.0)
+            this._vitrailElm.material = this._setTextureVitrail(this._currentTexture[0], this._newChapeauColorTextureHover[0], 1.0)
+            this._collierElm.material = this._setTextureCollier(this._currentTexture[1], this._newChapeauColorTextureHover[1], 1.0)
+            this._contreBasseElm.material = this._setTextureContrebasse(this._currentTexture[2], this._newChapeauColorTextureHover[2], 1.0)
+            this._chapeauElm.material = this._setTextureChapeau(this._currentTexture[3], this._newChapeauColorTextureHover[3], 1.0)
+            this._structureElm.material = this._setTextureStructure(this._currentTexture[4], this._newChapeauColorTextureHover[4], 1.0)
             break;
         }
         this._setNewAudioHovered(this._soundsChaptersHoveredArray[this.idChapterHovered.soundID])
@@ -499,8 +471,8 @@ class ThreeSceneMenu {
     return this._textureShaderStructure
   }
 
-  _setTextureVerre(texture1, texture2, opacity) {
-    this._textureShaderVerre = new THREE.ShaderMaterial({
+  _setTextureVitrail(texture1, texture2, opacity) {
+    this._textureShaderVitrail = new THREE.ShaderMaterial({
       vertexShader: textureHoveredVertexShader,
       fragmentShader: textureHoveredFragmentShader,
       transparent: true,
@@ -511,22 +483,7 @@ class ThreeSceneMenu {
         progress: { value: 0 }
       }
     })
-    return this._textureShaderVerre
-  }
-
-  _setTexturePlombs(texture1, texture2, opacity) {
-    this._textureShaderPlombs = new THREE.ShaderMaterial({
-      vertexShader: textureHoveredVertexShader,
-      fragmentShader: textureHoveredFragmentShader,
-      transparent: true,
-      uniforms: {
-        uTexture1: { value: texture1 },
-        uTexture2: { value: texture2 },
-        uOpacity: { value: opacity },
-        progress: { value: 0 }
-      }
-    })
-    return this._textureShaderPlombs
+    return this._textureShaderVitrail
   }
 
   _setTextureCollier(texture1, texture2, opacity) {
@@ -627,7 +584,7 @@ class ThreeSceneMenu {
     this._camera.rotation.x += (this._target.y - this._camera.rotation.x) + 300
 
 
-    if (this._textureShaderStructure || this._textureShaderVitrail || this._textureShaderCollier || this._textureShaderContrebasse || this._textureShaderChapeau) {
+    // if (this._textureShaderStructure || this._textureShaderVitrail || this._textureShaderCollier || this._textureShaderContrebasse || this._textureShaderChapeau) {
       // this._textureShader.uniforms.uTime.value = time / 1000;
 
 
@@ -642,14 +599,13 @@ class ThreeSceneMenu {
       }
       if (this._progress) {
         if (this._textureShaderStructure) this._textureShaderStructure.uniforms.progress.value = this._progress;
-        if (this._textureShaderVerre) this._textureShaderVerre.uniforms.progress.value = this._progress
-        if (this._textureShaderPlombs) this._textureShaderPlombs.uniforms.progress.value = this._progress
+        if (this._textureShaderVitrail) this._textureShaderVitrail.uniforms.progress.value = this._progress
         if (this._textureShaderCollier) this._textureShaderCollier.uniforms.progress.value = this._progress
         if (this._textureShaderContrebasse) this._textureShaderContrebasse.uniforms.progress.value = this._progress
         if (this._textureShaderChapeau) this._textureShaderChapeau.uniforms.progress.value = this._progress
 
       }
-    }
+    // }
     this._render();
   }
 
