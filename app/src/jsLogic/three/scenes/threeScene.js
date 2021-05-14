@@ -68,7 +68,8 @@ class ThreeScene {
             '_toggleDragAndDropControls',
             '_paperCutOutScrollHandler',
             '_paperCutOutScrollAnimation',
-            '_toggleArtisaneOpacity'
+            '_toggleArtisaneOpacity',
+            '_setFinalColors'
         );
 
         this._canvas = canvas;
@@ -181,7 +182,7 @@ class ThreeScene {
         this._isMouseDown = false;
         this._rayCaster = new THREE.Raycaster();
 
-        this._stepManager = new StepManager(0, 2);
+        this._stepManager = new StepManager(0, 1);
 
         this._breadcrumbManager = new BreadcrumbManager(true, "La découpe du tracé");
 
@@ -200,6 +201,15 @@ class ThreeScene {
             current: null,
             old: null
         }
+
+        this._finalColorPicked = {
+            cubeBottomLeft: "#00FF00",
+            losange: "#00FF00",
+            rectangleLeft: "#00FF00",
+            triangles: "#00FF00"
+        }
+
+        this._isDraggingColor = false;
 
         this._isRunningDecoupeTrace = false;
         this._indexDecoupeTrace = 0;
@@ -275,10 +285,16 @@ class ThreeScene {
                     this._vitrailGroup.add(child);
                     SetupColorPicker(child, this._colorPickerRaycastObject, this._vitrailObjects);
 
-                    this._vitrailGroup.position.set(-1.5, 1, 2.2);
-                    // this._vitrailGroup.position.set(0.5, 1, -1.5);
-                    this._vitrailGroup.rotation.set(0, Math.PI / 2, 0);
-                    this._vitrailGroup.scale.set(0.2, 0.2, 0.2);
+                    // this._vitrailGroup.position.set(-1.5, 1, 2.2);
+                    // // this._vitrailGroup.position.set(0.5, 1, -1.5);
+                    // this._vitrailGroup.rotation.set(0, Math.PI / 2, 0);
+                    // this._vitrailGroup.scale.set(0.2, 0.2, 0.2);
+                    // this._vitrailGroup.position.set(-1.5, 1, 2.2);
+                    this._vitrailGroup.position.set(0, 1, -2);
+                    // this._vitrailGroup.rotation.set(0, Math.PI / 2, 0);
+                    this._vitrailGroup.rotation.set(0, Math.PI, 0);
+                    // this._vitrailGroup.scale.set(0.2, 0.2, 0.2);
+                    this._vitrailGroup.scale.set(0.5, 0.5, 0.5);
 
                 } else if ("atelier" === child.name) {
 
@@ -319,7 +335,7 @@ class ThreeScene {
 
                 } else if("Piece_decoupe" === child.name) {
 
-                    this._addToScene(child);
+                    // this._addToScene(child);
 
                     this._piece_decoupeAnimations = [...this._models[name].animations];
                     this._piece_decoupeAnimationsClickOne = [];
@@ -410,6 +426,9 @@ class ThreeScene {
         //this._setDragAndDropControls();
 
         // this._actionStepManager.actionsManager(0);
+
+        //couleur de base du vitrail
+        this._setFinalColors();
 
         this._animateCameraPlay(SETTINGS.idCamera[0], SETTINGS.idCameraEndAction[0]);
         this._animateCameraPlay(SETTINGS.idCamera[1], SETTINGS.idCameraEndAction[1]);
@@ -572,13 +591,15 @@ class ThreeScene {
             if (this._currentIntersect) {
                 if (this._isMouseDown === true) {
                     this._currentIntersect.material.color = this._colorPicked.old;
+                    //Choper le bon element du plain puis lui redonner l'ancienne couleur
                 }
             }
             this._currentIntersect = this._object;
             // console.log('mouse enter')
             this._colorPicked.old = this._currentIntersect.material.color;
-            if (this._isMouseDown === true && this._vitrailObjects.includes(this._currentIntersect.name)) {
+            if (this._isMouseDown === true && this._vitrailObjects.includes(this._currentIntersect.name) && this._isDraggingColor === true) {
                 this._currentIntersect.material.color = this._colorPicked.current;
+                //Choper le bon element du plain puis lui donner la bonne couleur
             }
         }
         else {
@@ -586,6 +607,7 @@ class ThreeScene {
                 //   console.log('mouse leave')
                 if (this._isMouseDown === true) {
                     this._currentIntersect.material.color = this._colorPicked.old;
+                    //Choper le bon element du plain puis lui redonner l'ancienne couleur
                 }
                 this._colorPicked.old = null;
                 // console.log(currentIntersect.name);
@@ -597,20 +619,25 @@ class ThreeScene {
     }
 
     _colorPickerMouseDown() {
+        // this._UIManager.UI.cursor.classList.toggle("cursor-dragging");
+        // this._UIManager.UI.cursor.classList.toggle("cursor-pointer-color-picker");
         if (this._currentIntersect) {
             switch (this._currentIntersect.name) {
                 case "green":
                     this._colorPicked.current = this._currentIntersect.material.color;
+                    this._isDraggingColor = true;
                     //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "green");
                     //   cursorColorPickerInner.current.style.transform = "scale(1.5)"
                     break
                 case "purple":
                     this._colorPicked.current = this._currentIntersect.material.color;
+                    this._isDraggingColor = true;
                     //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "purple");
                     //   cursorColorPickerInner.current.style.transform = "scale(1.5)"
                     break
                 case "white":
                     this._colorPicked.current = this._currentIntersect.material.color;
+                    this._isDraggingColor = true;
                     //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "white");
                     //   cursorColorPickerInner.current.style.transform = "scale(1.5)"
                     break
@@ -618,9 +645,13 @@ class ThreeScene {
         }
     }
     _colorPickerMouseUp() {
+        // this._UIManager.UI.cursor.classList.toggle("cursor-dragging");
+        // this._UIManager.UI.cursor.classList.toggle("cursor-pointer-color-picker");
         if (this._currentIntersect) {
-            if (this._vitrailObjects.includes(this._currentIntersect.name)) {
+            if (this._vitrailObjects.includes(this._currentIntersect.name) && this._isDraggingColor === true) {
                 this._currentIntersect.material.color = this._colorPicked.current;
+                this._setFinalColors();
+                this._isDraggingColor = false;
                 // this._actionStepManager.actionsManager(12);
             }
             this._colorPicked.current = null;
@@ -631,6 +662,18 @@ class ThreeScene {
             //   cursorColorPickerInner.current.setAttribute("data-color-cursor", "default");
             //   cursorColorPickerInner.current.style.transform = "scale(.8)"
         }
+    }
+
+    _setFinalColors() {
+        this._colorPickerRaycastObject.map(elm => {
+            if(this._vitrailObjects.includes(elm.name)) {
+                if(elm.name === "cubeBottomLeft" || elm.name === "rectangleLeft" || elm.name === "losange") {
+                    this._finalColorPicked[elm.name] = elm.material.color;
+                }
+
+            }
+        });
+        console.log(this._finalColorPicked);
     }
 
     _paperCutOutDragAndDropHandler(intersect) {
@@ -797,7 +840,7 @@ class ThreeScene {
 
         } else if (this._globalStep === 1) {
 
-            this._colorPickerMouseDown(this._currentIntersect);
+            this._colorPickerMouseDown();
 
         } else if (this._globalStep === 2) {
 
@@ -874,6 +917,7 @@ class ThreeScene {
 
     _mousemoveHandler(e) {
         this._rayCast(e);
+        this._cursorPosition(e);
     }
 
     _render() {
@@ -941,6 +985,16 @@ class ThreeScene {
         environmentMap.encoding = THREE.sRGBEncoding;
         this._scene.background = environmentMap;
         this._scene.environment = environmentMap;
+    }
+
+    _cursorPosition(e) {
+        this._coordinates = {};
+
+        this._coordinates.x = e.clientX;
+        this._coordinates.y = e.clientY;
+
+
+        this._UIManager.UI.cursor.style.transform = `translate(${this._coordinates.x - 20}px, ${this._coordinates.y - 20}px)`;
     }
 
     _setOrbitalControls() {

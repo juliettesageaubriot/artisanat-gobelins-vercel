@@ -13,13 +13,16 @@ import TheSubTitle from '@components/Subtitle/TheSubTitle';
 import TheVolume from '@components/VolumeSettings/TheVolume';
 import TheStepValidation from '@components/StepValidation/TheStepValidation';
 import TheToolChoiceButton from '@components/ToolChoiceButton/TheToolChoiceButton';
+import TheCursor from '@/components/Cursor/TheCursor';
 
+//utils
 import useIsMounted from '@hooks/useIsMounted'
 
 //datas
 import audioDatas from "assets/data/subtitles.json";
 import toolsData from '@assets/data/tools.json';
 import stepValidationDatas from "assets/data/step-validation.json";
+
 
 
 
@@ -85,7 +88,8 @@ const SingleAtelierPage = () => {
       <section>
         {subtitleItems}
         {stepValidationItems}
-        <TheAudioSnippet sound_url={"assets/audios/atelier/main_musique_atelier.mp3"} play loop specificVolume={0.2}/>
+        {/* <TheAudioSnippet sound_url={"assets/audios/atelier/main_musique_atelier.mp3"} play loop specificVolume={0.2}/> */}
+        <TheCursor />
         <TheLoader />
         <TheBreadcrumb
         // isShowing={isShowingBreadcrumb} hide={toggle}

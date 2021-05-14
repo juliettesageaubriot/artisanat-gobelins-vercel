@@ -1,0 +1,24 @@
+#cursor {
+    height: 40px;
+    width: 40px;
+
+    position: absolute;
+
+    pointer-events: none;
+
+    cursor: none;
+
+    transition: none;
+
+    background-size: contain;
+
+    z-index: 100;
+}
+
+.cursor-dragging {
+    background-image: url("/assets/images/ui/pictos-ux/curseur_02.png");
+}
+
+.cursor-pointer-color-picker {
+    background-image: url("/assets/images/ui/pictos-ux/curseur_01.png");
+}
