@@ -111,7 +111,7 @@ class ActionsStepManager {
     }
     _stepNine() {
         //A appeler sur la fin de l'interaction du scroll
-       this._state.setCurrentValidationStep(0);
+       this._state.setStepValidation(0);
        this._allowedScroll = false;
     }
     _stepTen() {
@@ -144,7 +144,7 @@ class ActionsStepManager {
     }
     _stepSixteen() {
         //A Appeler sur la fin du drag and drop
-        this._state.setCurrentValidationStep(1);
+        this._state.setStepValidation(1);
         this._allowedDragAndDrop = false;
         this._toggleDragAndDrop();
         this._UIManager.UI.cursor.classList.toggle("cursor-pointer-color-picker");
@@ -231,7 +231,7 @@ class ActionsStepManager {
     }
     _stepThirtyThree() {
         //sur le success du drag and drop
-        this.setCurrentValidationStep(2);
+        this.setStepValidation(2);
         this._toggleDragAndDrop();
     }
     _stepThirtyFour() {

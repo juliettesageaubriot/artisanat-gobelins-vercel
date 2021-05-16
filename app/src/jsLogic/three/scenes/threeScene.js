@@ -204,7 +204,7 @@ class ThreeScene {
 
         this._pressureGaugeValue = 0;
 
-        this._scrollTimeline = 0;
+        this._scrollTimeline = 3.5;
         this._scrollY = 0;
 
         this._colorPicked = {
@@ -263,7 +263,7 @@ class ThreeScene {
         })
         this.feuilleLeveAnimator.mixer.addEventListener("finished", () => {
             if(actionIndex === "none") return;
-            this._actionStepManager.actionsManager(actionIndex);
+            // this._actionStepManager.actionsManager(actionIndex);
         });
     }
 
@@ -297,17 +297,6 @@ class ThreeScene {
                     this._vitrailGroup.add(child);
                     SetupColorPicker(child, this._colorPickerRaycastObject, this._vitrailObjects, this._crayonnes, this._samples);
 
-                    // this._vitrailGroup.position.set(-1.5, 1, 2.2);
-                    // // this._vitrailGroup.position.set(0.5, 1, -1.5);
-                    // this._vitrailGroup.rotation.set(0, Math.PI / 2, 0);
-                    // this._vitrailGroup.scale.set(0.2, 0.2, 0.2);
-                    // this._vitrailGroup.position.set(-1.5, 1, 2.2);
-                    // this._vitrailGroup.position.set(0, 1, -2);
-                    // // this._vitrailGroup.rotation.set(0, Math.PI / 2, 0);
-                    // this._vitrailGroup.rotation.set(0, Math.PI, 0);
-                    // // this._vitrailGroup.scale.set(0.2, 0.2, 0.2);
-                    // this._vitrailGroup.scale.set(0.5, 0.5, 0.5);
-
                 } else if ("atelier" === child.name) {
 
                     this._addToScene(child);
@@ -323,16 +312,16 @@ class ThreeScene {
                     child.material.transparent = true;
                     child.material.opacity = 0;
 
-                } else if ("CameraAtelier3_Orientation" === child.name) {
+                } else if ("CameraAtelier1_Orientation" === child.name) {
 
                     // console.log(this._camera)
                     this._camera = child;
                     this._renderPass.camera = child;
-                    this.cameraManager.StartAnimation(2);
+                    this.cameraManager.StartAnimation(0);
 
                 } else if ("artisane01" === child.name) {
 
-                    this._artisanes.push(child);;
+                    this._artisanes.push(child);
 
                 } else if("artisane02" === child.name) {
 
@@ -450,6 +439,8 @@ class ThreeScene {
 
         // this._actionStepManager.actionsManager(0);
         // this._actionStepManager.actionsManager(6);
+
+        this._setfeuilleLeveAnimationPlay(0)
 
         //couleur de base du vitrail
         this._setFinalColors();
@@ -1237,26 +1228,30 @@ class ThreeScene {
     }
 
     _paperCutOutScrollHandler(e) {
-        // console.log(e);
-        this._animationDuration = 6.6;
-        this._numberOfWheelEvent = 100;
+        this._animationDuration = 5.6;
+        this._numberOfWheelEvent = 150;
 
 
-        if (e.deltaY > 0) {
+        if (e.deltaY > 0 && this._scrollY < 58) {
             this._scrollTimeline += this._animationDuration / this._numberOfWheelEvent;
             this._scrollY += 1;
+
+            console.log(this.feuilleChuteAnimator)
+
             this._paperCutOutScrollAnimation();
         }
-        console.log(this._scrollTimeline + " : " + this._scrollY);
+
+        // console.log(this._scrollTimeline + " : " + this._scrollY);
+
+        if(this._scrollY >= 58) {
+            console.log("fin de l'animation");
+            this._actionStepManager.actionsManager(8);
+        }
     }
 
     _paperCutOutScrollAnimation() {
         this._feuilleChuteAnimations.map((animations, index) => {
             this.feuilleChuteManager.ScrollAnimation(index, this._scrollTimeline);
-            this.feuilleChuteAnimator.mixer.addEventListener(() => {
-                console.log("scroll Animation end");
-                this._stepManager.actionsManager(8);
-            });
         })
     }   
 

@@ -13,8 +13,7 @@ export const SetupColorPicker = (vitrailGroup, objectToTest, vitrailObjects, cra
     resolve(textures);
 
   }).then(result => {
-    console.log(result);
-      
+    
     vitrailGroup.children.map((objects, i) => {
       if(objects.name.toLowerCase().includes("verre")) {
         //échantillons de verre
@@ -22,7 +21,7 @@ export const SetupColorPicker = (vitrailGroup, objectToTest, vitrailObjects, cra
         samples.push(objects.name);
         objects.material.transparent = true;
         objects.material.opacity = 0.8;
-        console.log(objects)
+
       } else if(objects.name.toLowerCase().includes("vitrail")) {
         //vitrail posé
         objectToTest.push(objects);
@@ -30,7 +29,6 @@ export const SetupColorPicker = (vitrailGroup, objectToTest, vitrailObjects, cra
         // objects.material.type = "MeshPhongMaterial";
         objects.material.transparent = true;
         objects.material.opacity = 0.6;
-        console.log(objects)
 
       } else if(objects.name.toLowerCase().includes("couleur")) {
         crayonnes.push(objects);
