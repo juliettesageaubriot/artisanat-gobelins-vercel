@@ -257,7 +257,7 @@ class ThreeScene {
     }
 
     _setfeuilleLeveAnimationPlay(actionIndex) {
-        console.log(this._feuilleLeveAnimations)
+        // console.log(this._feuilleLeveAnimations)
         this._feuilleLeveAnimations.map((animations, index) => {
             this.feuilleLeveAnimator.playClipByIndex(index);
         })
@@ -317,7 +317,7 @@ class ThreeScene {
                     // console.log(this._camera)
                     this._camera = child;
                     this._renderPass.camera = child;
-                    this.cameraManager.StartAnimation(0);
+                    // this.cameraManager.StartAnimation(0);
 
                 } else if ("artisane01" === child.name) {
 
@@ -440,7 +440,7 @@ class ThreeScene {
         // this._actionStepManager.actionsManager(0);
         // this._actionStepManager.actionsManager(6);
 
-        this._setfeuilleLeveAnimationPlay(0)
+        // this._setfeuilleLeveAnimationPlay(0)
 
         //couleur de base du vitrail
         this._setFinalColors();
@@ -1232,18 +1232,16 @@ class ThreeScene {
         this._numberOfWheelEvent = 150;
 
 
-        if (e.deltaY > 0 && this._scrollY < 58) {
+        if (e.deltaY > 0 && this._scrollY < 59) {
             this._scrollTimeline += this._animationDuration / this._numberOfWheelEvent;
             this._scrollY += 1;
-
-            console.log(this.feuilleChuteAnimator)
 
             this._paperCutOutScrollAnimation();
         }
 
         // console.log(this._scrollTimeline + " : " + this._scrollY);
 
-        if(this._scrollY >= 58) {
+        if(this._scrollY === 58) {
             console.log("fin de l'animation");
             this._actionStepManager.actionsManager(8);
         }

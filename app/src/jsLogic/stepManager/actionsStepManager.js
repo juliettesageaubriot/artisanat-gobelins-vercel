@@ -123,7 +123,7 @@ class ActionsStepManager {
     }
     _stepEleven() {
         //Sur la fin du sous titre 5
-        this._setCameraAnimation(1, 10);
+        this._setCameraAnimation(2, 10);
     }
     _stepTwelve() {
         //Sur la fin de l'animation de la caméra 3 dans le animation manager
