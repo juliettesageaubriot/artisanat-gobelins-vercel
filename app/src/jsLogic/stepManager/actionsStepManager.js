@@ -2,7 +2,7 @@
 import bindAll from '@jsLogic/utils/bindAll';
 
 class ActionsStepManager {
-    constructor(state, stepManager, UIManager, breadCrumb, setCameraAnimation, toggleArtisane, toggleDragAndDropControls) {
+    constructor(state, stepManager, UIManager, breadCrumb, setCameraAnimation, toggleArtisane, toggleDragAndDropControls, setfeuilleLeveAnimationPlay) {
         // bindAll(
         //     this,
         // );
@@ -13,6 +13,7 @@ class ActionsStepManager {
         this._setCameraAnimation = setCameraAnimation;
         this._toggleArtisane = toggleArtisane;
         this._toggleDragAndDrop = toggleDragAndDropControls;
+        this._setfeuilleLeveAnimationPlay = setfeuilleLeveAnimationPlay;
 
         //Les débloquage d'interactions
         this._allowedScroll = false;
@@ -89,6 +90,7 @@ class ActionsStepManager {
     _stepFour() {
         //feuilleAnimator
         console.log("Animation des feuilles")
+        this._setfeuilleLeveAnimationPlay(4);
     }
     _stepFive() {
         //A Appeler à la fin de l'animation de la caméra dans le animation manager
@@ -104,7 +106,6 @@ class ActionsStepManager {
         this._UIManager.setScrollPicto(50, 50);
         this._allowedScroll = true;
         this._state.setToolsArray1();
-        this._state._setCurrentStepValidation(0);
         this._toggleArtisane(1);
         this._toggleArtisane(0);
     }
@@ -139,12 +140,14 @@ class ActionsStepManager {
        this._allowedDragAndDrop = true;
        this._toggleDragAndDrop();
        this._state.setToolsArray2();
+       this._UIManager.UI.cursor.classList.toggle("cursor-pointer-color-picker");
     }
     _stepSixteen() {
         //A Appeler sur la fin du drag and drop
         this._state.setCurrentValidationStep(1);
         this._allowedDragAndDrop = false;
         this._toggleDragAndDrop();
+        this._UIManager.UI.cursor.classList.toggle("cursor-pointer-color-picker");
     }
     _stepSeventeen() {
         //A appeler sur le clique de la validation 1
