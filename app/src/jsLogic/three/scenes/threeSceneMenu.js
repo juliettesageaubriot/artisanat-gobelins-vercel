@@ -4,6 +4,7 @@ import * as THREE from 'three'
 
 //utils
 import bindAll from '@jsLogic/utils/bindAll';
+import Stats from 'stats.js'
 
 //modules
 import AssetsLoader from '@jsLogic/three/assetsLoader';
@@ -15,8 +16,6 @@ import MenuHoveredManager from '@jsLogic/utils/menuHoveredManager'
 //shader
 import textureHoveredVertexShader from '../../../shaders/menu/texturesHovered/vertex.glsl'
 import textureHoveredFragmentShader from '../../../shaders/menu/texturesHovered/fragment.glsl'
-
-import { FresnelShader } from '@nodeModules/three/examples/jsm/shaders/FresnelShader.js';
 
 const SETTINGS = {
   enableRaycast: true,
@@ -46,6 +45,7 @@ class ThreeSceneMenu {
       '_setTextureChapeau',
       '_setTextureCollier',
       '_setMouseScss',
+      '_setStats'
     )
 
     this._canvas = canvas;
@@ -153,6 +153,8 @@ class ThreeSceneMenu {
     this._mouse = new THREE.Vector2();
     this._target = new THREE.Vector2();
 
+    //Stats
+    this._stats
 
     this._setup();
     this._loadAssets();
@@ -179,6 +181,7 @@ class ThreeSceneMenu {
     this._renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this._renderer.toneMapping = THREE.NoToneMapping
     this._renderer.outputEncoding = THREE.sRGBEncoding
+    this._renderer.shadowMap.autoUpdate = false
 
     this._canvas.appendChild(this._renderer.domElement);
 
@@ -205,6 +208,7 @@ class ThreeSceneMenu {
     this._setNewState();
     this._setNewAudioHovered()
     this._setIsReadyRaycast()
+    this._setStats()
   }
 
   _loadAssets() {
@@ -223,19 +227,18 @@ class ThreeSceneMenu {
     for (let name in this._models) {
       this.object = this._models[name].scene;
       this.object.traverse(child => {
-        if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
-          // child.material.envMap = environmentMap
-          // child.material.envMapIntensity = 5
+        // if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
+        // child.material.envMap = environmentMap
+        // child.material.envMapIntensity = 5
 
-          child.castShadow = true
-          child.receiveShadow = true
-        }
+        // child.castShadow = true
+        // child.receiveShadow = true
+        // }
 
         if ("menu" === child.name) {
           this._addToScene(child)
           SetupMenuChaptersRaycast(child, this.objectsCurrentRaycast)
           this.idChapterHovered = new MenuHoveredManager(0);
-          console.log(child);
           child.children.map((elm) => {
             switch (elm.name) {
 
@@ -257,6 +260,7 @@ class ThreeSceneMenu {
             }
           })
         }
+
         if ("cameraMenu_Orientation" === child.name) {
           this._camera = child;
         }
@@ -455,6 +459,7 @@ class ThreeSceneMenu {
       vertexShader: textureHoveredVertexShader,
       fragmentShader: textureHoveredFragmentShader,
       transparent: true,
+      precision: 'lowp',
       uniforms: {
         uTexture1: { value: texture1 },
         uTexture2: { value: texture2 },
@@ -470,6 +475,7 @@ class ThreeSceneMenu {
       vertexShader: textureHoveredVertexShader,
       fragmentShader: textureHoveredFragmentShader,
       transparent: true,
+      precision: 'lowp',
       uniforms: {
         uTexture1: { value: texture1 },
         uTexture2: { value: texture2 },
@@ -485,6 +491,7 @@ class ThreeSceneMenu {
       vertexShader: textureHoveredVertexShader,
       fragmentShader: textureHoveredFragmentShader,
       transparent: true,
+      precision: 'lowp',
       uniforms: {
         uTexture1: { value: texture1 },
         uTexture2: { value: texture2 },
@@ -500,6 +507,7 @@ class ThreeSceneMenu {
       vertexShader: textureHoveredVertexShader,
       fragmentShader: textureHoveredFragmentShader,
       transparent: true,
+      precision: 'lowp',
       uniforms: {
         uTexture1: { value: texture1 },
         uTexture2: { value: texture2 },
@@ -515,6 +523,7 @@ class ThreeSceneMenu {
       vertexShader: textureHoveredVertexShader,
       fragmentShader: textureHoveredFragmentShader,
       transparent: true,
+      precision: 'lowp',
       uniforms: {
         uTexture1: { value: texture1 },
         uTexture2: { value: texture2 },
@@ -566,21 +575,18 @@ class ThreeSceneMenu {
     }
 
     this._orbitControlsHandler();
-
     this._renderer.render(this._scene, this._camera);
   }
 
   _tick() {
+    if (this._stats) this._stats.begin()
+
+
     this._target.x = - (this._mouse.x) * 0.00005;
     this._target.y = - (this._mouse.y) * 0.00003;
 
     this._camera.rotation.y += (this._target.x - this._camera.rotation.y)
     this._camera.rotation.x += (this._target.y - this._camera.rotation.x) + 300
-
-
-    // if (this._textureShaderStructure || this._textureShaderVitrail || this._textureShaderCollier || this._textureShaderContrebasse || this._textureShaderChapeau) {
-    // this._textureShader.uniforms.uTime.value = time / 1000;
-
 
     if (this._increase === true) {
       if (this._progress < 1) {
@@ -597,10 +603,10 @@ class ThreeSceneMenu {
       if (this._textureShaderCollier) this._textureShaderCollier.uniforms.progress.value = this._progress
       if (this._textureShaderContrebasse) this._textureShaderContrebasse.uniforms.progress.value = this._progress
       if (this._textureShaderChapeau) this._textureShaderChapeau.uniforms.progress.value = this._progress
-
     }
-    // }
+
     this._render();
+    if (this._stats) this._stats.end()
   }
 
   _tickHandler() {
@@ -682,6 +688,12 @@ class ThreeSceneMenu {
     } else if (inactif === true) {
       cursor.style.cursor = "url('/assets/images/ui/cursor/cursor-inactif.svg') 0 0, auto";
     }
+  }
+
+  _setStats() {
+    this._stats = new Stats()
+    this._stats.showPanel(0) // 0: fps, 1: ms, 2: mb, 3+: custom
+    document.body.appendChild(this._stats.dom)
   }
 }
 
