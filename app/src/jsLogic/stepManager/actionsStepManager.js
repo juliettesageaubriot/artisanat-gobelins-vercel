@@ -111,19 +111,22 @@ class ActionsStepManager {
     }
     _stepNine() {
         //A appeler sur la fin de l'interaction du scroll
+       this._UIManager.removeScrollPicto();
        this._state.setStepValidation(0);
        this._allowedScroll = false;
     }
     _stepTen() {
         //A appeler au click sur le currentValidationStep n°1
         this._setCurrentSubtitle(5);
+        console.log("seconde animation de caméra")
         this._setCameraAnimation(1, "none");
         this._stepManager.addGlobalStep();
         this._breadCrumb.changeNameAtelier("Choix des couleurs");
     }
     _stepEleven() {
         //Sur la fin du sous titre 5
-        this._setCameraAnimation(2, 10);
+        console.log("troisieme animation de camera")
+        this._setCameraAnimation(2, 11);
     }
     _stepTwelve() {
         //Sur la fin de l'animation de la caméra 3 dans le animation manager
@@ -138,15 +141,16 @@ class ActionsStepManager {
     _stepFifteen() {
         this._UIManager.setDragAndDropPicto(50, 50);
        this._allowedDragAndDrop = true;
-       this._toggleDragAndDrop();
        this._state.setToolsArray2();
+       this._UIManager.UI.html.style.cursor = "none";
        this._UIManager.UI.cursor.classList.toggle("cursor-pointer-color-picker");
     }
     _stepSixteen() {
         //A Appeler sur la fin du drag and drop
+        this._UIManager.removeDragAndDropPicto();
         this._state.setStepValidation(1);
         this._allowedDragAndDrop = false;
-        this._toggleDragAndDrop();
+        this.UI.html.style.cursor = "initial";
         this._UIManager.UI.cursor.classList.toggle("cursor-pointer-color-picker");
     }
     _stepSeventeen() {

@@ -6,8 +6,6 @@ export default class AnimationManager {
     this.animations = animations;
 
     this.mixer = new THREE.AnimationMixer(this.scene);
-
-    this.shouldPlay = 1;
   }
 
   playClipByIndex(index) {

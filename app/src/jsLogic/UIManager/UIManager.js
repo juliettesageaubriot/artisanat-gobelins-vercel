@@ -25,6 +25,7 @@ class UIManager {
         this.UI.pressureGauge = document.querySelector("#pressureGauge");
 
         this.UI.cursor = document.querySelector("#cursor");
+        this.UI.html = document.querySelector("html");
 
         this.UI.clickPoints = document.querySelector("#clickPoints")
         this.UI.dragAndDrop = document.querySelector("#dragAndDrop")

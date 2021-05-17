@@ -183,7 +183,7 @@ class ThreeScene {
         this._isMouseDown = false;
         this._rayCaster = new THREE.Raycaster();
 
-        this._stepManager = new StepManager(0, 1);
+        this._stepManager = new StepManager(0, 0);
 
         this._breadcrumbManager = new BreadcrumbManager(true, "La découpe du tracé");
 
@@ -243,13 +243,18 @@ class ThreeScene {
     }
 
     _setCameraAnimationPlay(index, actionIndex) {
-        if (index === "none") return;
         this._camera = this._cameras[index];
+        this._renderPass.camera = this._cameras[index];
         this.cameraManager.StartAnimation(index);
-        this.cameraAnimator.mixer.addEventListener("finished", () => {
-            if(actionIndex === "none") return;
+
+        const onFinished = () => {
             this._actionStepManager.actionsManager(actionIndex);
-        });
+            this.cameraAnimator.mixer.removeEventListener("finished", onFinished);
+        };
+        if(actionIndex !== "none") {
+            this.cameraAnimator.mixer.addEventListener("finished", onFinished);
+        }
+        
     }
     _setCameraAnimationReverse(index) {
         this._camera = this._cameras[index];
@@ -257,13 +262,16 @@ class ThreeScene {
     }
 
     _setfeuilleLeveAnimationPlay(actionIndex) {
+        let actionIndexDone = false;
         // console.log(this._feuilleLeveAnimations)
         this._feuilleLeveAnimations.map((animations, index) => {
             this.feuilleLeveAnimator.playClipByIndex(index);
         })
         this.feuilleLeveAnimator.mixer.addEventListener("finished", () => {
-            if(actionIndex === "none") return;
-            // this._actionStepManager.actionsManager(actionIndex);
+            if(actionIndex === "none" || actionIndexDone === true) return;
+            actionIndexDone = true;
+            this._actionStepManager.actionsManager(actionIndex);
+            // console.log("action à faire à la fin de l'animation de la feuille")
         });
     }
 
@@ -303,6 +311,8 @@ class ThreeScene {
 
                     this._cameras = [...this._models[name].cameras];
                     this._cameraAnimations = [...this._models[name].animations];
+                    console.log(this._cameras)
+                    console.log(this._cameraAnimations)
 
                     this.cameraAnimator = new AnimationManager(child, this._cameraAnimations);
                     this.cameraManager = new CameraManager(this._camera, this._cameras, this.cameraAnimator);
@@ -317,7 +327,7 @@ class ThreeScene {
                     // console.log(this._camera)
                     this._camera = child;
                     this._renderPass.camera = child;
-                    // this.cameraManager.StartAnimation(0);
+                    // this.cameraManager.StartAnimation(5);
 
                 } else if ("artisane01" === child.name) {
 
@@ -437,7 +447,7 @@ class ThreeScene {
         //Action à faire au démarrage
         //this._setDragAndDropControls();
 
-        // this._actionStepManager.actionsManager(0);
+        this._actionStepManager.actionsManager(0);
         // this._actionStepManager.actionsManager(6);
 
         // this._setfeuilleLeveAnimationPlay(0)
@@ -647,16 +657,16 @@ class ThreeScene {
     }
 
     _colorPickerMouseDown() {
-        // this._UIManager.UI.cursor.classList.toggle("cursor-dragging");
-        // this._UIManager.UI.cursor.classList.toggle("cursor-pointer-color-picker");
+        this._UIManager.UI.cursor.classList.toggle("cursor-dragging");
+        this._UIManager.UI.cursor.classList.toggle("cursor-pointer-color-picker");
         if (this._currentIntersect && this._samples.includes(this._currentIntersect.name)) {
             this._colorPicked.current = this._currentIntersect.material.color;
             this._isDraggingColor = true;
         }
     }
     _colorPickerMouseUp() {
-        // this._UIManager.UI.cursor.classList.toggle("cursor-dragging");
-        // this._UIManager.UI.cursor.classList.toggle("cursor-pointer-color-picker");
+        this._UIManager.UI.cursor.classList.toggle("cursor-dragging");
+        this._UIManager.UI.cursor.classList.toggle("cursor-pointer-color-picker");
         if (this._currentIntersect) {
             if (this._vitrailObjects.includes(this._currentIntersect.name) && this._isDraggingColor === true) {
                 this._crayonnes.map(object => {
@@ -1232,7 +1242,7 @@ class ThreeScene {
         this._numberOfWheelEvent = 150;
 
 
-        if (e.deltaY > 0 && this._scrollY < 59) {
+        if (e.deltaY > 0 && this._scrollY < 59 && this._actionStepManager._allowedScroll === true) {
             this._scrollTimeline += this._animationDuration / this._numberOfWheelEvent;
             this._scrollY += 1;
 

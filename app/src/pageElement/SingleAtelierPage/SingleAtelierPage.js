@@ -88,6 +88,9 @@ const SingleAtelierPage = () => {
       <section>
         {subtitleItems}
         {stepValidationItems}
+        {/* <button>Margin lefttttt</button>
+        <button onClick={() => console.log(threeScene._camera)}> currentCamera </button>
+        <button onClick={() => console.log(threeScene._stepManager._globalStep)}> currentStep </button> */}
         {/* <TheAudioSnippet sound_url={"assets/audios/atelier/main_musique_atelier.mp3"} play loop specificVolume={0.2}/> */}
         <TheCursor />
         <TheLoader />

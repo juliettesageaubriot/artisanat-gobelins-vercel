@@ -37,21 +37,21 @@
     {
       "id": 5,
       "text": "Viens par-là on va choisir le verre.", 
-      "duration": "2000",
+      "duration": "1800",
       "audioSource": "assets/audios/subtitles/03_VF_Transition_Atelier_01.mp3",
       "actionOnEnd": 10
     },
     {
       "id": 6,
       "text": "J'ai préparé une préselection de nuances, tu n'auras plus qu'à choisir...", 
-      "duration": "3000",
+      "duration": "4000",
       "audioSource": "assets/audios/subtitles/04_VF_Etape_2_01.mp3",
       "actionOnEnd": 12
     },
     {
       "id": 7,
       "text": "Le métier de vitrailliste est très complet, il implique des gestes manuels, de la créativité, de la technique,...", 
-      "duration": "6000",
+      "duration": "7000",
       "audioSource": "assets/audios/subtitles/04_VF_Etape_2_02.mp3",
       "actionOnEnd": 13
     },

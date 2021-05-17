@@ -26,18 +26,19 @@ const TheSubTitle = ({content, currentSubtitle, onEnd}) => {
         //Joue le son
         setPlay(true);
         setMyTimeOut(setTimeout(() => {
-            console.log("Fin de la réplique 1");
+            // console.log("Fin de la réplique 1");
             setPlay(false);
             setMyTimeOutReplay(setTimeout(() => {
-                console.log("maintenant c'est possible de replay 2")
+                // console.log("maintenant c'est possible de replay 2")
                 //Temps d'attente pour que la réplique se replay
                 setIsPossibleToReplay(true);
                 setMyTimeOutNoLongerReplay(setTimeout(() => {
-                    console.log("Plus possible de replay, on passe à la suite ! 3")
+                    // console.log("Plus possible de replay, on passe à la suite ! 3")
                     setIsPossibleToReplay(false);
                     setDisplayButton(false);
                     onEnd();
-                }, 5000));
+                    //5000
+                }, 100));
             }, 2000));
             //Enleve le sous-titre
             setIsVisible(false);
