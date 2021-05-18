@@ -6,7 +6,8 @@ import * as THREE from 'three'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
-import { DotScreenPass } from 'three/examples/jsm/postprocessing/DotScreenPass.js'
+import { GlitchPass } from 'three/examples/jsm/postprocessing/GlitchPass.js';
+import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js';
 
 //utils
 import bindAll from '@jsLogic/utils/bindAll';
@@ -173,14 +174,13 @@ class ThreeSceneMenu {
 
     this._camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
     this._camera.position.set(0, 1, 0);
-    this._camera.rotation.set(0, 0, 0)
     this._scene.add(this._camera);
 
     this._ambientLight = new THREE.AmbientLight(0xffffff, 1)
     this._scene.add(this._ambientLight);
 
     this._renderer = new THREE.WebGLRenderer({
-      //canvas: this._canvas,
+      canvas: this._canvas.current,
       antialias: true,
     });
 
@@ -189,6 +189,11 @@ class ThreeSceneMenu {
     this._renderer.toneMapping = THREE.NoToneMapping
     this._renderer.outputEncoding = THREE.sRGBEncoding
     this._renderer.shadowMap.autoUpdate = false
+
+    ///////////////////////
+    this._postProcessing()
+    ///////////////////////
+
 
     this._canvas.appendChild(this._renderer.domElement);
 
@@ -208,7 +213,6 @@ class ThreeSceneMenu {
     this._materialSpot
 
     // this._setOrbitalControls();
-    this._postProcessing()
     this._setupEventListeners();
     this._resizeHandler();
     this._setEnvironmentMap();
@@ -271,6 +275,7 @@ class ThreeSceneMenu {
 
         if ("cameraMenu_Orientation" === child.name) {
           this._camera = child;
+          this._renderPass.camera = child
         }
       })
     }
@@ -588,7 +593,7 @@ class ThreeSceneMenu {
       this.cameraAnimator.update(deltaTime)
     }
 
-    this._orbitControlsHandler();
+    // this._orbitControlsHandler();
     // this._renderer.render(this._scene, this._camera);
     this._effectComposer.render()
 
@@ -713,15 +718,16 @@ class ThreeSceneMenu {
   }
 
   _postProcessing() {
-    this._rendererTargetClass = null
+
+    this._RenderTargetClass = null;
 
     if (this._renderer.getPixelRatio() === 1 && this._renderer.capabilities.isWebGL2) {
-      this._rendererTargetClass = THREE.WebGLMultisampleRenderTarget
+      this._RenderTargetClass = THREE.WebGLMultisampleRenderTarget;
     } else {
-      this._rendererTargetClass = THREE.WebGLRenderTarget
+      this._RenderTargetClass = THREE.WebGLRenderTarget;
     }
 
-    this._renderTarget = new this._rendererTargetClass(
+    this._renderTarget = new this._RenderTargetClass(
       800,
       600,
       {
@@ -732,48 +738,21 @@ class ThreeSceneMenu {
       }
     )
 
-    // Composer
-    this._effectComposer = new EffectComposer(this._renderer, this._renderTarget)
-    this._effectComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-    this._effectComposer.setSize(this._width, this._height)
+    this._effectComposer = new EffectComposer(this._renderer, this._renderTarget);
+    this._effectComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    this._effectComposer.setSize(window.innerwidth, window.innerHeight);
 
-    // Passes
-    this._renderPass = new RenderPass(this._scene, this._camera)
-    this._effectComposer.addPass(this._renderPass)
+    this._renderPass = new RenderPass(this._scene, this._camera);
+    this._effectComposer.addPass(this._renderPass);
 
-    // Tint pass
-    this._tintShader = {
-      uniforms: {
-        tDiffuse: { value: null }
-      },
-      vertexShader: `
-      varying vec2 vUv;
+    this._glitchPass = new GlitchPass();
+    this._glitchPass.enabled = true;
+    this._glitchPass.goWild = false;
+    this._effectComposer.addPass(this._glitchPass);
 
-      void main()
-      {
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-          vUv = uv;
-      }
-  `,
-      fragmentShader: `
-  uniform sampler2D tDiffuse;
-  varying vec2 vUv;
-
-  void main()
-      {
-          vec4 color = texture2D(tDiffuse, vUv);
-          color.r += 0.1;
-          gl_FragColor = color;
-      }
-  `
-    }
-    // this._tintPass = new ShaderPass(this._tintShader)
-    // this._effectComposer.addPass(this._tintPass)
-
-
-    if (this._renderer.getPixelRatio() === 1 && !this._renderer.capabilities.isWebGL2) {
-      this._smaaPass = new SMAAPass()
-      this._effectComposer.addPass(this._smaaPass)
+    if (this._renderer.getPixelRatio() === 1 && this._renderer.capabilities.isWebGL2) {
+      this._smaaPass = new SMAAPass();
+      this._effectComposer.addPass(this._smaaPass);
     }
   }
 
