@@ -37,7 +37,7 @@
     {
       "id": 5,
       "text": "Viens par-là on va choisir le verre.", 
-      "duration": "1800",
+      "duration": "2000",
       "audioSource": "assets/audios/subtitles/03_VF_Transition_Atelier_01.mp3",
       "actionOnEnd": 10
     },
@@ -93,14 +93,14 @@
     {
       "id": 13,
       "text": "Si tu as une différence de quelques dixièmes, ben, ça ne rentre plus.", 
-      "duration": "3000",
+      "duration": "3500",
       "audioSource": "assets/audios/subtitles/06_VF_Etape3_01d.mp3",
       "actionOnEnd": 23
     },
     {
       "id": 14,
       "text": "Il ne faut pas trop tarder à décrocher le verre avec la pince. Si c'est trop long, la coupe se referme !", 
-      "duration": "5000",
+      "duration": "5200",
       "audioSource": "assets/audios/subtitles/07_VF_Etape3_02.mp3",
       "actionOnEnd": 26
     },

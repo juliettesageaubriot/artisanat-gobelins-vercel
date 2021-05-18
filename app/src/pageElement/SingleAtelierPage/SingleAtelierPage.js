@@ -90,7 +90,8 @@ const SingleAtelierPage = () => {
         {stepValidationItems}
         {/* <button>Margin lefttttt</button>
         <button onClick={() => console.log(threeScene._camera)}> currentCamera </button>
-        <button onClick={() => console.log(threeScene._stepManager._globalStep)}> currentStep </button> */}
+        <button onClick={() => console.log(threeScene._stepManager._globalStep + " " + threeScene._stepManager._subStep)}> currentStep </button>
+        <button onClick={() => console.log(threeScene._glassCutOutRaycastObject)}> object glass raycast </button> */}
         {/* <TheAudioSnippet sound_url={"assets/audios/atelier/main_musique_atelier.mp3"} play loop specificVolume={0.2}/> */}
         <TheCursor />
         <TheLoader />
@@ -101,6 +102,10 @@ const SingleAtelierPage = () => {
 
         <a href="/menu" className={`link-before ${styles['link-before']}`}>
           <span>Épisodes</span>
+        </a>
+
+        <a className={`link-before ${styles["colorPicker-cta"]}`} id="colorPicker-cta" onClick={() => threeScene._actionStepManager.actionsManager(15)}>
+          <span>J'ai choisi mes couleurs !</span>
         </a>
 
         <div className={styles["page-singleAtelier"]}></div>

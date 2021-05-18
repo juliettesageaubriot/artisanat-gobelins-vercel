@@ -36,3 +36,23 @@
     }
 }
 
+.colorPicker-cta {
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    border: 2px solid #ffffff;
+    z-index: 1;
+
+    cursor: pointer;
+
+    opacity: 0;
+
+    transition: .3s opacity ease-in-out;
+
+    span {
+        color: white;
+    }
+}
+

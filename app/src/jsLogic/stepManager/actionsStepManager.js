@@ -2,7 +2,7 @@
 import bindAll from '@jsLogic/utils/bindAll';
 
 class ActionsStepManager {
-    constructor(state, stepManager, UIManager, breadCrumb, setCameraAnimation, toggleArtisane, toggleDragAndDropControls, setfeuilleLeveAnimationPlay) {
+    constructor(state, stepManager, UIManager, breadCrumb, setCameraAnimation, toggleArtisane, toggleDragAndDropControls, setfeuilleLeveAnimationPlay, setDragAndDropControls) {
         // bindAll(
         //     this,
         // );
@@ -14,6 +14,7 @@ class ActionsStepManager {
         this._toggleArtisane = toggleArtisane;
         this._toggleDragAndDrop = toggleDragAndDropControls;
         this._setfeuilleLeveAnimationPlay = setfeuilleLeveAnimationPlay;
+        this._setDragAndDropControls = setDragAndDropControls;
 
         //Les débloquage d'interactions
         this._allowedScroll = false;
@@ -142,26 +143,29 @@ class ActionsStepManager {
         this._UIManager.setDragAndDropPicto(50, 50);
        this._allowedDragAndDrop = true;
        this._state.setToolsArray2();
-       this._UIManager.UI.html.style.cursor = "none";
+    //    this._UIManager.UI.html.style.cursor = "none";
        this._UIManager.UI.cursor.classList.toggle("cursor-pointer-color-picker");
+       this._UIManager.UI.colorPickerCta.style.opacity = 1;
     }
     _stepSixteen() {
         //A Appeler sur la fin du drag and drop
         this._UIManager.removeDragAndDropPicto();
         this._state.setStepValidation(1);
         this._allowedDragAndDrop = false;
-        this.UI.html.style.cursor = "initial";
+        // this.UI.html.style.cursor = "initial";
         this._UIManager.UI.cursor.classList.toggle("cursor-pointer-color-picker");
     }
     _stepSeventeen() {
         //A appeler sur le clique de la validation 1
+        this._UIManager.UI.colorPickerCta.style.opacity = 0;
         this._setCurrentSubtitle(9);
         this._setCameraAnimation(3, "none");
         this._breadCrumb.changeNameAtelier("La découpe du verre");
+        this._stepManager.addGlobalStep();
     }
     _stepHeighteen() {
         //Sur la fin du sous titre 9
-        this._setCameraAnimation(4, 17);
+        this._setCameraAnimation(4, 18);
     }
     _stepNineteen() {
         this._setCurrentSubtitle(10);
@@ -170,28 +174,32 @@ class ActionsStepManager {
         this._setCurrentSubtitle(11);
     }
     _stepTwentyOne() {
-        this._UIManager.setDragAndDropPicto(50, 50);
+        this._UIManager.setDragAndDropPicto(45, 35);
         this._allowedDragAndDrop = true;
-        this._toggleDragAndDrop();
+        this._setDragAndDropControls();
         this._state.setToolsArray3();
+        console.log(this._stepManager._globalStep, this._stepManager._subStep);
     }
     _stepTwentyTwo() {
          //A appeler sur le succes du drag and drop
+         this._UIManager.removeDragAndDropPicto();
          this._setCurrentSubtitle(12);
          this._allowedDragAndDrop = false;
-         this._toggleDragAndDrop();
+         this._toggleDragAndDrop();    
     }
     _stepTwentyThree() {
         this._setCurrentSubtitle(13);
     }
     _stepTwentyFour() {
-        this._UIManager.setTracePicto(50, 50);
-        this._allowedDrawTheLine = true;
         this._stepManager.addSubStep();
+        this._UIManager.setTracePicto(50, 60);
+        this._allowedDrawTheLine = true;
     }
     _stepTwentyFive() {
         // A appeler sur le success du tracé de ligne
-        this._UIManager.setDragAndDropPicto(50, 50);
+        this._UIManager.removeTracePicto();
+        console.log("remove trace picto")
+        this._UIManager.setDragAndDropPicto(45, 60);
         this._allowedDrawTheLine = false;
         this._allowedDragAndDrop = true;
         this._toggleDragAndDrop();
@@ -199,29 +207,33 @@ class ActionsStepManager {
     }
     _stepTwentySix() {
         //A appeler sur le success du drag and drop
+        this._UIManager.removeDragAndDropPicto();
         this._setCurrentSubtitle(14);
         this._allowedDragAndDrop = false;
         this._toggleDragAndDrop();
     }
     _stepTwentySeven() {
-        this._UIManager.setPressionPicto(50, 50);
-        this._allowedPressureGauge = true;
+        this._UIManager.setPressionPicto(55, 62.5);
         this._stepManager.addSubStep();
+        this._allowedPressureGauge = true;
     }
     _stepTwentyHeight() {
          //A appeler sur le success de la jauge de pression
+         this._UIManager.removePressionPicto();
          this._setCurrentSubtitle(15);
          this._allowedPressureGauge = false;
+         this._stepManager.addSubStep();
     }
     _stepTwentyNine() {
-        this._UIManager.setClickPointsPicto(50, 50);
+        this._UIManager.setClickPointsPicto(50, 60);
         this._allowedCassageDeVerre = true;
-        this._stepManager.addSubStep();
     }
     _stepThirty() {
          //Apparition du vitrail
         //Sur le succes du cassage de verre
         this._allowedCassageDeVerre = false;
+        this._stepManager.addSubStep();
+        this._setCameraAnimation(5, 30);
     }
     _stepThirtyOne() {
         //Apres l'apparition du vitrail
@@ -231,12 +243,13 @@ class ActionsStepManager {
         this._UIManager.setDragAndDropPicto(50, 50);
         this._allowedDragAndDrop = true;
         this._toggleDragAndDrop();
-        this._stepManager.addSubStep();
     }
     _stepThirtyThree() {
         //sur le success du drag and drop
+        this._UIManager.removeDragAndDropPicto();
         this.setStepValidation(2);
         this._toggleDragAndDrop();
+        this._stepManager.addSubStep();
     }
     _stepThirtyFour() {
         this._setCurrentSubtitle(17);

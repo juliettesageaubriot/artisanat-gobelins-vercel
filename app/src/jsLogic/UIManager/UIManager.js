@@ -27,6 +27,8 @@ class UIManager {
         this.UI.cursor = document.querySelector("#cursor");
         this.UI.html = document.querySelector("html");
 
+        this.UI.colorPickerCta = document.querySelector("#colorPicker-cta")
+
         this.UI.clickPoints = document.querySelector("#clickPoints")
         this.UI.dragAndDrop = document.querySelector("#dragAndDrop")
         this.UI.pression = document.querySelector("#pression")
@@ -114,6 +116,10 @@ class UIManager {
     removeTracePicto() {
         clearTimeout(this._removeTracePicto)
         this.UI.trace.style.opacity = 0
+    }
+
+    setColorPickerButton() {
+
     }
 
 }
