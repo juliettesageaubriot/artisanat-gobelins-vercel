@@ -2,6 +2,12 @@
 import * as THREE from 'three'
 // import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
+// PostProcessing
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
+import { DotScreenPass } from 'three/examples/jsm/postprocessing/DotScreenPass.js'
+
 //utils
 import bindAll from '@jsLogic/utils/bindAll';
 import Stats from 'stats.js'
@@ -45,7 +51,8 @@ class ThreeSceneMenu {
       '_setTextureChapeau',
       '_setTextureCollier',
       '_setMouseScss',
-      '_setStats'
+      '_setStats',
+      '_postProcessing'
     )
 
     this._canvas = canvas;
@@ -201,6 +208,7 @@ class ThreeSceneMenu {
     this._materialSpot
 
     // this._setOrbitalControls();
+    this._postProcessing()
     this._setupEventListeners();
     this._resizeHandler();
     this._setEnvironmentMap();
@@ -554,8 +562,14 @@ class ThreeSceneMenu {
 
     this._camera.aspect = this._width / this._height;
     this._camera.updateProjectionMatrix();
+
+    // Update renderer
     this._renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this._renderer.setSize(this._width, this._height);
+
+    // Update effect composer
+    this._effectComposer.setSize(this._width, this._height)
+    this._effectComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
   }
 
   _resizeHandler() {
@@ -575,7 +589,9 @@ class ThreeSceneMenu {
     }
 
     this._orbitControlsHandler();
-    this._renderer.render(this._scene, this._camera);
+    // this._renderer.render(this._scene, this._camera);
+    this._effectComposer.render()
+
   }
 
   _tick() {
@@ -695,6 +711,72 @@ class ThreeSceneMenu {
     this._stats.showPanel(0) // 0: fps, 1: ms, 2: mb, 3+: custom
     document.body.appendChild(this._stats.dom)
   }
+
+  _postProcessing() {
+    this._rendererTargetClass = null
+
+    if (this._renderer.getPixelRatio() === 1 && this._renderer.capabilities.isWebGL2) {
+      this._rendererTargetClass = THREE.WebGLMultisampleRenderTarget
+    } else {
+      this._rendererTargetClass = THREE.WebGLRenderTarget
+    }
+
+    this._renderTarget = new this._rendererTargetClass(
+      800,
+      600,
+      {
+        minFilter: THREE.LinearFilter,
+        magFilter: THREE.LinearFilter,
+        format: THREE.RGBAFormat,
+        encoding: THREE.sRGBEncoding
+      }
+    )
+
+    // Composer
+    this._effectComposer = new EffectComposer(this._renderer, this._renderTarget)
+    this._effectComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    this._effectComposer.setSize(this._width, this._height)
+
+    // Passes
+    this._renderPass = new RenderPass(this._scene, this._camera)
+    this._effectComposer.addPass(this._renderPass)
+
+    // Tint pass
+    this._tintShader = {
+      uniforms: {
+        tDiffuse: { value: null }
+      },
+      vertexShader: `
+      varying vec2 vUv;
+
+      void main()
+      {
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          vUv = uv;
+      }
+  `,
+      fragmentShader: `
+  uniform sampler2D tDiffuse;
+  varying vec2 vUv;
+
+  void main()
+      {
+          vec4 color = texture2D(tDiffuse, vUv);
+          color.r += 0.1;
+          gl_FragColor = color;
+      }
+  `
+    }
+    // this._tintPass = new ShaderPass(this._tintShader)
+    // this._effectComposer.addPass(this._tintPass)
+
+
+    if (this._renderer.getPixelRatio() === 1 && !this._renderer.capabilities.isWebGL2) {
+      this._smaaPass = new SMAAPass()
+      this._effectComposer.addPass(this._smaaPass)
+    }
+  }
+
 }
 
 export default ThreeSceneMenu;
