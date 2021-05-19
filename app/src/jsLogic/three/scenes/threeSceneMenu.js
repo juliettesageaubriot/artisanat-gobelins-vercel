@@ -2,14 +2,6 @@
 import * as THREE from 'three'
 // import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
-// PostProcessing
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
-import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
-import { GlitchPass } from 'three/examples/jsm/postprocessing/GlitchPass.js';
-import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js';
-import { TexturePass } from 'three/examples/jsm/postprocessing/TexturePass.js';
-
 //utils
 import bindAll from '@jsLogic/utils/bindAll';
 import Stats from 'stats.js'
@@ -24,9 +16,6 @@ import MenuHoveredManager from '@jsLogic/utils/menuHoveredManager'
 //shader
 import textureHoveredVertexShader from '../../../shaders/menu/texturesHovered/vertex.glsl'
 import textureHoveredFragmentShader from '../../../shaders/menu/texturesHovered/fragment.glsl'
-
-import filterVertexShader from '../../../shaders/menu/filter/vertex.glsl'
-import filterFragmentShader from '../../../shaders/menu/filter/fragment.glsl'
 
 const SETTINGS = {
   enableRaycast: true,
@@ -57,7 +46,6 @@ class ThreeSceneMenu {
       '_setTextureCollier',
       '_setMouseScss',
       '_setStats',
-      '_postProcessing'
     )
 
     this._canvas = canvas;
@@ -209,7 +197,6 @@ class ThreeSceneMenu {
 
     // this._setOrbitalControls();
     this._loadTexture();
-    // this._postProcessing()
     this._setupEventListeners();
     this._resizeHandler();
     this._setEnvironmentMap();
@@ -271,7 +258,6 @@ class ThreeSceneMenu {
 
         if ("cameraMenu_Orientation" === child.name) {
           this._camera = child;
-          // this._renderPass.camera = child
         }
       })
     }
@@ -568,9 +554,6 @@ class ThreeSceneMenu {
     // Update renderer
     this._renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this._renderer.setSize(this._width, this._height);
-
-    // Update effect composer
-    // this._effectComposer.setSize(this._width,n(window.devicePixelRatio, 2))
   }
 
   _resizeHandler() {
@@ -592,7 +575,6 @@ class ThreeSceneMenu {
 
     // this._orbitControlsHandler();
     this._renderer.render(this._scene, this._camera);
-    // this._effectComposer.render()
 
   }
 
@@ -712,45 +694,6 @@ class ThreeSceneMenu {
     this._stats = new Stats()
     this._stats.showPanel(0) // 0: fps, 1: ms, 2: mb, 3+: custom
     document.body.appendChild(this._stats.dom)
-  }
-
-  _postProcessing() {
-
-    this._RenderTargetClass = null;
-
-    if (this._renderer.getPixelRatio() === 1 && this._renderer.capabilities.isWebGL2) {
-      this._RenderTargetClass = THREE.WebGLMultisampleRenderTarget;
-    } else {
-      this._RenderTargetClass = THREE.WebGLRenderTarget;
-    }
-
-    this._renderTarget = new this._RenderTargetClass(
-      800,
-      600,
-      {
-        minFilter: THREE.LinearFilter,
-        magFilter: THREE.LinearFilter,
-        format: THREE.RGBAFormat,
-        encoding: THREE.sRGBEncoding
-      }
-    )
-
-    this._effectComposer = new EffectComposer(this._renderer, this._renderTarget);
-    this._effectComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    this._effectComposer.setSize(window.innerwidth, window.innerHeight);
-
-    this._renderPass = new RenderPass(this._scene, this._camera);
-    this._effectComposer.addPass(this._renderPass);
-
-
-    // this._texturePass1 = new TexturePass( this._gribouillisTexture, 0.1 );
-    // this._effectComposer.addPass( this._texturePass1 );
-
-
-    if (this._renderer.getPixelRatio() === 1 && this._renderer.capabilities.isWebGL2) {
-      this._smaaPass = new SMAAPass();
-      this._effectComposer.addPass(this._smaaPass);
-    }
   }
 
 }
