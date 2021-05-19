@@ -8,6 +8,7 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
 import { GlitchPass } from 'three/examples/jsm/postprocessing/GlitchPass.js';
 import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js';
+import { TexturePass } from 'three/examples/jsm/postprocessing/TexturePass.js';
 
 //utils
 import bindAll from '@jsLogic/utils/bindAll';
@@ -23,6 +24,9 @@ import MenuHoveredManager from '@jsLogic/utils/menuHoveredManager'
 //shader
 import textureHoveredVertexShader from '../../../shaders/menu/texturesHovered/vertex.glsl'
 import textureHoveredFragmentShader from '../../../shaders/menu/texturesHovered/fragment.glsl'
+
+import filterVertexShader from '../../../shaders/menu/filter/vertex.glsl'
+import filterFragmentShader from '../../../shaders/menu/filter/fragment.glsl'
 
 const SETTINGS = {
   enableRaycast: true,
@@ -190,11 +194,6 @@ class ThreeSceneMenu {
     this._renderer.outputEncoding = THREE.sRGBEncoding
     this._renderer.shadowMap.autoUpdate = false
 
-    ///////////////////////
-    this._postProcessing()
-    ///////////////////////
-
-
     this._canvas.appendChild(this._renderer.domElement);
 
     this._mouse = new THREE.Vector2();
@@ -208,15 +207,12 @@ class ThreeSceneMenu {
 
     this._currentIntersect = null;
 
-    // spot freisnel shader
-    this._circle
-    this._materialSpot
-
     // this._setOrbitalControls();
+    this._loadTexture();
+    // this._postProcessing()
     this._setupEventListeners();
     this._resizeHandler();
     this._setEnvironmentMap();
-    this._loadTexture();
     this._setNewState();
     this._setNewAudioHovered()
     this._setIsReadyRaycast()
@@ -275,7 +271,7 @@ class ThreeSceneMenu {
 
         if ("cameraMenu_Orientation" === child.name) {
           this._camera = child;
-          this._renderPass.camera = child
+          // this._renderPass.camera = child
         }
       })
     }
@@ -404,6 +400,7 @@ class ThreeSceneMenu {
     // Vitrail
     this._vitrailArray.map((url) => {
       this.colorTextureInstance = this._textureLoader.load(url);
+      this._gribouillisTexture = this._textureLoader.load('/assets/textures/texture_filtre.png')
 
       this.colorTextureInstance.wrapS = THREE.RepeatWrapping;
       this.colorTextureInstance.wrapT = THREE.RepeatWrapping;
@@ -573,8 +570,7 @@ class ThreeSceneMenu {
     this._renderer.setSize(this._width, this._height);
 
     // Update effect composer
-    this._effectComposer.setSize(this._width, this._height)
-    this._effectComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    // this._effectComposer.setSize(this._width,n(window.devicePixelRatio, 2))
   }
 
   _resizeHandler() {
@@ -585,6 +581,7 @@ class ThreeSceneMenu {
   }
 
   _render() {
+
     const elapsedTime = this._clock.getElapsedTime();
     const deltaTime = elapsedTime - this._previousTime;
     this._previousTime = elapsedTime;
@@ -594,8 +591,8 @@ class ThreeSceneMenu {
     }
 
     // this._orbitControlsHandler();
-    // this._renderer.render(this._scene, this._camera);
-    this._effectComposer.render()
+    this._renderer.render(this._scene, this._camera);
+    // this._effectComposer.render()
 
   }
 
@@ -745,10 +742,10 @@ class ThreeSceneMenu {
     this._renderPass = new RenderPass(this._scene, this._camera);
     this._effectComposer.addPass(this._renderPass);
 
-    this._glitchPass = new GlitchPass();
-    this._glitchPass.enabled = true;
-    this._glitchPass.goWild = false;
-    this._effectComposer.addPass(this._glitchPass);
+
+    // this._texturePass1 = new TexturePass( this._gribouillisTexture, 0.1 );
+    // this._effectComposer.addPass( this._texturePass1 );
+
 
     if (this._renderer.getPixelRatio() === 1 && this._renderer.capabilities.isWebGL2) {
       this._smaaPass = new SMAAPass();
