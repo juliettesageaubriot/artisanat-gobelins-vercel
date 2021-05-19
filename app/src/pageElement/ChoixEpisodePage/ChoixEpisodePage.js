@@ -4,7 +4,9 @@ import TheLoader from '@components/Structure/Loader/TheLoader';
 import MenuModal from '@components/MenuModal/MenuModal'
 import TheVolume from '@components/VolumeSettings/TheVolume'
 import TheAudioSnippet from '@components/AudioSnippet/TheAudioSnippet';
+import TheModal from '@components/Modal/TheModal'
 
+import useModal from '@hooks/useModal'
 import dataMenu from '@assets/data/content-menu.json'
 //styles
 import styles from "./styles.module.scss"
@@ -14,6 +16,7 @@ import ThreeSceneMenu from '@jsLogic/three/scenes/threeSceneMenu';
 
 const ChoixEpisodeAtelierPage = () => {
   const ref = useRef(null)
+  const { isShowing: isShowingAbout, toggle: toggleAbout } = useModal();
 
   // overlay state
   const [isReady, setIsready] = useState(false)
@@ -28,6 +31,16 @@ const ChoixEpisodeAtelierPage = () => {
     handleUrl: (urlElement) => { setUrl(urlElement) },
     stopSound: (event) => { setIsPlaying(event) },
   }
+
+  const modalTextAbout = [{
+    title: "À propos",
+    slug: "Crédits",
+    content: "Ce projet a été réalisé dans le cadre du master de design et développement de l'innovation interactive. Il a été crée par deux développeurs <span>Juliette Sage--Aubriot, Aurélien Hémidy</span> et trois designers <span>Éloïse Luna, Vincent Calas et Chloélia Breton.</span>",
+    credits: "Un merci particulier pour tous les intervenants qui nous ont aidés tout au long du projet, à la comédienne <span>Roxane Fomberteau</span> qui a prêté sa voix à notre maître d'apprentissage, à <span>Louise Doublet</span> qui nous a accompagné dans la découverte du métier de vitrailliste, et à <span>Adrien Melchior</span> pour la création musicale.",
+    typographies: "Typographies : cirka, fonderie pangram pangram",
+    gobelins: '/assets/images/logo/logo_gobelins.png',
+    buttons: false
+  }]
 
   useEffect(() => {
     const canvas = ref.current
@@ -64,11 +77,21 @@ const ChoixEpisodeAtelierPage = () => {
               top={elm.top}
               disponibility={elm.disponibility}
               url={elm.url}
+              slug={elm.slug}
+              typographies={elm.typographies}
             />
           )
         })
       }
+
       <div className={`${styles.menu} ${styles['menu-overlay']} ${true === isReady && styles['overlay-none']}`} id="menu-overlay">
+
+        <div className={`${styles["btn_container"]}`}>
+          <div className={`${styles["btn__inner"]}`}>
+            <button className={`btn btn-about ${isShowingAbout === true && styles.disabled}`} onClick={toggleAbout}><span>À propos</span></button>
+          </div>
+        </div>
+
         <div className={`${styles['menu_container']}`}>
           <img src="/assets/images/logo/logo_regards_dartisans.png" alt="logo Regards d'Artisans" />
           <p className={styles.pitch}>Regards d'artisans nous invite à nous glisser dans la peau d'un apprenti artisan, dans le cadre intime d'un atelier, lieu de partage d'un savoir-faire.</p>
@@ -81,10 +104,12 @@ const ChoixEpisodeAtelierPage = () => {
         </div>
       </div>
 
-      <TheVolume absolute={true} colorPicto="noir"/>
+      <TheModal isShowing={isShowingAbout} hide={toggleAbout} content={modalTextAbout} />
+      <TheVolume absolute={true} colorPicto="noir" />
       <div ref={ref} />
 
     </section>
+
   )
 }
 

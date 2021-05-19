@@ -16,7 +16,6 @@
     position: relative;
     padding: 10px 24px;
     text-decoration: none;
-    color: $color-black;
     overflow: hidden;
     background-color: transparent;
     color: $color-black;
@@ -49,14 +48,15 @@
   }
 
   &-about {
-    width: 100px;
-    height: 30px;
-    background-color: $color-grey-100;
-    color: $color-white;
-    border: none;
-    border-radius: 20px;
-    font-size: 16px;
+    font-family: $font-button;
     cursor: pointer;
+    text-decoration: none;
+    overflow: hidden;
+    background-color: transparent;
+    color: $color-black;
+    font-size: 16px;
+    padding: 8px 20px;
+    border: 1px solid $color-black;
     &.disabled {
       pointer-events: none;
       cursor: initial;
@@ -67,21 +67,11 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    width: 40px;
-    height: 40px;
-    background-color: $color-primary;
+    background-color: transparent;
     border: none;
     cursor: pointer;
-    border-radius: 4px;
-
-    .btn__icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      font-size: 20px;
-      color: $color-white;
-    }
+    box-shadow: -1px 1px .2em rgba($color-black, 0.5);
+    transition: 0.2s ease-in all;
   }
 }
 
