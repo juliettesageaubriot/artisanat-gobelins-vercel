@@ -127,6 +127,9 @@ class ThreeScene {
 
         this._renderer.shadowMap.enabled = true;
         this._renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        this._renderer.toneMapping = THREE.NoToneMapping;
+        this._renderer.outputEncoding = THREE.sRGBEncoding;
+        this._renderer.shadowMap.autoUpdate = false;
         this._renderer.setSize(window.innerwidth, window.innerHeight);
         this._renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       
@@ -168,7 +171,7 @@ class ThreeScene {
         this._outlinePass.edgeGlow = 1;
         this._outlinePass.visibleEdgeColor = new THREE.Color( 0xffffff );
         this._outlinePass.hiddenEdgeColor = new THREE.Color( 0xffffff );
-        this._outlinePass.enabled = true;
+        this._outlinePass.enabled = false;
         this._effectComposer.addPass( this._outlinePass );
 
         if(this._renderer.getPixelRatio() === 1 && this._renderer.capabilities.isWebGL2) {
@@ -197,7 +200,8 @@ class ThreeScene {
             this._toggleArtisaneOpacity, 
             this._toggleDragAndDropControls, 
             this._setfeuilleLeveAnimationPlay,
-            this._setDragAndDropControls
+            this._setDragAndDropControls,
+            this._outlinePass
         );
 
         this._artisanes = [];
@@ -249,6 +253,8 @@ class ThreeScene {
     _setCameraAnimationPlay(index, actionIndex) {
         this._camera = this._cameras[index];
         this._renderPass.camera = this._cameras[index];
+        this._outlinePass.renderCamera = this._cameras[index];
+        console.log(this._renderPass.enabled)
         this.cameraManager.StartAnimation(index);
 
         const onFinished = () => {
@@ -315,8 +321,6 @@ class ThreeScene {
 
                     this._cameras = [...this._models[name].cameras];
                     this._cameraAnimations = [...this._models[name].animations];
-                    console.log(this._cameras)
-                    console.log(this._cameraAnimations)
 
                     this.cameraAnimator = new AnimationManager(child, this._cameraAnimations);
                     this.cameraManager = new CameraManager(this._camera, this._cameras, this.cameraAnimator);
@@ -331,6 +335,7 @@ class ThreeScene {
                     // console.log(this._camera)
                     this._camera = child;
                     this._renderPass.camera = child;
+                    this._outlinePass.renderCamera = child;
                     // this.cameraManager.StartAnimation(4);
 
                 } else if ("artisane01" === child.name) {
@@ -358,11 +363,10 @@ class ThreeScene {
                     this.feuilleLeveAnimator = new AnimationManager(child, this._feuilleLeveAnimations);
                     this.feuilleChuteAnimator = new AnimationManager(child, this._feuilleChuteAnimations);
                     this.feuilleChuteManager = new CameraManager(this._camera, this._cameras, this.feuilleChuteAnimator);
-
+                
                 } else if("Piece_decoupe" === child.name) {
 
                     this._addToScene(child);
-                    console.log(child)
                     child.position.set(1.5, 1.2, 1.2);
                     child.rotation.set(Math.PI / 3, 0, 0);
                     child.scale.set(0.8, 0.8, 0.8);
@@ -401,7 +405,6 @@ class ThreeScene {
                     child.traverse(child => {
                         if("surface_drop" === child.name || "piece_principale_above" === child.name) {
                             
-                            console.log(child)
                         } else {
                             this._glassCutOutRaycastObject.push(child);
                         }
@@ -428,11 +431,13 @@ class ThreeScene {
                         } else if("piece_principale" === child.name) {
                             // console.log(child)
                             this._outlinePass.renderCamera = this._camera;
-                            this._outlinePass.selectedObjects = [child]
-                            // console.log(this._outlinePass.selectedObjects)
+                            this._outlinePass.selectedObjects = [child];
+                            
+  
                         } else if("piece1" === child.name) {
                             child.material.opacity = 0.5;
                             child.material.transparent = true;
+                            // this._get3DobjectScreenPosition(child.position);
                         }
                     });
 
@@ -440,7 +445,6 @@ class ThreeScene {
 
                     // this._addToScene(child);
                     this._dragItems.push(child);
-                    console.log(child)
                     // child.position.set(0, 1.2, -2.2);
                     // child.scale.set(0.10, 0.10, 0.10);
                     // child.rotation.set(-Math.PI / 2, 0, 0);
@@ -559,6 +563,44 @@ class ThreeScene {
         return mesh;
     }
 
+    _get3DobjectScreenPosition(coordinates3D) {
+        const object3DCoordinates = coordinates3D;
+        const position = object3DCoordinates.clone().project(this._camera);
+
+        position.x = ((position.x + 1) / 2 * this._width);
+        position.y = (-(position.y - 1) / 2 * this._height);
+        console.log(this._width);
+        console.log(this._height);
+        console.log(position.x);
+        console.log(position.y);
+        this._UIManager.setClickPointsPicto(position.y, position.x);
+
+        return position;
+       
+    }
+    // _get3DobjectScreenPosition(obj) {
+    //     const vector = new THREE.Vector3();
+    
+    //     const widthHalf = 0.5 * this._renderer.context.canvas.width;
+    //     const heightHalf = 0.5 * this._renderer.context.canvas.height;
+        
+    //     obj.updateMatrixWorld();
+    //     vector.setFromMatrixPosition(obj.matrixWorld);
+    //     vector.project(this._camera);
+        
+    //     vector.x = ( vector.x * widthHalf ) + widthHalf;
+    //     vector.y = - ( vector.y * heightHalf ) + heightHalf;
+
+    //     console.log(vector.x)
+    //     console.log(vector.y)
+    //     this._UIManager.setClickPointsPicto(vector.y, vector.x);
+        
+    //     return { 
+    //         x: vector.x,
+    //         y: vector.y
+    //     };
+    // }
+
     _resize(width, height) {
         this._width = width;
         this._height = height;
@@ -671,13 +713,13 @@ class ThreeScene {
 
         this._vitrail = ["debut", "milieu1", "milieu2", "milieu3", "milieu4", "milieu5", "fin", "piece1", "piece_principale"];
 
-        this._vitrail.map(verre => {
-            this._scene.getObjectByName(verre).material = new THREE.MeshStandardMaterial({
-                color: this._finalColorPicked.couleurEtoile,
-                opacity: 0.5,
-                transparent: true
-            })
-        });
+        // this._vitrail.map(verre => {
+        //     this._scene.getObjectByName(verre).material = new THREE.MeshStandardMaterial({
+        //         color: this._finalColorPicked.couleurEtoile,
+        //         opacity: 0.5,
+        //         transparent: true
+        //     })
+        // });
         // console.log(this._finalColorPicked);
     }
 

@@ -72,14 +72,14 @@
     {
       "id": 10,
       "text": "Je te laisse découper la partie centrale du vitrail dans le verre que tu as choisi.", 
-      "duration": "3000",
+      "duration": "3300",
       "audioSource": "assets/audios/subtitles/06_VF_Etape3_01a.mp3",
       "actionOnEnd": 19
     },
     {
       "id": 11,
       "text": "Le mieux c'est de reprendre la pièce du patron correspondante et la superposer au verre.", 
-      "duration": "4000",
+      "duration": "4300",
       "audioSource": "assets/audios/subtitles/06_VF_Etape3_01b.mp3",
       "actionOnEnd": 20
     },
@@ -100,7 +100,7 @@
     {
       "id": 14,
       "text": "Il ne faut pas trop tarder à décrocher le verre avec la pince. Si c'est trop long, la coupe se referme !", 
-      "duration": "5200",
+      "duration": "5300",
       "audioSource": "assets/audios/subtitles/07_VF_Etape3_02.mp3",
       "actionOnEnd": 26
     },

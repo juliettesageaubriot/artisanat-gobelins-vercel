@@ -40,8 +40,8 @@ class UIManager {
 
     setClickPointsPicto(top, left) {
         this.UI.clickPoints.style.opacity = 1
-        this.UI.clickPoints.style.top = top + "%"
-        this.UI.clickPoints.style.left = left + "%"
+        this.UI.clickPoints.style.top = top + "px"
+        this.UI.clickPoints.style.left = left + "px"
 
         this._removeClickPointsPicto = setTimeout(() => {
             this.UI.clickPoints.style.opacity = 0

@@ -2,7 +2,7 @@
 import bindAll from '@jsLogic/utils/bindAll';
 
 class ActionsStepManager {
-    constructor(state, stepManager, UIManager, breadCrumb, setCameraAnimation, toggleArtisane, toggleDragAndDropControls, setfeuilleLeveAnimationPlay, setDragAndDropControls) {
+    constructor(state, stepManager, UIManager, breadCrumb, setCameraAnimation, toggleArtisane, toggleDragAndDropControls, setfeuilleLeveAnimationPlay, setDragAndDropControls, outlinePass) {
         // bindAll(
         //     this,
         // );
@@ -15,6 +15,7 @@ class ActionsStepManager {
         this._toggleDragAndDrop = toggleDragAndDropControls;
         this._setfeuilleLeveAnimationPlay = setfeuilleLeveAnimationPlay;
         this._setDragAndDropControls = setDragAndDropControls;
+        this._outlinePass = outlinePass;
 
         //Les débloquage d'interactions
         this._allowedScroll = false;
@@ -121,7 +122,6 @@ class ActionsStepManager {
         this._setCurrentSubtitle(5);
         console.log("seconde animation de caméra")
         this._setCameraAnimation(1, "none");
-        this._stepManager.addGlobalStep();
         this._breadCrumb.changeNameAtelier("Choix des couleurs");
     }
     _stepEleven() {
@@ -140,6 +140,7 @@ class ActionsStepManager {
         this._setCurrentSubtitle(8);
     }
     _stepFifteen() {
+        this._stepManager.addGlobalStep();
         this._UIManager.setDragAndDropPicto(50, 50);
        this._allowedDragAndDrop = true;
        this._state.setToolsArray2();
@@ -175,10 +176,10 @@ class ActionsStepManager {
     }
     _stepTwentyOne() {
         this._UIManager.setDragAndDropPicto(45, 35);
+        this._outlinePass.enabled = true;
         this._allowedDragAndDrop = true;
         this._setDragAndDropControls();
         this._state.setToolsArray3();
-        console.log(this._stepManager._globalStep, this._stepManager._subStep);
     }
     _stepTwentyTwo() {
          //A appeler sur le succes du drag and drop
