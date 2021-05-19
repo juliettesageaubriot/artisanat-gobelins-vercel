@@ -2,8 +2,6 @@
 import styles from './styles.module.scss'
 
 const TheModal = ({ isShowing, hide, content }) => {
-
-console.log(isShowing);
   return (
     <>
       <div className={`${styles['intro-modal_container']} ${isShowing === true ? styles.visible : ""}`}>

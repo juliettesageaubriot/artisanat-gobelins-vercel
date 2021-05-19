@@ -386,7 +386,6 @@ class ThreeSceneMenu {
     // Vitrail
     this._vitrailArray.map((url) => {
       this.colorTextureInstance = this._textureLoader.load(url);
-      this._gribouillisTexture = this._textureLoader.load('/assets/textures/texture_filtre.png')
 
       this.colorTextureInstance.wrapS = THREE.RepeatWrapping;
       this.colorTextureInstance.wrapT = THREE.RepeatWrapping;
