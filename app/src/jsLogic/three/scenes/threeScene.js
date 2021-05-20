@@ -1325,23 +1325,6 @@ class ThreeScene {
         // console.log(this.addStepManager.subStep)
     }
 
-    _setAddGlobalStep() {
-        // let ateliersNumber = 5
-
-        this.addStepManager.addGlobalStep()
-        // console.log(this.addStepManager.globalStep)
-
-        const breadcrumbElm = document.querySelector('.breadcrumb_container')
-        // let breadcrumbUl = document.querySelector('.list-breadcrumb')
-        // let li = breadcrumbUl.childNodes[this.addStepManager.globalStep - 1]
-
-        breadcrumbElm.setAttribute('data-step', this.addStepManager.globalStep)
-
-        // Si jamais les designs veulent changer la couleurs quand ça a été actif
-        // if(this.addStepManager.globalStep > ateliersNumber) return
-        // li.classList.add('actived')
-    }
-
     _pressureGaugeHandler(deltaTime) {
         this._globalStep = this._stepManager._globalStep;
         this._subStep = this._stepManager._subStep;

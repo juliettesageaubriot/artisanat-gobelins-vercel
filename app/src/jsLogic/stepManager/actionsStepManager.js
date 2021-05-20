@@ -84,6 +84,7 @@ class ActionsStepManager {
 
     _stepOne() {
         this._setCurrentSubtitle(0);
+        this._breadCrumb.breadcrumbStep(1)
     }
     _stepTwo() {
         this._setCurrentSubtitle(1);
@@ -125,6 +126,7 @@ class ActionsStepManager {
         console.log("seconde animation de caméra")
         this._setCameraAnimation(1, "none");
         this._breadCrumb.changeNameAtelier("Choix des couleurs");
+        this._breadCrumb.breadcrumbStep(2)
     }
     _stepEleven() {
         //Sur la fin du sous titre 5
