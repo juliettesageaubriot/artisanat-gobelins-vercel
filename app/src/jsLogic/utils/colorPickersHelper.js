@@ -13,6 +13,7 @@ export const SetupColorPicker = (vitrailGroup, objectToTest, vitrailObjects, cra
     resolve(textures);
 
   }).then(result => {
+    let startColorCouleur;
     
     vitrailGroup.children.map((objects, i) => {
       if(objects.name.toLowerCase().includes("verre")) {
@@ -29,12 +30,15 @@ export const SetupColorPicker = (vitrailGroup, objectToTest, vitrailObjects, cra
         // objects.material.type = "MeshPhongMaterial";
         objects.material.transparent = true;
         objects.material.opacity = 0.6;
+        startColorCouleur = objects.material.color;
 
       } else if(objects.name.toLowerCase().includes("couleur")) {
         crayonnes.push(objects);
         
         //Ajout des textures en alphaMap pour les crayonnés
         objects.material.transparent = true;
+        objects.material.opacity = 0;
+        objects.material.color = startColorCouleur;
         if(objects.name.toLowerCase().includes("carre")) {
           objects.material.alphaMap = result[0];
         } else if(objects.name.toLowerCase().includes("rectangle")) {

@@ -13,12 +13,27 @@
     background-size: contain;
 
     z-index: 100;
-}
 
-.cursor-dragging {
-    background-image: url("/assets/images/ui/pictos-ux/curseur_02.png");
-}
-
-.cursor-pointer-color-picker {
     background-image: url("/assets/images/ui/pictos-ux/curseur_01.png");
+
+    &.cursor-dragging {
+        background-image: url("/assets/images/ui/pictos-ux/curseur_02.png");
+    }
+}
+
+#carre-cursor {
+    height: 30px;
+    width: 30px;
+
+    background-color: aquamarine;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    position: absolute;
+
+    transition: 0.3s ease-in-out opacity;
+
+    pointer-events: none;
 }

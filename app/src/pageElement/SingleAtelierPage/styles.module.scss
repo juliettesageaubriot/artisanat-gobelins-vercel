@@ -11,17 +11,6 @@
     pointer-events: none;
 }
 
-.pressureGauge {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    height: 40px;
-    width: 40px;
-    background-color: aquamarine;
-    border-radius: 100%;
-    transition: .2s transform ease-in-out;
-    opacity: 0;
-}
 
 .link-before {
     position: absolute;
@@ -42,6 +31,8 @@
     left: 50%;
     transform: translateX(-50%);
 
+    background-color: transparent;
+
     border: 2px solid #ffffff;
     z-index: 1;
 
@@ -51,8 +42,6 @@
 
     transition: .3s opacity ease-in-out;
 
-    span {
-        color: white;
-    }
+    color: white;
 }
 

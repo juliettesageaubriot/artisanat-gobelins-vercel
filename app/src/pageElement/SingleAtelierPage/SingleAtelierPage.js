@@ -14,6 +14,8 @@ import TheVolume from '@components/VolumeSettings/TheVolume';
 import TheStepValidation from '@components/StepValidation/TheStepValidation';
 import TheToolChoiceButton from '@components/ToolChoiceButton/TheToolChoiceButton';
 import TheCursor from '@/components/Cursor/TheCursor';
+import ThePressionUX from '@/components/PressionUX/ThePressionUX';
+import TheClickPoints from '@/components/ClickPoints/TheClickPoints';
 
 //utils
 import useIsMounted from '@hooks/useIsMounted'
@@ -22,6 +24,7 @@ import useIsMounted from '@hooks/useIsMounted'
 import audioDatas from "assets/data/subtitles.json";
 import toolsData from '@assets/data/tools.json';
 import stepValidationDatas from "assets/data/step-validation.json";
+
 
 
 
@@ -69,6 +72,7 @@ const SingleAtelierPage = () => {
       currentSubtitle={currentSubtitle}
       key={index}
       onEnd={() => threeScene._actionStepManager.actionsManager(elm.actionOnEnd)}
+      onEndReplay={() => elm.actionOnReplay != null ? threeScene._actionStepManager.actionsManager(elm.actionOnReplay) : console.log("no replay")}
     />
   });
 
@@ -104,20 +108,23 @@ const SingleAtelierPage = () => {
           <span>Épisodes</span>
         </a>
 
-        <a className={`link-before ${styles["colorPicker-cta"]}`} id="colorPicker-cta" onClick={() => threeScene._actionStepManager.actionsManager(15)}>
-          <span>J'ai choisi mes couleurs !</span>
-        </a>
+        <button className={`link link-primary ${styles["colorPicker-cta"]}`} id="colorPicker-cta" onClick={() => threeScene._actionStepManager.actionsManager(15)}>
+          J'ai choisi mes couleurs !
+        </button>
 
         <div className={styles["page-singleAtelier"]}></div>
 
-        <img src="/assets/images/ui/pictos-ux/click-points.gif" alt="Picto UX pour le click gruger" className="picto-ux click-points" id="clickPoints"/>
+        <img src="/assets/images/ui/pictos-ux/CLIC_GRUGER_V02.gif" alt="Picto UX pour le click gruger" className="picto-ux click-points" id="clickPoints"/>
         <img src="/assets/images/ui/pictos-ux/drag-and-drop.gif" alt="Picto UX pour le drag and drop" className="picto-ux drag-and-drop" id="dragAndDrop"/>
+        <img src="/assets/images/ui/pictos-ux/drag-and-drop.gif" alt="Picto UX pour le drag and drop du color picker" className="picto-ux drag-and-drop-color-picker" id="dragAndDropColorPicker"/>
         <img src="/assets/images/ui/pictos-ux/pression.gif" alt="Picto UX pour la jauge de pression" className="picto-ux pression" id="pression"/>
         <img src="/assets/images/ui/pictos-ux/scroll.gif" alt="Picto UX pour le scroll" className="picto-ux scroll" id="scroll"/>
-        <img src="/assets/images/ui/pictos-ux/trace.gif" alt="Picto UX pour la trace glissière" className="picto-ux trace" id="trace"/>
+        <img src="/assets/images/ui/pictos-ux/TRACE_GLISSIERE_V02.gif" alt="Picto UX pour la trace glissière" className="picto-ux trace" id="trace"/>
+        <img src="/assets/images/ui/pictos-ux/TRACE_GLISSIERE_FIXE.png" alt="Picto UX pour la trace glissière fixe" className="picto-ux trace-fixe" id="trace-fixe"/>
 
+        <TheClickPoints />
         <TheVolume absolute />
-        <div className={styles.pressureGauge} id="pressureGauge"></div>
+        <ThePressionUX />
         <div ref={ref} />
         <div className={styles.colorPickerContainer} ref={cursorColorPickerContainer}>
           <div className={styles.colorPickerInner} ref={cursorColorPickerInner}></div>
