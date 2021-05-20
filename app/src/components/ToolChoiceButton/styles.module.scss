@@ -29,10 +29,15 @@
                     cursor: pointer;
                     border: none;
                     transition: 0.8s ease-in all;
-                    &.actived {
+                    &[data-scale = true] {
                         width: 70px;
                         height: 70px;
-                        transition: 0.8s ease-in all;
+                    }
+                    &.scale {
+                        width: 70px;
+                        height: 70px;
+                        // transition: 0.8s ease-in all;
+                        // background-color: initial;
                     }
                     img {
                         position: absolute;

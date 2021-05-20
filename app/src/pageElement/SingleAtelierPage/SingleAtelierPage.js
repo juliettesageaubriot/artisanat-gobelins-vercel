@@ -24,8 +24,6 @@ import toolsData from '@assets/data/tools.json';
 import stepValidationDatas from "assets/data/step-validation.json";
 
 
-
-
 const SingleAtelierPage = () => {
   const isMounted = useIsMounted();
 
@@ -50,7 +48,7 @@ const SingleAtelierPage = () => {
     stopSound: () => { setIsPlaying(false) },
     start: () => { setCurrentSubtitle(0); },
     setNextSubtitle: (index) => { setCurrentSubtitle(index) },
-    setToolsArray1: () => { setCurrentStepTools(data.toolsArray0) },
+    setToolsArray1: () => { setCurrentStepTools(data.toolsArray0);},
     setToolsArray2: () => { setCurrentStepTools(data.toolsArray1) },
     setToolsArray3: () => { setCurrentStepTools(data.toolsArray2) },
     setStepValidation: (index) => { setCurrentValidationStep(index) }
@@ -59,9 +57,8 @@ const SingleAtelierPage = () => {
   useEffect(() => {
     const canvas = ref.current
     setThreeScene(new ThreeScene(canvas, state));
-    setCurrentStepTools(data.toolsArray0);
+    // setCurrentStepTools(data.toolsArray0);
   }, [])
-
 
   const subtitleItems = audioDatas.map((elm, index) => {
     return <TheSubTitle
@@ -82,6 +79,8 @@ const SingleAtelierPage = () => {
       onClick={() => threeScene._actionStepManager.actionsManager(elm.actionOnClick)}
     />
   });
+
+  console.log('currentStepTools', currentStepTools);
 
   return (
     <>

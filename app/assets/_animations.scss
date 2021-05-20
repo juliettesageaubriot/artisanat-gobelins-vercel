@@ -1,10 +1,33 @@
 .tool-choice {
   &_container {
-    &.loaded {
+    &.visible {
       right: 30px;
       opacity: 1;
       transition: 2s ease-in-out all;
       transition-delay: 1s;
+    }
+  }
+  &__inner {
+    ul {
+      li {
+        list-style: none;
+        button {
+          position: relative;
+          width: 60px;
+          height: 60px;
+          cursor: pointer;
+          border: none;
+          transition: 0.8s ease-in all;
+          &.actived {
+            transition: 0.8s ease-in all;
+            background-color: $color-cyan;
+          }
+          &.scale {
+            width: 70px;
+            height: 70px;
+          }
+        }
+      }
     }
   }
 }
