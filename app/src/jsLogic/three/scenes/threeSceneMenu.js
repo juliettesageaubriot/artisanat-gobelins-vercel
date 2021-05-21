@@ -1,9 +1,10 @@
 //vendors
 import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 //utils
 import bindAll from '@jsLogic/utils/bindAll';
+import Stats from 'stats.js'
 
 //modules
 import AssetsLoader from '@jsLogic/three/assetsLoader';
@@ -11,6 +12,10 @@ import dataMenu from '@assets/data/content-menu.json'
 
 import { SetupMenuChaptersRaycast } from '@jsLogic/utils/menuChaptersRaycastHelper';
 import MenuHoveredManager from '@jsLogic/utils/menuHoveredManager'
+
+//shader
+import textureHoveredVertexShader from '../../../shaders/menu/texturesHovered/vertex.glsl'
+import textureHoveredFragmentShader from '../../../shaders/menu/texturesHovered/fragment.glsl'
 
 const SETTINGS = {
   enableRaycast: true,
@@ -31,6 +36,16 @@ class ThreeSceneMenu {
       '_setOrbitalControls',
       '_orbitControlsHandler',
       '_mousemoveHandler',
+      '_setIsReadyRaycast',
+      '_setMouseMoveTargetCamera',
+      '_setClickUrl',
+      '_setTextureStructure',
+      '_setTextureVitrail',
+      '_setTextureContrebasse',
+      '_setTextureChapeau',
+      '_setTextureCollier',
+      '_setMouseScss',
+      '_setStats',
     )
 
     this._canvas = canvas;
@@ -55,27 +70,55 @@ class ThreeSceneMenu {
     this._violoncelleGroup = new THREE.Group;
     this._chapeauGroup = new THREE.Group;
 
-    this._chaptersTestObject = []
+    this.objectsCurrentRaycast = []
 
-    this._newColorTextureHover = []
-    this._currentColorTextureHover = []
+    // Chaque tableau dépend de qui on hover, vitrailArray = j'hover le vitrail
+    // Dans vitrailArray il y a la texture du collier qui provient d'un autre elm, c'est parce qu'il ne change pas
 
-    this._newMaterialArray = [
-      '/assets/textures/menu/newMaterials/vitrail_plomb_baseColor.png',
-      '/assets/textures/menu/newMaterials/vitrail_verre_baseColor.png',
-      '/assets/textures/menu/newMaterials/collier_baseColor.png',
-      '/assets/textures/menu/newMaterials/buste_baseColor.png',
-      '/assets/textures/menu/newMaterials/contreBasse_baseColor.png',
-      '/assets/textures/menu/newMaterials/chapeau_baseColor.png'
+    this._currentTexture = []
+    this._newVitrailColorTextureHover = []
+    this._newChapeauColorTextureHover = []
+    this._newCollierColorTextureHover = []
+    this._newContrebasseColorTextureHover = []
+
+    this._vitrailArray = [
+      '/assets/textures/menu/newMaterials/vitrail/vitrail_baseColor.jpg',
+      '/assets/textures/menu/newMaterials/vitrail/collier_baseColor.jpg',
+      '/assets/textures/menu/newMaterials/vitrail/contreBasse_baseColor.jpg',
+      '/assets/textures/menu/newMaterials/vitrail/chapeau_baseColor.jpg',
+      '/assets/textures/menu/newMaterials/vitrail/sol_baseColor.jpg',
+    ]
+
+    this._collierArray = [
+      '/assets/textures/menu/newMaterials/collier/vitrail_baseColor.jpg',
+      '/assets/textures/menu/newMaterials/collier/collier_baseColor.jpg',
+      '/assets/textures/menu/newMaterials/collier/contreBasse_baseColor.jpg',
+      '/assets/textures/menu/newMaterials/collier/chapeau_baseColor.jpg',
+      '/assets/textures/menu/newMaterials/collier/sol_baseColor.jpg',
+    ]
+
+    this._chapeauArray = [
+      '/assets/textures/menu/newMaterials/chapeau/vitrail_baseColor.jpg',
+      '/assets/textures/menu/newMaterials/chapeau/collier_baseColor.jpg',
+      '/assets/textures/menu/newMaterials/chapeau/contreBasse_baseColor.jpg',
+      '/assets/textures/menu/newMaterials/chapeau/chapeau_baseColor.jpg',
+      '/assets/textures/menu/newMaterials/chapeau/sol_baseColor.jpg',
+    ]
+
+    this._contrebasseArray = [
+      '/assets/textures/menu/newMaterials/contrebasse/vitrail_baseColor.jpg',
+      '/assets/textures/menu/newMaterials/contrebasse/collier_baseColor.jpg',
+      '/assets/textures/menu/newMaterials/contrebasse/contreBasse_baseColor.jpg',
+      '/assets/textures/menu/newMaterials/contrebasse/chapeau_baseColor.jpg',
+      '/assets/textures/menu/newMaterials/contrebasse/sol_baseColor.jpg',
     ]
 
     this._currentMaterialArray = [
-      '/assets/textures/menu/currentMaterials/vitrail_plomb_baseColor.png',
-      '/assets/textures/menu/currentMaterials/vitrail_verre_baseColor.png',
-      '/assets/textures/menu/currentMaterials/collier_baseColor.png',
-      '/assets/textures/menu/currentMaterials/buste_baseColor.png',
-      '/assets/textures/menu/currentMaterials/contreBasse_baseColor.png',
-      '/assets/textures/menu/currentMaterials/chapeau_baseColor.png'
+      '/assets/textures/menu/currentMaterials/vitrail_baseColor.jpg',
+      '/assets/textures/menu/currentMaterials/collier_baseColor.jpg',
+      '/assets/textures/menu/currentMaterials/contreBasse_baseColor.jpg',
+      '/assets/textures/menu/currentMaterials/chapeau_baseColor.jpg',
+      '/assets/textures/menu/currentMaterials/sol_baseColor.jpg'
     ]
 
     this._soundsChaptersHoveredArray = [
@@ -85,8 +128,33 @@ class ThreeSceneMenu {
       'assets/audios/menu/chapters/chapelier.mp3',
     ]
 
+    this._progress = 0
+    this._increase
+
+    /////
     this._loadingManager
-    this._textureLoaderg
+
+    // Change texture
+    this._materialEnable = false
+
+    // chaque model
+    this._verreElm
+    this._plombElm
+    this._chapeauElm
+    this._contreBasseElm
+    this._collierElm
+    this._structureElm
+
+    //Set the visible vitrail child
+    this._vitrailVisible
+
+    // Mouse target camera
+    this._windowHalf = new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2);
+    this._mouse = new THREE.Vector2();
+    this._target = new THREE.Vector2();
+
+    //Stats
+    this._stats
 
     this._setup();
     this._loadAssets();
@@ -96,16 +164,15 @@ class ThreeSceneMenu {
   _setup() {
     this._scene = new THREE.Scene();
 
-    this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
-    this._camera.position.set(3, 1, 3.5);
-    this._camera.rotation.set(0, 0, 0)
+    this._camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
+    this._camera.position.set(0, 1, 0);
     this._scene.add(this._camera);
 
     this._ambientLight = new THREE.AmbientLight(0xffffff, 1)
     this._scene.add(this._ambientLight);
 
     this._renderer = new THREE.WebGLRenderer({
-      //canvas: this._canvas,
+      canvas: this._canvas.current,
       antialias: true,
     });
 
@@ -113,33 +180,34 @@ class ThreeSceneMenu {
     this._renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this._renderer.toneMapping = THREE.NoToneMapping
     this._renderer.outputEncoding = THREE.sRGBEncoding
+    this._renderer.shadowMap.autoUpdate = false
 
     this._canvas.appendChild(this._renderer.domElement);
 
     this._mouse = new THREE.Vector2();
     this._rayCaster = new THREE.Raycaster();
+    this._pointerControls
 
     this._modal = {
       current: null,
       old: null
     }
 
-
     this._currentIntersect = null;
 
     // this._setOrbitalControls();
+    this._loadTexture();
     this._setupEventListeners();
     this._resizeHandler();
     this._setEnvironmentMap();
-    this._loadTexture();
     this._setNewState();
     this._setNewAudioHovered()
-    // this._loadSoundsChaptersHovered(this._camera)
-
+    this._setIsReadyRaycast()
+    this._setStats()
   }
 
   _loadAssets() {
-    this._loader = new AssetsLoader(this._enableRaycastMenu);
+    this._loader = new AssetsLoader();
     this._loader.loadAssets().then(this._assetsLoadedHandler);
   }
 
@@ -153,20 +221,43 @@ class ThreeSceneMenu {
   _createModels() {
     for (let name in this._models) {
       this.object = this._models[name].scene;
-
       this.object.traverse(child => {
-        if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
-          // child.material.envMap = environmentMap
-          // child.material.envMapIntensity = 5
+        // if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
+        // child.material.envMap = environmentMap
+        // child.material.envMapIntensity = 5
 
-          child.castShadow = true
-          child.receiveShadow = true
+        // child.castShadow = true
+        // child.receiveShadow = true
+        // }
+
+        if ("menu" === child.name) {
+          this._addToScene(child)
+          SetupMenuChaptersRaycast(child, this.objectsCurrentRaycast)
+          this.idChapterHovered = new MenuHoveredManager(0);
+          child.children.map((elm) => {
+            switch (elm.name) {
+
+              case 'vitrail':
+                this._vitrailElm = elm
+                break;
+              case 'collier':
+                this._collierElm = elm
+                break;
+              case 'contrebasse':
+                this._contreBasseElm = elm
+                break;
+              case 'chapeau':
+                this._chapeauElm = elm
+                break;
+              case 'structure':
+                this._structureElm = elm
+                break;
+            }
+          })
         }
 
-        if ("Menu" === child.name) {
-          this._addToScene(child)
-          SetupMenuChaptersRaycast(child, this._chaptersTestObject)
-          this.idChapterHovered = new MenuHoveredManager(0);
+        if ("cameraMenu_Orientation" === child.name) {
+          this._camera = child;
         }
       })
     }
@@ -182,14 +273,15 @@ class ThreeSceneMenu {
   }
 
   _rayCast(e) {
-    if (this._loader.enableRaycastMenu === false) return;
+    //return la bonne valeur
+    if (this._enableRaycastMenu === false) return;
 
     this._mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
     this._mouse.y = - (e.clientY / window.innerHeight) * 2 + 1;
 
     this._rayCaster.setFromCamera(this._mouse, this._camera);
 
-    let intersects = this._rayCaster.intersectObjects(this._chaptersTestObject, false);
+    let intersects = this._rayCaster.intersectObjects(this.objectsCurrentRaycast, false);
 
     this.rayCastHandler(intersects);
   }
@@ -208,7 +300,7 @@ class ThreeSceneMenu {
 
       this._currentIntersect = this._object;
 
-      document.querySelector("html").style.cursor = "pointer";
+      this._increase = true
 
       this._currentObjectName = this._currentIntersect.name;
       this.idChapterHovered.SetCurrentIdHovered(this._currentObjectName);
@@ -218,39 +310,72 @@ class ThreeSceneMenu {
       this._idModal = 'modal-menu-' + this._modal.current;
       this._currentModal = document.getElementById(this._idModal);
 
-      // if(!!this._currentModal) return;
       if (this._currentModal) {
         this._currentModal.classList.remove('invisible');
       }
 
+      if (this._materialEnable === false) {
 
-      if (this._currentModal !== this._previousModal) {
-        if (this._previousModal) {
-          this._previousModal.classList.add('invisible');
+        switch (this.idChapterHovered.textureID) {
+          case 0:
+            this._vitrailElm.material = this._setTextureVitrail(this._currentTexture[0], this._newVitrailColorTextureHover[0], 1.0)
+            this._collierElm.material = this._setTextureCollier(this._currentTexture[1], this._newVitrailColorTextureHover[1], 1.0)
+            this._contreBasseElm.material = this._setTextureContrebasse(this._currentTexture[2], this._newVitrailColorTextureHover[2], 1.0)
+            this._chapeauElm.material = this._setTextureChapeau(this._currentTexture[3], this._newVitrailColorTextureHover[3], 1.0)
+            this._structureElm.material = this._setTextureStructure(this._currentTexture[4], this._newVitrailColorTextureHover[4], 1.0)
+            this._setMouseScss(true, false)
+            break;
+          case 1:
+            this._vitrailElm.material = this._setTextureVitrail(this._currentTexture[0], this._newCollierColorTextureHover[0], 1.0)
+            this._collierElm.material = this._setTextureCollier(this._currentTexture[1], this._newCollierColorTextureHover[1], 1.0)
+            this._contreBasseElm.material = this._setTextureContrebasse(this._currentTexture[2], this._newCollierColorTextureHover[2], 1.0)
+            this._chapeauElm.material = this._setTextureChapeau(this._currentTexture[3], this._newCollierColorTextureHover[3], 1.0)
+            this._structureElm.material = this._setTextureStructure(this._currentTexture[4], this._newCollierColorTextureHover[4], 1.0)
+            this._setMouseScss(false, true)
+            break;
+          case 2:
+            this._vitrailElm.material = this._setTextureVitrail(this._currentTexture[0], this._newContrebasseColorTextureHover[0], 1.0)
+            this._collierElm.material = this._setTextureCollier(this._currentTexture[1], this._newContrebasseColorTextureHover[1], 1.0)
+            this._contreBasseElm.material = this._setTextureContrebasse(this._currentTexture[2], this._newContrebasseColorTextureHover[2], 1.0)
+            this._chapeauElm.material = this._setTextureChapeau(this._currentTexture[3], this._newContrebasseColorTextureHover[3], 1.0)
+            this._structureElm.material = this._setTextureStructure(this._currentTexture[4], this._newContrebasseColorTextureHover[4], 1.0)
+            this._setMouseScss(false, true)
+            break;
+          case 3:
+            this._vitrailElm.material = this._setTextureVitrail(this._currentTexture[0], this._newChapeauColorTextureHover[0], 1.0)
+            this._collierElm.material = this._setTextureCollier(this._currentTexture[1], this._newChapeauColorTextureHover[1], 1.0)
+            this._contreBasseElm.material = this._setTextureContrebasse(this._currentTexture[2], this._newChapeauColorTextureHover[2], 1.0)
+            this._chapeauElm.material = this._setTextureChapeau(this._currentTexture[3], this._newChapeauColorTextureHover[3], 1.0)
+            this._structureElm.material = this._setTextureStructure(this._currentTexture[4], this._newChapeauColorTextureHover[4], 1.0)
+            this._setMouseScss(false, true)
+            break;
+        }
+        this._setNewAudioHovered(this._soundsChaptersHoveredArray[this.idChapterHovered.soundID])
+        this._materialEnable = true
+        //   console.log('mouse enter')
+      }
+
+    } else {
+      if (this._materialEnable === true) {
+
+        if (this._currentIntersect) {
+          if (this._currentModal) {
+            this._currentModal.classList.add('invisible');
+          }
+          // this._previousModal = this._currentModal;
+          // this._previousObjectName = this._currentObjectName;
+          if (this._materialEnable === true) {
+            this._currentIntersect.material.needsUpdate = true;
+
+            this._materialEnable = false
+            this._currentIntersect = null;
+            this._increase = false
+            document.querySelector("html").style.cursor = "url('/assets/images/ui/cursor/cursor.svg') 0 0, auto";
+            // this._removeInactifMouse()
+          }
         }
       }
-
-      this._currentIntersect.material = new THREE.MeshBasicMaterial({ map: this._newColorTextureHover[this.idChapterHovered.textureID] })
-      this._currentIntersect.material.needsUpdate = true;
-
-      this._setNewAudioHovered(this._soundsChaptersHoveredArray[this.idChapterHovered.soundID])
-
-      //   console.log('mouse enter')
     }
-    else {
-      if (this._currentIntersect) {
-        //   _previousModal.log('mouse leave')
-
-        this._previousModal = this._currentModal;
-        this._previousObjectName = this._currentObjectName;
-
-        this._currentIntersect.material = new THREE.MeshBasicMaterial({ map: this._currentColorTextureHover[this.idChapterHovered.textureID] })
-        this._currentIntersect.material.needsUpdate = true;
-
-        document.querySelector("html").style.cursor = "initial";
-      }
-    }
-
   }
 
   _loadTexture() {
@@ -258,7 +383,22 @@ class ThreeSceneMenu {
     this._loadingManager = new THREE.LoadingManager()
     this._textureLoader = new THREE.TextureLoader(this._loadingManager)
 
-    this._newMaterialArray.map((url) => {
+    // Vitrail
+    this._vitrailArray.map((url) => {
+      this.colorTextureInstance = this._textureLoader.load(url);
+      this._gribouillisTexture = this._textureLoader.load('/assets/textures/texture_filtre.png')
+
+      this.colorTextureInstance.wrapS = THREE.RepeatWrapping;
+      this.colorTextureInstance.wrapT = THREE.RepeatWrapping;
+      this.colorTextureInstance.flipY = false;
+      this.colorTextureInstance.flipX = false;
+      this.colorTextureInstance.encoding = THREE.sRGBEncoding;
+
+      this._newVitrailColorTextureHover.push(this.colorTextureInstance);
+    })
+
+    // Collier
+    this._collierArray.map((url) => {
       this.colorTextureInstance = this._textureLoader.load(url);
 
       this.colorTextureInstance.wrapS = THREE.RepeatWrapping;
@@ -267,9 +407,36 @@ class ThreeSceneMenu {
       this.colorTextureInstance.flipX = false;
       this.colorTextureInstance.encoding = THREE.sRGBEncoding;
 
-      this._newColorTextureHover.push(this.colorTextureInstance);
+      this._newCollierColorTextureHover.push(this.colorTextureInstance);
     })
 
+    // Contrebasse
+    this._contrebasseArray.map((url) => {
+      this.colorTextureInstance = this._textureLoader.load(url);
+
+      this.colorTextureInstance.wrapS = THREE.RepeatWrapping;
+      this.colorTextureInstance.wrapT = THREE.RepeatWrapping;
+      this.colorTextureInstance.flipY = false;
+      this.colorTextureInstance.flipX = false;
+      this.colorTextureInstance.encoding = THREE.sRGBEncoding;
+
+      this._newContrebasseColorTextureHover.push(this.colorTextureInstance);
+    })
+
+    // Chapeau
+    this._chapeauArray.map((url) => {
+      this.colorTextureInstance = this._textureLoader.load(url);
+
+      this.colorTextureInstance.wrapS = THREE.RepeatWrapping;
+      this.colorTextureInstance.wrapT = THREE.RepeatWrapping;
+      this.colorTextureInstance.flipY = false;
+      this.colorTextureInstance.flipX = false;
+      this.colorTextureInstance.encoding = THREE.sRGBEncoding;
+
+      this._newChapeauColorTextureHover.push(this.colorTextureInstance);
+    })
+
+    // CurrentMaterial
     this._currentMaterialArray.map((url) => {
       this.colorTextureInstance = this._textureLoader.load(url);
 
@@ -279,9 +446,88 @@ class ThreeSceneMenu {
       this.colorTextureInstance.flipX = false;
       this.colorTextureInstance.encoding = THREE.sRGBEncoding;
 
-      this._currentColorTextureHover.push(this.colorTextureInstance);
+      this._currentTexture.push(this.colorTextureInstance);
     })
+  }
 
+  _setTextureStructure(texture1, texture2, opacity) {
+    this._textureShaderStructure = new THREE.ShaderMaterial({
+      vertexShader: textureHoveredVertexShader,
+      fragmentShader: textureHoveredFragmentShader,
+      transparent: true,
+      precision: 'lowp',
+      uniforms: {
+        uTexture1: { value: texture1 },
+        uTexture2: { value: texture2 },
+        uOpacity: { value: opacity },
+        progress: { value: 0 }
+      }
+    })
+    return this._textureShaderStructure
+  }
+
+  _setTextureVitrail(texture1, texture2, opacity) {
+    this._textureShaderVitrail = new THREE.ShaderMaterial({
+      vertexShader: textureHoveredVertexShader,
+      fragmentShader: textureHoveredFragmentShader,
+      transparent: true,
+      precision: 'lowp',
+      uniforms: {
+        uTexture1: { value: texture1 },
+        uTexture2: { value: texture2 },
+        uOpacity: { value: opacity },
+        progress: { value: 0 }
+      }
+    })
+    return this._textureShaderVitrail
+  }
+
+  _setTextureCollier(texture1, texture2, opacity) {
+    this._textureShaderCollier = new THREE.ShaderMaterial({
+      vertexShader: textureHoveredVertexShader,
+      fragmentShader: textureHoveredFragmentShader,
+      transparent: true,
+      precision: 'lowp',
+      uniforms: {
+        uTexture1: { value: texture1 },
+        uTexture2: { value: texture2 },
+        uOpacity: { value: opacity },
+        progress: { value: 0 }
+      }
+    })
+    return this._textureShaderCollier
+  }
+
+  _setTextureChapeau(texture1, texture2, opacity) {
+    this._textureShaderChapeau = new THREE.ShaderMaterial({
+      vertexShader: textureHoveredVertexShader,
+      fragmentShader: textureHoveredFragmentShader,
+      transparent: true,
+      precision: 'lowp',
+      uniforms: {
+        uTexture1: { value: texture1 },
+        uTexture2: { value: texture2 },
+        uOpacity: { value: opacity },
+        progress: { value: 0 }
+      }
+    })
+    return this._textureShaderChapeau
+  }
+
+  _setTextureContrebasse(texture1, texture2, opacity) {
+    this._textureShaderContrebasse = new THREE.ShaderMaterial({
+      vertexShader: textureHoveredVertexShader,
+      fragmentShader: textureHoveredFragmentShader,
+      transparent: true,
+      precision: 'lowp',
+      uniforms: {
+        uTexture1: { value: texture1 },
+        uTexture2: { value: texture2 },
+        uOpacity: { value: opacity },
+        progress: { value: 0 }
+      }
+    })
+    return this._textureShaderContrebasse
   }
 
   _mousemoveHandler(e) {
@@ -304,6 +550,8 @@ class ThreeSceneMenu {
 
     this._camera.aspect = this._width / this._height;
     this._camera.updateProjectionMatrix();
+
+    // Update renderer
     this._renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this._renderer.setSize(this._width, this._height);
   }
@@ -316,6 +564,7 @@ class ThreeSceneMenu {
   }
 
   _render() {
+
     const elapsedTime = this._clock.getElapsedTime();
     const deltaTime = elapsedTime - this._previousTime;
     this._previousTime = elapsedTime;
@@ -324,13 +573,40 @@ class ThreeSceneMenu {
       this.cameraAnimator.update(deltaTime)
     }
 
-    this._orbitControlsHandler();
-
+    // this._orbitControlsHandler();
     this._renderer.render(this._scene, this._camera);
+
   }
 
   _tick() {
+    if (this._stats) this._stats.begin()
+
+
+    this._target.x = - (this._mouse.x) * 0.00005;
+    this._target.y = - (this._mouse.y) * 0.00003;
+
+    this._camera.rotation.y += (this._target.x - this._camera.rotation.y)
+    this._camera.rotation.x += (this._target.y - this._camera.rotation.x) + 300
+
+    if (this._increase === true) {
+      if (this._progress < 1) {
+        this._progress += 0.05;
+      }
+    } else if (this._increase === false) {
+      if (this._progress > 0) {
+        this._progress -= 0.05;
+      }
+    }
+    if (this._progress) {
+      if (this._textureShaderStructure) this._textureShaderStructure.uniforms.progress.value = this._progress;
+      if (this._textureShaderVitrail) this._textureShaderVitrail.uniforms.progress.value = this._progress
+      if (this._textureShaderCollier) this._textureShaderCollier.uniforms.progress.value = this._progress
+      if (this._textureShaderContrebasse) this._textureShaderContrebasse.uniforms.progress.value = this._progress
+      if (this._textureShaderChapeau) this._textureShaderChapeau.uniforms.progress.value = this._progress
+    }
+
     this._render();
+    if (this._stats) this._stats.end()
   }
 
   _tickHandler() {
@@ -342,12 +618,23 @@ class ThreeSceneMenu {
     this._tickHandler();
     window.addEventListener('resize', this._resizeHandler);
     window.addEventListener('mousemove', this._mousemoveHandler);
+    window.addEventListener('mousemove', this._setMouseMoveTargetCamera, false)
+    window.addEventListener('click', this._setClickUrl, false);
   }
 
+  _setClickUrl() {
+    if (this._currentIntersect) {
+      this._currentObjectName = this._currentIntersect.name;
+      this.idChapterHovered.SetCurrentIdHovered(this._currentObjectName);
+      if (!!this.idChapterHovered.url) {
+        document.location.href = this.idChapterHovered.url
+      }
+    }
+  }
 
   _setEnvironmentMap() {
     const cubeTextureLoader = new THREE.CubeTextureLoader();
-    const environmentMap = cubeTextureLoader.load([
+    this._environmentMap = cubeTextureLoader.load([
       'assets/textures/environmentMaps/px.png',
       'assets/textures/environmentMaps/nx.png',
       'assets/textures/environmentMaps/py.png',
@@ -355,9 +642,11 @@ class ThreeSceneMenu {
       'assets/textures/environmentMaps/pz.png',
       'assets/textures/environmentMaps/nz.png'
     ])
-    environmentMap.encoding = THREE.sRGBEncoding;
-    this._scene.background = environmentMap;
-    this._scene.environment = environmentMap;
+    this._environmentMap.encoding = THREE.sRGBEncoding;
+    this._scene.background = this._environmentMap;
+    this._scene.environment = this._environmentMap;
+
+    return this._environmentMap;
   }
 
   _setOrbitalControls() {
@@ -376,6 +665,35 @@ class ThreeSceneMenu {
 
   _setNewAudioHovered(url) {
     this._state.handleUrl(url)
+  }
+
+  _setIsReadyRaycast() {
+    const discoverButton = document.getElementById('discoverBtn')
+    discoverButton.addEventListener('click', () => {
+      this._enableRaycastMenu = true
+    })
+    return this._enableRaycastMenu
+  }
+
+  _setMouseMoveTargetCamera(event) {
+    if (this._enableRaycastMenu === false) return;
+    this._mouse.x = (event.clientX - this._windowHalf.x);
+    this._mouse.y = (event.clientY - this._windowHalf.y);
+  }
+
+  _setMouseScss(active, inactif) {
+    const cursor = document.querySelector("html");
+    if (active === true) {
+      cursor.style.cursor = "url('/assets/images/ui/cursor/cursor.svg') 0 0, auto";
+    } else if (inactif === true) {
+      cursor.style.cursor = "url('/assets/images/ui/cursor/cursor-inactif.svg') 0 0, auto";
+    }
+  }
+
+  _setStats() {
+    this._stats = new Stats()
+    this._stats.showPanel(0) // 0: fps, 1: ms, 2: mb, 3+: custom
+    document.body.appendChild(this._stats.dom)
   }
 
 }

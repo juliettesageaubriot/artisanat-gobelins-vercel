@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 import Howler from 'react-howler';
 import localforage from "localforage";
 
-const TheVolume = ({ absolute }) => {
+const TheVolume = ({ absolute, colorPicto }) => {
 
     const slider = useRef(null);
     const [volume, setVolume] = useState(0.5);
@@ -34,16 +34,16 @@ const TheVolume = ({ absolute }) => {
 
     return (
         <div className={`${styles["volumeContainer"]} ${absolute ? "" : styles["isNotAbsolute"]}`}>
-            <div className={styles["volumeSlider"]}>
+            <div className={`${styles["volumeSlider"]} ${"noir" === colorPicto && styles.noir}`}>
                 {/* <label>Volume</label> */}
-                <input type="range" min="0" max="100" value={volume * 100} className={styles["slider"]} ref={slider} onChange={handleChange} />
+                <input type="range" min="0" max="100" value={volume * 100} className={`${styles["slider"]}`} ref={slider} onChange={handleChange} />
             </div>
 
             <div className={`${styles['sound-container']}`} onClick={handleClick}>
                 {0 === volume ?
-                    <img src="/assets/images/ui/sound/son_coupe_hover.png" />
+                    <img src={`/assets/images/ui/sound/son_coupe_${colorPicto}.png`} />
                     :
-                    <img src="/assets/images/ui/sound/son_hover.png" />
+                    <img src={`/assets/images/ui/sound/son_${colorPicto}.png`} />
                 }
             </div>
         </div>

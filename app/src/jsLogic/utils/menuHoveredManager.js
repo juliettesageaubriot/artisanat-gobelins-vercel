@@ -5,41 +5,35 @@ export default class MenuHoveredManager {
 
   SetCurrentIdHovered(name) {
     switch (name) {
-      case "vitrail_1":
+      case "vitrail":
         this.currentID = 1
         this.textureID = 0
         this.soundID = 0
+        this.url = "/single-ateliers"
         break;
-      case "vitrail_2":
-        this.currentID = 1
+
+      case "collier":
+        this.currentID = 2
         this.textureID = 1
-        this.soundID = 0
+        this.soundID = 1
+        this.url = ""
         break;
 
-      case "collier_1":
-        this.currentID = 2
-        this.textureID = 2
-        this.soundID = 1
-        break;
-      case "collier_2":
-        this.currentID = 2
-        this.textureID = 3
-        this.soundID = 1
-        break;
-
-      case "violoncelle":
+      case "contrebasse":
         this.currentID = 3
-        this.textureID = 4
+        this.textureID = 2
         this.soundID = 2
+        this.url = ""
         break;
 
       case "chapeau":
         this.currentID = 4
-        this.textureID = 5
+        this.textureID = 3
         this.soundID = 3
+        this.url = ""
         break;
     }
 
-    return (this.currentID, this.textureID, this.soundID, this.newMaterial, this.currentMaterial);
+    return (this.currentID, this.textureID, this.soundID, this.url);
   }
 }

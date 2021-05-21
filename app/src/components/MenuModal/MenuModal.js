@@ -14,22 +14,11 @@ const MenuModal = ({ id, title, caption, duration, date, left, top, disponibilit
             <span>{duration} minutes</span>
           </div>
 
+          <span className={`${styles.disponible} upp`}>Disponible {disponibility === true && "depuis"} le {date}</span>
+
           <div className={styles.content}>
             <h1>{title}</h1>
             <span>{caption}</span>
-          </div>
-
-          <div className={styles.bottom}>
-            <Link href={url}>
-              <a className={`${styles.link} link link-primary ${disponibility === true ? "" : "nodispo"}`}>
-                {disponibility === true ?
-                  <span>J'entre dans l'atelier</span>
-                  :
-                  <span>L'atelier est fermé</span>
-                }
-              </a>
-            </Link>
-            <span className={`${styles.disponible} upp`}>Disponible {disponibility === true && "depuis"} le {date}</span>
           </div>
 
         </div>

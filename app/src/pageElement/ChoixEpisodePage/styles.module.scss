@@ -1,0 +1,60 @@
+@import "@assets/_mandatory";
+
+.menu {
+  &-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fffafa;
+    opacity: 0.9;
+
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    transition: 1s ease-in-out all;
+    &.overlay-none {
+      opacity: 0;
+      pointer-events: none;
+      transition: 1s ease-in-out all;
+    }
+  }
+  &_container {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+
+    :nth-child(n) {
+      margin-top: 10px;
+    }
+
+    img {
+      width: 300px;
+    }
+    .pitch {
+      font-family: $font-title;
+      text-align: center;
+      width: 100%;
+      font-size: 20px;
+      font-weight: $ft-regular;
+    }
+    .casque {
+      font-size: 12px;
+      margin-top: 25px;
+    }
+    .button-discover {
+      width: 100%;
+      margin-top: 10px;
+    }
+  }
+}

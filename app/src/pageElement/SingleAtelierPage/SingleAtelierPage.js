@@ -115,7 +115,7 @@ const SingleAtelierPage = () => {
         <img src="/assets/images/ui/pictos-ux/scroll.gif" alt="Picto UX pour le scroll" className="picto-ux scroll" id="scroll"/>
         <img src="/assets/images/ui/pictos-ux/trace.gif" alt="Picto UX pour la trace glissière" className="picto-ux trace" id="trace"/>
 
-        <TheVolume absolute />
+        <TheVolume absolute colorPicto="blanc"/>
         <div className={styles.pressureGauge} id="pressureGauge"></div>
         <div ref={ref} />
         <div className={styles.colorPickerContainer} ref={cursorColorPickerContainer}>

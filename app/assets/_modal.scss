@@ -4,9 +4,11 @@
   &_container {
     opacity: 1;
     pointer-events: visible;
+    transition: 0.5s ease-in all;
     &.invisible {
       opacity: 0;
       pointer-events: none;
+      transition: 0.5s ease-in all;
     }
   }
 }
