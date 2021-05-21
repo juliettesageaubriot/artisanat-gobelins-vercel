@@ -99,11 +99,11 @@ const SingleAtelierPage = () => {
         />
         <TheToolChoiceButton array={currentStepTools} />
 
-        <a href="/menu" className={`link-before ${styles['link-before']}`}>
+        <a href="/menu" className={` link link-secondary link-white ${styles['link-before']} ${styles['link-white']}`}>
           <span>Épisodes</span>
         </a>
 
-        <a className={`link-before ${styles["colorPicker-cta"]}`} id="colorPicker-cta" onClick={() => threeScene._actionStepManager.actionsManager(15)}>
+        <a className={` link link-secondary link-white ${styles["colorPicker-cta"]}`} id="colorPicker-cta" onClick={() => threeScene._actionStepManager.actionsManager(15)}>
           <span>J'ai choisi mes couleurs !</span>
         </a>
 

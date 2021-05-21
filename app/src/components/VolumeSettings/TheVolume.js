@@ -9,6 +9,8 @@ const TheVolume = ({ absolute, colorPicto }) => {
     const [volume, setVolume] = useState(0.5);
     const [previousVolume, setPreviousVolume] = useState(0);
 
+    // is hovered
+    const [isShown, setIsShown] = useState(false);
 
     const handleChange = (e) => {
         const currentVolume = e.target.value / 100;
@@ -17,7 +19,7 @@ const TheVolume = ({ absolute, colorPicto }) => {
         setPreviousVolume(currentVolume);
     }
     useEffect(async () => {
-        const currentGlobalVolume =  await localforage.getItem("globalVolume");
+        const currentGlobalVolume = await localforage.getItem("globalVolume");
         if (currentGlobalVolume) {
             setVolume(currentGlobalVolume);
         }
@@ -32,6 +34,8 @@ const TheVolume = ({ absolute, colorPicto }) => {
         localforage.setItem("globalVolume", volume);
     }, [volume])
 
+    console.log(isShown);
+
     return (
         <div className={`${styles["volumeContainer"]} ${absolute ? "" : styles["isNotAbsolute"]}`}>
             <div className={`${styles["volumeSlider"]} ${"noir" === colorPicto && styles.noir}`}>
@@ -39,11 +43,14 @@ const TheVolume = ({ absolute, colorPicto }) => {
                 <input type="range" min="0" max="100" value={volume * 100} className={`${styles["slider"]}`} ref={slider} onChange={handleChange} />
             </div>
 
-            <div className={`${styles['sound-container']}`} onClick={handleClick}>
+            <div className={`${styles['sound-container']}`}
+                onClick={handleClick}
+                onMouseEnter={() => setIsShown(true)}
+                onMouseLeave={() => setIsShown(false)}>
                 {0 === volume ?
-                    <img src={`/assets/images/ui/sound/son_coupe_${colorPicto}.png`} />
+                    <img src={`/assets/images/ui/sound/son_coupe_${colorPicto}${isShown ? true && '_hover' : ''}.png`} />
                     :
-                    <img src={`/assets/images/ui/sound/son_${colorPicto}.png`} />
+                    <img src={`/assets/images/ui/sound/son_${colorPicto}${isShown === true ? '_hover' : ''}.png`} />
                 }
             </div>
         </div>

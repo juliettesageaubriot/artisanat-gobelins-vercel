@@ -151,6 +151,7 @@ class ActionsStepManager {
     //    this._UIManager.UI.html.style.cursor = "none";
        this._UIManager.UI.cursor.classList.toggle("cursor-pointer-color-picker");
        this._UIManager.UI.colorPickerCta.style.opacity = 1;
+       this._UIManager.UI.colorPickerCta.style.pointerEvents = "all"
     }
     _stepSixteen() {
         //A Appeler sur la fin du drag and drop
@@ -163,9 +164,11 @@ class ActionsStepManager {
     _stepSeventeen() {
         //A appeler sur le clique de la validation 1
         this._UIManager.UI.colorPickerCta.style.opacity = 0;
+        this._UIManager.UI.colorPickerCta.style.pointerEvents = "none"
         this._setCurrentSubtitle(9);
         this._setCameraAnimation(3, "none");
         this._breadCrumb.changeNameAtelier("La découpe du verre");
+        this._breadCrumb.breadcrumbStep(3)
         this._stepManager.addGlobalStep();
     }
     _stepHeighteen() {
