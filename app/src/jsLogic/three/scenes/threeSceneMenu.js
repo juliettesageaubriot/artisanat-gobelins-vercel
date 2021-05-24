@@ -574,7 +574,6 @@ class ThreeSceneMenu {
 
     // this._orbitControlsHandler();
     this._renderer.render(this._scene, this._camera);
-
   }
 
   _tick() {
