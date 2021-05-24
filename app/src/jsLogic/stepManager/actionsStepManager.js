@@ -2,7 +2,7 @@
 import bindAll from '@jsLogic/utils/bindAll';
 
 class ActionsStepManager {
-    constructor(state, stepManager, UIManager, breadCrumb, setCameraAnimation, toggleArtisane, toggleDragAndDropControls, setfeuilleLeveAnimationPlay, setDragAndDropControls, outlinePass, setOutlineObjects, addPieceDecoupeToScene) {
+    constructor(state, stepManager, UIManager, breadCrumb, setCameraAnimation, toggleArtisane, toggleDragAndDropControls, setfeuilleLeveAnimationPlay, setDragAndDropControls, outlinePass, toolsManager, setOutlineObjects, addPieceDecoupeToScene) {
         // bindAll(
         //     this,
         // );
@@ -16,8 +16,10 @@ class ActionsStepManager {
         this._setfeuilleLeveAnimationPlay = setfeuilleLeveAnimationPlay;
         this._setDragAndDropControls = setDragAndDropControls;
         this._outlinePass = outlinePass;
+        this._toolsManager = toolsManager;
         this._setOutlineObjects = setOutlineObjects;
         this._addPieceDecoupeToScene = addPieceDecoupeToScene
+        
 
         //Les débloquage d'interactions
         this._allowedScroll = false;
@@ -96,6 +98,8 @@ class ActionsStepManager {
         //feuilleAnimator
         console.log("Animation des feuilles")
         this._setfeuilleLeveAnimationPlay(4);
+        this._toolsManager.setTools(true)
+        this._toolsManager.currentTools(0, 1)
     }
     _stepFive() {
         //A Appeler à la fin de l'animation de la caméra dans le animation manager
@@ -119,6 +123,7 @@ class ActionsStepManager {
        this._UIManager.removeScrollPicto();
        this._state.setStepValidation(0);
        this._allowedScroll = false;
+       this._toolsManager.setTools(false)
     }
     _stepTen() {
         //A appeler au click sur le currentValidationStep n°1
@@ -143,6 +148,7 @@ class ActionsStepManager {
             this._UIManager.setDragAndDropColorPickerPicto("verreBleu02A");
         }, 1000);
        this._allowedDragAndDrop = true;
+       this._addPieceDecoupeToScene();
     //    this._state.setToolsArray2();
     //    this._UIManager.UI.cursor.classList.toggle("cursor-pointer-color-picker");
     }
@@ -155,7 +161,7 @@ class ActionsStepManager {
     _stepFifteen() {
        //Laisser ici
        this._UIManager.UI.colorPickerCta.style.opacity = 1;
-       this._addPieceDecoupeToScene();
+       this._UIManager.UI.colorPickerCta.style.pointerEvents = "all"
     }
     _stepSixteen() {
         //A Appeler sur la fin du drag and drop
@@ -164,15 +170,18 @@ class ActionsStepManager {
         this._allowedDragAndDrop = false;
         // this.UI.html.style.cursor = "initial";
         // this._UIManager.UI.cursor.classList.toggle("cursor-pointer-color-picker");
+        
         this._toggleArtisane("artisane02");
         this._toggleArtisane("artisane03");
     }
     _stepSeventeen() {
         //A appeler sur le clique de la validation 1
         this._UIManager.UI.colorPickerCta.style.opacity = 0;
+        this._UIManager.UI.colorPickerCta.style.pointerEvents = "none"
         this._setCurrentSubtitle(9);
         this._setCameraAnimation(3, "none");
         this._breadCrumb.changeNameAtelier("La découpe du verre");
+        this._breadCrumb.breadcrumbStep(3)
         this._stepManager.addGlobalStep();
     }
     _stepHeighteen() {
@@ -181,6 +190,8 @@ class ActionsStepManager {
     }
     _stepNineteen() {
         this._setCurrentSubtitle(10);
+        this._state.setToolsArray2();
+        this._toolsManager.currentTools(1, 1)
     }
     _stepTwenty() {
         this._setCurrentSubtitle(11);
@@ -191,17 +202,18 @@ class ActionsStepManager {
         this._outlinePass.enabled = true;
         this._allowedDragAndDrop = true;
         this._setDragAndDropControls();
-        this._state.setToolsArray3();
+        this._toolsManager.setTools(true)
     }
     _stepTwentyTwo() {
          //A appeler sur le succes du drag and drop
          this._UIManager.removeDragAndDropPicto();
          this._setCurrentSubtitle(12);
          this._allowedDragAndDrop = false;
-         this._toggleDragAndDrop();    
+         this._toggleDragAndDrop();
     }
     _stepTwentyThree() {
         this._setCurrentSubtitle(13);
+        this._toolsManager.currentTools(1, 2)
     }
     _stepTwentyFour() {
         this._stepManager.addSubStep();
@@ -228,6 +240,7 @@ class ActionsStepManager {
         this._setCurrentSubtitle(14);
         this._allowedDragAndDrop = false;
         this._toggleDragAndDrop();
+        this._toolsManager.currentTools(1, 3)
     }
     _stepTwentySeven() {
         setTimeout(() => {
@@ -263,6 +276,7 @@ class ActionsStepManager {
         this._UIManager.setDragAndDropPicto("papier_decoupe");
         this._allowedDragAndDrop = true;
         this._toggleDragAndDrop();
+        this._toolsManager.setTools(false)
     }
     _stepThirtyThree() {
         //sur le success du drag and drop

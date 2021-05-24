@@ -25,10 +25,6 @@ import audioDatas from "assets/data/subtitles.json";
 import toolsData from '@assets/data/tools.json';
 import stepValidationDatas from "assets/data/step-validation.json";
 
-
-
-
-
 const SingleAtelierPage = () => {
   const isMounted = useIsMounted();
 
@@ -53,7 +49,7 @@ const SingleAtelierPage = () => {
     stopSound: () => { setIsPlaying(false) },
     start: () => { setCurrentSubtitle(0); },
     setNextSubtitle: (index) => { setCurrentSubtitle(index) },
-    setToolsArray1: () => { setCurrentStepTools(data.toolsArray0) },
+    setToolsArray1: () => { setCurrentStepTools(data.toolsArray0);},
     setToolsArray2: () => { setCurrentStepTools(data.toolsArray1) },
     setToolsArray3: () => { setCurrentStepTools(data.toolsArray2) },
     setStepValidation: (index) => { setCurrentValidationStep(index) }
@@ -62,9 +58,8 @@ const SingleAtelierPage = () => {
   useEffect(() => {
     const canvas = ref.current
     setThreeScene(new ThreeScene(canvas, state));
-    setCurrentStepTools(data.toolsArray0);
+    // setCurrentStepTools(data.toolsArray0);
   }, [])
-
 
   const subtitleItems = audioDatas.map((elm, index) => {
     return <TheSubTitle
@@ -87,6 +82,8 @@ const SingleAtelierPage = () => {
     />
   });
 
+  console.log('currentStepTools', currentStepTools);
+
   return (
     <>
       <section>
@@ -104,13 +101,13 @@ const SingleAtelierPage = () => {
         />
         <TheToolChoiceButton array={currentStepTools} />
 
-        <a href="/menu" className={`link-before ${styles['link-before']}`}>
+        <a href="/menu" className={` link link-secondary link-white ${styles['link-before']} ${styles['link-white']}`}>
           <span>Épisodes</span>
         </a>
 
-        <button className={`link link-primary ${styles["colorPicker-cta"]}`} id="colorPicker-cta" onClick={() => threeScene._actionStepManager.actionsManager(15)}>
-          J'ai choisi mes couleurs !
-        </button>
+        <a className={` link link-secondary link-white ${styles["colorPicker-cta"]}`} id="colorPicker-cta" onClick={() => threeScene._actionStepManager.actionsManager(15)}>
+          <span>J'ai choisi mes couleurs !</span>
+        </a>
 
         <div className={styles["page-singleAtelier"]}></div>
 
@@ -123,8 +120,8 @@ const SingleAtelierPage = () => {
         <img src="/assets/images/ui/pictos-ux/TRACE_GLISSIERE_FIXE.png" alt="Picto UX pour la trace glissière fixe" className="picto-ux trace-fixe" id="trace-fixe"/>
 
         <TheClickPoints />
-        <TheVolume absolute />
         <ThePressionUX />
+        <TheVolume absolute colorPicto="blanc"/>
         <div ref={ref} />
         <div className={styles.colorPickerContainer} ref={cursorColorPickerContainer}>
           <div className={styles.colorPickerInner} ref={cursorColorPickerInner}></div>

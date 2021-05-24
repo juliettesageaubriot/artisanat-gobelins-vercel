@@ -101,7 +101,7 @@ const FinEpisodePage = () => {
           <div className={styles["page-fin__footer-container"]}>
               <ThePrimaryButton label="Episodes" to={"/"} active={false}/>
               <ThePrimaryButton label="Episode 2, le joailler ->" to={"/"} active={false} />
-              <TheVolume absolute={false} />
+              <TheVolume absolute={false} colorPicto="blanc"/>
           </div>
       </div>
       <div className={styles["page-fin__video-container"]}>

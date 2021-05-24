@@ -1,50 +1,38 @@
 {
   "toolsArray0": [{
-    "id": 0,
-      "title": "les ciseaux trois lames",
-      "noActiveImg": "/assets/images/ui/tools/ciseaux.png",
-      "activeImg": "/assets/images/ui/tools/ciseaux_actif.png",
-      "content": "Ils permettent de retirer aux gabarits en papier une largeur d'environ 1.2mm correspondant à l'âme du plomb."
-    }
-  ],
+    "id": 1,
+    "title": "les ciseaux trois lames",
+    "img": "/assets/images/ui/tools/ciseaux.png",
+    "content": "Ils permettent de retirer aux gabarits en papier une largeur d'environ 1.2mm correspondant à l'âme du plomb."
+  }
+],
 
   "toolsArray1": [{
-      "id": 0,
-      "title": "le coupe-verre0",
-      "noActiveImg": "/assets/images/ui/tools/ciseaux.png",
-      "activeImg": "/assets/images/ui/tools/ciseaux_actif.png",
-      "content": "Outil utilisé pour la découpe du verre sur lequel il marque une amorce avec une molette dure ou un diamant."
-    },
-    {
       "id": 1,
-      "title": "le coupe-verre1",
-      "noActiveImg": "/assets/images/ui/tools/ciseaux.png",
-      "activeImg": "/assets/images/ui/tools/ciseaux_actif.png",
-      "content": "Deuxième contenu"
-    }
-  ],
-
-  "toolsArray2": [{
-      "id": 0,
-      "title": "le coupe-verre0",
-      "noActiveImg": "/assets/images/ui/tools/ciseaux.png",
-      "activeImg": "/assets/images/ui/tools/ciseaux_actif.png",
-      "content": "Outil utilisé pour la découpe du verre sur lequel il marque une amorce avec une molette dure ou un diamant."
-    },
-    {
-      "id": 1,
-      "title": "le coupe-verre1",
-      "noActiveImg": "/assets/images/ui/tools/ciseaux.png",
-      "activeImg": "/assets/images/ui/tools/ciseaux_actif.png",
-      "content": "Outil utilisé pour la découpe du verre sur lequel il marque une amorce avec une molette dure ou un diamant."
+      "title": "Pince à gruger",
+      "img": "/assets/images/ui/tools/pince_gruger.png",
+      "content": "Outil utilisé pour briser finement les bords du verre et le lisser.",
+      "past": false,
+      "present": true,
+      "future": false
     },
     {
       "id": 2,
-      "title": "le coupe-verre2",
-      "noActiveImg": "/assets/images/ui/tools/ciseaux.png",
-      "activeImg": "/assets/images/ui/tools/ciseaux_actif.png",
-      "content": "Outil utilisé pour la découpe du verre sur lequel il marque une amorce avec une molette dure ou un diamant."
+      "title": "Pince à décrocher",
+      "img": "/assets/images/ui/tools/pince_decrocher.png",
+      "content": "Outil utilisé pour détacher deux morceaux de verre après une rayure.",
+      "past": false,
+      "present": false,
+      "future": true
+    },
+    {
+      "id": 3,
+      "title": "Coupe-verre",
+      "img": "/assets/images/ui/tools/coupe_verre.png",
+      "content": "Outil utilisé pour la coupe des pièces, muni d’une roulette en tungstène.",
+      "past": false,
+      "present": false,
+      "future": true
     }
   ]
-  
 }

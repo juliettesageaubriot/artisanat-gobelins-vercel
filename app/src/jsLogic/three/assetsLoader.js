@@ -9,14 +9,13 @@ import models from "@assets/data/models.json"
 import bindAll from '../utils/bindAll.js';
 
 class AssetsLoader {
-    constructor(enableRaycastMenu) {
+    constructor() {
         bindAll(
             this,
             'loadAssets',
             'removeLoader',
             'setRaycast'
         );
-        this.enableRaycastMenu = enableRaycastMenu;
         this._loader = new GLTFLoader();
         this._dracoLoader = new DRACOLoader();
         this._models = {};
@@ -62,14 +61,14 @@ class AssetsLoader {
 
     removeLoader() {
         const loader = document.getElementById('assetLoader')
-        const toolsAnim = document.getElementById('toolsModal')
+        // const toolsAnim = document.getElementById('toolsModal')
 
-        toolsAnim.classList.add('loaded')
+        // toolsAnim.classList.add('loaded')
         loader.classList.remove('actived')
     }
 
     setRaycast() {
-        this.enableRaycastMenu = true
+        // this.enableRaycastMenu = true
         return this.enableRaycastMenu
     }
 

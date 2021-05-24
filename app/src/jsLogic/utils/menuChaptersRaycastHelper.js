@@ -1,22 +1,14 @@
-export const SetupMenuChaptersRaycast = (menuGroup, chaptersTestObject) => {
+export const SetupMenuChaptersRaycast = (menuGroup, objectsCurrentRaycast) => {
 
   menuGroup.children.map((objects, i) => {
-
     if (objects.name === "vitrail") {
-      let vitrailElements = objects.children;
-      for (let vitrailElement of vitrailElements) {
-        chaptersTestObject.push(vitrailElement)
-      }
+      objectsCurrentRaycast.push(objects);
     } else if (objects.name === "collier") {
-      let collierElements = objects.children;
-      for (let collierElement of collierElements) {
-        chaptersTestObject.push(collierElement)
-      }
+      objectsCurrentRaycast.push(objects)
     } else if (objects.name === "chapeau") {
-      chaptersTestObject.push(objects)
-    } else if (objects.name === "violoncelle") {
-      chaptersTestObject.push(objects)
+      objectsCurrentRaycast.push(objects)
+    } else if (objects.name === "contrebasse") {
+      objectsCurrentRaycast.push(objects)
     }
   })
-
 }

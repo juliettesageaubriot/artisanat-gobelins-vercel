@@ -14,7 +14,6 @@
     pointer-events: none;
     transition: 1s ease-in-out all;
     opacity: 0;
-    z-index: 10;
     pointer-events: none;
 
     display: flex;
@@ -37,22 +36,22 @@
           animation: 4s opacityPulse 0s infinite;
         }
         &_vitrail {
-          top: 0;
+          top: -40px;
           left: 0;
           animation-delay: 0s;
         }
         &_chapeau {
-          top: 20px;
+          top: -20px;
           right: 0;
           animation-delay: 1s;
         }
         &_contrebasse {
-          bottom: 0;
+          bottom: 40px;
           right: 0;
           animation-delay: 2s;
         }
         &_collier {
-          bottom: 0;
+          bottom: 40px;
           left: 0;
           animation-delay: 3s;
         }
@@ -60,7 +59,7 @@
           max-width: 250px;
           width: 100%;
 
-          bottom: -150px;
+          bottom: -65px;
           left: 50%;
           transform: translate(-50%, -50%);
         }
@@ -72,6 +71,7 @@
       transition: 1s ease-in-out all;
       opacity: 1;
       pointer-events: visible;
+      z-index: 999999;
     }
   }
 }

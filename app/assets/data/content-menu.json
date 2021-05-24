@@ -6,8 +6,8 @@
     "title": "Le vitrailliste",
     "caption": "Old school le vitrail ?",
     "date": "21/12",
-    "top": "65",
-    "left": "20",
+    "top": "15",
+    "left": "24",
     "disponibility": true,
     "url": "/single-ateliers"
   },
@@ -16,10 +16,10 @@
     "name": "joaillier",
     "duration": 2,
     "title": "Le joaillier",
-    "caption": "De l'or au bout des doigts",
+    "caption": "De l'or au bout des doigts ?",
     "date": "21/03",
-    "top": "33",
-    "left": "38",
+    "top": "15",
+    "left": "74",
     "disponibility": false,
     "url": "/"
   },
@@ -30,8 +30,8 @@
     "title": "Le Luthier",
     "caption": "Du temps pour accorder ses violons ?",
     "date": "21/06",
-    "top": "30",
-    "left": "65",
+    "top": "15",
+    "left": "56",
     "disponibility": false,
     "url": "/"
   },
@@ -42,8 +42,8 @@
     "title": "Le chapelier",
     "caption": "Sur les chapeaux de roue ?",
     "date": "21/09",
-    "top": "60",
-    "left": "90",
+    "top": "15",
+    "left": "39",
     "disponibility": false,
     "url": "/"
   }
