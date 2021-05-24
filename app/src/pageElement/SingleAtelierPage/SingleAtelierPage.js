@@ -101,7 +101,7 @@ const SingleAtelierPage = () => {
         />
         <TheToolChoiceButton array={currentStepTools} />
 
-        <a href="/menu" className={` link link-secondary link-white ${styles['link-before']} ${styles['link-white']}`}>
+        <a href="/" className={` link link-secondary link-white ${styles['link-before']} ${styles['link-white']}`}>
           <span>Épisodes</span>
         </a>
 
