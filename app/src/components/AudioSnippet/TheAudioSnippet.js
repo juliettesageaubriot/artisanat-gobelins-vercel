@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import ReactHowler from 'react-howler';
 
-const TheAudioSnippet = ({ sound_url, play, shouldPlayOnStart, loop}) => {
+const TheAudioSnippet = ({ sound_url, play, shouldPlayOnStart, loop, specificVolume}) => {
      const ref = useRef(null);
 
      const reset = () => {
@@ -15,6 +15,8 @@ const TheAudioSnippet = ({ sound_url, play, shouldPlayOnStart, loop}) => {
           playing={play}
           ref={ref}
           onPause={reset}
+          loop={loop}
+          volume={specificVolume ? specificVolume : 1}
         />
      );
 }

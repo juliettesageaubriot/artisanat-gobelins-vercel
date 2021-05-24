@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import TheAudioSnippet from '../AudioSnippet/TheAudioSnippet';
 import styles from './styles.module.scss'
 
-const TheSubTitle = ({content, currentSubtitle, onEnd}) => {
+const TheSubTitle = ({content, currentSubtitle, onEnd, onEndReplay}) => {
     const [isVisible, setIsVisible] = useState(false);
     const [displayButton, setDisplayButton] = useState(false);
     const [play, setPlay] = useState(false);
@@ -26,21 +26,27 @@ const TheSubTitle = ({content, currentSubtitle, onEnd}) => {
         //Joue le son
         setPlay(true);
         setMyTimeOut(setTimeout(() => {
-            console.log("Fin de la réplique 1");
+            // console.log("Fin de la réplique 1");
             setPlay(false);
-            setMyTimeOutReplay(setTimeout(() => {
-                console.log("maintenant c'est possible de replay 2")
-                //Temps d'attente pour que la réplique se replay
-                setIsPossibleToReplay(true);
-                setMyTimeOutNoLongerReplay(setTimeout(() => {
-                    console.log("Plus possible de replay, on passe à la suite ! 3")
-                    setIsPossibleToReplay(false);
-                    setDisplayButton(false);
-                    onEnd();
-                }, 5000));
-            }, 2000));
             //Enleve le sous-titre
             setIsVisible(false);
+            if(content.canReplay === true) {
+                setMyTimeOutReplay(setTimeout(() => {
+                    // console.log("maintenant c'est possible de replay 2")
+                    //Temps d'attente pour que la réplique se replay
+                    setIsPossibleToReplay(true);
+                    setMyTimeOutNoLongerReplay(setTimeout(() => {
+                        // console.log("Plus possible de replay, on passe à la suite ! 3")
+                        setIsPossibleToReplay(false);
+                        setDisplayButton(false);
+                        onEnd();
+                    }, 100));
+                }, 1000));
+            } else {
+                setTimeout(() => {
+                    onEnd();
+                }, 500)
+            }
         }, content.duration));
     }
 
@@ -52,7 +58,8 @@ const TheSubTitle = ({content, currentSubtitle, onEnd}) => {
         setPlay(false);
         setIsPossibleToReplay(false);
         setTimeout(() => {
-            playTimeOut();
+            // playTimeOut();
+            onEndReplay();
         }, 1000);
     }
 

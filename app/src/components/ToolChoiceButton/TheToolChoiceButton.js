@@ -3,7 +3,7 @@ import styles from './styles.module.scss'
 
 const TheToolChoiceButton = ({ array }) => {
     const [isOpen, setIsOpen] = useState(false)
-    const [isCurrentId, setIsCurrentId] = useState(0)
+    const [isCurrentId, setIsCurrentId] = useState(1)
 
     const handleContentClick = () => {
         setIsOpen(!isOpen)
@@ -19,18 +19,21 @@ const TheToolChoiceButton = ({ array }) => {
 
     return (
         <div className={`${styles["tool-choice_container"]} tool-choice_container`} id="toolsModal">
-            <div className={styles["tool-choice__inner"]}>
+            <div className={`${styles["tool-choice__inner"]} tool-choice__inner`}>
 
-                <ul className={styles.head}>
+                <ul className={styles.head} id="tools-children">
                     {array.map((elm, i) => {
                         return (
                             <li key={i} onClick={(event) => handleToolsClick(event)}>
-                                <button className={`${isCurrentId === elm.id && styles.actived}`}>
-                                    {isCurrentId === elm.id ?
-                                        <img id={elm.id} src={elm.activeImg} />
-                                        :
-                                        <img id={elm.id} src={elm.noActiveImg} />
-                                    }
+                                <button
+                                    id={elm.id}
+                                    // className={`${isCurrentId === elm.id ? 'scale' : ""}`}
+                                    data-scale={isCurrentId === elm.id && true}
+                                >
+
+                                    <img id={elm.id} src={elm.img} />
+                                    {/* {isCurrentId === elm.id &&
+                                    } */}
                                 </button>
                             </li>
                         )
@@ -44,7 +47,10 @@ const TheToolChoiceButton = ({ array }) => {
                                 <div className={`${styles.content}`}>
                                     <div>
                                         <h2>
-                                            Tu utilises <br />
+                                            {elm.present ? "Tu utilises" : ""}
+                                            {elm.past ? "Tu as utilisé" : ""}
+                                            {elm.future ? "Tu vas utiliser" : ""}
+                                            <br/>
                                             <span>{elm.title}</span>
                                         </h2>
                                         <div className={`${styles['content-display']} ${true === isOpen && styles.open}`}>

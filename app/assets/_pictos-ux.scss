@@ -7,5 +7,21 @@
   pointer-events: none;
   transform: translate(-50%, -50%);
   opacity: 0;
-  transition: 0.8s ease-in-out all;
+  transition: 0.8s ease-in-out opacity;
+}
+
+.click-points {
+  width: 280px;
+  height: 280px;
+}
+
+.trace-fixe {
+  width: 230px;
+  height: 230px;
+  transform: translate(-50%, -50%) ;
+}
+
+.trace {
+  width: 230px;
+  height: 230px;
 }

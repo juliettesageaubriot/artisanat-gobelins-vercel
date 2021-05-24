@@ -1,30 +1,55 @@
-export const SetupColorPicker = (vitrailGroup, objectToTest, vitrailObjects) => {
+import * as THREE from 'three';
 
-  vitrailGroup.children.map((objects, i) => {
+export const SetupColorPicker = (vitrailGroup, objectToTest, vitrailObjects, crayonnes, samples) => {
+  const textureLoader = new THREE.TextureLoader()
 
-    if (objects.name === "cubes") {
-      let vitrailCubes = objects.children;
-      for (let vitrailCube of vitrailCubes) {
-        objectToTest.push(vitrailCube);
-        vitrailObjects.push(vitrailCube.name);
-      }
-    } else if (objects.name === "rectangles") {
-      let vitrailRectangles = objects.children;
-      for (let vitrailRectangle of vitrailRectangles) {
-        objectToTest.push(vitrailRectangle);
-        vitrailObjects.push(vitrailRectangle.name);
-      }
-    } else if (objects.name === "losange") {
-      let vitrailLosange = objects;
-      objectToTest.push(vitrailLosange);
-      vitrailObjects.push(vitrailLosange.name);
+  const textures = Promise.all([
+    textureLoader.load('/assets/textures/colorPicker/crayonnes/crayonnés_carré_extérieur.jpg'), 
+    textureLoader.load('/assets/textures/colorPicker/crayonnes/crayonnés_rectangle.jpg'), 
+    textureLoader.load('/assets/textures/colorPicker/crayonnes/crayonnés_carré_arrondis.jpg'),
+    textureLoader.load('/assets/textures/colorPicker/crayonnes/crayonnés_carré_central.jpg')
+  ], (resolve, reject) => {
 
-    } else if (objects.name === "colorPicker") {
-      let colorPickers = objects.children;
-      for (let colorPicker of colorPickers) {
-        objectToTest.push(colorPicker);
+    resolve(textures);
+
+  }).then(result => {
+    let startColorCouleur;
+    
+    vitrailGroup.children.map((objects, i) => {
+      if(objects.name.toLowerCase().includes("verre")) {
+        //échantillons de verre
+        objectToTest.push(objects);
+        samples.push(objects.name);
+        objects.material.transparent = true;
+        objects.material.opacity = 0.8;
+
+      } else if(objects.name.toLowerCase().includes("vitrail")) {
+        //vitrail posé
+        objectToTest.push(objects);
+        vitrailObjects.push(objects.name);
+        // objects.material.type = "MeshPhongMaterial";
+        objects.material.transparent = true;
+        objects.material.opacity = 0.6;
+        startColorCouleur = objects.material.color;
+
+      } else if(objects.name.toLowerCase().includes("couleur")) {
+        crayonnes.push(objects);
+        
+        //Ajout des textures en alphaMap pour les crayonnés
+        objects.material.transparent = true;
+        objects.material.opacity = 0;
+        objects.material.color = startColorCouleur;
+        if(objects.name.toLowerCase().includes("carre")) {
+          objects.material.alphaMap = result[0];
+        } else if(objects.name.toLowerCase().includes("rectangle")) {
+          objects.material.alphaMap = result[1];
+        } else if(objects.name.toLowerCase().includes("cercle")) {
+          objects.material.alphaMap = result[2];
+        } else if(objects.name.toLowerCase().includes("etoile")) {
+          objects.material.alphaMap = result[3];
+        }
       }
-    }
-  })
+    })
+  });
 
 }

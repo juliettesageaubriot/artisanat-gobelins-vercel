@@ -13,15 +13,17 @@ import TheSubTitle from '@components/Subtitle/TheSubTitle';
 import TheVolume from '@components/VolumeSettings/TheVolume';
 import TheStepValidation from '@components/StepValidation/TheStepValidation';
 import TheToolChoiceButton from '@components/ToolChoiceButton/TheToolChoiceButton';
+import TheCursor from '@/components/Cursor/TheCursor';
+import ThePressionUX from '@/components/PressionUX/ThePressionUX';
+import TheClickPoints from '@/components/ClickPoints/TheClickPoints';
 
+//utils
 import useIsMounted from '@hooks/useIsMounted'
 
 //datas
 import audioDatas from "assets/data/subtitles.json";
 import toolsData from '@assets/data/tools.json';
 import stepValidationDatas from "assets/data/step-validation.json";
-
-
 
 const SingleAtelierPage = () => {
   const isMounted = useIsMounted();
@@ -46,26 +48,18 @@ const SingleAtelierPage = () => {
     playSound: () => { setIsPlaying(true) },
     stopSound: () => { setIsPlaying(false) },
     start: () => { setCurrentSubtitle(0); },
-    setNextSubtitle: () => { setCurrentSubtitle(1) },
-    setToolsArray1: () => { setCurrentStepTools(data.toolsArray1) },
-    setToolsArray2: () => { setCurrentStepTools(data.toolsArray2) },
+    setNextSubtitle: (index) => { setCurrentSubtitle(index) },
+    setToolsArray1: () => { setCurrentStepTools(data.toolsArray0);},
+    setToolsArray2: () => { setCurrentStepTools(data.toolsArray1) },
+    setToolsArray3: () => { setCurrentStepTools(data.toolsArray2) },
     setStepValidation: (index) => { setCurrentValidationStep(index) }
   }
 
   useEffect(() => {
     const canvas = ref.current
     setThreeScene(new ThreeScene(canvas, state));
-    setCurrentStepTools(data.toolsArray0);
+    // setCurrentStepTools(data.toolsArray0);
   }, [])
-
-  const handleAudio0 = () => {
-    setCurrentSubtitle(0);
-    // console.log(currentSubtitle)
-  }
-  const handleAudio1 = () => {
-    setCurrentSubtitle(1);
-    // console.log(currentSubtitle)
-  }
 
   const subtitleItems = audioDatas.map((elm, index) => {
     return <TheSubTitle
@@ -73,6 +67,7 @@ const SingleAtelierPage = () => {
       currentSubtitle={currentSubtitle}
       key={index}
       onEnd={() => threeScene._actionStepManager.actionsManager(elm.actionOnEnd)}
+      onEndReplay={() => elm.actionOnReplay != null ? threeScene._actionStepManager.actionsManager(elm.actionOnReplay) : console.log("no replay")}
     />
   });
 
@@ -87,34 +82,46 @@ const SingleAtelierPage = () => {
     />
   });
 
+  console.log('currentStepTools', currentStepTools);
+
   return (
     <>
       <section>
         {subtitleItems}
         {stepValidationItems}
-        {/* <TheAudioSnippet sound_url={"assets/audios/test_song.mp3"} play/> */}
-        <button style={{ position: "absolute", right: "0" }} onClick={handleAudio0}>Audio 0</button>
-        <button style={{ position: "absolute", right: "70px" }} onClick={handleAudio1}>Audio 1</button>
+        {/* <button>Margin lefttttt</button>
+        <button onClick={() => console.log(threeScene._camera)}> currentCamera </button>
+        <button onClick={() => console.log(threeScene._stepManager._globalStep + " " + threeScene._stepManager._subStep)}> currentStep </button>
+        <button onClick={() => console.log(threeScene._glassCutOutRaycastObject)}> object glass raycast </button> */}
+        {/* <TheAudioSnippet sound_url={"assets/audios/atelier/main_musique_atelier.mp3"} play loop specificVolume={0.2}/> */}
+        <TheCursor />
         <TheLoader />
         <TheBreadcrumb
         // isShowing={isShowingBreadcrumb} hide={toggle}
         />
         <TheToolChoiceButton array={currentStepTools} />
 
-        <a href="/menu" className={`link-before ${styles['link-before']}`}>
+        <a href="/menu" className={` link link-secondary link-white ${styles['link-before']} ${styles['link-white']}`}>
           <span>Épisodes</span>
+        </a>
+
+        <a className={` link link-secondary link-white ${styles["colorPicker-cta"]}`} id="colorPicker-cta" onClick={() => threeScene._actionStepManager.actionsManager(15)}>
+          <span>J'ai choisi mes couleurs !</span>
         </a>
 
         <div className={styles["page-singleAtelier"]}></div>
 
-        <img src="/assets/images/ui/pictos-ux/click-points.gif" alt="Picto UX pour le click gruger" className="picto-ux click-points" id="clickPoints"/>
+        <img src="/assets/images/ui/pictos-ux/CLIC_GRUGER_V02.gif" alt="Picto UX pour le click gruger" className="picto-ux click-points" id="clickPoints"/>
         <img src="/assets/images/ui/pictos-ux/drag-and-drop.gif" alt="Picto UX pour le drag and drop" className="picto-ux drag-and-drop" id="dragAndDrop"/>
+        <img src="/assets/images/ui/pictos-ux/drag-and-drop.gif" alt="Picto UX pour le drag and drop du color picker" className="picto-ux drag-and-drop-color-picker" id="dragAndDropColorPicker"/>
         <img src="/assets/images/ui/pictos-ux/pression.gif" alt="Picto UX pour la jauge de pression" className="picto-ux pression" id="pression"/>
         <img src="/assets/images/ui/pictos-ux/scroll.gif" alt="Picto UX pour le scroll" className="picto-ux scroll" id="scroll"/>
-        <img src="/assets/images/ui/pictos-ux/trace.gif" alt="Picto UX pour la trace glissière" className="picto-ux trace" id="trace"/>
+        <img src="/assets/images/ui/pictos-ux/TRACE_GLISSIERE_V02.gif" alt="Picto UX pour la trace glissière" className="picto-ux trace" id="trace"/>
+        <img src="/assets/images/ui/pictos-ux/TRACE_GLISSIERE_FIXE.png" alt="Picto UX pour la trace glissière fixe" className="picto-ux trace-fixe" id="trace-fixe"/>
 
+        <TheClickPoints />
+        <ThePressionUX />
         <TheVolume absolute colorPicto="blanc"/>
-        <div className={styles.pressureGauge} id="pressureGauge"></div>
         <div ref={ref} />
         <div className={styles.colorPickerContainer} ref={cursorColorPickerContainer}>
           <div className={styles.colorPickerInner} ref={cursorColorPickerInner}></div>

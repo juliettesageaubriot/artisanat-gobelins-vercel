@@ -4,20 +4,20 @@
         "title": "la découpe du tracé",
         "btnText": "J'y vais !",
         "destination": "l'atelier de coloration",
-        "actionOnClick": 7
+        "actionOnClick": 9
     },
     {
         "id": 1,
         "title": "l'atelier de coloration",
         "btnText": "J'y vais !",
         "destination": "la découpe du verre",
-        "actionOnClick": 14
+        "actionOnClick": 16
     },
     {
         "id": 2,
         "title": "la découpe du verre",
         "btnText": "J'y vais !",
         "destination": "votre vitrail en vrai",
-        "actionOnClick": 31
+        "actionOnClick": 33
     }
 ]

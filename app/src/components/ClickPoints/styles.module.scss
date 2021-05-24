@@ -1,0 +1,64 @@
+.clickPointsOne {
+    position: absolute;
+
+    height: 25px;
+    width: 25px;
+
+    background-color: #ffffff;
+
+    border-radius: 100%;
+
+    transition: .3s opacity ease-in-out;
+
+    opacity: 0;
+
+    border: 1px solid #111111;
+
+    &:hover {
+        opacity: 1 !important;
+    }
+}
+
+.clickPointsTwo {
+    position: absolute;
+
+    height: 25px;
+    width: 25px;
+
+    background-color: #ffffff;
+
+    border-radius: 100%;
+
+    transform: translate(-50%, -50%);
+
+    transition: .3s opacity ease-in-out;
+
+    opacity: 0;
+
+    border: 1px solid #111111;
+
+    &:hover {
+        opacity: 1 !important;
+    }
+}
+
+.clickPointsThree {
+    position: absolute;
+
+    height: 25px;
+    width: 25px;
+
+    background-color: #ffffff;
+
+    border-radius: 100%;
+
+    transition: .3s opacity ease-in-out;
+
+    opacity: 0;
+
+    border: 1px solid #111111;
+
+    &:hover {
+        opacity:  1 !important;
+    }
+}
