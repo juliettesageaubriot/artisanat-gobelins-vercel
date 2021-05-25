@@ -44,7 +44,7 @@
     {
       "id": 5,
       "text": "Viens par-là on va choisir le verre.", 
-      "duration": "2000",
+      "duration": "2500",
       "audioSource": "assets/audios/subtitles/03_VF_Transition_Atelier_01.mp3",
       "actionOnEnd": 10,
       "canReplay": true

@@ -112,7 +112,7 @@ class ActionsStepManager {
         this._setCurrentSubtitle(4);
     }
     _stepHeight() {
-        this._UIManager.setScrollPicto("feuille");
+        this._UIManager.setScrollPicto("chute04a");
         this._allowedScroll = true;
         this._state.setToolsArray1();
         this._toggleArtisane("artisane01");
@@ -221,7 +221,7 @@ class ActionsStepManager {
             this._UIManager.setTracePicto("piece1");
             this._UIManager.setTracePictoFixe("milieu3");
         }, 1000);
-        
+        this._UIManager.UI.cursor.classList.add("cursor-coupe-verre");
         this._allowedDrawTheLine = true;
     }
     _stepTwentyFive() {
@@ -229,6 +229,7 @@ class ActionsStepManager {
         this._UIManager.removeTracePicto();
         this._UIManager.removeTraceFixePicto();
         this._UIManager.setDragAndDropPicto("papier_decoupe");
+        this._UIManager.UI.cursor.classList.remove("cursor-coupe-verre");
         this._allowedDrawTheLine = false;
         this._allowedDragAndDrop = true;
         this._toggleDragAndDrop();
@@ -243,6 +244,7 @@ class ActionsStepManager {
         this._toolsManager.currentTools(1, 3)
     }
     _stepTwentySeven() {
+        this._UIManager.UI.cursor.classList.add("cursor-pince-decrocher");
         setTimeout(() => {
             this._UIManager.setPressionPicto("piece1");
         }, 1000);
@@ -259,11 +261,14 @@ class ActionsStepManager {
     }
     _stepTwentyNine() {
         this._UIManager.setClickPointsPicto("piece1", () => this.actionsManager(29));
+        this._UIManager.UI.cursor.classList.remove("cursor-pince-decrocher");
+        this._UIManager.UI.cursor.classList.add("cursor-pince-gruger");
         this._allowedCassageDeVerre = true;
     }
     _stepThirty() {
          //Apparition du vitrail
         //Sur le succes du cassage de verre
+        this._UIManager.UI.cursor.classList.remove("cursor-pince-gruger");
         this._allowedCassageDeVerre = false;
         this._stepManager.addSubStep();
         this._setCameraAnimation(5, 30);

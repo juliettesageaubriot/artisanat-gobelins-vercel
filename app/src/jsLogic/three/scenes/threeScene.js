@@ -351,7 +351,7 @@ class ThreeScene {
                     child.material.transparent = true;
                     child.material.opacity = 0.2;
 
-                } else if ("CameraAtelier1_Orientation" === child.name) {
+                } else if ("CameraAtelier6_Orientation" === child.name) {
 
                     // console.log(this._camera)
                     this._camera = child;
@@ -501,7 +501,7 @@ class ThreeScene {
 
         this._actionStepManager.actionsManager(0);
         // this._actionStepManager.actionsManager(26);
-        // this._actionStepManager.actionsManager(14);
+        // this._actionStepManager.actionsManager(20);
         // this._addPieceDecoupeToScene();
 
         // this._actionStepManager.actionsManager(23);
@@ -681,7 +681,6 @@ class ThreeScene {
                 this._crayonnes.map(object => {
                     if (object.name.slice(-2) === this._currentIntersect.name.slice(-2)) {
                         object.material.color = this._colorPicked.current;
-                        object.material.opacity = 1;
                     }
                 })
             }
@@ -1166,6 +1165,8 @@ class ThreeScene {
             this._initialPosition.y = event.object.position.y + 0.001;
             this._initialPosition.z = event.object.position.z;
 
+            this._UIManager.UI.html.style.cursor = "none";
+
             // event.object.material.emissive.set(0xaaaaaa);
             if (this._globalStep === 2 || this._subStep === 0) {
 
@@ -1184,6 +1185,7 @@ class ThreeScene {
             gsap.to(event.object.scale, { x: 1.2, y: 1.2, z: 1.2, duration: .3 });
         }
         this._drag = (event) => {
+            this._UIManager.UI.html.style.cursor = "none";
             if (this._globalStep === 2 || this._subStep === 0) {
 
                 //Action à faire sur le premier drag and drop de l'atelier 3
@@ -1203,10 +1205,9 @@ class ThreeScene {
             if (event.object.position.z < this._initialPosition.z) {
                 event.object.position.z = this._initialPosition.z;
             }
-
         }
         this._dragEnd = (event) => {
-
+            this._UIManager.UI.html.style.cursor = "none";
             this._pourcentageIntersect = this._dragItems[0].children.filter(intersectObject => this._detectCollision(this._pieceDecoupeDropZone, intersectObject)).length;
 
             if (this._pourcentageIntersect > 18) {
@@ -1304,8 +1305,6 @@ class ThreeScene {
             this._enableDragAndDrop = false;
             this._dragAndDropControls.enabled = false;
             this._dragAndDropControls.deactivate();
-            this._UIManager.UI.html.style.cursor = "default";
-            console.log("cursor default")
         } else {
             // this._dragAndDropControls.addEventListener('dragstart', this._dragStart);
             // this._dragAndDropControls.addEventListener('drag', this._drag);

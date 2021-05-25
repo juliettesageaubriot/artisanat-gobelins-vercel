@@ -80,7 +80,7 @@ class UIManager {
         this.UI.clickPointsOne.style.opacity = 0.6;
         
         this.UI.clickPointsOne.addEventListener('click', () => {
-            this._glassCutOutObjectDisappear(["debut", "milieu1"]);
+            this._glassCutOutObjectDisappear(["debut", "milieu1", "extrusion1", "extrusion2"]);
             this.UI.clickPointsOne.style.opacity = 0;
             this.setClickPointsButtonTwo(action);
         })
@@ -93,7 +93,7 @@ class UIManager {
         this.UI.clickPointsTwo.style.opacity = 0.6;
 
         this.UI.clickPointsTwo.addEventListener('click', () => {
-            this._glassCutOutObjectDisappear(["milieu2", "milieu3", "milieu4"]);
+            this._glassCutOutObjectDisappear(["milieu2", "milieu3", "milieu4", "extrusion3", "extrusion4", "extrusion5"]);
             this.UI.clickPointsTwo.style.opacity = 0;
             this.setClickPointsButtonThree(action);
         })
@@ -106,7 +106,7 @@ class UIManager {
         this.UI.clickPointsThree.style.opacity = 0.6;
 
         this.UI.clickPointsThree.addEventListener('click', () => {
-            this._glassCutOutObjectDisappear(["fin", "milieu5"]);
+            this._glassCutOutObjectDisappear(["fin", "milieu5", "extrusion7", "extrusion8"]);
             this.UI.clickPointsThree.style.opacity = 0;
             console.log("C'est fini !");
             action();
@@ -174,8 +174,8 @@ class UIManager {
     setScrollPicto(objectName) {
         this._coordinates = this._getObjectCoordinatesByName(objectName);
         this.UI.scroll.style.opacity = 1
-        this.UI.scroll.style.top = this._coordinates.y + "px"
-        this.UI.scroll.style.left = this._coordinates.x + "px"
+        this.UI.scroll.style.top = 50 + "%"
+        this.UI.scroll.style.left = 50 + "%"
 
         this._removeScrollPicto = setTimeout(() => {
             this.UI.scroll.style.opacity = 0

@@ -4,6 +4,9 @@
 
     position: absolute;
 
+    top: 12.5px;
+    left: 10px;
+
     pointer-events: none;
 
     cursor: none;
@@ -18,6 +21,19 @@
 
     &.cursor-dragging {
         background-image: url("/assets/images/ui/pictos-ux/curseur_02.png");
+    }
+
+    &.cursor-ciseaux {
+        background-image: url("/assets/images/ui/cursor/outils/ciseaux.png");
+    }
+    &.cursor-coupe-verre {
+        background-image: url("/assets/images/ui/cursor/outils/coupe_verre_1.png");
+    }
+    &.cursor-pince-decrocher {
+        background-image: url("/assets/images/ui/cursor/outils/pince_decrocher_1.png");
+    }
+    &.cursor-pince-gruger {
+        background-image: url("/assets/images/ui/cursor/outils/pince_gruger_1.png");
     }
 }
 
