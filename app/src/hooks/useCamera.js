@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import * as THREE from 'three'
 const useCameraManager = (test) => {
-  console.log(test);
+  // console.log(test);
   const [currentCamera, setCurrentCamera] = useState(null);
   const [cameras, setCameras] = useState(null);
   const [cameraAnimations, setCameraAnimations] = useState(null);

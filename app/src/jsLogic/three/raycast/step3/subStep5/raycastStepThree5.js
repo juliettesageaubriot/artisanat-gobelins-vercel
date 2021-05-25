@@ -9,10 +9,10 @@ export const _glassCutOutPinceAGruger = (intersect) => {
 }
 
 export const _glassCutOutPinceAGrugerMouseDown = () => {
-    console.log("pince à gruger mousedown");
+    // console.log("pince à gruger mousedown");
 }
 
 export const _glassCutOutPinceAGrugerMouseUp = (actionStepManager) => {
-    console.log("pince à gruger up");
+    // console.log("pince à gruger up");
     // actionStepManager.actionsManager(27);
 }

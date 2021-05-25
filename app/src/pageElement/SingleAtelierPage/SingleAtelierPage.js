@@ -43,6 +43,7 @@ const SingleAtelierPage = () => {
   const cursorColorPickerInner = useRef(null);
 
   const data = toolsData;
+  // console.log(data);
 
   const state = {
     playSound: () => { setIsPlaying(true) },
@@ -82,7 +83,7 @@ const SingleAtelierPage = () => {
     />
   });
 
-  console.log('currentStepTools', currentStepTools);
+  // console.log('currentStepTools', currentStepTools);
 
   return (
     <>
@@ -99,7 +100,7 @@ const SingleAtelierPage = () => {
         <TheBreadcrumb
         // isShowing={isShowingBreadcrumb} hide={toggle}
         />
-        <TheToolChoiceButton array={currentStepTools} />
+        <TheToolChoiceButton array={currentStepTools}/>
 
         <a href="/" className={` link link-secondary link-white ${styles['link-before']} ${styles['link-white']}`}>
           <span>Épisodes</span>

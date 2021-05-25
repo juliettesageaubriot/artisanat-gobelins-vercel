@@ -312,7 +312,7 @@ class ThreeScene {
         for (let name in this._models) {
             this.object = this._models[name].scene;
 
-            console.log(this.object);
+            // console.log(this.object);
             this.object.traverse(child => {
                 if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
                     // child.material.envMap = environmentMap
@@ -606,7 +606,7 @@ class ThreeScene {
 
         const object = this._scene.getObjectByName(objectName);
 
-        console.log(object)
+        // console.log(object)
 
         var vector = new THREE.Vector3();
 

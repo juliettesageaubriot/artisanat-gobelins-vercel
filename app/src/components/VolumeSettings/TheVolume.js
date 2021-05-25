@@ -34,8 +34,6 @@ const TheVolume = ({ absolute, colorPicto }) => {
         localforage.setItem("globalVolume", volume);
     }, [volume])
 
-    console.log(isShown);
-
     return (
         <div className={`${styles["volumeContainer"]} ${absolute ? "" : styles["isNotAbsolute"]}`}>
             <div className={`${styles["volumeSlider"]} ${"noir" === colorPicto && styles.noir}`}>
