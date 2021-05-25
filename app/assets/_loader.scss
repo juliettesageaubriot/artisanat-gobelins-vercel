@@ -3,8 +3,6 @@
 .loader {
   &-three {
     display: block;
-    opacity: 1;
-    transition: 1s ease-in-out all;
     pointer-events: visible;
     z-index: 999999;
     // display: none;
