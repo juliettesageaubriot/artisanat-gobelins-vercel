@@ -3,7 +3,7 @@ import styles from './styles.module.scss'
 
 const TheLoader = () => {
   return (
-    <div id="assetLoader" className={`loader-three actived`}>
+    <div id="assetLoader" className={`loader-three`}>
       <div className="container">
 
         <img src="/assets/images/ui/loader/loader_vitrail.png" className="loader_pulse loader_img loader_vitrail" alt="image du vitrail pour le loader" />

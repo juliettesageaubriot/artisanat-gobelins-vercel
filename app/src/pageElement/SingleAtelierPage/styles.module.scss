@@ -37,7 +37,7 @@
     left: 50%;
     transform: translateX(-50%);
 
-    border: 1px solid #ffffff;
+    border: 1px solid $color-black;
     z-index: 1;
 
     cursor: pointer;
@@ -47,5 +47,5 @@
 
     transition: 0.3s opacity ease-in-out;
 
-    color: white;
+    color: $color-black;
 }

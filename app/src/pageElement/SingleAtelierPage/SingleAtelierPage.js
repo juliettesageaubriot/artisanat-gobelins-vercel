@@ -102,11 +102,11 @@ const SingleAtelierPage = () => {
         />
         <TheToolChoiceButton array={currentStepTools}/>
 
-        <a href="/" className={` link link-secondary link-white ${styles['link-before']} ${styles['link-white']}`}>
+        <a href="/" className={` link link-secondary link-black ${styles['link-before']} ${styles['link-black']}`}>
           <span>Épisodes</span>
         </a>
 
-        <a className={` link link-secondary link-white ${styles["colorPicker-cta"]}`} id="colorPicker-cta" onClick={() => threeScene._actionStepManager.actionsManager(15)}>
+        <a className={` link link-secondary link-black ${styles["colorPicker-cta"]}`} id="colorPicker-cta" onClick={() => threeScene._actionStepManager.actionsManager(15)}>
           <span>J'ai choisi mes couleurs !</span>
         </a>
 
@@ -122,7 +122,7 @@ const SingleAtelierPage = () => {
 
         <TheClickPoints />
         <ThePressionUX />
-        <TheVolume absolute colorPicto="blanc"/>
+        <TheVolume absolute colorPicto="noir"/>
         <div ref={ref} />
         <div className={styles.colorPickerContainer} ref={cursorColorPickerContainer}>
           <div className={styles.colorPickerInner} ref={cursorColorPickerInner}></div>
