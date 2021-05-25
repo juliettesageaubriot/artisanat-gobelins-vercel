@@ -189,9 +189,9 @@ class ActionsStepManager {
         this._setCameraAnimation(4, 18);
     }
     _stepNineteen() {
-        this._setCurrentSubtitle(10);
         this._state.setToolsArray2();
         this._toolsManager.currentTools(1, 1)
+        this._setCurrentSubtitle(10);
     }
     _stepTwenty() {
         this._setCurrentSubtitle(11);
@@ -212,8 +212,8 @@ class ActionsStepManager {
          this._toggleDragAndDrop();
     }
     _stepTwentyThree() {
-        this._setCurrentSubtitle(13);
         this._toolsManager.currentTools(1, 2)
+        this._setCurrentSubtitle(13);
     }
     _stepTwentyFour() {
         this._stepManager.addSubStep();
@@ -237,11 +237,11 @@ class ActionsStepManager {
     }
     _stepTwentySix() {
         //A appeler sur le success du drag and drop
+        this._toolsManager.currentTools(1, 3)
         this._UIManager.removeDragAndDropPicto();
         this._setCurrentSubtitle(14);
         this._allowedDragAndDrop = false;
         this._toggleDragAndDrop();
-        this._toolsManager.currentTools(1, 3)
     }
     _stepTwentySeven() {
         this._UIManager.UI.cursor.classList.add("cursor-pince-decrocher");

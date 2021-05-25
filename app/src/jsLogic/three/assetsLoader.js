@@ -64,7 +64,7 @@ class AssetsLoader {
         // const toolsAnim = document.getElementById('toolsModal')
 
         // toolsAnim.classList.add('loaded')
-        loader.classList.remove('actived')
+        loader.classList.add('desactived')
     }
 
     setRaycast() {

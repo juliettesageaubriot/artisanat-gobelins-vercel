@@ -11,6 +11,9 @@ const TheBreadcrumb = ({ isShowing }) => {
           <li></li>
           <li></li>
           <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
         </ul>
       </div>
     </div>

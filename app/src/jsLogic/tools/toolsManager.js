@@ -16,6 +16,10 @@ export default class ToolsManager {
   }
 
   currentTools(arrayTool, currentToolID) {
+
+    toolsData.changeSlider = false
+    toolsData.idActifGlobal = currentToolID
+
     // console.log(toolsData);
     const toolsList = document.getElementById('tools-children')
     const toolTitle = document.querySelector('.toolTitle')
@@ -37,9 +41,8 @@ export default class ToolsManager {
         toolsArrayCurrent = toolsData.toolsArray2[currentToolID - 1]
         break;
     }
-    // console.log(toolsData);
-
     toolsArray.map((elm) => {
+
       if (elm.id === currentToolID) {
         // console.log('current', elm);
         toolsList.childNodes[elm.id - 1].children[0].classList.add('actived')
@@ -62,7 +65,6 @@ export default class ToolsManager {
         elm.present = false
         elm.future = false
       }
-
     })
   }
 }

@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import styles from './styles.module.scss'
+import toolsData from '@assets/data/tools.json';
 
 const TheToolChoiceButton = ({ array }) => {
     const [isOpen, setIsOpen] = useState(false)
-    const [isCurrentId, setIsCurrentId] = useState(1)
+    const [isCurrentIdSlider, setIsCurrentIdSlider] = useState(1)
 
     const handleContentClick = () => {
         setIsOpen(!isOpen)
@@ -12,7 +13,8 @@ const TheToolChoiceButton = ({ array }) => {
     const handleToolsClick = (event) => {
         array.filter((elm) => {
             if (elm.id === parseInt(event.target.id)) {
-                setIsCurrentId(parseInt(event.target.id))
+                setIsCurrentIdSlider(parseInt(event.target.id))
+                toolsData.changeSlider = true
             }
         })
     }
@@ -27,13 +29,10 @@ const TheToolChoiceButton = ({ array }) => {
                             <li key={i} onClick={(event) => handleToolsClick(event)}>
                                 <button
                                     id={elm.id}
-                                    // className={`${isCurrentId === elm.id ? 'scale' : ""}`}
-                                    data-scale={isCurrentId === elm.id && true}
+                                    data-scale={(toolsData.changeSlider === true && isCurrentIdSlider === elm.id) || (toolsData.changeSlider === false && toolsData.idActifGlobal === elm.id) && true}
                                 >
 
                                     <img id={elm.id} src={elm.img} />
-                                    {/* {isCurrentId === elm.id &&
-                                    } */}
                                 </button>
                             </li>
                         )
@@ -41,27 +40,54 @@ const TheToolChoiceButton = ({ array }) => {
                 </ul>
 
                 {array.map((elm, i) => {
+                    // console.log('array', array);
                     return (
                         <div key={i}>
-                            {isCurrentId === elm.id &&
-                                <div className={`${styles.content}`}>
-                                    <div>
-                                        <h2>
-                                            {elm.present ? "Tu utilises" : ""}
-                                            {elm.past ? "Tu as utilisé" : ""}
-                                            {elm.future ? "Tu vas utiliser" : ""}
-                                            <br/>
-                                            <span>{elm.title}</span>
-                                        </h2>
-                                        <div className={`${styles['content-display']} ${true === isOpen && styles.open}`}>
-                                            <p>{elm.content}</p>
+
+                            {toolsData.changeSlider === false && toolsData.idActifGlobal === elm.id ?
+                                <>
+                                    <div className={`${styles.content}`}>
+                                        <div>
+                                            <h2>
+                                                {elm.present ? "Tu utilises" : ""}
+                                                {elm.past ? "Tu as utilisé" : ""}
+                                                {elm.future ? "Tu vas utiliser" : ""}
+                                                <br />
+                                                <span>{elm.title}</span>
+                                            </h2>
+                                            <div className={`${styles['content-display']} ${true === isOpen && styles.open}`}>
+                                                <p>{elm.content}</p>
+                                            </div>
                                         </div>
                                     </div>
+                                </>
+                                :
+                                null
+                            }
+                            {toolsData.changeSlider === true && isCurrentIdSlider === elm.id ?
+                                <>
+                                    <div className={`${styles.content}`}>
+                                        <div>
+                                            <h2>
+                                                {elm.present ? "Tu utilises" : ""}
+                                                {elm.past ? "Tu as utilisé" : ""}
+                                                {elm.future ? "Tu vas utiliser" : ""}
+                                                <br />
+                                                <span>{elm.title}</span>
+                                            </h2>
+                                            <div className={`${styles['content-display']} ${true === isOpen && styles.open}`}>
+                                                <p>{elm.content}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </>
+                                :
+                                null
 
-                                </div>
                             }
                         </div>
                     )
+
                 })}
 
                 <button onClick={handleContentClick} className={styles['open-button']}>
@@ -70,7 +96,7 @@ const TheToolChoiceButton = ({ array }) => {
                 </button>
 
             </div>
-        </div>
+        </div >
     );
 }
 

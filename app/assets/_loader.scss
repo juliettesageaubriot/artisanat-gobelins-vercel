@@ -2,6 +2,9 @@
 
 .loader {
   &-three {
+    display: block;
+    pointer-events: visible;
+    z-index: 999999;
     // display: none;
     position: absolute;
     top: 0;
@@ -11,10 +14,6 @@
     margin: 0;
     padding: 0;
     background-color: $color-white;
-    pointer-events: none;
-    transition: 1s ease-in-out all;
-    opacity: 0;
-    pointer-events: none;
 
     display: flex;
     flex-flow: row wrap;
@@ -66,12 +65,13 @@
       }
     }
 
-    &.actived {
+    &.desactived {
       // display: block;
+      opacity: 0;
+      pointer-events: none;
       transition: 1s ease-in-out all;
-      opacity: 1;
-      pointer-events: visible;
-      z-index: 999999;
+      pointer-events: none;
+      z-index: -1;
     }
   }
 }
