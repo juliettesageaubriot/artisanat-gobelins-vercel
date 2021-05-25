@@ -17,11 +17,9 @@ export default class ToolsManager {
 
   currentTools(arrayTool, currentToolID) {
 
-
-
     toolsData.changeSlider = false
     toolsData.idActifGlobal = currentToolID
-    
+
     // console.log(toolsData);
     const toolsList = document.getElementById('tools-children')
     const toolTitle = document.querySelector('.toolTitle')

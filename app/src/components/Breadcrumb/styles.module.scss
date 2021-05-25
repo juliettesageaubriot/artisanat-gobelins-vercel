@@ -11,7 +11,7 @@
     transition: 0.5s ease-in all;
 
     // Je gère le current ici
-    @for $i from 1 through 5 {
+    @for $i from 1 through 6 {
       &[data-step="#{$i}"] {
         .breadcrumb__inner {
           ul {
@@ -55,7 +55,7 @@
         top: 50%;
         left: 0;
         width: 100%;
-        height: 2px;
+        height: 1px;
         background-color: $color-black;
       }
 
