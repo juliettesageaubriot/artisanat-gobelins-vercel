@@ -1,5 +1,4 @@
 //vendors
-// import localforage from "localforage";
 import toolsData from '@assets/data/tools.json';
 
 export default class ToolsManager {

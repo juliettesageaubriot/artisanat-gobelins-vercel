@@ -37,6 +37,7 @@
         transform: rotate(-90deg);
         opacity: 0;
         transition: 0.3s all ease-in-out;
+        z-index: 2;
         .slider {
             -webkit-appearance: none;
             // border-radius: 20px;

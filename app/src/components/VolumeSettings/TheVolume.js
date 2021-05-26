@@ -1,13 +1,12 @@
 import { useRef, useState, useEffect } from "react";
 import styles from "./styles.module.scss";
 import Howler from 'react-howler';
-import localforage from "localforage";
 
 const TheVolume = ({ absolute, colorPicto }) => {
 
     const slider = useRef(null);
     const [volume, setVolume] = useState(0.5);
-    const [previousVolume, setPreviousVolume] = useState(0);
+    const [previousVolume, setPreviousVolume] = useState(volume);
 
     // is hovered
     const [isShown, setIsShown] = useState(false);
@@ -19,7 +18,7 @@ const TheVolume = ({ absolute, colorPicto }) => {
         setPreviousVolume(currentVolume);
     }
     useEffect(async () => {
-        const currentGlobalVolume = await localforage.getItem("globalVolume");
+        const currentGlobalVolume = await localStorage.getItem("globalVolume");
         if (currentGlobalVolume) {
             setVolume(currentGlobalVolume);
         }
@@ -31,7 +30,7 @@ const TheVolume = ({ absolute, colorPicto }) => {
 
     useEffect(() => {
         window.Howler.volume(volume);
-        localforage.setItem("globalVolume", volume);
+        localStorage.setItem("globalVolume", volume);
     }, [volume])
 
     return (

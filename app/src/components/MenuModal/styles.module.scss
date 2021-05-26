@@ -33,11 +33,13 @@
         flex-flow: row nowrap;
         align-items: center;
         justify-content: space-between;
-        width: 100%;
 
         font-size: 13px;
         border-bottom: 1px solid $color-cyan;
         padding-bottom: 2px;
+        max-width: 150px;
+        width: 100%;
+
         .circle {
           position: relative;
           padding: 0 12px;
@@ -52,11 +54,10 @@
             height: 5px;
             background: $color-cyan;
             transform: translate(-50%, -50%);
-            border-radius: 50%;
           }
         }
         .episode {
-          font-family: 'OpenSansBold';
+          font-family: "OpenSansBold";
           font-weight: $ft-bold;
         }
       }
@@ -73,7 +74,7 @@
         justify-content: center;
         width: 100%;
         h1 {
-          font-family: 'CirkaBold';
+          font-family: "CirkaBold";
           font-size: 30px;
           font-weight: $ft-light;
           margin-bottom: 5px;
