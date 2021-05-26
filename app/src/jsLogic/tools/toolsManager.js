@@ -44,13 +44,13 @@ export default class ToolsManager {
 
       if (elm.id === currentToolID) {
         // console.log('current', elm);
-        toolsList.childNodes[elm.id - 1].children[0].classList.add('actived')
+        toolsList.childNodes[elm.id - 1].children[0].classList.add('scale')
         elm.past = false
         elm.present = true
         elm.future = false
       } else {
         // console.log('others', elm);
-        toolsList.childNodes[elm.id - 1].children[0].classList.remove('actived')
+        toolsList.childNodes[elm.id - 1].children[0].classList.remove('scale')
       }
 
       if (elm.id > currentToolID) {

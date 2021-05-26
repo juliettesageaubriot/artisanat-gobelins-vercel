@@ -18,10 +18,6 @@
           cursor: pointer;
           border: none;
           transition: 0.8s ease-in all;
-          &.actived {
-            transition: 0.8s ease-in all;
-            background-color: $color-cyan;
-          }
           &.scale {
             width: 70px;
             height: 70px;

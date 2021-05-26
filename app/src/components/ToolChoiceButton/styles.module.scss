@@ -33,11 +33,9 @@
                         width: 70px;
                         height: 70px;
                     }
-                    &.scale {
-                        width: 70px;
-                        height: 70px;
-                        // transition: 0.8s ease-in all;
-                        // background-color: initial;
+                    &[data-color = true] {
+                        transition: 0.8s ease-in all;
+                        background-color: $color-cyan;            
                     }
                     img {
                         position: absolute;

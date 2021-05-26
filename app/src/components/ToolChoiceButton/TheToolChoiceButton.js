@@ -12,12 +12,26 @@ const TheToolChoiceButton = ({ array }) => {
 
     const handleToolsClick = (event) => {
         array.filter((elm) => {
-            if (elm.id === parseInt(event.target.id)) {
-                setIsCurrentIdSlider(parseInt(event.target.id))
+
+            if (toolsData.changeSlider === true) {
+                if (elm.id === parseInt(event.target.id)) {
+                    setIsCurrentIdSlider(parseInt(event.target.id))
+                }
+            } else {
                 toolsData.changeSlider = true
             }
         })
     }
+
+
+    useEffect(() => {
+        if(toolsData.changeSlider === false) {
+            setIsCurrentIdSlider(parseInt(toolsData.idActifGlobal))
+        }
+    });
+
+    console.log("toolsData.changeSlider", toolsData.changeSlider);
+    console.log("isCurrentIdSlider", isCurrentIdSlider);
 
     return (
         <div className={`${styles["tool-choice_container"]} tool-choice_container`} id="toolsModal">
@@ -29,9 +43,8 @@ const TheToolChoiceButton = ({ array }) => {
                             <li key={i} onClick={(event) => handleToolsClick(event)}>
                                 <button
                                     id={elm.id}
-                                    data-scale={(toolsData.changeSlider === true && isCurrentIdSlider === elm.id) || (toolsData.changeSlider === false && toolsData.idActifGlobal === elm.id) && true}
+                                    data-color={(toolsData.changeSlider === true && isCurrentIdSlider === elm.id) || (toolsData.changeSlider === false && toolsData.idActifGlobal === elm.id) && true}
                                 >
-
                                     <img id={elm.id} src={elm.img} />
                                 </button>
                             </li>
@@ -83,7 +96,6 @@ const TheToolChoiceButton = ({ array }) => {
                                 </>
                                 :
                                 null
-
                             }
                         </div>
                     )

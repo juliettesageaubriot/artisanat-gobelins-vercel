@@ -82,7 +82,7 @@ class ActionsStepManager {
     }
 
     // _setCurrentToolsArray(index) {
-    //     this._state.setToolsArray1();
+    // this._state.setToolsArray(toolsData.toolsArray0);
     // }
 
     _stepOne() {
@@ -100,8 +100,12 @@ class ActionsStepManager {
         console.log("Animation des feuilles")
         this._setfeuilleLeveAnimationPlay(4);
         this._toolsManager.setTools(true)
-        this._state.setToolsArray(toolsData.toolsArray0)
-        this._toolsManager.currentTools(0, 1)
+        // this._state.setToolsArray(toolsData.toolsArray0)
+        // this._toolsManager.currentTools(0, 1)
+
+        this._state.setToolsArray(toolsData.toolsArray1)
+        this._toolsManager.currentTools(1, 1)
+
     }
     _stepFive() {
         //A Appeler à la fin de l'animation de la caméra dans le animation manager
@@ -109,9 +113,11 @@ class ActionsStepManager {
     }
     _stepSix() {
         this._setCurrentSubtitle(3);
+        this._toolsManager.currentTools(1, 2)
     }
     _stepSeven() {
         this._setCurrentSubtitle(4);
+        this._toolsManager.currentTools(1, 3)
     }
     _stepHeight() {
         this._UIManager.setScrollPicto("chute04a");
