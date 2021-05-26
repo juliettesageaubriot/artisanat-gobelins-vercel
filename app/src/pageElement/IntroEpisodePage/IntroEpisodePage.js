@@ -1,6 +1,5 @@
 import useModal from '@hooks/useModal'
 import TheModal from '@components/Modal/TheModal'
-import TheVolume from '@components/VolumeSettings/TheVolume';
 import Link from 'next/link'
 
 import styles from "./styles.module.scss"
@@ -71,7 +70,6 @@ const IntroEpisodePage = () => {
           {/* <TheModal isShowing={isShowingWarning} hide={toggleWarning} content={modalTextWarning} />
             <TheModal isShowing={isShowingReturnExperience} hide={toggleReturnExperience} content={modalReturnExperience} /> */}
         </div>
-        <TheVolume absolute colorPicto="blanc"/>
       </div>
     </section>
   )

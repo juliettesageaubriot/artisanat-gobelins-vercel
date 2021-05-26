@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import ThePrimaryButton from "@components/PrimaryButton/ThePrimaryButton";
-import TheVolume from "@components/VolumeSettings/TheVolume";
+// import TheVolume from "@components/VolumeSettings/TheVolume";
 import styles from "./styles.module.scss";
 
 const FinEpisodePage = () => {
@@ -101,7 +101,7 @@ const FinEpisodePage = () => {
           <div className={styles["page-fin__footer-container"]}>
               <ThePrimaryButton label="Episodes" to={"/"} active={false}/>
               <ThePrimaryButton label="Episode 2, le joailler ->" to={"/"} active={false} />
-              <TheVolume absolute={false} colorPicto="blanc"/>
+              {/* <TheVolume absolute={false} colorPicto="blanc"/> */}
           </div>
       </div>
       <div className={styles["page-fin__video-container"]}>

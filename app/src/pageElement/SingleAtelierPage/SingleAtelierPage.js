@@ -10,7 +10,6 @@ import ThreeScene from '@jsLogic/three/scenes/threeScene'
 import TheAudioSnippet from '@components/AudioSnippet/TheAudioSnippet';
 import TheLoader from '@components/Structure/Loader/TheLoader';
 import TheSubTitle from '@components/Subtitle/TheSubTitle';
-import TheVolume from '@components/VolumeSettings/TheVolume';
 import TheStepValidation from '@components/StepValidation/TheStepValidation';
 import TheToolChoiceButton from '@components/ToolChoiceButton/TheToolChoiceButton';
 import TheCursor from '@/components/Cursor/TheCursor';
@@ -121,7 +120,6 @@ const SingleAtelierPage = () => {
 
         <TheClickPoints />
         <ThePressionUX />
-        <TheVolume absolute colorPicto="noir" />
         <div ref={ref} />
         <div className={styles.colorPickerContainer} ref={cursorColorPickerContainer}>
           <div className={styles.colorPickerInner} ref={cursorColorPickerInner}></div>
