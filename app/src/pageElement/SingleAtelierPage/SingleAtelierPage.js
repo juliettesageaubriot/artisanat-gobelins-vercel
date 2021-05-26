@@ -16,6 +16,7 @@ import TheToolChoiceButton from '@components/ToolChoiceButton/TheToolChoiceButto
 import TheCursor from '@/components/Cursor/TheCursor';
 import ThePressionUX from '@/components/PressionUX/ThePressionUX';
 import TheClickPoints from '@/components/ClickPoints/TheClickPoints';
+import TheOverlay from '@/components/Overlay/TheOverlay';
 
 //utils
 import useIsMounted from '@hooks/useIsMounted'
@@ -85,6 +86,7 @@ const SingleAtelierPage = () => {
   return (
     <>
       <section>
+        <TheOverlay />
         {subtitleItems}
         {stepValidationItems}
         {/* <button>Margin lefttttt</button>
