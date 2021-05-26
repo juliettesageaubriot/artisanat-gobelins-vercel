@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import styles from "./styles.module.scss";
 import Howler from 'react-howler';
 
-const TheVolume = ({ absolute, colorPicto }) => {
+const TheVolume = ({ absolute }) => {
 
     const slider = useRef(null);
     const [volume, setVolume] = useState(0.5);
@@ -35,7 +35,7 @@ const TheVolume = ({ absolute, colorPicto }) => {
 
     return (
         <div className={`${styles["volumeContainer"]} ${absolute ? "" : styles["isNotAbsolute"]}`}>
-            <div className={`${styles["volumeSlider"]} ${"noir" === colorPicto && styles.noir}`}>
+            <div className={`${styles["volumeSlider"]}`}>
                 {/* <label>Volume</label> */}
                 <input type="range" min="0" max="100" value={volume * 100} className={`${styles["slider"]}`} ref={slider} onChange={handleChange} />
             </div>
@@ -45,9 +45,9 @@ const TheVolume = ({ absolute, colorPicto }) => {
                 onMouseEnter={() => setIsShown(true)}
                 onMouseLeave={() => setIsShown(false)}>
                 {0 === volume ?
-                    <img src={`/assets/images/ui/sound/son_coupe_${colorPicto}${isShown ? true && '_hover' : ''}.png`} />
+                    <img src={`/assets/images/ui/sound/son_coupe_noir${isShown === true ? '_hover' : ''}.png`} />
                     :
-                    <img src={`/assets/images/ui/sound/son_${colorPicto}${isShown === true ? '_hover' : ''}.png`} />
+                    <img src={`/assets/images/ui/sound/son_noir${isShown === true ? '_hover' : ''}.png`} />
                 }
             </div>
         </div>

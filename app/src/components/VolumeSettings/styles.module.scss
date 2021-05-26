@@ -23,8 +23,6 @@
 
     &:hover {
         background-color: transparent;
-        // border: 1px solid #254eda;
-
         .volumeSlider {
             opacity: 1;
         }
@@ -46,15 +44,8 @@
             height: 10px;
             background-color: $color-white;
             outline: none;
-        }
-        &.noir {
-            .slider {
-                background-color: $color-white;
-                border: 1px solid $color-black;
-            }
-            .slider::-webkit-slider-thumb {
-                background: $color-black;
-            }
+            background-color: $color-white;
+            border: 1px solid $color-black;
         }
 
         .slider::-webkit-slider-thumb {

@@ -12,26 +12,18 @@ const TheToolChoiceButton = ({ array }) => {
 
     const handleToolsClick = (event) => {
         array.filter((elm) => {
-
-            if (toolsData.changeSlider === true) {
-                if (elm.id === parseInt(event.target.id)) {
-                    setIsCurrentIdSlider(parseInt(event.target.id))
-                }
-            } else {
+            if (elm.id === parseInt(event.target.id)) {
+                setIsCurrentIdSlider(parseInt(event.target.id))
                 toolsData.changeSlider = true
             }
         })
     }
 
-
     useEffect(() => {
-        if(toolsData.changeSlider === false) {
+        if (toolsData.changeSlider === false) {
             setIsCurrentIdSlider(parseInt(toolsData.idActifGlobal))
         }
     });
-
-    console.log("toolsData.changeSlider", toolsData.changeSlider);
-    console.log("isCurrentIdSlider", isCurrentIdSlider);
 
     return (
         <div className={`${styles["tool-choice_container"]} tool-choice_container`} id="toolsModal">
