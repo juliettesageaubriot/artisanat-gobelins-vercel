@@ -1,5 +1,6 @@
 //utils
 import bindAll from '@jsLogic/utils/bindAll';
+import toolsData from '@assets/data/tools.json';
 
 class ActionsStepManager {
     constructor(state, stepManager, UIManager, breadCrumb, setCameraAnimation, toggleArtisane, toggleDragAndDropControls, setfeuilleLeveAnimationPlay, setDragAndDropControls, outlinePass, toolsManager, setOutlineObjects, addPieceDecoupeToScene) {
@@ -28,7 +29,7 @@ class ActionsStepManager {
         this._allowedPressureGauge = false;
         this._allowedCassageDeVerre = false;
 
-        //curretnSubtitle
+        //currentSubtitle
         this._currentSubtitle = 1;
     }
 
@@ -99,6 +100,7 @@ class ActionsStepManager {
         console.log("Animation des feuilles")
         this._setfeuilleLeveAnimationPlay(4);
         this._toolsManager.setTools(true)
+        this._state.setToolsArray(toolsData.toolsArray0)
         this._toolsManager.currentTools(0, 1)
     }
     _stepFive() {
@@ -114,7 +116,6 @@ class ActionsStepManager {
     _stepHeight() {
         this._UIManager.setScrollPicto("chute04a");
         this._allowedScroll = true;
-        this._state.setToolsArray1();
         this._toggleArtisane("artisane01");
         this._toggleArtisane("artisane02");
     }
@@ -149,7 +150,6 @@ class ActionsStepManager {
         }, 1000);
        this._allowedDragAndDrop = true;
        this._addPieceDecoupeToScene();
-    //    this._state.setToolsArray2();
     //    this._UIManager.UI.cursor.classList.toggle("cursor-pointer-color-picker");
     }
     _stepThirteen() {
@@ -189,7 +189,7 @@ class ActionsStepManager {
         this._setCameraAnimation(4, 18);
     }
     _stepNineteen() {
-        this._state.setToolsArray2();
+        this._state.setToolsArray(toolsData.toolsArray1)
         this._toolsManager.currentTools(1, 1)
         this._setCurrentSubtitle(10);
     }

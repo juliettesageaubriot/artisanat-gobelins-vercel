@@ -50,16 +50,13 @@ const SingleAtelierPage = () => {
     stopSound: () => { setIsPlaying(false) },
     start: () => { setCurrentSubtitle(0); },
     setNextSubtitle: (index) => { setCurrentSubtitle(index) },
-    setToolsArray1: () => { setCurrentStepTools(data.toolsArray0);},
-    setToolsArray2: () => { setCurrentStepTools(data.toolsArray1) },
-    setToolsArray3: () => { setCurrentStepTools(data.toolsArray2) },
+    setToolsArray: (toolsArray) => { setCurrentStepTools(toolsArray) },
     setStepValidation: (index) => { setCurrentValidationStep(index) }
   }
 
   useEffect(() => {
     const canvas = ref.current
     setThreeScene(new ThreeScene(canvas, state));
-    // setCurrentStepTools(data.toolsArray0);
   }, [])
 
   const subtitleItems = audioDatas.map((elm, index) => {
@@ -100,7 +97,7 @@ const SingleAtelierPage = () => {
         <TheBreadcrumb
         // isShowing={isShowingBreadcrumb} hide={toggle}
         />
-        <TheToolChoiceButton array={currentStepTools}/>
+        <TheToolChoiceButton array={currentStepTools} />
 
         <a href="/" className={` link link-secondary link-black ${styles['link-before']} ${styles['link-black']}`}>
           <span>Épisodes</span>
@@ -112,17 +109,17 @@ const SingleAtelierPage = () => {
 
         <div className={styles["page-singleAtelier"]}></div>
 
-        <img src="/assets/images/ui/pictos-ux/CLIC_GRUGER_V02.gif" alt="Picto UX pour le click gruger" className="picto-ux click-points" id="clickPoints"/>
-        <img src="/assets/images/ui/pictos-ux/drag-and-drop.gif" alt="Picto UX pour le drag and drop" className="picto-ux drag-and-drop" id="dragAndDrop"/>
-        <img src="/assets/images/ui/pictos-ux/DRAG_DROP_color_picker_V01.gif" alt="Picto UX pour le drag and drop du color picker" className="picto-ux drag-and-drop-color-picker" id="dragAndDropColorPicker"/>
-        <img src="/assets/images/ui/pictos-ux/pression.gif" alt="Picto UX pour la jauge de pression" className="picto-ux pression" id="pression"/>
-        <img src="/assets/images/ui/pictos-ux/scroll.gif" alt="Picto UX pour le scroll" className="picto-ux scroll" id="scroll"/>
-        <img src="/assets/images/ui/pictos-ux/TRACE_GLISSIERE_V02.gif" alt="Picto UX pour la trace glissière" className="picto-ux trace" id="trace"/>
-        <img src="/assets/images/ui/pictos-ux/TRACE_GLISSIERE_FIXE.png" alt="Picto UX pour la trace glissière fixe" className="picto-ux trace-fixe" id="trace-fixe"/>
+        <img src="/assets/images/ui/pictos-ux/CLIC_GRUGER_V02.gif" alt="Picto UX pour le click gruger" className="picto-ux click-points" id="clickPoints" />
+        <img src="/assets/images/ui/pictos-ux/drag-and-drop.gif" alt="Picto UX pour le drag and drop" className="picto-ux drag-and-drop" id="dragAndDrop" />
+        <img src="/assets/images/ui/pictos-ux/DRAG_DROP_color_picker_V01.gif" alt="Picto UX pour le drag and drop du color picker" className="picto-ux drag-and-drop-color-picker" id="dragAndDropColorPicker" />
+        <img src="/assets/images/ui/pictos-ux/pression.gif" alt="Picto UX pour la jauge de pression" className="picto-ux pression" id="pression" />
+        <img src="/assets/images/ui/pictos-ux/scroll.gif" alt="Picto UX pour le scroll" className="picto-ux scroll" id="scroll" />
+        <img src="/assets/images/ui/pictos-ux/TRACE_GLISSIERE_V02.gif" alt="Picto UX pour la trace glissière" className="picto-ux trace" id="trace" />
+        <img src="/assets/images/ui/pictos-ux/TRACE_GLISSIERE_FIXE.png" alt="Picto UX pour la trace glissière fixe" className="picto-ux trace-fixe" id="trace-fixe" />
 
         <TheClickPoints />
         <ThePressionUX />
-        <TheVolume absolute colorPicto="noir"/>
+        <TheVolume absolute colorPicto="noir" />
         <div ref={ref} />
         <div className={styles.colorPickerContainer} ref={cursorColorPickerContainer}>
           <div className={styles.colorPickerInner} ref={cursorColorPickerInner}></div>

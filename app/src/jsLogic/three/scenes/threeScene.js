@@ -351,7 +351,7 @@ class ThreeScene {
                     child.material.transparent = true;
                     child.material.opacity = 0.2;
 
-                } else if ("CameraAtelier6_Orientation" === child.name) {
+                } else if ("CameraAtelier1_Orientation" === child.name) {
 
                     // console.log(this._camera)
                     this._camera = child;
