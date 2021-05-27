@@ -1,21 +1,31 @@
 [{
     "id": 1,
-    "content": "À condition d'avoir une bonne formation au départ, et pour ça, on doit se battre contre les réformes en cours !",
-    "img": "/",
+    "content": "Pour devenir vitrailliste, on dit qu'il faut une dizaine d'années. À condition d'avoir une bonne formation au départ, et pour ça, on doit se battre contre les réformes en cours !",
+    "img": "/assets/images/itw/marion_profil.jpg",
     "signature": "Ton maître d'apprentissage",
-    "video": "/",
-    "question": "Une dizaine d'années pour devenir vitrailliste ?",
+    "video": "/assets/videos/itw_louise.mp4",
+    "question": "En parlant de formation, où avez-vous fait vos armes dans le métier ?",
     "person": "Louise Doublet",
     "job": "Étudiante en DNMADE (diplôme national des métiers d'art et du design) mention ornement, parcours vitrail l'ENS AAMA"
   },
   {
     "id": 2,
-    "content": "citation 2",
-    "img": "/",
-    "signature": "Ton maître d'apprentissage 2",
-    "video": "/",
-    "question": "question 2",
-    "person": "Louise Doublet 2",
+    "content": "Commence par découper le patron de chaque pièce de verre. Je te laisse le faire à la main, c'est important pour apprendre...  Maintenant notre métier n'est pas si old school qu'on voudrait le laisser croire. Les nouvelles technologies sont même nos alliées !",
+    "img": "/assets/images/itw/marion_profil.jpg",
+    "signature": "Ton maître d'apprentissage",
+    "video": "/assets/videos/itw_louise.mp4",
+    "question": "Quelle est votre relation avec les nouvelles technologies ou les nouveaux outils ?",
+    "person": "Maxime",
+    "job": "Étudiante en DNMADE (diplôme national des métiers d'art et du design) mention ornement, parcours vitrail l'ENS AAMA 2"
+  },
+  {
+    "id": 2,
+    "content": "Le métier de vitrailliste est très complet, il implique des gestes manuels, de l'art. Quel dommage qu'il soit parfois présenté comme une voie de secours.",
+    "img": "/assets/images/itw/marion_profil.jpg",
+    "signature": "Ton maître d'apprentissage",
+    "video": "/assets/videos/itw_louise.mp4",
+    "question": "Avez-vous eu des difficultés à vous lancer dans cette voie ?",
+    "person": "Vincent",
     "job": "Étudiante en DNMADE (diplôme national des métiers d'art et du design) mention ornement, parcours vitrail l'ENS AAMA 2"
   }
 ]

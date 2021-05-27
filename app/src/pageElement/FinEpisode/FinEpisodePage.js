@@ -11,16 +11,19 @@ import styles from "./styles.module.scss";
 const FinEpisodePage = () => {
   const { isShowing: isShowingAbout, toggle: toggleAbout } = useModal();
 
-  // const slider = useRef();
+  const slider1 = useRef();
+  const slider2 = useRef();
+
   const sliderRef = useRef();
   const parentRef = useRef(null);
 
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
 
-  let slider1 = []
-  let slider2 = []
-
+  useEffect(() => {
+    setNav1(slider1.current)
+    setNav2(slider2.current)
+  })
 
   const modalTextAbout = [{
     title: "À propos",
@@ -32,28 +35,31 @@ const FinEpisodePage = () => {
     buttons: false
   }]
 
-  useEffect(() => {
-    setNav1(slider1)
-    setNav2(slider2)
-  }, [slider1, slider2,])
-
   const settings1 = {
     dots: true,
     infinite: true,
     // speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    vertical: true
+    // slidesToShow: 1,
+    // slidesToScroll: 1,
+    vertical: true,
+    appendDots: dots => (
+      <div
+      >
+        <ul> {dots} </ul>
+      </div>
+    ),
+    customPaging: i => (
+        <button></button>
+    )
   };
 
   const settings2 = {
     infinite: true,
     // speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
+    // slidesToShow: 1,
+    // slidesToScroll: 1,
     vertical: true
   };
-
 
   useEffect(() => {
     if (!parentRef.current) {
@@ -67,13 +73,13 @@ const FinEpisodePage = () => {
 
 
   const handleScroll = (e) => {
-    console.log(e);
     if (e.deltaY > 0) {
-      nav1 && nav1.slickPrev();
-      nav2 && nav2.slickPrev();
+      console.log(slider1);
+      slider1 && slider1.current.slickPrev();
+      slider2 && slider2.current.slickPrev();
     } else if (e.deltaY < 0) {
-      nav1 && nav1.slickNext();
-      nav2 && nav2.slickNext();
+      slider1 && slider1.current.slickNext();
+      slider2 && slider2.current.slickNext();
     }
   };
 
@@ -93,47 +99,65 @@ const FinEpisodePage = () => {
 
 
         <div
-        className={styles.sliders}
+          className={styles.sliders}
           ref={parentRef}
         >
-          <Slider
-            {...settings1}
-            asNavFor={nav2}
 
-            // ref={sliderRef}
-            ref={slider => (slider1 = slider)}
-          >
-            <div>
-              <h3>1</h3>
-            </div>
-            <div>
-              <h3>2</h3>
-            </div>
-            <div>
-              <h3>3</h3>
-            </div>
-          </Slider>
+          <div className={styles.container}>
+            <Slider
+              {...settings1}
+              asNavFor={nav2}
+              ref={slider1}
+            >
+              {data.map((elm, i) => {
+                return (
+                  <div key={i}>
+                    <div className={styles.slider1}>
+                      <p className={styles.citation}>" {elm.content} "</p>
+                      <div className={styles.maitre}>
+                        <img src={elm.img} />
+                        <span>{elm.signature}</span>
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </Slider>
 
-          <Slider
-            {...settings2}
-            asNavFor={nav1}
+            <Slider
+              {...settings2}
+              asNavFor={nav1}
+              ref={slider2}
+            >
+              {data.map((elm, i) => {
+                return (
+                  <div key={i}>
+                    <div className={styles.slider2}>
+                      <div className={styles.video}>
+                        <video controls width="250">
+                          <source src={elm.video} />
+                          Sorry, your browser doesn't support embedded videos.
+                          </video>
+                      </div>
 
-            // ref={sliderRef}
-            ref={slider => (slider2 = slider)}
+                      <div className={styles['content-itw']}>
+                        <h2>{elm.question}</h2>
 
-            swipeToSlide={true}
-            focusOnSelect={true}
-          >
-            <div>
-              <h3>1</h3>
-            </div>
-            <div>
-              <h3>2</h3>
-            </div>
-            <div>
-              <h3>3</h3>
-            </div>
-          </Slider>
+                        <p className={styles.itw}>
+                          <span>Interview</span> avec
+                        </p>
+
+                        <p className={styles.person}>
+                          <span>{elm.person}</span> <br/>
+                          <p>{elm.job}</p>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </Slider>
+          </div>
 
         </div>
 
