@@ -9,7 +9,7 @@
 
     pointer-events: none;
 
-    cursor: none;
+    // cursor: none;
 
     transition: none;
 
@@ -17,7 +17,11 @@
 
     z-index: 100;
 
-    background-image: url("/assets/images/ui/pictos-ux/curseur_01.png");
+    &.cursor-dragging-default {
+        background-image: url("/assets/images/ui/pictos-ux/curseur_01.png");
+    }
+
+    // background-image: url("/assets/images/ui/pictos-ux/curseur_01.png");
 
     &.cursor-dragging {
         background-image: url("/assets/images/ui/pictos-ux/curseur_02.png");

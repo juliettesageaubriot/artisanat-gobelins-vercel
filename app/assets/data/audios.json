@@ -1,6 +1,77 @@
 [
     {
-        "sound_url": "assets/audios/test_song.mp3",
-        "shouldPlayOnStart": true
+        "name": "ciseaux",
+        "sound_url": "assets/audios/atelier/decoupe_du_trace/ciseaux/ciseaux_01.mp3",
+        "shouldPlayOnStart": false
+    },
+    {
+        "name": "crayonnes",
+        "sound_url": "assets/audios/atelier/choix_des_couleurs/crayonnes_01.mp3",
+        "shouldPlayOnStart": false
+    },
+    {
+        "name": "coupeVerre1",
+        "sound_url": "assets/audios/atelier/decoupe_du_verre/coupe_verre/coupe_verre_01.mp3",
+        "shouldPlayOnStart": false
+    },
+    {
+        "name": "coupeVerre2",
+        "sound_url": "assets/audios/atelier/decoupe_du_verre/coupe_verre/coupe_verre_02.mp3",
+        "shouldPlayOnStart": false
+    },
+    {
+        "name": "coupeVerre3",
+        "sound_url": "assets/audios/atelier/decoupe_du_verre/coupe_verre/coupe_verre_03.mp3",
+        "shouldPlayOnStart": false
+    },
+    {
+        "name": "echecCassureVerre1",
+        "sound_url": "assets/audios/atelier/decoupe_du_verre/cassure_verre/echec_cassure_verre_01.mp3",
+        "shouldPlayOnStart": false
+    },
+    {
+        "name": "reussiteCassureVerre1",
+        "sound_url": "assets/audios/atelier/decoupe_du_verre/cassure_verre/reussite_cassure_verre_01.mp3",
+        "shouldPlayOnStart": false
+    },
+    {
+        "name": "reussiteCassureVerre2",
+        "sound_url": "assets/audios/atelier/decoupe_du_verre/cassure_verre/reussite_cassure_verre_02.mp3",
+        "shouldPlayOnStart": false
+    },
+    {
+        "name": "pinceDecoupe1",
+        "sound_url": "assets/audios/atelier/decoupe_du_verre/pince_a_decouper/pince_decoupe_01.mp3",
+        "shouldPlayOnStart": false
+    },
+    {
+        "name": "pinceDecoupe2",
+        "sound_url": "assets/audios/atelier/decoupe_du_verre/pince_a_decouper/pince_decoupe_02.mp3",
+        "shouldPlayOnStart": false
+    },
+    {
+        "name": "pinceGruger1",
+        "sound_url": "assets/audios/atelier/decoupe_du_verre/pince_a_gruger/pince_gruger_01.mp3",
+        "shouldPlayOnStart": false
+    },
+    {
+        "name": "pinceGruger2",
+        "sound_url": "assets/audios/atelier/decoupe_du_verre/pince_a_gruger/pince_gruger_02.mp3",
+        "shouldPlayOnStart": false
+    },
+    {
+        "name": "pinceGruger3",
+        "sound_url": "assets/audios/atelier/decoupe_du_verre/pince_a_gruger/pince_gruger_03.mp3",
+        "shouldPlayOnStart": false
+    },
+    {
+        "name": "pinceGruger4",
+        "sound_url": "assets/audios/atelier/decoupe_du_verre/pince_a_gruger/pince_gruger_04.mp3",
+        "shouldPlayOnStart": false
+    },
+    {
+        "name": "poseVerre",
+        "sound_url": "assets/audios/atelier/decoupe_du_verre/pose_verre.mp3",
+        "shouldPlayOnStart": false
     }
 ]

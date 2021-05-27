@@ -1,7 +1,10 @@
 import bindAll from '@jsLogic/utils/bindAll';
 
+//datas
+import { soundsOnInteraction } from "@jsLogic/utils/sounds.js";
+
 class UIManager {
-    constructor(getObjectCoordinatesByName, glassCutOutObjectDisappear) {
+    constructor(getObjectCoordinatesByName, glassCutOutObjectDisappear, state) {
         bindAll(
             this,
             'setClickPointsPicto',
@@ -13,6 +16,7 @@ class UIManager {
 
         this._getObjectCoordinatesByName = getObjectCoordinatesByName;
         this._glassCutOutObjectDisappear = glassCutOutObjectDisappear;
+        this._state = state;
         this.UI = {}
 
         this._setUI();
@@ -24,6 +28,7 @@ class UIManager {
         this._removePressureGaugePicto
         this._removeScrollPicto
         this._removeTracePicto
+        this._removeTraceFixePicto
     }
 
     _setUI() {
@@ -81,6 +86,7 @@ class UIManager {
         
         this.UI.clickPointsOne.addEventListener('click', () => {
             this._glassCutOutObjectDisappear(["debut", "milieu1", "extrusion1", "extrusion2"]);
+            this._state.setSoundInteractionToPlay(soundsOnInteraction.pinceGruger1_url, true, false);
             this.UI.clickPointsOne.style.opacity = 0;
             this.setClickPointsButtonTwo(action);
         })
@@ -93,7 +99,8 @@ class UIManager {
         this.UI.clickPointsTwo.style.opacity = 0.6;
 
         this.UI.clickPointsTwo.addEventListener('click', () => {
-            this._glassCutOutObjectDisappear(["milieu2", "milieu3", "milieu4", "extrusion3", "extrusion4", "extrusion5"]);
+            this._glassCutOutObjectDisappear(["milieu2", "milieu3", "milieu4", "extrusion3", "extrusion4", "extrusion5", "extrusion6"]);
+            this._state.setSoundInteractionToPlay(soundsOnInteraction.pinceGruger2_url, true, false);
             this.UI.clickPointsTwo.style.opacity = 0;
             this.setClickPointsButtonThree(action);
         })
@@ -107,6 +114,7 @@ class UIManager {
 
         this.UI.clickPointsThree.addEventListener('click', () => {
             this._glassCutOutObjectDisappear(["fin", "milieu5", "extrusion7", "extrusion8"]);
+            this._state.setSoundInteractionToPlay(soundsOnInteraction.pinceGruger3_url, true, false);
             this.UI.clickPointsThree.style.opacity = 0;
             console.log("C'est fini !");
             action();
@@ -215,7 +223,7 @@ class UIManager {
 
     removeTraceFixePicto() {
         clearTimeout(this._removeTraceFixePicto)
-        this.UI.trace.style.opacity = 0
+        this.UI.traceFixe.style.opacity = 0
     }
 
 

@@ -1,8 +1,11 @@
 //utils
 import bindAll from '@jsLogic/utils/bindAll';
 
+//datas
+import { soundsOnInteraction } from "@jsLogic/utils/sounds.js";
+
 class ActionsStepManager {
-    constructor(state, stepManager, UIManager, breadCrumb, setCameraAnimation, toggleArtisane, toggleDragAndDropControls, setfeuilleLeveAnimationPlay, setDragAndDropControls, outlinePass, toolsManager, setOutlineObjects, addPieceDecoupeToScene) {
+    constructor(state, stepManager, UIManager, breadCrumb, setCameraAnimation, toggleArtisane, toggleDragAndDropControls, setfeuilleLeveAnimationPlay, setDragAndDropControls, outlinePass, toolsManager, setOutlineObjects, addPieceDecoupeToScene, animationToDragPosition) {
         // bindAll(
         //     this,
         // );
@@ -18,7 +21,8 @@ class ActionsStepManager {
         this._outlinePass = outlinePass;
         this._toolsManager = toolsManager;
         this._setOutlineObjects = setOutlineObjects;
-        this._addPieceDecoupeToScene = addPieceDecoupeToScene
+        this._addPieceDecoupeToScene = addPieceDecoupeToScene;
+        this._animationToDragPosition = animationToDragPosition;
         
 
         //Les débloquage d'interactions
@@ -142,13 +146,13 @@ class ActionsStepManager {
         //Sur la fin de l'animation de la caméra 3 dans le animation manager
        this._setCurrentSubtitle(6);
        //Changer les actions du 14eme vers ici
+       this._UIManager.UI.cursor.classList.add("cursor-dragging-default");
        this._stepManager.addGlobalStep();
         this._outlinePass.enabled = true;
-        setTimeout(() => {
-            this._UIManager.setDragAndDropColorPickerPicto("verreBleu02A");
-        }, 1000);
+        this._UIManager.setDragAndDropColorPickerPicto("verreBleu02A");
        this._allowedDragAndDrop = true;
        this._addPieceDecoupeToScene();
+       this._UIManager.UI.html.style.cursor = "none"
     //    this._state.setToolsArray2();
     //    this._UIManager.UI.cursor.classList.toggle("cursor-pointer-color-picker");
     }
@@ -165,14 +169,14 @@ class ActionsStepManager {
     }
     _stepSixteen() {
         //A Appeler sur la fin du drag and drop
-        this._UIManager.removeDragAndDropPicto();
-        this._state.setStepValidation(1);
-        this._allowedDragAndDrop = false;
-        // this.UI.html.style.cursor = "initial";
-        // this._UIManager.UI.cursor.classList.toggle("cursor-pointer-color-picker");
+        // this._UIManager.removeDragAndDropPicto();
+        // this._state.setStepValidation(1);
+        // this._allowedDragAndDrop = false;
+        // // this.UI.html.style.cursor = "initial";
+        // // this._UIManager.UI.cursor.classList.toggle("cursor-pointer-color-picker");
         
-        this._toggleArtisane("artisane02");
-        this._toggleArtisane("artisane03");
+        // this._toggleArtisane("artisane02");
+        // this._toggleArtisane("artisane03");
     }
     _stepSeventeen() {
         //A appeler sur le clique de la validation 1
@@ -183,6 +187,19 @@ class ActionsStepManager {
         this._breadCrumb.changeNameAtelier("La découpe du verre");
         this._breadCrumb.breadcrumbStep(3)
         this._stepManager.addGlobalStep();
+
+        this._UIManager.removeDragAndDropPicto();
+        this._UIManager.UI.html.style.cursor = "initial";
+        // this._state.setStepValidation(1);
+        this._allowedDragAndDrop = false;
+        // this.UI.html.style.cursor = "initial";
+        // this._UIManager.UI.cursor.classList.toggle("cursor-pointer-color-picker");
+        this._UIManager.UI.cursor.classList.remove("cursor-dragging-default");
+
+        this._state.setSoundInteractionToPlay(soundsOnInteraction.crayonnes_url, false, false);
+        
+        this._toggleArtisane("artisane02");
+        this._toggleArtisane("artisane03");
     }
     _stepHeighteen() {
         //Sur la fin du sous titre 9
@@ -197,19 +214,25 @@ class ActionsStepManager {
         this._setCurrentSubtitle(11);
     }
     _stepTwentyOne() {
-        this._UIManager.setDragAndDropPicto("papier_decoupe");
+        
+        this._UIManager.setDragAndDropPicto("papier_decoupe");   
         this._setOutlineObjects("papier_decoupe");
+        
         this._outlinePass.enabled = true;
         this._allowedDragAndDrop = true;
         this._setDragAndDropControls();
-        this._toolsManager.setTools(true)
+        this._toolsManager.setTools(true);
+        this._UIManager.UI.cursor.classList.add("cursor-dragging-default");
+        this._UIManager.UI.html.style.cursor = "none"
     }
     _stepTwentyTwo() {
          //A appeler sur le succes du drag and drop
-         this._UIManager.removeDragAndDropPicto();
-         this._setCurrentSubtitle(12);
-         this._allowedDragAndDrop = false;
-         this._toggleDragAndDrop();
+        this._UIManager.removeDragAndDropPicto();
+        this._setCurrentSubtitle(12);
+        this._allowedDragAndDrop = false;
+        this._toggleDragAndDrop();
+        this._UIManager.UI.cursor.classList.remove("cursor-dragging-default");
+        this._UIManager.UI.html.style.cursor = "initial";
     }
     _stepTwentyThree() {
         this._toolsManager.currentTools(1, 2)
@@ -217,11 +240,14 @@ class ActionsStepManager {
     }
     _stepTwentyFour() {
         this._stepManager.addSubStep();
-        setTimeout(() => {
-            this._UIManager.setTracePicto("piece1");
-            this._UIManager.setTracePictoFixe("milieu3");
-        }, 1000);
+        // setTimeout(() => {
+        //     this._UIManager.setTracePicto("piece1");
+        //     this._UIManager.setTracePictoFixe("milieu3");
+        // }, 1000);
+        this._UIManager.setTracePicto("piece1");
+        this._UIManager.setTracePictoFixe("milieu3");
         this._UIManager.UI.cursor.classList.add("cursor-coupe-verre");
+        this._UIManager.UI.html.style.cursor = "none"
         this._allowedDrawTheLine = true;
     }
     _stepTwentyFive() {
@@ -229,7 +255,10 @@ class ActionsStepManager {
         this._UIManager.removeTracePicto();
         this._UIManager.removeTraceFixePicto();
         this._UIManager.setDragAndDropPicto("papier_decoupe");
+        this._state.setSoundInteractionToPlay(soundsOnInteraction.coupeVerre3_url, false, false);
+        this._state.setSoundInteractionToPlay(soundsOnInteraction.coupeVerre2_url, false, false);
         this._UIManager.UI.cursor.classList.remove("cursor-coupe-verre");
+        this._UIManager.UI.cursor.classList.add("cursor-dragging-default");
         this._allowedDrawTheLine = false;
         this._allowedDragAndDrop = true;
         this._toggleDragAndDrop();
@@ -245,6 +274,8 @@ class ActionsStepManager {
     }
     _stepTwentySeven() {
         this._UIManager.UI.cursor.classList.add("cursor-pince-decrocher");
+        this._UIManager.UI.cursor.classList.remove("cursor-dragging-default");
+        this._UIManager.UI.html.style.cursor = "none";
         setTimeout(() => {
             this._UIManager.setPressionPicto("piece1");
         }, 1000);
@@ -258,6 +289,7 @@ class ActionsStepManager {
          this._setCurrentSubtitle(15);
          this._allowedPressureGauge = false;
          this._stepManager.addSubStep();
+         this._UIManager.UI.pressureGaugeScale.style.transform = `translate(-50%, -50%) scale(0)`;
     }
     _stepTwentyNine() {
         this._UIManager.setClickPointsPicto("piece1", () => this.actionsManager(29));
@@ -268,7 +300,9 @@ class ActionsStepManager {
     _stepThirty() {
          //Apparition du vitrail
         //Sur le succes du cassage de verre
+        this._animationToDragPosition();
         this._UIManager.UI.cursor.classList.remove("cursor-pince-gruger");
+        this._UIManager.UI.html.style.cursor = "initial";
         this._allowedCassageDeVerre = false;
         this._stepManager.addSubStep();
         this._setCameraAnimation(5, 30);
@@ -278,7 +312,11 @@ class ActionsStepManager {
         this._setCurrentSubtitle(16);
     }
     _stepThirtyTwo() {
+        this._setOutlineObjects("piece_principale");
+        this._outlinePass.enabled = true;
         this._UIManager.setDragAndDropPicto("papier_decoupe");
+        this._UIManager.UI.cursor.classList.add("cursor-dragging-default");
+        this._UIManager.UI.html.style.cursor = "none";
         this._allowedDragAndDrop = true;
         this._toggleDragAndDrop();
         this._toolsManager.setTools(false)
@@ -289,6 +327,8 @@ class ActionsStepManager {
         this.setStepValidation(2);
         this._toggleDragAndDrop();
         this._stepManager.addSubStep();
+        this._UIManager.UI.html.style.cursor = "initial";
+       this._UIManager.UI.cursor.classList.remove("cursor-dragging-default");
     }
     _stepThirtyFour() {
         this._setCurrentSubtitle(17);

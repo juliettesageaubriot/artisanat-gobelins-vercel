@@ -21,7 +21,8 @@ import TheClickPoints from '@/components/ClickPoints/TheClickPoints';
 import useIsMounted from '@hooks/useIsMounted'
 
 //datas
-import audioDatas from "assets/data/subtitles.json";
+import subtitlesData from "assets/data/subtitles.json";
+import audioDatas from "assets/data/audios.json";
 import toolsData from '@assets/data/tools.json';
 import stepValidationDatas from "assets/data/step-validation.json";
 
@@ -37,6 +38,11 @@ const SingleAtelierPage = () => {
   const [currentSubtitle, setCurrentSubtitle] = useState(30);
   const [currentStepTools, setCurrentStepTools] = useState(toolsData.toolsArray0)
   const [currentValidationStep, setCurrentValidationStep] = useState();
+  const [soundInteractionToPlay, setSoundInteractionToPlay] = useState({
+    url: "assets/audios/atelier/decoupe_du_trace/ciseaux/ciseaux_01.mp3",
+    play: false,
+    loop: false
+  });
 
   const ref = useRef(null)
   const cursorColorPickerContainer = useRef(null);
@@ -53,7 +59,8 @@ const SingleAtelierPage = () => {
     setToolsArray1: () => { setCurrentStepTools(data.toolsArray0);},
     setToolsArray2: () => { setCurrentStepTools(data.toolsArray1) },
     setToolsArray3: () => { setCurrentStepTools(data.toolsArray2) },
-    setStepValidation: (index) => { setCurrentValidationStep(index) }
+    setStepValidation: (index) => { setCurrentValidationStep(index) },
+    setSoundInteractionToPlay: (url, play, loop) => setSoundInteractionToPlay({url, play, loop})
   }
 
   useEffect(() => {
@@ -62,7 +69,7 @@ const SingleAtelierPage = () => {
     // setCurrentStepTools(data.toolsArray0);
   }, [])
 
-  const subtitleItems = audioDatas.map((elm, index) => {
+  const subtitleItems = subtitlesData.map((elm, index) => {
     return <TheSubTitle
       content={elm}
       currentSubtitle={currentSubtitle}
@@ -106,7 +113,7 @@ const SingleAtelierPage = () => {
           <span>Épisodes</span>
         </a>
 
-        <a className={` link link-secondary link-black ${styles["colorPicker-cta"]}`} id="colorPicker-cta" onClick={() => threeScene._actionStepManager.actionsManager(15)}>
+        <a className={` link link-secondary link-black ${styles["colorPicker-cta"]}`} id="colorPicker-cta" onClick={() => threeScene._actionStepManager.actionsManager(16)}>
           <span>J'ai choisi mes couleurs !</span>
         </a>
 
@@ -119,6 +126,10 @@ const SingleAtelierPage = () => {
         <img src="/assets/images/ui/pictos-ux/scroll.gif" alt="Picto UX pour le scroll" className="picto-ux scroll" id="scroll"/>
         <img src="/assets/images/ui/pictos-ux/TRACE_GLISSIERE_V02.gif" alt="Picto UX pour la trace glissière" className="picto-ux trace" id="trace"/>
         <img src="/assets/images/ui/pictos-ux/TRACE_GLISSIERE_FIXE.png" alt="Picto UX pour la trace glissière fixe" className="picto-ux trace-fixe" id="trace-fixe"/>
+
+        
+        <TheAudioSnippet sound_url={soundInteractionToPlay.url}  play={soundInteractionToPlay.play} loop={soundInteractionToPlay.loop} specificVolume={0.5}/>
+
 
         <TheClickPoints />
         <ThePressionUX />

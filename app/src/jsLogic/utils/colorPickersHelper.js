@@ -21,15 +21,15 @@ export const SetupColorPicker = (vitrailGroup, objectToTest, vitrailObjects, cra
         objectToTest.push(objects);
         samples.push(objects.name);
         objects.material.transparent = true;
-        objects.material.opacity = 0.8;
+        objects.material.opacity = 1;
 
       } else if(objects.name.toLowerCase().includes("vitrail")) {
         //vitrail posé
         objectToTest.push(objects);
         vitrailObjects.push(objects.name);
         // objects.material.type = "MeshPhongMaterial";
-        objects.material.transparent = true;
-        objects.material.opacity = 0.6;
+        // objects.material.transparent = true;
+        // objects.material.opacity = 0.6;
         // startColorCouleur = objects.material.color;
 
       } else if(objects.name.toLowerCase().includes("couleur")) {
