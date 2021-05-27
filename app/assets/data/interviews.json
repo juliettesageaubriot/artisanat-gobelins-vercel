@@ -1,0 +1,21 @@
+[{
+    "id": 1,
+    "content": "À condition d'avoir une bonne formation au départ, et pour ça, on doit se battre contre les réformes en cours !",
+    "img": "/",
+    "signature": "Ton maître d'apprentissage",
+    "video": "/",
+    "question": "Une dizaine d'années pour devenir vitrailliste ?",
+    "person": "Louise Doublet",
+    "job": "Étudiante en DNMADE (diplôme national des métiers d'art et du design) mention ornement, parcours vitrail l'ENS AAMA"
+  },
+  {
+    "id": 2,
+    "content": "citation 2",
+    "img": "/",
+    "signature": "Ton maître d'apprentissage 2",
+    "video": "/",
+    "question": "question 2",
+    "person": "Louise Doublet 2",
+    "job": "Étudiante en DNMADE (diplôme national des métiers d'art et du design) mention ornement, parcours vitrail l'ENS AAMA 2"
+  }
+]

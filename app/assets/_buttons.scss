@@ -48,6 +48,7 @@
   }
 
   &-about {
+    position: relative;
     font-family: $font-button;
     cursor: pointer;
     text-decoration: none;
@@ -57,9 +58,35 @@
     font-size: 16px;
     padding: 8px 20px;
     border: 1px solid $color-black;
+
     &.disabled {
       pointer-events: none;
       cursor: initial;
+    }
+
+    &:after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      transform: translate(-100%, -50%);
+      background-image: url("/assets/images/ui/cta/inside-atelier.png");
+      background-repeat: round;
+      z-index: -1;
+      transition: 0.2s ease all;
+    }
+
+    &:hover {
+      &:after {
+        // left: 50%;
+        transform: translate(0, -50%);
+        transition: 0.2s ease all;
+      }
+    }
+    span {
+      z-index: 10;
     }
   }
 
