@@ -23,7 +23,7 @@ const FinEpisodePage = () => {
   useEffect(() => {
     setNav1(slider1.current)
     setNav2(slider2.current)
-  })
+  }, [slider1.current, slider2.current])
 
   const modalTextAbout = [{
     title: "À propos",
@@ -49,7 +49,7 @@ const FinEpisodePage = () => {
       </div>
     ),
     customPaging: i => (
-        <button></button>
+      <button></button>
     )
   };
 
@@ -58,7 +58,11 @@ const FinEpisodePage = () => {
     // speed: 500,
     // slidesToShow: 1,
     // slidesToScroll: 1,
-    vertical: true
+    vertical: true,
+    fade: true,
+    speed: 500,
+    infinite: true,
+    cssEase: 'cubic-bezier(0.600, -0.280, 0.735, 0.045)',
   };
 
   useEffect(() => {
@@ -74,7 +78,6 @@ const FinEpisodePage = () => {
 
   const handleScroll = (e) => {
     if (e.deltaY > 0) {
-      console.log(slider1);
       slider1 && slider1.current.slickPrev();
       slider2 && slider2.current.slickPrev();
     } else if (e.deltaY < 0) {
@@ -132,7 +135,7 @@ const FinEpisodePage = () => {
               {data.map((elm, i) => {
                 return (
                   <div key={i}>
-                    <div className={styles.slider2}>
+                    <div className={`slider2 ${styles.slider2}`}>
                       <div className={styles.video}>
                         <video controls width="250">
                           <source src={elm.video} />
@@ -147,10 +150,10 @@ const FinEpisodePage = () => {
                           <span>Interview</span> avec
                         </p>
 
-                        <p className={styles.person}>
-                          <span>{elm.person}</span> <br/>
+                        <div className={styles.person}>
+                          <span>{elm.person}</span> <br />
                           <p>{elm.job}</p>
-                        </p>
+                        </div>
                       </div>
                     </div>
                   </div>
