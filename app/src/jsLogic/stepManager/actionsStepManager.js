@@ -1,5 +1,6 @@
 //utils
 import bindAll from '@jsLogic/utils/bindAll';
+import toolsData from '@assets/data/tools.json';
 
 //datas
 import { soundsOnInteraction } from "@jsLogic/utils/sounds.js";
@@ -32,60 +33,60 @@ class ActionsStepManager {
         this._allowedPressureGauge = false;
         this._allowedCassageDeVerre = false;
 
-        //curretnSubtitle
+        //currentSubtitle
         this._currentSubtitle = 1;
     }
 
     actionsManager(action) {
         if (typeof action === "string") return;
-        
+
         const actions = {
-          0: () => this._stepOne(),
-          1: () => this._stepTwo(),
-          2: () => this._stepThree(),
-          3: () => this._stepFour(),
-          4: () => this._stepFive(),
-          5: () => this._stepSix(),
-          6: () => this._stepSeven(),
-          7: () => this._stepHeight(),
-          8: () => this._stepNine(),
-          9: () => this._stepTen(),
-          10: () => this._stepEleven(),
-          11: () => this._stepTwelve(),
-          12: () => this._stepThirteen(),
-          13: () => this._stepFourteen(),
-          14: () => this._stepFifteen(),
-          15: () => this._stepSixteen(),
-          16: () => this._stepSeventeen(),
-          17: () => this._stepHeighteen(),
-          18: () => this._stepNineteen(),
-          19: () => this._stepTwenty(),
-          20: () => this._stepTwentyOne(),
-          21: () => this._stepTwentyTwo(),
-          22: () => this._stepTwentyThree(),
-          23: () => this._stepTwentyFour(),
-          24: () => this._stepTwentyFive(),
-          25: () => this._stepTwentySix(),
-          26: () => this._stepTwentySeven(),
-          27: () => this._stepTwentyHeight(),
-          28: () => this._stepTwentyNine(),
-          29: () => this._stepThirty(),
-          30: () => this._stepThirtyOne(),
-          31: () => this._stepThirtyTwo(),
-          32: () => this._stepThirtyThree(),
-          33: () => this._stepThirtyFour(),
-          34: () => this._stepThirtyFive(),
+            0: () => this._stepOne(),
+            1: () => this._stepTwo(),
+            2: () => this._stepThree(),
+            3: () => this._stepFour(),
+            4: () => this._stepFive(),
+            5: () => this._stepSix(),
+            6: () => this._stepSeven(),
+            7: () => this._stepHeight(),
+            8: () => this._stepNine(),
+            9: () => this._stepTen(),
+            10: () => this._stepEleven(),
+            11: () => this._stepTwelve(),
+            12: () => this._stepThirteen(),
+            13: () => this._stepFourteen(),
+            14: () => this._stepFifteen(),
+            15: () => this._stepSixteen(),
+            16: () => this._stepSeventeen(),
+            17: () => this._stepHeighteen(),
+            18: () => this._stepNineteen(),
+            19: () => this._stepTwenty(),
+            20: () => this._stepTwentyOne(),
+            21: () => this._stepTwentyTwo(),
+            22: () => this._stepTwentyThree(),
+            23: () => this._stepTwentyFour(),
+            24: () => this._stepTwentyFive(),
+            25: () => this._stepTwentySix(),
+            26: () => this._stepTwentySeven(),
+            27: () => this._stepTwentyHeight(),
+            28: () => this._stepTwentyNine(),
+            29: () => this._stepThirty(),
+            30: () => this._stepThirtyOne(),
+            31: () => this._stepThirtyTwo(),
+            32: () => this._stepThirtyThree(),
+            33: () => this._stepThirtyFour(),
+            34: () => this._stepThirtyFive(),
         };
-        
+
         return actions[action]();
-      }
+    }
 
     _setCurrentSubtitle(index) {
         this._state.setNextSubtitle(index);
     }
 
     // _setCurrentToolsArray(index) {
-    //     this._state.setToolsArray1();
+    // this._state.setToolsArray(toolsData.toolsArray0);
     // }
 
     _stepOne() {
@@ -103,7 +104,9 @@ class ActionsStepManager {
         console.log("Animation des feuilles")
         this._setfeuilleLeveAnimationPlay(4);
         this._toolsManager.setTools(true)
+        this._state.setToolsArray(toolsData.toolsArray0)
         this._toolsManager.currentTools(0, 1)
+
     }
     _stepFive() {
         //A Appeler à la fin de l'animation de la caméra dans le animation manager
@@ -118,16 +121,15 @@ class ActionsStepManager {
     _stepHeight() {
         this._UIManager.setScrollPicto("chute04a");
         this._allowedScroll = true;
-        this._state.setToolsArray1();
         this._toggleArtisane("artisane01");
         this._toggleArtisane("artisane02");
     }
     _stepNine() {
         //A appeler sur la fin de l'interaction du scroll
-       this._UIManager.removeScrollPicto();
-       this._state.setStepValidation(0);
-       this._allowedScroll = false;
-       this._toolsManager.setTools(false)
+        this._UIManager.removeScrollPicto();
+        this._state.setStepValidation(0);
+        this._allowedScroll = false;
+        this._toolsManager.setTools(false)
     }
     _stepTen() {
         //A appeler au click sur le currentValidationStep n°1
@@ -157,15 +159,15 @@ class ActionsStepManager {
     //    this._UIManager.UI.cursor.classList.toggle("cursor-pointer-color-picker");
     }
     _stepThirteen() {
-       this._setCurrentSubtitle(7);
+        this._setCurrentSubtitle(7);
     }
     _stepFourteen() {
         this._setCurrentSubtitle(8);
     }
     _stepFifteen() {
-       //Laisser ici
-       this._UIManager.UI.colorPickerCta.style.opacity = 1;
-       this._UIManager.UI.colorPickerCta.style.pointerEvents = "all"
+        //Laisser ici
+        this._UIManager.UI.colorPickerCta.style.opacity = 1;
+        this._UIManager.UI.colorPickerCta.style.pointerEvents = "all"
     }
     _stepSixteen() {
         //A Appeler sur la fin du drag and drop
@@ -201,12 +203,13 @@ class ActionsStepManager {
         this._toggleArtisane("artisane02");
         this._toggleArtisane("artisane03");
     }
+
     _stepHeighteen() {
         //Sur la fin du sous titre 9
         this._setCameraAnimation(4, 18);
     }
     _stepNineteen() {
-        this._state.setToolsArray2();
+        this._state.setToolsArray(toolsData.toolsArray1)
         this._toolsManager.currentTools(1, 1)
         this._setCurrentSubtitle(10);
     }
@@ -283,7 +286,7 @@ class ActionsStepManager {
         this._allowedPressureGauge = true;
     }
     _stepTwentyHeight() {
-         //A appeler sur le success de la jauge de pression
+        //A appeler sur le success de la jauge de pression
         //  this._UIManager.removePressionPicto();
         this._UIManager.removePressureGauge();
          this._setCurrentSubtitle(15);
@@ -298,7 +301,7 @@ class ActionsStepManager {
         this._allowedCassageDeVerre = true;
     }
     _stepThirty() {
-         //Apparition du vitrail
+        //Apparition du vitrail
         //Sur le succes du cassage de verre
         this._animationToDragPosition();
         this._UIManager.UI.cursor.classList.remove("cursor-pince-gruger");

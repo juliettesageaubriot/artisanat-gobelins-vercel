@@ -2,7 +2,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import TheLoader from '@components/Structure/Loader/TheLoader';
 import MenuModal from '@components/MenuModal/MenuModal'
-import TheVolume from '@components/VolumeSettings/TheVolume'
 import TheAudioSnippet from '@components/AudioSnippet/TheAudioSnippet';
 import TheModal from '@components/Modal/TheModal'
 
@@ -105,7 +104,6 @@ const ChoixEpisodeAtelierPage = () => {
       </div>
 
       <TheModal isShowing={isShowingAbout} hide={toggleAbout} content={modalTextAbout} />
-      <TheVolume absolute={true} colorPicto="noir" />
       <div ref={ref} />
 
     </section>

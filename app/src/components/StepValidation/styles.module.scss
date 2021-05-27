@@ -1,3 +1,5 @@
+@import "@assets/_mandatory";
+
 .stepValidationContainer {
     position: absolute;
     left: 50%;
@@ -10,7 +12,8 @@
     transform: translate(-50%, -50%);
     
     background-color: white;
-    
+    box-shadow: 0px 0px 15px rgba($color-black, 0.3);
+
     text-align: center;
 
     display: flex;
@@ -24,6 +27,13 @@
 
     h1, h4 {
         margin: 0;
+    }
+    h1 {
+        font-family: 'CirkaBold';
+    }
+    h4 {
+        font-family: 'Cirka';
+        font-size: 18px;
     }
 
     img {

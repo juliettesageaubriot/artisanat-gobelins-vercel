@@ -2,7 +2,7 @@ import React from 'react';
 import TheFooter from '@structure/Footer/TheFooter';
 import TheHeader from '@structure/Header/TheHeader';
 import TheOverlayDesktop from "@components/OverlayDesktop/TheOverlayDesktop"
-
+import TheVolume from '@components/VolumeSettings/TheVolume'
 import layout from "./styles.module.scss"
 
 const TheLayout = ({ children }) => {
@@ -15,6 +15,7 @@ const TheLayout = ({ children }) => {
         <div className={layout['page-content']}>
           {children}
         </div>
+        <TheVolume absolute={true} />
         {/* <TheFooter /> */}
       </div>
     </div>

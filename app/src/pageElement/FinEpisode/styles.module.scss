@@ -1,192 +1,201 @@
-@import '@assets/_mandatory';
-
-$grey: #888787;
+@import "@assets/_mandatory";
 
 .page-fin {
-    height: 100vh;
-    width: 100%;
-    display: flex;
+    position: relative;
+    padding: 40px 35px;
 
-    &__heading {
-        color: $grey;
-        text-transform: uppercase;
-        font-size: 1.5rem;
+    &_container {
+        height: 100%;
 
-        padding: 20px;
-
-        &.--white {
-            color: $color-white;
-            width: 27ch;
-        }
-    }
-
-    &__carousel-container {
-        display: flex;
-        flex-direction: column;
-        flex-basis: 66%;
-
-        padding: 0 1%;
-
-        .carousel-inner {
-            flex-basis: 90%;
+        .head {
             display: flex;
-
-            &__counter {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-
-                width: 20%;
-                .counter {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-
-                    p {
-                        color: $grey;
-
-                        font-size: 24px;
-                    }
-
-                    p:nth-of-type(2) {
-                        color: #C4C4C4;
-
-                        font-size: 18px;
-                    }
-
-                    &__separator {
-                        height: 30px;
-                        width: 2px;
-
-                        margin: 10px 0;
-
-                        background-color: #C4C4C4
-                    }
-                }
-                
-                img {
-                    width: 40%;
-                }
-
-            }
-            
-            &__content {
-                position: relative;
-
-                width: 100%;
-
-                background-color: rgba(0, 0, 0, .1);
-
-                .vitrailliste {
-                    position: relative;
-
-                    width: 15%;
-
-                    top: 25%;
-                }
-
-                .background {
-                    width: 60%;
-                    height: 40%;
-
-                    position: absolute;
-                    
-                    background-color: $grey;
-                    opacity: .4;
-
-                    right: 5%;
-
-                    border-radius: 20px;
-
-                    transform: translateY(100%);
-                }
-                
-                p {
-                    position: absolute;
-                    font-size: 1.2vw;
-                    width: 40%;
-                    z-index: 15;
-                    cursor: pointer;
-                }
-            }
-        }
-    }
-
-    &__footer-container {
-        display: flex;
-        align-items: center;
-        flex-basis: 10%;
-
-        position: relative;
-        
-        padding: 10px;
-    }
-
-    &__video-container {
-        flex-basis: 34%;
-        background-color: $grey;
-
-        .video-inner {
-            display: flex;
-            flex-direction: column;
-            justify-content: center; 
-
-            height: 100%;
+            flex-flow: row wrap;
+            align-items: center;
+            justify-content: space-between;
             width: 100%;
 
-            border-top: 1px solid white;
-
-            // background-color: rgba(#000000, .8);
-
-            padding: 5%;
-
-            &__subHeading {
-                color: white;
-                font-size: 25px;
-                margin-bottom: 50px;
+            h1 {
+                font-family: "OpenSansRegular";
+                font-size: 15px;
+                text-transform: uppercase;
+                span {
+                    font-family: "OpenSansBold";
+                }
             }
+        }
+        .footer {
+            .link-before {
+                position: absolute;
+                bottom: 50px;
+                left: 35px;
+                z-index: 1;
+            }
+        }
 
-            &__content {
+        .sliders {
+            position: relative;
+            display: flex;
+            flex-flow: row wrap;
+            align-items: center;
+            justify-content: flex-end;
+            width: 100%;
+            height: calc(100% - 120px);
+            background-color: green;
+
+            .container {
+                width: calc(100% - 100px);
+                height: 100%;
                 display: flex;
+                flex-flow: row wrap;
+                align-items: center;
                 justify-content: center;
+                :global {
+                    .slick-slider {
+                        background-color: blue;
+                        display: flex;
+                        flex-flow: row wrap;
+                        align-items: center;
+                        justify-content: center;
+                        width: 50%;
+                        height: 100%;
+                        padding: 20px;
 
-                .avatar {
-                    width: 120px;
-                    height: fit-content;
+                        .slick-list {
+                            display: flex;
+                            flex-flow: row wrap;
+                            align-items: center;
+                            justify-content: center;
+                            width: 100%;
+                            height: 100% !important;
+                            background-color: red;
+                            overflow: hidden;
+                            .slick-slide {
+                                background: yellow;
+                                display: flex;
+                                flex-flow: row wrap;
+                                align-items: center;
+                                justify-content: center;
+                                height: 100%;
+                            }
+                        }
+                        .slick-track {
+                            height: 100% !important;
+                        }
 
-                    // background-color: red;
-
-                    margin: 0 20px;
-
-                    &__img {
-                        height: 120px;
-                        width: 120px;
-
-                        border-radius: 100%;
-
-                        background-color: rgba(#000000, .8);
-
-                        margin-bottom: 50px;
+                        .slick-dots {
+                            position: absolute;
+                            top: 50%;
+                            left: 30px;
+                            transform: translate(-50%, -50%);
+                            ul {
+                                list-style: none;
+                                li {
+                                    width: 10px;
+                                    height: 10px;
+                                    background: $color-grey-100;
+                                    transition: 0.5s ease-in all;
+                                    button {
+                                        width: 100%;
+                                        height: 100%;
+                                        background: transparent;
+                                        border: transparent;
+                                        cursor: pointer;
+                                    }
+                                    &.slick-active {
+                                        width: 20px;
+                                        height: 20px;
+                                        background: $color-black;
+                                        transition: 0.5s ease-in all;
+                                    }
+                                    & + li {
+                                        margin-top: 20px;
+                                    }
+                                }
+                            }
+                        }
+                        .slick-arrow {
+                            display: none !important;
+                        }
                     }
+                }
 
-                    h6 {
-                        font-size: 20px;
-                        color: white;
-                        margin-bottom: 10px;
+                .slider1 {
+                    .citation {
+                        font-family: "Cirka";
+                        font-size: 30px;
                     }
-                    
-                    p {
-                        color: white;
-                        font-size: 16px;
-                        line-height: 1.2;
+                    .maitre {
+                        display: flex;
+                        flex-flow: row wrap;
+                        align-items: center;
+                        justify-content: flex-s;
+                        width: 100%;
+                        margin-top: 30px;
+                        img {
+                            width: 30px;
+                            height: 30px;
+                        }
+                        span {
+                            padding-left: 8px;
+                            font-family: "OpenSansLight";
+                            font-size: 14px;
+                        }
+                    }
+                }
+                .slider2 {
+                    display: flex;
+                    flex-flow: row wrap;
+                    align-items: center;
+                    justify-content: space-between;
+                    width: 100%;
+                    height: 100%;
+                    .video {
+                        width: 50%;
+                        video {
+                            width: 100%;
+                        }
+                    }
+                    .content-itw {
+                        width: 50%;
+                        padding-left: 30px;
+                        h2 {
+                            font-family: "OpenSansRegular";
+                            font-size: 18px;
+                        }
+                        .itw {
+                            font-size: 15px;
+                            margin-top: 30px;
+                            font-size: 14px;
+                            span {
+                                font-family: "OpenSansBold";
+                            }
+                        }
+                        .person {
+                            margin-top: 30px;
+                            span {
+                                font-family: "OpenSansRegular";
+                                font-size: 18px;
+                            }
+                            p {
+                                margin-top: 5px;
+                                font-family: "OpenSansLight";
+                            }
+                        }
                     }
                 }
             }
-
-            &__video {
-                
-            }
         }
+    }
+
+    .overlay-gribouillis {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 100%;
+        width: calc(100% / 3);
+        background-image: url("/assets/images/overlay/gribouillis.png");
+        background-size: cover;
+        pointer-events: none;
+        z-index: -1;
     }
 }

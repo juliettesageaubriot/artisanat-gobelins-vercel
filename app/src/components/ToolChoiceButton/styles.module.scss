@@ -33,11 +33,9 @@
                         width: 70px;
                         height: 70px;
                     }
-                    &.scale {
-                        width: 70px;
-                        height: 70px;
-                        // transition: 0.8s ease-in all;
-                        // background-color: initial;
+                    &[data-color = true] {
+                        transition: 0.8s ease-in all;
+                        background-color: $color-cyan;            
                     }
                     img {
                         position: absolute;
@@ -90,7 +88,7 @@
             padding: 10px;
             width: 100%;
             border: none;
-            background-color: rgba($color-white, 0.7);
+            background-color: rgba($color-white, 0.9);
             cursor: pointer;
             i {
                 padding: 0 10px;

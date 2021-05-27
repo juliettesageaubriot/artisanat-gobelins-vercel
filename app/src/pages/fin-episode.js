@@ -1,4 +1,5 @@
 import TheSeo from '@components/Structure/Seo/TheSeo'
+import FinEpisodePage from '@pageElement/FinEpisode/FinEpisodePage'
 
 const FinEpisode = () => {
   return (
@@ -7,7 +8,7 @@ const FinEpisode = () => {
       title="regards d'artisans"
       description="description du projet"
       />
-      <h1>Fin episode</h1>
+      <FinEpisodePage />
     </>
   )
 }

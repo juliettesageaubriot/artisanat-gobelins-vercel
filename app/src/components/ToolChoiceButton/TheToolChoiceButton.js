@@ -19,6 +19,12 @@ const TheToolChoiceButton = ({ array }) => {
         })
     }
 
+    useEffect(() => {
+        if (toolsData.changeSlider === false) {
+            setIsCurrentIdSlider(parseInt(toolsData.idActifGlobal))
+        }
+    });
+
     return (
         <div className={`${styles["tool-choice_container"]} tool-choice_container`} id="toolsModal">
             <div className={`${styles["tool-choice__inner"]} tool-choice__inner`}>
@@ -29,9 +35,8 @@ const TheToolChoiceButton = ({ array }) => {
                             <li key={i} onClick={(event) => handleToolsClick(event)}>
                                 <button
                                     id={elm.id}
-                                    data-scale={(toolsData.changeSlider === true && isCurrentIdSlider === elm.id) || (toolsData.changeSlider === false && toolsData.idActifGlobal === elm.id) && true}
+                                    data-color={(toolsData.changeSlider === true && isCurrentIdSlider === elm.id) || (toolsData.changeSlider === false && toolsData.idActifGlobal === elm.id) && true}
                                 >
-
                                     <img id={elm.id} src={elm.img} />
                                 </button>
                             </li>
@@ -83,7 +88,6 @@ const TheToolChoiceButton = ({ array }) => {
                                 </>
                                 :
                                 null
-
                             }
                         </div>
                     )
