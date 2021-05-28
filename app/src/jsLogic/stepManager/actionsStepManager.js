@@ -119,6 +119,7 @@ class ActionsStepManager {
         this._setCurrentSubtitle(4);
     }
     _stepHeight() {
+        this._UIManager.UI.cursor.classList.add("cursor-ciseaux");
         this._UIManager.setScrollPicto("chute04a");
         this._allowedScroll = true;
         this._toggleArtisane("artisane01");
@@ -126,6 +127,7 @@ class ActionsStepManager {
     }
     _stepNine() {
         //A appeler sur la fin de l'interaction du scroll
+        this._UIManager.UI.cursor.classList.remove("cursor-ciseaux");
         this._UIManager.removeScrollPicto();
         this._state.setStepValidation(0);
         this._allowedScroll = false;
