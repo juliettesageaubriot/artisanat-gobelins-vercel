@@ -1,7 +1,7 @@
 [
     {
         "name": "scene-color-picker",
-        "url": "/assets/models/gltf/draco/dracoModels/colorPicker_v02.glb"
+        "url": "/assets/models/gltf/draco/dracoModels/colorPicker_v03.glb"
     },
     {
         "name": "scene-atelier-v17",
@@ -17,10 +17,10 @@
     },
     {
         "name": "scene-piece-verre",
-        "url": "/assets/models/gltf/draco/dracoModels/piece_decoupe_v04.glb"
+        "url": "/assets/models/gltf/draco/dracoModels/piece-decoupee1.glb"
     }, 
     {
         "name": "scene-piece-final",
-        "url": "/assets/models/gltf/draco/dracoModels/vitrailFinal_v01.glb"
+        "url": "/assets/models/gltf/draco/dracoModels/vitrailFinal_v02.glb"
     }
 ]

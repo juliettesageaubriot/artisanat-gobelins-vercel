@@ -40,6 +40,7 @@ import { _glassCutOutPinceAGruger, _glassCutOutPinceAGrugerMouseDown, _glassCutO
 //mouse events
 import { _mousePointerDownHandler } from '@jsLogic/three/mouseEvents/mouseDown/onMouseDownHandler';
 import { _mousePointerUpHandler } from '@jsLogic/three/mouseEvents/mouseUp/onMouseUpHandler';
+import { Vector3 } from 'three/build/three.module';
 
 
 const SETTINGS = {
@@ -252,6 +253,7 @@ class ThreeScene {
         this._pieceDecoupeDropZone;
         this._pieceDecoupe;
         this._vitrailDropZone;
+        this._dragStartVitrail;
 
         this._isPiece1Erased = false;
         this._isPiece2Erased = false;
@@ -398,8 +400,8 @@ class ThreeScene {
                     // this._addToScene(this._piece_decoupe);
                     // console.log(child)
                     this._piece_decoupe = child;
-                    // child.position.set(1.5, 1.2, 1.2);
-                    // child.rotation.set(Math.PI / 6, 0, 0);
+                    child.position.set(1.5, 1.2, 1.2);
+                    child.rotation.set(Math.PI / 6, 0, 0);
                     // child.scale.set(0.8, 0.8, 0.8);
 
                     this._piece_decoupeAnimations = [...this._models[name].animations];
@@ -466,7 +468,7 @@ class ThreeScene {
                             child.material.opacity = 0;
                         } else if ("piece_principale_above" === child.name) {
                             this._pieceDecoupe = child;
-                            child.material.opacity = 0;
+                            // child.material.opacity = 0;
                             child.material.transparent = true;
                         } else if ("piece_principale" === child.name) {
                             // console.log(child)
@@ -494,11 +496,15 @@ class ThreeScene {
                     this._addToScene(child);
 
                     child.traverse(child => {
-                        if("zoneDragAndDrop" === child.name || "drag" === child.name || "drop" === child.name) {
+                        if("zoneDragAndDrop" === child.name) {
                             child.material.transparent = true;
                             child.material.opacity = 0;
                         } else if("zoneDragAndDrop" === child.name) {
                            this._vitrailDropZone =  child
+                           console.log(child)
+                        } else if("drag" === child.name) {
+                            this._dragStartVitrail = child
+                            console.log(child)
                         }
                     })
                 }
@@ -525,9 +531,19 @@ class ThreeScene {
 
     _animationToDragPosition() {
         this._pieceToMove = this._scene.getObjectByName("piece_principale")
-        const { x, y, z } = this._scene.getObjectByName("drag").position;
+        // const { x, y, z } = this._scene.getObjectByName("drop").position;
+        // const { xR, yR, zR } = this._scene.getObjectByName("drop").rotation;
+        var position = new THREE.Vector3();
+        position.setFromMatrixPosition(this._dragStartVitrail.matrixWorld);
+        console.log(position);
 
-        gsap.to(this._pieceToMove.position, { x: x, y: y, z: z, duration: 1 });
+
+        // gsap.to(this._pieceToMove.position, { x: position.x, y: position.y, z: position.z, duration: 1 });
+        this._pieceToMove.position.set(position.x, position.y, position.z);
+
+        console.log(this._pieceToMove.position);
+
+        
     }
 
     _start() {
@@ -671,6 +687,8 @@ class ThreeScene {
 
         this._camera.aspect = this._width / this._height;
         this._camera.updateProjectionMatrix();
+        this._renderPass.camera.aspect = this._width / this._height;
+        this._renderPass.camera.updateProjectionMatrix();
         this._renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         this._renderer.setSize(this._width, this._height);
         this._effectComposer.setSize(this._width, this._height)
@@ -787,7 +805,7 @@ class ThreeScene {
             }
         });
 
-        this._vitrail = ["debut", "milieu1", "milieu2", "milieu3", "milieu4", "milieu5", "fin", "piece1", "extrusion1", "extrusion2", "extrusion3", "extrusion4", "extrusion5", "extrusion6", "extrusion7", "extrusion8"];
+        this._vitrail = ["debut", "milieu1", "milieu2", "milieu3", "milieu4", "milieu5", "fin", "piece1", "piece_principale", "extrusion1", "extrusion2", "extrusion3", "extrusion4", "extrusion5", "extrusion6", "extrusion7", "extrusion8"];
 
         this._vitrail.map(verre => {
             this._scene.getObjectByName(verre).material = new THREE.MeshPhysicalMaterial({
@@ -799,16 +817,16 @@ class ThreeScene {
                 transparent: true,
             })
         });
-        this._scene.getObjectByName("piece_principale").traverse(child => {
-            child.material = new THREE.MeshPhysicalMaterial({
-                color: this._finalColorPicked.couleurEtoile09,
-                roughness: 0,
-                metalness: 0.3,
-                reflectivity: 1,
-                opacity: .8,
-                transparent: true,
-            }) 
-        })
+        // this._scene.getObjectByName("piece_principale").traverse(child => {
+        //     child.material = new THREE.MeshPhysicalMaterial({
+        //         color: this._finalColorPicked.couleurEtoile09,
+        //         roughness: 0,
+        //         metalness: 0.3,
+        //         reflectivity: 1,
+        //         opacity: .8,
+        //         transparent: true,
+        //     }) 
+        // })
         this._setColorsOnFinalVitrail();
         // console.log(this._finalColorPicked);
     }

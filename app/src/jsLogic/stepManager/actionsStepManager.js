@@ -302,16 +302,18 @@ class ActionsStepManager {
     _stepThirty() {
         //Apparition du vitrail
         //Sur le succes du cassage de verre
-        this._toolsManager.setTools(false)
+        this._toolsManager.setTools(false);
         this._animationToDragPosition();
         this._UIManager.UI.cursor.classList.remove("cursor-pince-gruger");
         this._UIManager.UI.html.style.cursor = "initial";
         this._allowedCassageDeVerre = false;
         this._stepManager.addSubStep();
-        this._setCameraAnimation(5, 30);
+        // this._setCameraAnimation(5, 30);
+        this._animationToDragPosition();
     }
     _stepThirtyOne() {
         //Apres l'apparition du vitrail
+        this._animationToDragPosition();
         this._setCurrentSubtitle(16);
     }
     _stepThirtyTwo() {
