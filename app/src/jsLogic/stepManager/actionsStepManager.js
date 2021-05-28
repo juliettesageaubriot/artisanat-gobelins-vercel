@@ -307,8 +307,8 @@ class ActionsStepManager {
         this._UIManager.UI.html.style.cursor = "initial";
         this._allowedCassageDeVerre = false;
         this._stepManager.addSubStep();
-        // this._setCameraAnimation(5, 30);
-        this._animationToDragPosition();
+        this._setCameraAnimation(5, 30);
+        // this._animationToDragPosition();
     }
     _stepThirtyOne() {
         //Apres l'apparition du vitrail
