@@ -99,7 +99,7 @@ const SingleAtelierPage = () => {
         <button onClick={() => console.log(threeScene._camera)}> currentCamera </button>
         <button onClick={() => console.log(threeScene._stepManager._globalStep + " " + threeScene._stepManager._subStep)}> currentStep </button>
         <button onClick={() => console.log(threeScene._glassCutOutRaycastObject)}> object glass raycast </button> */}
-        {/* <TheAudioSnippet sound_url={"assets/audios/atelier/main_musique_atelier.mp3"} play loop specificVolume={0.2}/> */}
+        <TheAudioSnippet sound_url={"assets/audios/atelier/main_musique_atelier.mp3"} play loop specificVolume={0.2}/>
         <TheCursor />
         <TheLoader />
         <TheBreadcrumb
