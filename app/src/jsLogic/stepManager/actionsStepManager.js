@@ -24,7 +24,7 @@ class ActionsStepManager {
         this._setOutlineObjects = setOutlineObjects;
         this._addPieceDecoupeToScene = addPieceDecoupeToScene;
         this._animationToDragPosition = animationToDragPosition;
-        
+
 
         //Les débloquage d'interactions
         this._allowedScroll = false;
@@ -176,7 +176,7 @@ class ActionsStepManager {
         // this._allowedDragAndDrop = false;
         // // this.UI.html.style.cursor = "initial";
         // // this._UIManager.UI.cursor.classList.toggle("cursor-pointer-color-picker");
-        
+
         // this._toggleArtisane("artisane02");
         // this._toggleArtisane("artisane03");
     }
@@ -199,7 +199,7 @@ class ActionsStepManager {
         this._UIManager.UI.cursor.classList.remove("cursor-dragging-default");
 
         this._state.setSoundInteractionToPlay(soundsOnInteraction.crayonnes_url, false, false);
-        
+
         this._toggleArtisane("artisane02");
         this._toggleArtisane("artisane03");
     }
@@ -217,10 +217,10 @@ class ActionsStepManager {
         this._setCurrentSubtitle(11);
     }
     _stepTwentyOne() {
-        
-        this._UIManager.setDragAndDropPicto("papier_decoupe");   
+
+        this._UIManager.setDragAndDropPicto("papier_decoupe");
         this._setOutlineObjects("papier_decoupe");
-        
+
         this._outlinePass.enabled = true;
         this._allowedDragAndDrop = true;
         this._setDragAndDropControls();
@@ -303,15 +303,16 @@ class ActionsStepManager {
     _stepThirty() {
         //Apparition du vitrail
         //Sur le succes du cassage de verre
-        this._animationToDragPosition();
         this._UIManager.UI.cursor.classList.remove("cursor-pince-gruger");
         this._UIManager.UI.html.style.cursor = "initial";
         this._allowedCassageDeVerre = false;
         this._stepManager.addSubStep();
-        this._setCameraAnimation(5, 30);
+        // this._setCameraAnimation(5, 30);
+        this._animationToDragPosition();
     }
     _stepThirtyOne() {
         //Apres l'apparition du vitrail
+        this._animationToDragPosition();
         this._setCurrentSubtitle(16);
     }
     _stepThirtyTwo() {
