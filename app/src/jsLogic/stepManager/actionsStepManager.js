@@ -24,7 +24,7 @@ class ActionsStepManager {
         this._setOutlineObjects = setOutlineObjects;
         this._addPieceDecoupeToScene = addPieceDecoupeToScene;
         this._animationToDragPosition = animationToDragPosition;
-        
+
 
         //Les débloquage d'interactions
         this._allowedScroll = false;
@@ -103,8 +103,8 @@ class ActionsStepManager {
         //feuilleAnimator
         console.log("Animation des feuilles")
         this._setfeuilleLeveAnimationPlay(4);
-        this._toolsManager.setTools(true)
         this._state.setToolsArray(toolsData.toolsArray0)
+        this._toolsManager.setTools(true)
         this._toolsManager.currentTools(0, 1)
 
     }
@@ -146,17 +146,16 @@ class ActionsStepManager {
     }
     _stepTwelve() {
         //Sur la fin de l'animation de la caméra 3 dans le animation manager
-       this._setCurrentSubtitle(6);
-       //Changer les actions du 14eme vers ici
-       this._UIManager.UI.cursor.classList.add("cursor-dragging-default");
-       this._stepManager.addGlobalStep();
+        this._setCurrentSubtitle(6);
+        //Changer les actions du 14eme vers ici
+        this._UIManager.UI.cursor.classList.add("cursor-dragging-default");
+        this._stepManager.addGlobalStep();
         this._outlinePass.enabled = true;
         this._UIManager.setDragAndDropColorPickerPicto("verreBleu02A");
-       this._allowedDragAndDrop = true;
-       this._addPieceDecoupeToScene();
-       this._UIManager.UI.html.style.cursor = "none"
-    //    this._state.setToolsArray2();
-    //    this._UIManager.UI.cursor.classList.toggle("cursor-pointer-color-picker");
+        this._allowedDragAndDrop = true;
+        this._addPieceDecoupeToScene();
+        this._UIManager.UI.html.style.cursor = "none"
+        //    this._UIManager.UI.cursor.classList.toggle("cursor-pointer-color-picker");
     }
     _stepThirteen() {
         this._setCurrentSubtitle(7);
@@ -176,7 +175,7 @@ class ActionsStepManager {
         // this._allowedDragAndDrop = false;
         // // this.UI.html.style.cursor = "initial";
         // // this._UIManager.UI.cursor.classList.toggle("cursor-pointer-color-picker");
-        
+
         // this._toggleArtisane("artisane02");
         // this._toggleArtisane("artisane03");
     }
@@ -199,7 +198,7 @@ class ActionsStepManager {
         this._UIManager.UI.cursor.classList.remove("cursor-dragging-default");
 
         this._state.setSoundInteractionToPlay(soundsOnInteraction.crayonnes_url, false, false);
-        
+
         this._toggleArtisane("artisane02");
         this._toggleArtisane("artisane03");
     }
@@ -209,27 +208,24 @@ class ActionsStepManager {
         this._setCameraAnimation(4, 18);
     }
     _stepNineteen() {
-        this._state.setToolsArray(toolsData.toolsArray1)
-        this._toolsManager.currentTools(1, 1)
         this._setCurrentSubtitle(10);
     }
     _stepTwenty() {
         this._setCurrentSubtitle(11);
     }
     _stepTwentyOne() {
-        
-        this._UIManager.setDragAndDropPicto("papier_decoupe");   
+
+        this._UIManager.setDragAndDropPicto("papier_decoupe");
         this._setOutlineObjects("papier_decoupe");
-        
+
         this._outlinePass.enabled = true;
         this._allowedDragAndDrop = true;
         this._setDragAndDropControls();
-        this._toolsManager.setTools(true);
         this._UIManager.UI.cursor.classList.add("cursor-dragging-default");
         this._UIManager.UI.html.style.cursor = "none"
     }
     _stepTwentyTwo() {
-         //A appeler sur le succes du drag and drop
+        //A appeler sur le succes du drag and drop
         this._UIManager.removeDragAndDropPicto();
         this._setCurrentSubtitle(12);
         this._allowedDragAndDrop = false;
@@ -238,11 +234,13 @@ class ActionsStepManager {
         this._UIManager.UI.html.style.cursor = "initial";
     }
     _stepTwentyThree() {
-        this._toolsManager.currentTools(1, 2)
         this._setCurrentSubtitle(13);
     }
     _stepTwentyFour() {
         this._stepManager.addSubStep();
+        this._state.setToolsArray(toolsData.toolsArray1)
+        this._toolsManager.currentTools(1, 1)
+        this._toolsManager.setTools(true);
         // setTimeout(() => {
         //     this._UIManager.setTracePicto("piece1");
         //     this._UIManager.setTracePictoFixe("milieu3");
@@ -269,7 +267,7 @@ class ActionsStepManager {
     }
     _stepTwentySix() {
         //A appeler sur le success du drag and drop
-        this._toolsManager.currentTools(1, 3)
+        this._toolsManager.currentTools(1, 2)
         this._UIManager.removeDragAndDropPicto();
         this._setCurrentSubtitle(14);
         this._allowedDragAndDrop = false;
@@ -288,11 +286,12 @@ class ActionsStepManager {
     _stepTwentyHeight() {
         //A appeler sur le success de la jauge de pression
         //  this._UIManager.removePressionPicto();
+        this._toolsManager.currentTools(1, 3)
         this._UIManager.removePressureGauge();
-         this._setCurrentSubtitle(15);
-         this._allowedPressureGauge = false;
-         this._stepManager.addSubStep();
-         this._UIManager.UI.pressureGaugeScale.style.transform = `translate(-50%, -50%) scale(0)`;
+        this._setCurrentSubtitle(15);
+        this._allowedPressureGauge = false;
+        this._stepManager.addSubStep();
+        this._UIManager.UI.pressureGaugeScale.style.transform = `translate(-50%, -50%) scale(0)`;
     }
     _stepTwentyNine() {
         this._UIManager.setClickPointsPicto("piece1", () => this.actionsManager(29));
@@ -303,6 +302,7 @@ class ActionsStepManager {
     _stepThirty() {
         //Apparition du vitrail
         //Sur le succes du cassage de verre
+        this._toolsManager.setTools(false)
         this._animationToDragPosition();
         this._UIManager.UI.cursor.classList.remove("cursor-pince-gruger");
         this._UIManager.UI.html.style.cursor = "initial";
@@ -322,7 +322,6 @@ class ActionsStepManager {
         this._UIManager.UI.html.style.cursor = "none";
         this._allowedDragAndDrop = true;
         this._toggleDragAndDrop();
-        this._toolsManager.setTools(false)
     }
     _stepThirtyThree() {
         //sur le success du drag and drop
@@ -331,7 +330,7 @@ class ActionsStepManager {
         this._toggleDragAndDrop();
         this._stepManager.addSubStep();
         this._UIManager.UI.html.style.cursor = "initial";
-       this._UIManager.UI.cursor.classList.remove("cursor-dragging-default");
+        this._UIManager.UI.cursor.classList.remove("cursor-dragging-default");
     }
     _stepThirtyFour() {
         this._setCurrentSubtitle(17);

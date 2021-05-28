@@ -20,6 +20,13 @@ const FinEpisodePage = () => {
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
 
+  let slides1
+  let slides2
+  if (typeof window !== 'undefined') {
+    slides1 = document.querySelector('.slick-slider1')
+    slides2 = document.querySelector('.slick-slider2')
+  }
+
   useEffect(() => {
     setNav1(slider1.current)
     setNav2(slider2.current)
@@ -37,33 +44,44 @@ const FinEpisodePage = () => {
 
   const settings1 = {
     dots: true,
-    infinite: true,
-    // speed: 500,
+    infinite: false,
+    speed: 700,
     // slidesToShow: 1,
     // slidesToScroll: 1,
+    className: 'slick-slider1',
     vertical: true,
     appendDots: dots => (
-      <div
-      >
+      <div>
         <ul> {dots} </ul>
       </div>
     ),
     customPaging: i => (
       <button></button>
-    )
+    ),
+    beforeChange: () => {
+      slides1.classList.add('anim-fade')
+    },
+    afterChange: () => {
+      slides1.classList.remove('anim-fade')
+    }
   };
 
   const settings2 = {
-    infinite: true,
-    // speed: 500,
+    infinite: false,
+    speed: 900,
     // slidesToShow: 1,
     // slidesToScroll: 1,
     vertical: true,
-    fade: true,
-    speed: 500,
-    infinite: true,
-    cssEase: 'cubic-bezier(0.600, -0.280, 0.735, 0.045)',
+    className: 'slick-slider2',
+    useCSS: 1,
+    beforeChange: () => {
+      slides2.classList.add('anim-fade')
+    },
+    afterChange: () => {
+      slides2.classList.remove('anim-fade')
+    }
   };
+
 
   useEffect(() => {
     if (!parentRef.current) {
@@ -137,7 +155,7 @@ const FinEpisodePage = () => {
                   <div key={i}>
                     <div className={`slider2 ${styles.slider2}`}>
                       <div className={styles.video}>
-                        <video controls width="250">
+                        <video controls>
                           <source src={elm.video} />
                           Sorry, your browser doesn't support embedded videos.
                           </video>

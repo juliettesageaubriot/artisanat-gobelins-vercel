@@ -40,7 +40,7 @@
             justify-content: flex-end;
             width: 100%;
             height: calc(100% - 120px);
-            background-color: green;
+            // background-color: green;
 
             .container {
                 width: calc(100% - 100px);
@@ -51,7 +51,7 @@
                 justify-content: center;
                 :global {
                     .slick-slider {
-                        background-color: blue;
+                        // background-color: blue;
                         display: flex;
                         flex-flow: row wrap;
                         align-items: center;
@@ -67,10 +67,10 @@
                             justify-content: center;
                             width: 100%;
                             height: 100% !important;
-                            background-color: red;
+                            // background-color: red;
                             overflow: hidden;
                             .slick-slide {
-                                background: yellow;
+                                // background: yellow;
                                 display: flex;
                                 flex-flow: row wrap;
                                 align-items: center;
@@ -102,8 +102,7 @@
                                         cursor: pointer;
                                     }
                                     &.slick-active {
-                                        width: 20px;
-                                        height: 20px;
+                                        transform: scale(1.8);
                                         background: $color-black;
                                         transition: 0.5s ease-in all;
                                     }
@@ -115,6 +114,48 @@
                         }
                         .slick-arrow {
                             display: none !important;
+                        }
+                    }
+
+                    .slick-slider1 {
+                        .slick-slide {
+                            opacity: 0;
+                            transition: 0.2s ease opacity;
+                            &.slick-current {
+                                opacity: 1;
+                                transition: 0.2s ease opacity;
+                            }
+                        }
+                        &.anim-fade {
+                            .slick-slide {
+                                opacity: 0;
+                                transition: 0.2s ease opacity;
+                                &.slick-current {
+                                    opacity: 1;
+                                    transition: 0.2s ease opacity;
+                                }
+                            }
+                        }
+                    }
+
+                    .slick-slider2 {
+                        .slick-slide {
+                            opacity: 0;
+                            transition: 0.5s ease opacity;
+                            &.slick-current {
+                                opacity: 1;
+                                transition: 0.5s ease opacity;
+                            }
+                        }
+                        &.anim-fade {
+                            .slick-slide {
+                                opacity: 0;
+                                transition: 0.5s ease opacity;
+                                &.slick-current {
+                                    opacity: 1;
+                                    transition: 0.5s ease opacity;
+                                }
+                            }
                         }
                     }
                 }
@@ -149,6 +190,7 @@
                     justify-content: space-between;
                     width: 100%;
                     height: 100%;
+
                     .video {
                         width: 50%;
                         video {
@@ -197,5 +239,17 @@
         background-size: cover;
         pointer-events: none;
         z-index: -1;
+    }
+}
+
+@keyframes fadeAnimation {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
     }
 }

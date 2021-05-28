@@ -3,24 +3,26 @@
   "changeSlider": false,
   "toolsArray0": [{
     "id": 1,
-    "title": "les ciseaux trois lames",
+    "title": "Les ciseaux trois lames",
     "img": "/assets/images/ui/tools/ciseaux.png",
     "content": "Ils permettent de retirer aux gabarits en papier une largeur d'environ 1.2mm correspondant à l'âme du plomb."
   }
 ],
 
-  "toolsArray1": [{
+  "toolsArray1": [
+
+    {
       "id": 1,
-      "title": "Pince à gruger",
-      "img": "/assets/images/ui/tools/pince_gruger.png",
-      "content": "Outil utilisé pour briser finement les bords du verre et le lisser.",
+      "title": "Le coupe-verre",
+      "img": "/assets/images/ui/tools/coupe_verre.png",
+      "content": "Outil utilisé pour la coupe des pièces, muni d’une roulette en tungstène.",
       "past": false,
-      "present": true,
-      "future": false
+      "present": false,
+      "future": true
     },
     {
       "id": 2,
-      "title": "Pince à décrocher",
+      "title": "La pince à décrocher",
       "img": "/assets/images/ui/tools/pince_decrocher.png",
       "content": "Outil utilisé pour détacher deux morceaux de verre après une rayure.",
       "past": false,
@@ -29,12 +31,12 @@
     },
     {
       "id": 3,
-      "title": "Coupe-verre",
-      "img": "/assets/images/ui/tools/coupe_verre.png",
-      "content": "Outil utilisé pour la coupe des pièces, muni d’une roulette en tungstène.",
+      "title": "La pince à gruger",
+      "img": "/assets/images/ui/tools/pince_gruger.png",
+      "content": "Outil utilisé pour briser finement les bords du verre et le lisser.",
       "past": false,
-      "present": false,
-      "future": true
+      "present": true,
+      "future": false
     }
   ]
 }
