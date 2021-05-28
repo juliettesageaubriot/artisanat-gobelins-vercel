@@ -401,7 +401,7 @@ class ThreeScene {
                     // console.log(child)
                     this._piece_decoupe = child;
                     child.position.set(1.5, 1.2, 1.2);
-                    child.rotation.set(Math.PI / 6, 0, 0);
+                    child.rotation.set(Math.PI / 3, 0, 0);
                     // child.scale.set(0.8, 0.8, 0.8);
 
                     this._piece_decoupeAnimations = [...this._models[name].animations];
@@ -460,8 +460,8 @@ class ThreeScene {
                             || "fin" === child.name) {
 
                             this._piece_decoupeeObjects.push(child.name);
-                            child.material.transparent = true;
-                            child.material.opacity = 0.5;
+                            // child.material.transparent = true;
+                            // child.material.opacity = 0.5;
 
                         } else if ("surface_drop" === child.name) {
                             this._pieceDecoupeDropZone = child;
@@ -504,6 +504,8 @@ class ThreeScene {
                            console.log(child)
                         } else if("drag" === child.name) {
                             this._dragStartVitrail = child
+                            child.material.transparent = true;
+                            child.material.opacity = 0;
                             console.log(child)
                         }
                     })
@@ -538,8 +540,8 @@ class ThreeScene {
         console.log(position);
 
 
-        // gsap.to(this._pieceToMove.position, { x: position.x, y: position.y, z: position.z, duration: 1 });
-        this._pieceToMove.position.set(position.x, position.y, position.z);
+        gsap.to(this._pieceToMove.position, { x: position.x + 0.02, y: position.y, z: position.z, duration: 1 });
+        // this._pieceToMove.position.set(position.x, position.y, position.z);
 
         console.log(this._pieceToMove.position);
 
@@ -548,7 +550,7 @@ class ThreeScene {
 
     _start() {
         this._createModels(this._models);
-        this._resizeHandler();
+        // this._resizeHandler();
         //Action à faire au démarrage
         // this._setDragAndDropControls();
         // this._toggleDragAndDropControls();
@@ -805,28 +807,55 @@ class ThreeScene {
             }
         });
 
-        this._vitrail = ["debut", "milieu1", "milieu2", "milieu3", "milieu4", "milieu5", "fin", "piece1", "piece_principale", "extrusion1", "extrusion2", "extrusion3", "extrusion4", "extrusion5", "extrusion6", "extrusion7", "extrusion8"];
+        this._vitrail = ["debut", "milieu1", "milieu2", "milieu3", "milieu4", "milieu5", "fin", "piece1", "extrusion1", "extrusion2", "extrusion3", "extrusion4", "extrusion5", "extrusion6", "extrusion7", "extrusion8"];
 
         this._vitrail.map(verre => {
+            // this._scene.getObjectByName(verre).material = new THREE.MeshPhysicalMaterial({
+            //     color: this._finalColorPicked.couleurEtoile09,
+            //     roughness: 0,
+            //     metalness: .3,
+            //     reflectivity: 1,
+            //     opacity: .8,
+            //     transparent: true,
+            // })
             this._scene.getObjectByName(verre).material = new THREE.MeshPhysicalMaterial({
                 color: this._finalColorPicked.couleurEtoile09,
                 roughness: 0,
                 metalness: .3,
                 reflectivity: 1,
-                opacity: .8,
-                transparent: true,
+                // opacity: .8,
+                // transparent: true,
             })
+
+            // gsap.to(this._scene.getObjectByName(verre).material, { color: this._finalColorPicked.couleurEtoile09, opacity: .8, transparent: true, duration: 1 });
         });
-        // this._scene.getObjectByName("piece_principale").traverse(child => {
-        //     child.material = new THREE.MeshPhysicalMaterial({
-        //         color: this._finalColorPicked.couleurEtoile09,
-        //         roughness: 0,
-        //         metalness: 0.3,
-        //         reflectivity: 1,
-        //         opacity: .8,
-        //         transparent: true,
-        //     }) 
-        // })
+        this._scene.getObjectByName("piece_principale").traverse(child => {
+            
+            if(child.name !== "piece_principale") {
+                // gsap.t
+                // child.material = new THREE.MeshStandardMaterial({
+                //     color: this._finalColorPicked.couleurEtoile09,
+                //     // roughness: 0,
+                //     // metalness: 0.3,
+                //     // reflectivity: 1,
+                //     opacity: .8,
+                //     transparent: true,
+                // }) 
+                child.material = new THREE.MeshPhysicalMaterial({
+                    color: this._finalColorPicked.couleurEtoile09,
+                    roughness: 0,
+                    metalness: 0.3,
+                    reflectivity: 1,
+                    // opacity: .8,
+                    // transparent: true,
+                }) 
+                // gsap.to(child.material, { color: this._finalColorPicked.couleurEtoile09, opacity: .8, transparent: true, duration: 1 });
+            }
+
+            console.log(child.name)
+        })
+
+        this._scene.getObjectByName("couleurEtoile").material.color = this._finalColorPicked.couleurEtoile09;
         this._setColorsOnFinalVitrail();
         // console.log(this._finalColorPicked);
     }
