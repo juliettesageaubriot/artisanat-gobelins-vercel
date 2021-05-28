@@ -29,8 +29,7 @@ const FinEpisodePage = () => {
 
   useEffect(() => {
     setNav1(slider1.current)
-    setNav2(slider2.current)
-  }, [slider1.current, slider2.current])
+  }, [slider1.current])
 
   const modalTextAbout = [{
     title: "À propos",
@@ -46,7 +45,7 @@ const FinEpisodePage = () => {
     dots: true,
     infinite: false,
     speed: 700,
-    // slidesToShow: 1,
+    slidesToShow: 1,
     // slidesToScroll: 1,
     className: 'slick-slider1',
     vertical: true,
@@ -66,23 +65,6 @@ const FinEpisodePage = () => {
     }
   };
 
-  const settings2 = {
-    infinite: false,
-    speed: 900,
-    // slidesToShow: 1,
-    // slidesToScroll: 1,
-    vertical: true,
-    className: 'slick-slider2',
-    useCSS: 1,
-    beforeChange: () => {
-      slides2.classList.add('anim-fade')
-    },
-    afterChange: () => {
-      slides2.classList.remove('anim-fade')
-    }
-  };
-
-
   useEffect(() => {
     if (!parentRef.current) {
       return;
@@ -97,10 +79,8 @@ const FinEpisodePage = () => {
   const handleScroll = (e) => {
     if (e.deltaY > 0) {
       slider1 && slider1.current.slickPrev();
-      slider2 && slider2.current.slickPrev();
     } else if (e.deltaY < 0) {
       slider1 && slider1.current.slickNext();
-      slider2 && slider2.current.slickNext();
     }
   };
 
@@ -127,12 +107,11 @@ const FinEpisodePage = () => {
           <div className={styles.container}>
             <Slider
               {...settings1}
-              asNavFor={nav2}
               ref={slider1}
             >
               {data.map((elm, i) => {
                 return (
-                  <div key={i}>
+                  <div key={i} className={`${styles.sliders}`}>
                     <div className={styles.slider1}>
                       <p className={styles.citation}>" {elm.content} "</p>
                       <div className={styles.maitre}>
@@ -140,19 +119,8 @@ const FinEpisodePage = () => {
                         <span>{elm.signature}</span>
                       </div>
                     </div>
-                  </div>
-                )
-              })}
-            </Slider>
 
-            <Slider
-              {...settings2}
-              asNavFor={nav1}
-              ref={slider2}
-            >
-              {data.map((elm, i) => {
-                return (
-                  <div key={i}>
+
                     <div className={`slider2 ${styles.slider2}`}>
                       <div className={styles.video}>
                         <video controls>
@@ -174,10 +142,13 @@ const FinEpisodePage = () => {
                         </div>
                       </div>
                     </div>
+
                   </div>
                 )
               })}
             </Slider>
+
+
           </div>
 
         </div>
