@@ -11,25 +11,18 @@ import styles from "./styles.module.scss";
 const FinEpisodePage = () => {
   const { isShowing: isShowingAbout, toggle: toggleAbout } = useModal();
 
-  const slider1 = useRef();
-  const slider2 = useRef();
+  const [play, setPlay] = useState(false);
 
-  const sliderRef = useRef();
+  const slider1 = useRef();
   const parentRef = useRef(null);
 
-  const [nav1, setNav1] = useState(null);
-  const [nav2, setNav2] = useState(null);
-
   let slides1
-  let slides2
+  let video
   if (typeof window !== 'undefined') {
     slides1 = document.querySelector('.slick-slider1')
-    slides2 = document.querySelector('.slick-slider2')
+    video = document.querySelector('.videoElm')
   }
 
-  useEffect(() => {
-    setNav1(slider1.current)
-  }, [slider1.current])
 
   const modalTextAbout = [{
     title: "À propos",
@@ -59,9 +52,13 @@ const FinEpisodePage = () => {
     ),
     beforeChange: () => {
       slides1.classList.add('anim-fade')
+      video.pause();
+      setPlay(false);
     },
     afterChange: () => {
       slides1.classList.remove('anim-fade')
+      video.pause();
+      setPlay(false);
     }
   };
 
@@ -84,6 +81,10 @@ const FinEpisodePage = () => {
     }
   };
 
+  const handleClick = () => {
+    video.play();
+    setPlay(true);
+  }
 
   return (
     <section className={styles["page-fin"]}>
@@ -112,7 +113,7 @@ const FinEpisodePage = () => {
               {data.map((elm, i) => {
                 return (
                   <div key={i} className={`${styles.sliders}`}>
-                    <div className={styles.slider1}>
+                    <div className={styles.left}>
                       <p className={styles.citation}>" {elm.content} "</p>
                       <div className={styles.maitre}>
                         <img src={elm.img} />
@@ -121,12 +122,19 @@ const FinEpisodePage = () => {
                     </div>
 
 
-                    <div className={`slider2 ${styles.slider2}`}>
+                    <div className={`${styles.right}`}>
                       <div className={styles.video}>
-                        <video controls>
+                        <video className='videoElm' controls={play === true ? true : false}>
                           <source src={elm.video} />
                           Sorry, your browser doesn't support embedded videos.
                           </video>
+                        <button
+                          className={`${styles.play} ${play === false ? '' : styles.invisible}`}
+                          onClick={handleClick}>
+                          <span>
+                            <i className="fas fa-play"></i>
+                          </span>
+                        </button>
                       </div>
 
                       <div className={styles['content-itw']}>

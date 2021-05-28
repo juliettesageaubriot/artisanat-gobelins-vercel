@@ -40,15 +40,10 @@
             justify-content: flex-end;
             width: 100%;
             height: calc(100% - 120px);
-            // background-color: green;
 
             .container {
                 width: calc(100% - 100px);
                 height: 100%;
-                // display: flex;
-                // flex-flow: row wrap;
-                // align-items: center;
-                // justify-content: center;
                 :global {
                     .slick-slider {
                         // background-color: blue;
@@ -145,7 +140,7 @@
                     justify-content: center;
                     width: 100%;
 
-                    .slider1 {
+                    .left {
                         width: 50%;
                         padding: 10px;
                         .citation {
@@ -171,7 +166,7 @@
                         }
                     }
 
-                    .slider2 {
+                    .right {
                         padding: 10px;
                         width: 50%;
                         display: flex;
@@ -182,9 +177,30 @@
                         height: 100%;
 
                         .video {
+                            position: relative;
                             width: 50%;
                             video {
                                 width: 100%;
+                            }
+                            .play {
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);
+                                opacity: 0.75;
+                                pointer-events: all;
+                                width: 50px;
+                                height: 50px;
+                                background-color: $color-cyan;
+                                border: none;
+                                i {
+                                    font-size: 25px;
+                                }
+                                &.invisible {
+                                    opacity: 0;
+                                    transition: 0.5s ease-in-out all;
+                                    pointer-events: none;
+                                }
                             }
                         }
                         .content-itw {
