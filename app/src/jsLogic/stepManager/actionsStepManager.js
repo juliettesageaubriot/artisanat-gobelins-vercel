@@ -312,18 +312,20 @@ class ActionsStepManager {
     }
     _stepThirtyOne() {
         //Apres l'apparition du vitrail
-        this._animationToDragPosition();
+        // this._animationToDragPosition();
         this._setCurrentSubtitle(16);
     }
     _stepThirtyTwo() {
-        this._setOutlineObjects("piece_principale");
+        this._setOutlineObjects("drag");
         this._outlinePass.enabled = true;
-        this._UIManager.setDragAndDropPicto("papier_decoupe");
+        this._UIManager.setDragAndDropPicto("drag");
         this._UIManager.UI.cursor.classList.add("cursor-dragging-default");
         this._UIManager.UI.html.style.cursor = "none";
         this._allowedDragAndDrop = true;
-        this._toggleDragAndDrop();
+        this._setDragAndDropControls();
         this._toolsManager.setTools(false)
+        console.log(this._stepManager._globalStep)
+        console.log(this._stepManager._subStep)
     }
     _stepThirtyThree() {
         //sur le success du drag and drop

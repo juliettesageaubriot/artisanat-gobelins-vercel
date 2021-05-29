@@ -4,7 +4,7 @@ import bindAll from '@jsLogic/utils/bindAll';
 import { soundsOnInteraction } from "@jsLogic/utils/sounds.js";
 
 class UIManager {
-    constructor(getObjectCoordinatesByName, glassCutOutObjectDisappear, state) {
+    constructor(getObjectCoordinatesByName, glassCutOutObjectDisappear, state, glassCutOutObjectAppear) {
         bindAll(
             this,
             'setClickPointsPicto',
@@ -17,6 +17,7 @@ class UIManager {
         this._getObjectCoordinatesByName = getObjectCoordinatesByName;
         this._glassCutOutObjectDisappear = glassCutOutObjectDisappear;
         this._state = state;
+        this._glassCutOutObjectAppear = glassCutOutObjectAppear;
         this.UI = {}
 
         this._setUI();
@@ -114,6 +115,10 @@ class UIManager {
 
         this.UI.clickPointsThree.addEventListener('click', () => {
             this._glassCutOutObjectDisappear(["fin", "milieu5", "extrusion7", "extrusion8"]);
+            setTimeout(() => {
+                this._glassCutOutObjectDisappear(["piece_principale"]);
+                this._glassCutOutObjectAppear(["drag"]);
+            }, 2000);
             this._state.setSoundInteractionToPlay(soundsOnInteraction.pinceGruger3_url, true, false);
             this.UI.clickPointsThree.style.opacity = 0;
             console.log("C'est fini !");

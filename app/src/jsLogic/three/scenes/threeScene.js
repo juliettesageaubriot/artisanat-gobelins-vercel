@@ -80,7 +80,8 @@ class ThreeScene {
             '_setOutlineObjects',
             '_addPieceDecoupeToScene',
             '_glassCutOutObjectDisappear',
-            '_animationToDragPosition'
+            '_animationToDragPosition',
+            '_glassCutOutObjectAppear'
         );
 
         this._canvas = canvas;
@@ -204,7 +205,7 @@ class ThreeScene {
 
         this._breadcrumbManager = new BreadcrumbManager(true, "La découpe du tracé");
 
-        this._UIManager = new UIManager(this._get3DobjectScreenPosition, this._glassCutOutObjectDisappear, this._state);
+        this._UIManager = new UIManager(this._get3DobjectScreenPosition, this._glassCutOutObjectDisappear, this._state, this._glassCutOutObjectAppear);
 
         this._actionStepManager = new ActionsStepManager(
             this._state,
@@ -275,6 +276,7 @@ class ThreeScene {
     _setCameraAnimationPlay(index, actionIndex) {
         this._camera = this._cameras[index];
         this._renderPass.camera = this._cameras[index];
+        this._resizeHandler();
         this._outlinePass.renderCamera = this._cameras[index];
         this.cameraManager.StartAnimation(index);
 
@@ -494,19 +496,20 @@ class ThreeScene {
                 } else if ("vitrailFinal" === child.name) {
 
                     this._addToScene(child);
+                    child.position.set(2.085, 1.05, 1.3);
+                    //child.rotation.set(Math.PI / 3, 0, 0);
 
                     child.traverse(child => {
                         if("zoneDragAndDrop" === child.name) {
                             child.material.transparent = true;
                             child.material.opacity = 0;
-                        } else if("zoneDragAndDrop" === child.name) {
-                           this._vitrailDropZone =  child
-                           console.log(child)
+                            this._vitrailDropZone =  child
                         } else if("drag" === child.name) {
                             this._dragStartVitrail = child
+                            child.rotation.set(Math.PI / 12, 0, 0);
                             child.material.transparent = true;
                             child.material.opacity = 0;
-                            console.log(child)
+                            // console.log(child)
                         }
                     })
                 }
@@ -533,14 +536,19 @@ class ThreeScene {
 
     _animationToDragPosition() {
         this._pieceToMove = this._scene.getObjectByName("piece_principale")
-        // const { x, y, z } = this._scene.getObjectByName("drop").position;
+        const { x, y, z } = this._scene.getObjectByName("drag").position;
         // const { xR, yR, zR } = this._scene.getObjectByName("drop").rotation;
         var position = new THREE.Vector3();
         position.setFromMatrixPosition(this._dragStartVitrail.matrixWorld);
-        console.log(position);
+        console.log(this._pieceToMove.position);
+        console.log(this._scene.getObjectByName("drag").position);
+        var target = new THREE.Vector3();
+        this._scene.updateMatrixWorld();
+        this._scene.getObjectByName("drag").getWorldPosition(target);
 
-
-        gsap.to(this._pieceToMove.position, { x: position.x + 0.02, y: position.y, z: position.z, duration: 1 });
+        // gsap.to(this._pieceToMove.position, { x: 3, z: 1.3, duration: 1 });
+        this._pieceToMove.position.setFromMatrixPosition(this._scene.getObjectByName("drag").matrixWorld)
+        // this._pieceToMove.position.set(target.x, target.y, target.z);
         // this._pieceToMove.position.set(position.x, position.y, position.z);
 
         console.log(this._pieceToMove.position);
@@ -550,15 +558,15 @@ class ThreeScene {
 
     _start() {
         this._createModels(this._models);
-        // this._resizeHandler();
+        this._resizeHandler();
         //Action à faire au démarrage
         // this._setDragAndDropControls();
         // this._toggleDragAndDropControls();
 
-        // this._actionStepManager.actionsManager(0);
+        this._actionStepManager.actionsManager(0);
         // this._actionStepManager.actionsManager(26);
         // this._addPieceDecoupeToScene();
-        this._actionStepManager.actionsManager(0);
+        // this._actionStepManager.actionsManager(0);
         
 
         // this._actionStepManager.actionsManager(23);
@@ -829,6 +837,7 @@ class ThreeScene {
 
             // gsap.to(this._scene.getObjectByName(verre).material, { color: this._finalColorPicked.couleurEtoile09, opacity: .8, transparent: true, duration: 1 });
         });
+
         this._scene.getObjectByName("piece_principale").traverse(child => {
             
             if(child.name !== "piece_principale") {
@@ -856,6 +865,16 @@ class ThreeScene {
         })
 
         this._scene.getObjectByName("couleurEtoile").material.color = this._finalColorPicked.couleurEtoile09;
+        // this._scene.getObjectByName("drag").material.color = this._finalColorPicked.couleurEtoile09;
+        this._scene.getObjectByName("drag").material = new THREE.MeshPhysicalMaterial({
+            color: this._finalColorPicked.couleurEtoile09,
+            roughness: 0,
+            metalness: 0.3,
+            reflectivity: 1,
+            opacity: 0, 
+            transparent: true
+        }) 
+        
         this._setColorsOnFinalVitrail();
         // console.log(this._finalColorPicked);
     }
@@ -980,6 +999,18 @@ class ThreeScene {
                 color: this._finalColorPicked.couleurEtoile09
             })
             gsap.to(object.material, {transparent: true, opacity: 0, duration: 0.5})
+            object.children.map(child => {
+                gsap.to(child.material, {transparent: true, opacity: 0, duration: 0.5})
+            })
+        })
+    }
+    _glassCutOutObjectAppear(objectNames) {
+        objectNames.map(objectName => {
+            let object = this._scene.getObjectByName(objectName);
+            gsap.to(object.material, {transparent: false, opacity: 1, duration: 0.5})
+            // object.children.map(child => {
+            //     gsap.to(child.material, {transparent: false, opacity: 1, duration: 0.5})
+            // })
         })
     }
 
@@ -1086,7 +1117,10 @@ class ThreeScene {
             // this._piece_decoupeAnimationsSuccessCutAnimator.playClipByIndex(0);
             this._actionStepManager.actionsManager(27);
             this._pieceToGetRidOf = this._scene.getObjectByName("piece1");
-            this._pieceToGetRidOf.material.tranparent = true;
+            this._pieceToGetRidOf.material = new THREE.MeshStandardMaterial({
+                color: this._pieceToGetRidOf.material.color,
+                transparent: true
+            });
             gsap.to(this._pieceToGetRidOf.material, { opacity: 0, duration: 1 });
             this._state.setSoundInteractionToPlay(soundsOnInteraction.reussiteCassureVerre2_url, true, false);
         } else {
@@ -1322,6 +1356,8 @@ class ThreeScene {
 
             }
 
+            this._UIManager.removeDragAndDropPicto();
+
             gsap.to(event.object.scale, { x: 1.2, y: 1.2, z: 1.2, duration: .3 });
         }
         this._drag = (event) => {
@@ -1341,9 +1377,9 @@ class ThreeScene {
 
             // event.object.position.z = this._initialPosition.z;
 
-            if (event.object.position.z < this._initialPosition.z) {
-                event.object.position.z = this._initialPosition.z;
-            }
+            // if (event.object.position.z < this._initialPosition.z) {
+            //     event.object.position.z = this._initialPosition.z;
+            // }
         }
         this._dragEnd = (event) => {
             
@@ -1413,14 +1449,16 @@ class ThreeScene {
                     this._outlinePass.enabled = false;
                     //Launch un certain son Success
                     this._dragItems.pop();
-                    this._dragItems.push(this._scene.getObjectByName("piece_principale"));
+                    this._dragItems.push(this._scene.getObjectByName("drag"));
+                    this._dragAndDropControls.transformGroup = false;
                     this._isOnTarget = false;
                 }
 
             } else if (this._globalStep === 2 && this._subStep === 5) {
-                this._pourcentageIntersect = this._dragItems[0].children.filter(intersectObject => this._detectCollision(this._vitrailDropZone, intersectObject)).length;
+                // this._pourcentageIntersect = this._dragItems[1].children.filter(intersectObject => this._detectCollision(this._vitrailDropZone, intersectObject)).length;
+                this._pourcentageIntersect = this._detectCollision(this._vitrailDropZone, this._dragItems[0]);
 
-                if (this._pourcentageIntersect > 18) {
+                if (this._pourcentageIntersect = true) {
                     this._isOnTarget = true;
                 } else {
                     this._isOnTarget = false;
@@ -1429,25 +1467,30 @@ class ThreeScene {
                     console.log("fin du drag and drop de fin: Success");
                     //Launch un certain son success
                     const { x, y, z } = this._scene.getObjectByName("drop").position;
-                    gsap.to(event.object.position, { x: x, y: y, z: z, duration: 1 });
+                    const { xR, yR, zR } = this._scene.getObjectByName("drop").rotation;
+                    gsap.to(event.object.rotation, { x: 0, duration: 1 });
+                    gsap.to(event.object.position, { x: x, y: y, z: z, duration: 1, delay: 0.25});
+                    
                     // this._actionStepManager.actionsManager(21);
                     this._outlinePass.enabled = false;
 
                 } else {
                     const { x, y, z } = this._initialPosition;
                     // gsap.to(event.object.position, { x: x, y: y, z: z, duration: 1});
-                    event.object.children.map(child => {
-                        if (child.material)
-                            // child.material.transparent = true;
-                            gsap.to(child.material, { opacity: 0, transparent: true, duration: .5 });
-                    })
+                    // event.object.children.map(child => {
+                    //     if (child.material)
+                    //         // child.material.transparent = true;
+                    //         gsap.to(child.material, { opacity: 0, transparent: true, duration: .5 });
+                    // })
+                    gsap.to(event.object.material, { opacity: 0, transparent: true, duration: .5 });
                     gsap.to(event.object.position, { x: x, y: y, z: z, duration: 0, delay: 0.5 });
-                    event.object.children.map(child => {
-                        if (child.material)
-                            gsap.to(child.material, { opacity: 1, transparent: false, duration: .5, delay: 1 });
-                        // gsap.to(child.material, {opacity: 1, transparent: false, duration: .5, delay: 1});
-                        // child.material.transparent = false;
-                    })
+                    gsap.to(event.object.material, { opacity: 1, transparent: false, duration: .5, delay: 1 });
+                    // event.object.children.map(child => {
+                    //     if (child.material)
+                    //         gsap.to(child.material, { opacity: 1, transparent: false, duration: .5, delay: 1 });
+                    //     // gsap.to(child.material, {opacity: 1, transparent: false, duration: .5, delay: 1});
+                    //     // child.material.transparent = false;
+                    // })
                     //Launch un certain son fail
                 }
                 //Action à faire sur le dernier drag and drop de fin sur le vitrail de fin
