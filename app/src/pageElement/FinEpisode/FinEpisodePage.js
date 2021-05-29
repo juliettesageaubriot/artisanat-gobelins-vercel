@@ -11,19 +11,18 @@ import styles from "./styles.module.scss";
 const FinEpisodePage = () => {
   const { isShowing: isShowingAbout, toggle: toggleAbout } = useModal();
 
-  const slider1 = useRef();
-  const slider2 = useRef();
+  const [play, setPlay] = useState(false);
 
-  const sliderRef = useRef();
+  const slider1 = useRef();
   const parentRef = useRef(null);
 
-  const [nav1, setNav1] = useState(null);
-  const [nav2, setNav2] = useState(null);
+  let slides1
+  let video
+  if (typeof window !== 'undefined') {
+    slides1 = document.querySelector('.slick-slider1')
+    video = document.querySelector('.videoElm')
+  }
 
-  useEffect(() => {
-    setNav1(slider1.current)
-    setNav2(slider2.current)
-  }, [slider1.current, slider2.current])
 
   const modalTextAbout = [{
     title: "À propos",
@@ -37,32 +36,30 @@ const FinEpisodePage = () => {
 
   const settings1 = {
     dots: true,
-    infinite: true,
-    // speed: 500,
-    // slidesToShow: 1,
+    infinite: false,
+    speed: 700,
+    slidesToShow: 1,
     // slidesToScroll: 1,
+    className: 'slick-slider1',
     vertical: true,
     appendDots: dots => (
-      <div
-      >
+      <div>
         <ul> {dots} </ul>
       </div>
     ),
     customPaging: i => (
       <button></button>
-    )
-  };
-
-  const settings2 = {
-    infinite: true,
-    // speed: 500,
-    // slidesToShow: 1,
-    // slidesToScroll: 1,
-    vertical: true,
-    fade: true,
-    speed: 500,
-    infinite: true,
-    cssEase: 'cubic-bezier(0.600, -0.280, 0.735, 0.045)',
+    ),
+    beforeChange: () => {
+      slides1.classList.add('anim-fade')
+      video.pause();
+      setPlay(false);
+    },
+    afterChange: () => {
+      slides1.classList.remove('anim-fade')
+      video.pause();
+      setPlay(false);
+    }
   };
 
   useEffect(() => {
@@ -79,13 +76,15 @@ const FinEpisodePage = () => {
   const handleScroll = (e) => {
     if (e.deltaY > 0) {
       slider1 && slider1.current.slickPrev();
-      slider2 && slider2.current.slickPrev();
     } else if (e.deltaY < 0) {
       slider1 && slider1.current.slickNext();
-      slider2 && slider2.current.slickNext();
     }
   };
 
+  const handleClick = () => {
+    video.play();
+    setPlay(true);
+  }
 
   return (
     <section className={styles["page-fin"]}>
@@ -109,38 +108,33 @@ const FinEpisodePage = () => {
           <div className={styles.container}>
             <Slider
               {...settings1}
-              asNavFor={nav2}
               ref={slider1}
             >
               {data.map((elm, i) => {
                 return (
-                  <div key={i}>
-                    <div className={styles.slider1}>
+                  <div key={i} className={`${styles.sliders}`}>
+                    <div className={styles.left}>
                       <p className={styles.citation}>" {elm.content} "</p>
                       <div className={styles.maitre}>
                         <img src={elm.img} />
                         <span>{elm.signature}</span>
                       </div>
                     </div>
-                  </div>
-                )
-              })}
-            </Slider>
 
-            <Slider
-              {...settings2}
-              asNavFor={nav1}
-              ref={slider2}
-            >
-              {data.map((elm, i) => {
-                return (
-                  <div key={i}>
-                    <div className={`slider2 ${styles.slider2}`}>
+
+                    <div className={`${styles.right}`}>
                       <div className={styles.video}>
-                        <video controls width="250">
+                        <video className='videoElm' controls={play === true ? true : false}>
                           <source src={elm.video} />
                           Sorry, your browser doesn't support embedded videos.
                           </video>
+                        <button
+                          className={`${styles.play} ${play === false ? '' : styles.invisible}`}
+                          onClick={handleClick}>
+                          <span>
+                            <i className="fas fa-play"></i>
+                          </span>
+                        </button>
                       </div>
 
                       <div className={styles['content-itw']}>
@@ -156,10 +150,13 @@ const FinEpisodePage = () => {
                         </div>
                       </div>
                     </div>
+
                   </div>
                 )
               })}
             </Slider>
+
+
           </div>
 
         </div>

@@ -19,8 +19,11 @@
         top: 50%;
         left: 50%;
         
-        width: 40px;
-        height: 40px;
+        width: 80px;
+        height: 80px;
+
+        // width: 40px;
+        // height: 40px;
 
         border-radius: 100%;
 
@@ -46,8 +49,11 @@
     &__circle1 {
         position: absolute;
 
-        height: 20px;
-        width: 20px;
+        // height: 20px;
+        // width: 20px;
+
+        height: 40px;
+        width: 40px;
 
         border: .5px solid black;
 
@@ -62,10 +68,13 @@
     &__circle2 {
         position: absolute;
 
-        height: 30px;
-        width: 30px;
+        // height: 30px;
+        // width: 30px;
 
-        border: .5px solid black;
+        height: 60px;
+        width: 60px;
+
+        border: .5px dashed black;
 
         transform: translate(-50%, -50%);
 
@@ -78,8 +87,11 @@
     &__circle3 {
         position: absolute;
 
-        height: 40px;
-        width: 40px;
+        // height: 40px;
+        // width: 40px;
+
+        height: 80px;
+        width: 80px;
 
         border: .5px solid black;
 

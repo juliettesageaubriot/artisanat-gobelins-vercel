@@ -1578,7 +1578,7 @@ class ThreeScene {
     _paperCutOutScrollHandler(e) {
         this._animationDuration = 5.6;
         this._numberOfWheelEvent = 150;
-
+        this._UIManager.removeScrollPicto();
 
         if (e.deltaY > 0 && this._scrollY < 59 && this._actionStepManager._allowedScroll === true) {
             this._scrollTimeline += this._animationDuration / this._numberOfWheelEvent;

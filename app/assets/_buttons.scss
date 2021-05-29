@@ -20,6 +20,7 @@
     background-color: transparent;
     color: $color-black;
     cursor: pointer;
+    border: 1px solid $color-black;
 
     &:after {
       content: "";

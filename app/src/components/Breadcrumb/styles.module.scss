@@ -17,8 +17,7 @@
         .breadcrumb__inner {
           ul {
             :nth-child(#{$i}) {
-              width: 18px;
-              height: 18px;
+              transform: scale(1.7);
               transition: 0.5s ease-in all;
             }
           }
@@ -60,20 +59,12 @@
         background-color: $color-black;
       }
 
-      // @for $i from 1 through 10 {
-      //   &[data-length="#{$i}"] {
-      //     li {
-      //       width: calc((100% / #{$i}) - 40px);
-      //     }
-      //   }
-      // }
-
       li {
         z-index: 1;
         list-style: none;
         background-color: $color-black;
-        width: 10px;
-        height: 10px;
+        width: 8px;
+        height: 8px;
       }
     }
   }

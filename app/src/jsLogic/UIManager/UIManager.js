@@ -145,9 +145,13 @@ class UIManager {
 
     setDragAndDropColorPickerPicto(objectName) {
         this._coordinates = this._getObjectCoordinatesByName(objectName);
+        console.log(this._coordinates);
         this.UI.dragAndDropColorPicker.style.opacity = 1
-        this.UI.dragAndDropColorPicker.style.top = this._coordinates.y + "px"
-        this.UI.dragAndDropColorPicker.style.left = this._coordinates.x  + "px"
+        this.UI.dragAndDropColorPicker.style.top = 40 + "%"
+        this.UI.dragAndDropColorPicker.style.left = 50 + "%"
+
+        // this.UI.dragAndDropColorPicker.style.top = this._coordinates.y + 80 + "px"
+        // this.UI.dragAndDropColorPicker.style.left = this._coordinates.x + "px"
 
         this._removeDragAndDropColorPickerPicto = setTimeout(() => {
             this.UI.dragAndDropColorPicker.style.opacity = 0
