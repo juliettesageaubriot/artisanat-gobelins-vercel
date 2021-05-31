@@ -156,6 +156,7 @@ const FinEpisodePage = () => {
               })}
             </Slider>
 
+            <img src="/assets/images/ui/pictos-ux/scroll.gif" alt="Picto UX pour le scroll" className={`picto-ux ${styles.scroll}`} id="scroll" />
 
           </div>
 

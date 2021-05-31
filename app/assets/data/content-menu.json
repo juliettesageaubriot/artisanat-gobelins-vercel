@@ -12,7 +12,7 @@
     "url": "/single-ateliers"
   },
   {
-    "id": 2,
+    "id": 4,
     "name": "joaillier",
     "duration": 2,
     "title": "Le joaillier",
@@ -36,7 +36,7 @@
     "url": "/"
   },
   {
-    "id": 4,
+    "id": 2,
     "name": "chapelier",
     "duration": 5,
     "title": "Le chapelier",
