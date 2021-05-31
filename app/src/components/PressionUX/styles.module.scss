@@ -2,12 +2,18 @@
     position: absolute;
     left: 50%;
     top: 50%;
-    height: 40px;
-    width: 40px;
+    height: 100px;
+    width: 100px;
     
     border-radius: 100%;
-    transition: .3s opacity ease-in-out;
+    transition: .3s opacity ease-in-out, .3s box-shadow ease-in-out;
     opacity: 0;
+
+    z-index: 100;
+
+    &.glow {
+        box-shadow: 0 0 10px 5px #fff;
+    }
 
     &__scale-pressure {
         background-color: aquamarine;
@@ -19,15 +25,23 @@
         top: 50%;
         left: 50%;
         
-        width: 80px;
-        height: 80px;
+        width: 100%;
+        height: 100%;
 
         // width: 40px;
         // height: 40px;
 
         border-radius: 100%;
+        transition: .2s all ease-in-out;
 
-        transition: .2s transform ease-in-out;
+        // box-shadow: inset 0 0 50px #fff,
+        //     inset 20px 0 60px $fff,
+        //     inset -20px 0 60px $fff,
+        //     inset 20px 0 300px $fff,
+        //     inset -20px 0 300px $fff,
+        //     0 0 50px #fff,
+        //     -10px 0 60px $fff,
+        //     10px 0 60px $fff;
     }
 
     &__point {
@@ -52,8 +66,8 @@
         // height: 20px;
         // width: 20px;
 
-        height: 40px;
-        width: 40px;
+        height: 50%;
+        width: 50%;
 
         border: .5px solid black;
 
@@ -71,8 +85,8 @@
         // height: 30px;
         // width: 30px;
 
-        height: 60px;
-        width: 60px;
+        height: 75%;
+        width: 75%;
 
         border: .5px dashed black;
 
@@ -90,8 +104,8 @@
         // height: 40px;
         // width: 40px;
 
-        height: 80px;
-        width: 80px;
+        height: 100%;
+        width: 100%;
 
         border: .5px solid black;
 

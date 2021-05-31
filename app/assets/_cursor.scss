@@ -11,33 +11,16 @@
 
     // cursor: none;
 
-    transition: none;
+    transition: 0s all;
 
     background-size: contain;
 
     z-index: 100;
 
-    &.cursor-dragging-default {
-        background-image: url("/assets/images/ui/pictos-ux/curseur_01.png");
-    }
-
-    // background-image: url("/assets/images/ui/pictos-ux/curseur_01.png");
-
-    &.cursor-dragging {
-        background-image: url("/assets/images/ui/pictos-ux/curseur_02.png");
-    }
-
-    &.cursor-ciseaux {
-        background-image: url("/assets/images/ui/cursor/outils/ciseaux.png");
-    }
-    &.cursor-coupe-verre {
-        background-image: url("/assets/images/ui/cursor/outils/coupe_verre_1.png");
-    }
-    &.cursor-pince-decrocher {
-        background-image: url("/assets/images/ui/cursor/outils/pince_decrocher_1.png");
-    }
-    &.cursor-pince-gruger {
-        background-image: url("/assets/images/ui/cursor/outils/pince_gruger_1.png");
+    #cursor-img {
+        width: 100%;
+        position: absolute;
+        transition: 0s all;
     }
 }
 

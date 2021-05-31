@@ -140,7 +140,7 @@ var DragControlsCustom = function ( _objects, _camera, _domElement ) {
 
 	function onPointerDown( event ) {
 
-		event.preventDefault();
+		// event.preventDefault();
 
 		switch ( event.pointerType ) {
 
@@ -157,7 +157,7 @@ var DragControlsCustom = function ( _objects, _camera, _domElement ) {
 
 	function onMouseDown( event ) {
 
-		event.preventDefault();
+		// event.preventDefault();
 
 		_intersections.length = 0;
 
@@ -186,7 +186,7 @@ var DragControlsCustom = function ( _objects, _camera, _domElement ) {
 
 	function onPointerCancel( event ) {
 
-		event.preventDefault();
+		// event.preventDefault();
 
 		switch ( event.pointerType ) {
 
@@ -203,7 +203,7 @@ var DragControlsCustom = function ( _objects, _camera, _domElement ) {
 
 	function onMouseCancel( event ) {
 
-		event.preventDefault();
+		// event.preventDefault();
 
 		if ( _selected ) {
 
@@ -219,7 +219,7 @@ var DragControlsCustom = function ( _objects, _camera, _domElement ) {
 
 	function onTouchMove( event ) {
 
-		event.preventDefault();
+		// event.preventDefault();
 		event = event.changedTouches[ 0 ];
 
 		var rect = _domElement.getBoundingClientRect();
@@ -247,7 +247,7 @@ var DragControlsCustom = function ( _objects, _camera, _domElement ) {
 
 	function onTouchStart( event ) {
 
-		event.preventDefault();
+		// event.preventDefault();
 		event = event.changedTouches[ 0 ];
 
 		var rect = _domElement.getBoundingClientRect();
@@ -284,7 +284,7 @@ var DragControlsCustom = function ( _objects, _camera, _domElement ) {
 
 	function onTouchEnd( event ) {
 
-		event.preventDefault();
+		// event.preventDefault();
 
 		if ( _selected ) {
 

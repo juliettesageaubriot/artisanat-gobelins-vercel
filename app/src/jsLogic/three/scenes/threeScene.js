@@ -861,7 +861,6 @@ class ThreeScene {
                 // gsap.to(child.material, { color: this._finalColorPicked.couleurEtoile09, opacity: .8, transparent: true, duration: 1 });
             }
 
-            console.log(child.name)
         })
 
         this._scene.getObjectByName("couleurEtoile").material.color = this._finalColorPicked.couleurEtoile09;
@@ -1143,7 +1142,8 @@ class ThreeScene {
         } else if (this._globalStep === 1) {
 
             this._colorPickerMouseDown();
-            this._UIManager.UI.cursor.classList.add("cursor-dragging");
+            // this._UIManager.UI.cursor.classList.add("cursor-dragging");
+            this._UIManager.setCursorDragging();
 
         } else if (this._globalStep === 2) {
 
@@ -1151,7 +1151,8 @@ class ThreeScene {
 
                 case 0:
                     // console.log("sous-étape 1: drag and drop patron sur bout de verre");
-                    this._UIManager.UI.cursor.classList.add("cursor-dragging");
+                    // this._UIManager.UI.cursor.classList.add("cursor-dragging");
+                    this._UIManager.setCursorDragging();
                     break;
                 case 1:
                     // console.log("sous-étape 2: découpe du verre");
@@ -1159,7 +1160,8 @@ class ThreeScene {
                     break;
                 case 2:
                     // console.log("sous-étape 3: drag and drop pour enlever le bout de papier");
-                    this._UIManager.UI.cursor.classList.add("cursor-dragging");
+                    // this._UIManager.UI.cursor.classList.add("cursor-dragging");
+                    this._UIManager.setCursorDragging();
                     break;
                 case 3:
                     // console.log("sous-étape 4: Jauge de pression pour casser le bout de verre");
@@ -1171,7 +1173,8 @@ class ThreeScene {
                     break;
                 case 5:
                     // console.log("sous-étape 5: drag and drop au milieu du vitrail fini");
-                    this._UIManager.UI.cursor.classList.add("cursor-dragging");
+                    // this._UIManager.UI.cursor.classList.add("cursor-dragging");
+                    this._UIManager.setCursorDragging();
                     break;
             }
 
@@ -1191,7 +1194,8 @@ class ThreeScene {
         } else if (this._globalStep === 1) {
 
             this._colorPickerMouseUp();
-            this._UIManager.UI.cursor.classList.remove("cursor-dragging");
+            // this._UIManager.UI.cursor.classList.remove("cursor-dragging");
+            this._UIManager.setCursorDraggingDefault();
 
         } else if (this._globalStep === 2) {
 
@@ -1199,7 +1203,8 @@ class ThreeScene {
 
                 case 0:
                     // console.log("sous-étape 1: drag and drop patron sur bout de verre");
-                    this._UIManager.UI.cursor.classList.remove("cursor-dragging");
+                    // this._UIManager.UI.cursor.classList.remove("cursor-dragging");
+                    this._UIManager.setCursorDraggingDefault();
                     break;
                 case 1:
                     // console.log("sous-étape 2: découpe du verre");
@@ -1207,7 +1212,8 @@ class ThreeScene {
                     break;
                 case 2:
                     // console.log("sous-étape 3: drag and drop pour enlever le bout de papier");
-                    this._UIManager.UI.cursor.classList.remove("cursor-dragging");
+                    // this._UIManager.UI.cursor.classList.remove("cursor-dragging");
+                    this._UIManager.setCursorDraggingDefault();
                     break;
                 case 3:
                     // console.log("sous-étape 4: Jauge de pression pour casser le bout de verre");
@@ -1219,7 +1225,8 @@ class ThreeScene {
                     break;
                 case 5:
                     // console.log("sous-étape 5: drag and drop au milieu du vitrail fini");
-                    this._UIManager.UI.cursor.classList.remove("cursor-dragging");  
+                    // this._UIManager.UI.cursor.classList.remove("cursor-dragging");
+                    this._UIManager.setCursorDraggingDefault();  
                     break;
             }
 
@@ -1568,6 +1575,21 @@ class ThreeScene {
         if (this._isMouseDown && this._currentIntersect) {
             if (this._currentIntersect.name === "piece1") {
                 this._pressureGaugeValue += Math.ceil(deltaTime);
+                if(this._pressureGaugeValue > 60 && this._pressureGaugeValue < 80) {
+                    // this._UIManager.UI.pressureGaugeScale.style.backgroundColor = "white";
+                    this._UIManager.UI.pressureGaugeScale.style.boxShadow = `  
+                    inset 0 0 50px #adfde2,
+                    inset 20px 0 60px #adfde2,
+                    inset -20px 0 60px #adfde2,
+                    inset 20px 0 300px #adfde2,
+                    inset -20px 0 300px #adfde2,
+                      0 0 50px #adfde2,
+                      -10px 0 60px #adfde2,
+                      10px 0 60px #adfde2`;
+                } else {
+                    // this._UIManager.UI.pressureGaugeScale.style.backgroundColor = "aquamarine";
+                    this._UIManager.UI.pressureGaugeScale.style.boxShadow = "";
+                }
                 console.log(this._pressureGaugeValue);
                 this._UIManager.UI.pressureGaugeScale.style.transform = `translate(-50%, -50%) scale(${1 + this._pressureGaugeValue / 100})`;
                 this._UIManager.UI.pressureGaugeScale.style.transition = `.3s all ease-in-out;`;

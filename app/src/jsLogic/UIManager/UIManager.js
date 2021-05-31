@@ -37,6 +37,7 @@ class UIManager {
         this.UI.pressureGaugeScale = document.querySelector("#scale-pressure");
 
         this.UI.cursor = document.querySelector("#cursor");
+        this.UI.cursorImg = document.querySelector("#cursor-img");
         this.UI.carreCursor = document.querySelector("#carre-cursor");
         this.UI.html = document.querySelector("html");
 
@@ -167,15 +168,15 @@ class UIManager {
     setPressionPicto(objectName) {
         this._coordinates = this._getObjectCoordinatesByName(objectName);
         this.UI.pression.style.opacity = 1
-        this.UI.pression.style.top = this._coordinates.y + "px"
-        this.UI.pression.style.left = this._coordinates.x + "px"
+        this.UI.pression.style.top = this._coordinates.y + 60 + "px"
+        this.UI.pression.style.left = this._coordinates.x + 60 + "px"
 
         this._removePressionPicto = setTimeout(() => {
             this.UI.pression.style.opacity = 0
             this._removePressureGaugePicto = setTimeout(() => {
                 this.setPressureGauge();
             }, 1000);
-        }, 2000);
+        }, 4000);
     }
 
     removePressionPicto() {
@@ -225,9 +226,9 @@ class UIManager {
         this.UI.traceFixe.style.opacity = 1
         this.UI.traceFixe.style.top = this._coordinates.y + "px"
         this.UI.traceFixe.style.left = this._coordinates.x + "px"
-        this._removeTraceFixePicto = setTimeout(() => {
-            this.UI.traceFixe.style.opacity = 0
-        }, 8000);
+        // this._removeTraceFixePicto = setTimeout(() => {
+        //     this.UI.traceFixe.style.opacity = 0
+        // }, 8000);
     }
 
     removeTraceFixePicto() {
@@ -240,13 +241,44 @@ class UIManager {
     setPressureGauge() {
         this._coordinates = this._getObjectCoordinatesByName("piece1");
         this.UI.pressureGauge.style.opacity = 1
-        this.UI.pressureGauge.style.top = this._coordinates.y - 25 + "px"
-        this.UI.pressureGauge.style.left = this._coordinates.x - 25 + "px"
+        this.UI.pressureGauge.style.top = this._coordinates.y - 40 + "px"
+        this.UI.pressureGauge.style.left = this._coordinates.x - 40 + "px"
     }
 
     removePressureGauge() {
         this.UI.pressureGauge.style.opacity = 0;
         this.UI.pressureGaugeScale.style.opacity = 0;
+    }
+
+    setCursorDraggingDefault() {
+        this.UI.cursorImg.setAttribute("src", "/assets/images/ui/pictos-ux/curseur_01.png");
+        this.UI.cursorImg.style.top = "0px";
+        this.UI.cursorImg.style.left = "0px";
+    }
+    setCursorDragging() {
+        this.UI.cursorImg.setAttribute("src", "/assets/images/ui/pictos-ux/curseur_02.png");
+    }
+
+    setCursorCiseaux() {
+        this.UI.cursorImg.setAttribute("src", "/assets/images/ui/cursor/outils/ciseaux.png");
+    }
+
+    setCursorCoupeVerre() {
+        this.UI.cursorImg.setAttribute("src", "/assets/images/ui/cursor/outils/coupe_verre_1.png");
+        this.UI.cursorImg.style.top = "8px";
+        this.UI.cursorImg.style.left = "10px";
+    }
+
+    setCursorPinceDecrocher() {
+        this.UI.cursorImg.setAttribute("src", "/assets/images/ui/cursor/outils/pince_decrocher_1.png");
+    }
+
+    setCursorPinceGruger() {
+        this.UI.cursorImg.setAttribute("src", "/assets/images/ui/cursor/outils/pince_gruger_1.png");
+    }
+
+    removeCursor() {
+        this.UI.cursorImg.setAttribute("src", "");
     }
 
 }

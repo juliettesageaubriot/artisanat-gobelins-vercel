@@ -119,7 +119,9 @@ class ActionsStepManager {
         this._setCurrentSubtitle(4);
     }
     _stepHeight() {
-        this._UIManager.UI.cursor.classList.add("cursor-ciseaux");
+        // this._UIManager.UI.cursor.classList.add("cursor-ciseaux");
+        this._UIManager.setCursorCiseaux();
+        this._UIManager.UI.html.style.cursor = "none";
         this._UIManager.setScrollPicto("chute04a");
         this._allowedScroll = true;
         this._toggleArtisane("artisane01");
@@ -127,7 +129,9 @@ class ActionsStepManager {
     }
     _stepNine() {
         //A appeler sur la fin de l'interaction du scroll
-        this._UIManager.UI.cursor.classList.remove("cursor-ciseaux");
+        // this._UIManager.UI.cursor.classList.remove("cursor-ciseaux");
+        this._UIManager.removeCursor();
+        this._UIManager.UI.html.style.cursor = "initial";
         this._UIManager.removeScrollPicto();
         this._state.setStepValidation(0);
         this._allowedScroll = false;
@@ -150,13 +154,14 @@ class ActionsStepManager {
         //Sur la fin de l'animation de la caméra 3 dans le animation manager
         this._setCurrentSubtitle(6);
         //Changer les actions du 14eme vers ici
-        this._UIManager.UI.cursor.classList.add("cursor-dragging-default");
+        // this._UIManager.UI.cursor.classList.add("cursor-dragging-default");
+        this._UIManager.setCursorDraggingDefault();
+        this._UIManager.UI.html.style.cursor = "none"
         this._stepManager.addGlobalStep();
         this._outlinePass.enabled = true;
         this._UIManager.setDragAndDropColorPickerPicto("verreBleu02A");
         this._allowedDragAndDrop = true;
         this._addPieceDecoupeToScene();
-        this._UIManager.UI.html.style.cursor = "none"
         //    this._UIManager.UI.cursor.classList.toggle("cursor-pointer-color-picker");
     }
     _stepThirteen() {
@@ -192,12 +197,13 @@ class ActionsStepManager {
         this._stepManager.addGlobalStep();
 
         this._UIManager.removeDragAndDropPicto();
+        this._UIManager.removeCursor();
         this._UIManager.UI.html.style.cursor = "initial";
         // this._state.setStepValidation(1);
         this._allowedDragAndDrop = false;
         // this.UI.html.style.cursor = "initial";
         // this._UIManager.UI.cursor.classList.toggle("cursor-pointer-color-picker");
-        this._UIManager.UI.cursor.classList.remove("cursor-dragging-default");
+        // this._UIManager.UI.cursor.classList.remove("cursor-dragging-default");
 
         this._state.setSoundInteractionToPlay(soundsOnInteraction.crayonnes_url, false, false);
 
@@ -223,7 +229,8 @@ class ActionsStepManager {
         this._outlinePass.enabled = true;
         this._allowedDragAndDrop = true;
         this._setDragAndDropControls();
-        this._UIManager.UI.cursor.classList.add("cursor-dragging-default");
+        // this._UIManager.UI.cursor.classList.add("cursor-dragging-default");
+        this._UIManager.setCursorDraggingDefault();
         this._UIManager.UI.html.style.cursor = "none"
     }
     _stepTwentyTwo() {
@@ -232,7 +239,8 @@ class ActionsStepManager {
         this._setCurrentSubtitle(12);
         this._allowedDragAndDrop = false;
         this._toggleDragAndDrop();
-        this._UIManager.UI.cursor.classList.remove("cursor-dragging-default");
+        // this._UIManager.UI.cursor.classList.remove("cursor-dragging-default");
+        this._UIManager.removeCursor();
         this._UIManager.UI.html.style.cursor = "initial";
     }
     _stepTwentyThree() {
@@ -249,7 +257,8 @@ class ActionsStepManager {
         // }, 1000);
         this._UIManager.setTracePicto("piece1");
         this._UIManager.setTracePictoFixe("milieu3");
-        this._UIManager.UI.cursor.classList.add("cursor-coupe-verre");
+        // this._UIManager.UI.cursor.classList.add("cursor-coupe-verre");
+        this._UIManager.setCursorCoupeVerre();
         this._UIManager.UI.html.style.cursor = "none"
         this._allowedDrawTheLine = true;
     }
@@ -260,8 +269,9 @@ class ActionsStepManager {
         this._UIManager.setDragAndDropPicto("papier_decoupe");
         this._state.setSoundInteractionToPlay(soundsOnInteraction.coupeVerre3_url, false, false);
         this._state.setSoundInteractionToPlay(soundsOnInteraction.coupeVerre2_url, false, false);
-        this._UIManager.UI.cursor.classList.remove("cursor-coupe-verre");
-        this._UIManager.UI.cursor.classList.add("cursor-dragging-default");
+        // this._UIManager.UI.cursor.classList.remove("cursor-coupe-verre");
+        // this._UIManager.UI.cursor.classList.add("cursor-dragging-default");
+        this._UIManager.setCursorDraggingDefault();
         this._allowedDrawTheLine = false;
         this._allowedDragAndDrop = true;
         this._toggleDragAndDrop();
@@ -269,15 +279,16 @@ class ActionsStepManager {
     }
     _stepTwentySix() {
         //A appeler sur le success du drag and drop
-        this._toolsManager.currentTools(1, 2)
+        // this._toolsManager.currentTools(1, 2)
         this._UIManager.removeDragAndDropPicto();
         this._setCurrentSubtitle(14);
         this._allowedDragAndDrop = false;
         this._toggleDragAndDrop();
     }
     _stepTwentySeven() {
-        this._UIManager.UI.cursor.classList.add("cursor-pince-decrocher");
-        this._UIManager.UI.cursor.classList.remove("cursor-dragging-default");
+        // this._UIManager.UI.cursor.classList.add("cursor-pince-decrocher");
+        // this._UIManager.UI.cursor.classList.remove("cursor-dragging-default");
+        this._UIManager.setCursorPinceDecrocher();
         this._UIManager.UI.html.style.cursor = "none";
         setTimeout(() => {
             this._UIManager.setPressionPicto("piece1");
@@ -297,8 +308,9 @@ class ActionsStepManager {
     }
     _stepTwentyNine() {
         this._UIManager.setClickPointsPicto("piece1", () => this.actionsManager(29));
-        this._UIManager.UI.cursor.classList.remove("cursor-pince-decrocher");
-        this._UIManager.UI.cursor.classList.add("cursor-pince-gruger");
+        // this._UIManager.UI.cursor.classList.remove("cursor-pince-decrocher");
+        // this._UIManager.UI.cursor.classList.add("cursor-pince-gruger");
+        this._UIManager.setCursorPinceGruger();
         this._allowedCassageDeVerre = true;
     }
     _stepThirty() {
@@ -306,7 +318,8 @@ class ActionsStepManager {
         //Sur le succes du cassage de verre
         this._toolsManager.setTools(false);
         this._animationToDragPosition();
-        this._UIManager.UI.cursor.classList.remove("cursor-pince-gruger");
+        // this._UIManager.UI.cursor.classList.remove("cursor-pince-gruger");
+        this._UIManager.removeCursor();
         this._UIManager.UI.html.style.cursor = "initial";
         this._allowedCassageDeVerre = false;
         this._stepManager.addSubStep();
@@ -322,7 +335,8 @@ class ActionsStepManager {
         this._setOutlineObjects("drag");
         this._outlinePass.enabled = true;
         this._UIManager.setDragAndDropPicto("drag");
-        this._UIManager.UI.cursor.classList.add("cursor-dragging-default");
+        // this._UIManager.UI.cursor.classList.add("cursor-dragging-default");
+        this._UIManager.setCursorDraggingDefault();
         this._UIManager.UI.html.style.cursor = "none";
         this._allowedDragAndDrop = true;
         this._setDragAndDropControls();
@@ -335,7 +349,8 @@ class ActionsStepManager {
         this._toggleDragAndDrop();
         this._stepManager.addSubStep();
         this._UIManager.UI.html.style.cursor = "initial";
-        this._UIManager.UI.cursor.classList.remove("cursor-dragging-default");
+        // this._UIManager.UI.cursor.classList.remove("cursor-dragging-default");
+        this._UIManager.removeCursor();
     }
     _stepThirtyFour() {
         this._setCurrentSubtitle(17);
