@@ -12,7 +12,7 @@ export default class MenuHoveredManager {
         this.url = "/single-ateliers"
         break;
 
-      case "collier":
+      case "chapeau":
         this.currentID = 2
         this.textureID = 1
         this.soundID = 1
@@ -26,7 +26,7 @@ export default class MenuHoveredManager {
         this.url = ""
         break;
 
-      case "chapeau":
+      case "collier":
         this.currentID = 4
         this.textureID = 3
         this.soundID = 3
