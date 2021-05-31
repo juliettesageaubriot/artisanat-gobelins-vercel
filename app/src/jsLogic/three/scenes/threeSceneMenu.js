@@ -17,6 +17,7 @@ import MenuHoveredManager from '@jsLogic/utils/menuHoveredManager'
 import textureHoveredVertexShader from '../../../shaders/menu/texturesHovered/vertex.glsl'
 import textureHoveredFragmentShader from '../../../shaders/menu/texturesHovered/fragment.glsl'
 
+
 const SETTINGS = {
   enableRaycast: true,
   enableOrbitControl: false,
@@ -45,6 +46,8 @@ class ThreeSceneMenu {
       '_setTextureChapeau',
       '_setTextureCollier',
       // '_setTextureGodRays',
+      '_setParticulesTexture',
+      '_testRayons',
       '_setMouseScss',
       '_setStats',
     )
@@ -138,7 +141,9 @@ class ThreeSceneMenu {
 
     //Set the visible vitrail child
     this._vitrailVisible
-
+    this._godRaysBool
+    this._pointsGodRaysMaterial
+    
     // Mouse target camera
     this._windowHalf = new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2);
     this._mouse = new THREE.Vector2();
@@ -262,18 +267,16 @@ class ThreeSceneMenu {
         }
 
         if ("rayonsLumineux" === child.name) {
-          console.log(child);
-
-          // child.rotation.x = Math.PI
-          // child.material.color = '#CBE7DB'
-          child.material.alphaMap = this.alphaGodRay
-          child.material.transparent = true
-          child.material.opacity = 0.5
-          child.material.alphaTest = 0.5
-          // child.material.opacity = 1
-          // child.material.depthWrite = false
-          // child.material.depthTest = false
-          // child.material.opacity = 0.9
+          // console.log(child);
+          // this._godRays.material = new THREE.MeshBasicMaterial({
+          //   color: '#CBE7DB',
+          //   alphaMap: this._alphaGodRay,
+          //   transparent: true,
+          //   alphaTest: 0.5,
+          //   depthWrite: true,
+          //   depthTest: true
+          // })
+          child.material.opacity = 0;
         }
       })
     }
@@ -285,6 +288,7 @@ class ThreeSceneMenu {
 
   _start() {
     this._createModels(this._models);
+    this._testRayons()
     //Action à faire au démarrage
   }
 
@@ -339,10 +343,9 @@ class ThreeSceneMenu {
             this._contreBasseElm.material = this._setTextureContrebasse(this._currentTexture[2], this._currentTexture[2], 1.0)
             this._chapeauElm.material = this._setTextureChapeau(this._currentTexture[3], this._currentTexture[3], 1.0)
             this._structureElm.material = this._setTextureStructure(this._currentTexture[4], this._newVitrailColorTextureHover[1], 1.0)
-            // this._godRays.material = this._setTextureGodRays(this._currentTexture[5], this._newVitrailColorTextureHover[2], 1.0)
+            this._setParticulesTexture(true)
             this._setMouseScss(true, false)
             break;
-
 
           case 1:
             this._vitrailElm.material = this._setTextureVitrail(this._currentTexture[0], this._currentTexture[0], 1.0)
@@ -350,7 +353,6 @@ class ThreeSceneMenu {
             this._contreBasseElm.material = this._setTextureContrebasse(this._currentTexture[2], this._currentTexture[2], 1.0)
             this._chapeauElm.material = this._setTextureChapeau(this._currentTexture[3], this._newChapeauColorTextureHover[0], 1.0)
             this._structureElm.material = this._setTextureStructure(this._currentTexture[4], this._newChapeauColorTextureHover[1], 1.0)
-            // this._godRays.material = this._setTextureGodRays(this._currentTexture[5], this._currentTexture[5], 0.0)
             this._setMouseScss(false, true)
             break;
 
@@ -361,7 +363,6 @@ class ThreeSceneMenu {
             this._contreBasseElm.material = this._setTextureContrebasse(this._currentTexture[2], this._newContrebasseColorTextureHover[0], 1.0)
             this._chapeauElm.material = this._setTextureChapeau(this._currentTexture[3], this._currentTexture[3], 1.0)
             this._structureElm.material = this._setTextureStructure(this._currentTexture[4], this._newContrebasseColorTextureHover[1], 1.0)
-            // this._godRays.material = this._setTextureGodRays(this._currentTexture[5], this._currentTexture[5], 0.0)
             this._setMouseScss(false, true)
             break;
 
@@ -371,7 +372,6 @@ class ThreeSceneMenu {
             this._contreBasseElm.material = this._setTextureContrebasse(this._currentTexture[2], this._currentTexture[2], 1.0)
             this._chapeauElm.material = this._setTextureChapeau(this._currentTexture[3], this._currentTexture[3], 1.0)
             this._structureElm.material = this._setTextureStructure(this._currentTexture[4], this._newCollierColorTextureHover[1], 1.0)
-            // this._godRays.material = this._setTextureGodRays(this._currentTexture[5], this._currentTexture[5], 0.0)
             this._setMouseScss(false, true)
             break;
         }
@@ -395,6 +395,7 @@ class ThreeSceneMenu {
             this._materialEnable = false
             this._currentIntersect = null;
             this._increase = false
+            this._setParticulesTexture(false)
 
             document.querySelector("html").style.cursor = "url('/assets/images/ui/cursor/cursor.svg') 0 0, auto";
             // this._removeInactifMouse()
@@ -476,12 +477,12 @@ class ThreeSceneMenu {
     })
 
     // Alpha 
-    this.alphaGodRay = this._textureLoader.load('/assets/textures/menu/alphaGodRays.jpg');
-    this.alphaGodRay.wrapS = THREE.RepeatWrapping;
-    this.alphaGodRay.wrapT = THREE.RepeatWrapping;
-    this.alphaGodRay.flipY = false;
-    this.alphaGodRay.flipX = false;
-    this.alphaGodRay.encoding = THREE.sRGBEncoding;
+    // this._alphaGodRay = this._textureLoader.load('/assets/textures/menu/alphaGodRays.jpg');
+    // this._alphaGodRay.wrapS = THREE.RepeatWrapping;
+    // this._alphaGodRay.wrapT = THREE.RepeatWrapping;
+    // this._alphaGodRay.flipY = false;
+    // this._alphaGodRay.flipX = false;
+    // this._alphaGodRay.encoding = THREE.sRGBEncoding;
 
   }
 
@@ -565,21 +566,108 @@ class ThreeSceneMenu {
     return this._textureShaderContrebasse
   }
 
-  // _setTextureGodRays(texture1, texture2, opacity) {
-  //   this._textureShaderGodRays = new THREE.ShaderMaterial({
-  //     vertexShader: textureHoveredVertexShader,
-  //     fragmentShader: textureHoveredFragmentShader,
-  //     transparent: true,
-  //     precision: 'lowp',
-  //     uniforms: {
-  //       uTexture1: { value: texture1 },
-  //       uTexture2: { value: texture2 },
-  //       uOpacity: { value: opacity },
-  //       progress: { value: 0 }
-  //     }
-  //   })
-  //   return this._setTextureGodRays
-  // }
+  _setParticulesTexture(visible) {
+
+    if (visible === true) {
+      this._godRaysBool = true
+      this._pointsGodRaysMaterial.depthWrite = true
+      this._pointsGodRaysMaterial.depthTest = true
+    } else {
+      this._godRaysBool = false
+      this._pointsGodRaysMaterial.depthWrite = false
+      this._pointsGodRaysMaterial.depthTest = false
+
+    }
+  }
+
+  _testRayons() {
+
+    const parameters = {}
+    parameters.count = 30000
+    parameters.size = 0.0005
+    parameters.radius = 1.7
+    parameters.branches = 4
+    parameters.spin = 0.5
+    parameters.randomness = 0.8
+    parameters.randomnessPower = 5
+    parameters.insideColor = 'cyan'
+    parameters.oustideColor = 'white'
+
+    /**
+     * Geometry
+     */
+
+    this.geometryParticules = new THREE.BufferGeometry()
+    const positions = new Float32Array(parameters.count * 3)
+    const colors = new Float32Array(parameters.count * 3)
+
+    const colorInside = new THREE.Color(parameters.insideColor)
+    const colorOutside = new THREE.Color(parameters.oustideColor)
+
+    for (let i = 0; i < parameters.count; i++) {
+      const i3 = i * 3
+
+      //positions
+      const radius = Math.random() * parameters.radius
+      const branchAngle = (i % parameters.branches) / parameters.branches * Math.PI / 2
+
+      //rotation
+
+      // colors
+      const mixedColor = colorInside.clone()
+      mixedColor.lerp(colorOutside, radius / parameters.radius)
+
+      colors[i3 + 0] = mixedColor.r
+      colors[i3 + 1] = mixedColor.g
+      colors[i3 + 2] = mixedColor.b
+
+      // if (i < 20) {
+      //     console.log(i, branchAngle);
+      // }
+
+      const randomX = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? 1 : - 1) * parameters.randomness * radius
+      const randomY = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? 1 : - 1) * parameters.randomness * radius
+      const randomZ = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? 1 : - 1) * parameters.randomness * radius
+
+      positions[i3 + 0] = Math.cos(branchAngle) * radius + randomX
+      positions[i3 + 1] = randomY
+      positions[i3 + 2] = Math.sin(branchAngle) * radius + randomZ
+    }
+
+    this.geometryParticules.setAttribute(
+      'position',
+      new THREE.BufferAttribute(positions, 3)
+    )
+
+    this.geometryParticules.setAttribute(
+      'color',
+      new THREE.BufferAttribute(colors, 3)
+    )
+
+    this._pointsGodRaysMaterial = new THREE.PointsMaterial({
+      size: parameters.size,
+      sizeAttenuation: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0
+    })
+
+
+    /**
+    * Points
+    */
+    this._points = new THREE.Points(this.geometryParticules, this._pointsGodRaysMaterial)
+    this._points.rotation.set(Math.PI / 4, 45, Math.PI)
+    this._points.position.set(1.58, 1.6, 0)
+    this._scene.add(this._points)
+
+    console.log(this._pointsGodRaysMaterial);
+
+
+    return this._pointsGodRaysMaterial
+  }
 
   _mousemoveHandler(e) {
     this._rayCast(e);
@@ -653,7 +741,11 @@ class ThreeSceneMenu {
       if (this._textureShaderCollier) this._textureShaderCollier.uniforms.progress.value = this._progress
       if (this._textureShaderContrebasse) this._textureShaderContrebasse.uniforms.progress.value = this._progress
       if (this._textureShaderChapeau) this._textureShaderChapeau.uniforms.progress.value = this._progress
-      // if (this._textureShaderGodRays) this._textureShaderGodRays.uniforms.progress.value = this._progress
+      if (this._godRaysBool === true) {
+        this._pointsGodRaysMaterial.opacity = this._progress
+      } else {
+        this._pointsGodRaysMaterial.opacity = - this._progress
+      }
 
     }
 
