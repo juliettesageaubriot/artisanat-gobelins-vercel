@@ -143,7 +143,8 @@ class ThreeSceneMenu {
     this._vitrailVisible
     this._godRaysBool
     this._pointsGodRaysMaterial
-    
+    this._points
+
     // Mouse target camera
     this._windowHalf = new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2);
     this._mouse = new THREE.Vector2();
@@ -569,22 +570,26 @@ class ThreeSceneMenu {
   _setParticulesTexture(visible) {
 
     if (visible === true) {
+
+      if (this._points) {
+        this._pointsGodRaysMaterial.visible = true
+        this._points.visible = true
+      }
       this._godRaysBool = true
-      this._pointsGodRaysMaterial.depthWrite = true
       this._pointsGodRaysMaterial.depthTest = true
+      this._pointsGodRaysMaterial.depthWrite = true
     } else {
       this._godRaysBool = false
-      this._pointsGodRaysMaterial.depthWrite = false
-      this._pointsGodRaysMaterial.depthTest = false
+      this._pointsGodRaysMaterial.visible = false
+      this._points.visible = false
 
     }
   }
 
   _testRayons() {
-
     const parameters = {}
-    parameters.count = 30000
-    parameters.size = 0.0005
+    parameters.count = 100000
+    parameters.size = 0.01
     parameters.radius = 1.7
     parameters.branches = 4
     parameters.spin = 0.5
@@ -600,6 +605,7 @@ class ThreeSceneMenu {
     this.geometryParticules = new THREE.BufferGeometry()
     const positions = new Float32Array(parameters.count * 3)
     const colors = new Float32Array(parameters.count * 3)
+    const scales = new Float32Array(parameters.count * 1)
 
     const colorInside = new THREE.Color(parameters.insideColor)
     const colorOutside = new THREE.Color(parameters.oustideColor)
@@ -629,9 +635,12 @@ class ThreeSceneMenu {
       const randomY = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? 1 : - 1) * parameters.randomness * radius
       const randomZ = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? 1 : - 1) * parameters.randomness * radius
 
-      positions[i3 + 0] = Math.cos(branchAngle) * radius + randomX
+      positions[i3 + 0] = (Math.cos(branchAngle) * radius + randomX) * 1.5
       positions[i3 + 1] = randomY
-      positions[i3 + 2] = Math.sin(branchAngle) * radius + randomZ
+      positions[i3 + 2] = (Math.sin(branchAngle) * radius + randomZ)
+
+      // Scale
+      scales[i] = Math.random()
     }
 
     this.geometryParticules.setAttribute(
@@ -644,14 +653,68 @@ class ThreeSceneMenu {
       new THREE.BufferAttribute(colors, 3)
     )
 
-    this._pointsGodRaysMaterial = new THREE.PointsMaterial({
-      size: parameters.size,
-      sizeAttenuation: true,
+    this.geometryParticules.setAttribute('aScale', new THREE.BufferAttribute(scales, 1))
+
+    this._pointsGodRaysMaterial = new THREE.ShaderMaterial({
       depthWrite: false,
       blending: THREE.AdditiveBlending,
       vertexColors: true,
       transparent: true,
-      opacity: 0
+      precision: 'lowp',
+      depthTest: false,
+      depthWrite: false,
+      opacity: 0,
+      uniforms:
+      {
+        uOpacity: { value: 0 },
+        uSize: { value: 12 * this._renderer.getPixelRatio() }
+      },
+      vertexShader: `
+      varying vec3 vColor;
+      uniform float uSize;
+      attribute float aScale;
+
+      void main()
+        {
+            /**
+             * Position
+             */
+            vec4 modelPosition = modelMatrix * vec4(position, 1.0);
+
+            vec4 viewPosition = viewMatrix * modelPosition;
+            vec4 projectedPosition = projectionMatrix * viewPosition;
+            gl_Position = projectedPosition;
+
+            /**
+             * Size
+             */
+            gl_PointSize = uSize * aScale;
+            gl_PointSize *= (1.0 / - viewPosition.z);
+
+            /**
+             * Color
+             */
+            vColor = color;
+        }
+
+      `,
+      fragmentShader: `
+      varying vec3 vColor;
+        uniform float uOpacity;
+        uniform float uColor1;
+
+        void main()
+        {
+            // Light point
+            float strength = distance(gl_PointCoord, vec2(0.5));
+            strength = 1.0 - strength;
+            strength = pow(strength, 1.0);
+
+            // Final color
+            vec3 color = mix(vec3(0.0), vColor, strength);
+            gl_FragColor = vec4(color, uOpacity);
+        }
+      `
     })
 
 
@@ -663,9 +726,7 @@ class ThreeSceneMenu {
     this._points.position.set(1.58, 1.6, 0)
     this._scene.add(this._points)
 
-    console.log(this._pointsGodRaysMaterial);
-
-
+    console.log(this.geometryParticules);
     return this._pointsGodRaysMaterial
   }
 
@@ -742,9 +803,11 @@ class ThreeSceneMenu {
       if (this._textureShaderContrebasse) this._textureShaderContrebasse.uniforms.progress.value = this._progress
       if (this._textureShaderChapeau) this._textureShaderChapeau.uniforms.progress.value = this._progress
       if (this._godRaysBool === true) {
-        this._pointsGodRaysMaterial.opacity = this._progress
+        this._pointsGodRaysMaterial.uniforms.uOpacity.value = this._progress > 0.5 ? 0.5 : this._progress
+        this._pointsGodRaysMaterial.opacity = this._progress > 0.5 ? 0.5 : this._progress
       } else {
-        this._pointsGodRaysMaterial.opacity = - this._progress
+        this._pointsGodRaysMaterial.uniforms.uOpacity.value = - this._progress < 0 ? 0 : - this._progress
+        this._pointsGodRaysMaterial.opacity = - this._progress < 0 ? 0 : - this._progress
       }
 
     }
