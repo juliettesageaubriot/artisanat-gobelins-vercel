@@ -1,5 +1,4 @@
 //utils
-import bindAll from '@jsLogic/utils/bindAll';
 import toolsData from '@assets/data/tools.json';
 
 //datas
@@ -7,9 +6,6 @@ import { soundsOnInteraction } from "@jsLogic/utils/sounds.js";
 
 class ActionsStepManager {
     constructor(state, stepManager, UIManager, breadCrumb, setCameraAnimation, toggleArtisane, toggleDragAndDropControls, setfeuilleLeveAnimationPlay, setDragAndDropControls, outlinePass, toolsManager, setOutlineObjects, addPieceDecoupeToScene, animationToDragPosition) {
-        // bindAll(
-        //     this,
-        // );
         this._state = state;
         this._stepManager = stepManager;
         this._UIManager = UIManager;
@@ -28,13 +24,6 @@ class ActionsStepManager {
 
         //Les débloquage d'interactions
         this._allowedScroll = false;
-        this._allowedDragAndDrop = false;
-        this._allowedDrawTheLine = false;
-        this._allowedPressureGauge = false;
-        this._allowedCassageDeVerre = false;
-
-        //currentSubtitle
-        this._currentSubtitle = 1;
     }
 
     actionsManager(action) {
@@ -143,7 +132,6 @@ class ActionsStepManager {
         this._stepManager.addGlobalStep();
         this._outlinePass.enabled = true;
         this._UIManager.setDragAndDropColorPickerPicto("verreBleu02A");
-        this._allowedDragAndDrop = true;
         // this._addPieceDecoupeToScene();
     }
     _stepThirteen() {
@@ -172,8 +160,6 @@ class ActionsStepManager {
         this._UIManager.UI.colorPickerCta.style.opacity = 0;
         this._UIManager.UI.colorPickerCta.style.pointerEvents = "none";
 
-        this._allowedDragAndDrop = false;
-
         this._state.setSoundInteractionToPlay(soundsOnInteraction.crayonnes_url, false, false);
 
         this._toggleArtisane("artisane02");
@@ -189,20 +175,20 @@ class ActionsStepManager {
         this._setCurrentSubtitle(11);
     }
     _stepTwentyOne() {
+        //Drag and drop in papier
         this._UIManager.setDragAndDropPicto("papier_decoupe");
         this._setOutlineObjects("papier_decoupe");
 
         this._outlinePass.enabled = true;
-        this._allowedDragAndDrop = true;
         this._setDragAndDropControls();
 
         this._UIManager.setCursorDraggingDefault();
         this._UIManager.UI.html.style.cursor = "none";
     }
     _stepTwentyTwo() {
+        //Fin drag and drop in papier
         this._UIManager.removeDragAndDropPicto();
         this._setCurrentSubtitle(12);
-        this._allowedDragAndDrop = false;
         this._toggleDragAndDrop();
 
         this._UIManager.removeCursor();
@@ -212,6 +198,7 @@ class ActionsStepManager {
         this._setCurrentSubtitle(13);
     }
     _stepTwentyFour() {
+        //Découpe du verre
         this._stepManager.addSubStep();
         this._state.setToolsArray(toolsData.toolsArray1)
         this._toolsManager.currentTools(1, 1)
@@ -222,9 +209,10 @@ class ActionsStepManager {
         this._UIManager.setCursorCoupeVerre();
         this._UIManager.UI.html.style.cursor = "none"
 
-        this._allowedDrawTheLine = true;
     }
     _stepTwentyFive() {
+        //Fin découpe du verre
+        //Drag and drop out papier
         this._UIManager.removeTracePicto();
         this._UIManager.removeTraceFixePicto();
         this._UIManager.setDragAndDropPicto("papier_decoupe");
@@ -232,44 +220,42 @@ class ActionsStepManager {
         this._state.setSoundInteractionToPlay(soundsOnInteraction.coupeVerre2_url, false, false);
 
         this._UIManager.setCursorDraggingDefault();
-        this._allowedDrawTheLine = false;
-        this._allowedDragAndDrop = true;
         this._toggleDragAndDrop();
         this._stepManager.addSubStep();
     }
     _stepTwentySix() {
+        //Fin drag and drop out papier
         this._UIManager.removeDragAndDropPicto();
         this._setCurrentSubtitle(14);
-        this._allowedDragAndDrop = false;
         this._toggleDragAndDrop();
     }
     _stepTwentySeven() {
+        //Jauge de pression
         this._UIManager.setCursorPinceDecrocher();
         this._UIManager.UI.html.style.cursor = "none";
         setTimeout(() => {
             this._UIManager.setPressionPicto("piece1");
         }, 1000);
         this._stepManager.addSubStep();
-        this._allowedPressureGauge = true;
     }
     _stepTwentyHeight() {
+        //Fin jauge de pression
         this._toolsManager.currentTools(1, 3)
         this._UIManager.removePressureGauge();
         this._setCurrentSubtitle(15);
-        this._allowedPressureGauge = false;
         this._stepManager.addSubStep();
         this._UIManager.UI.pressureGaugeScale.style.transform = `translate(-50%, -50%) scale(0)`;
     }
     _stepTwentyNine() {
+        //Pince à gruger
         this._UIManager.setClickPointsPicto("piece1", () => this.actionsManager(29));
         this._UIManager.setCursorPinceGruger();
-        this._allowedCassageDeVerre = true;
     }
     _stepThirty() {
+        //Fin pince à gruger
         this._toolsManager.setTools(false);
         this._UIManager.removeCursor();
         this._UIManager.UI.html.style.cursor = "initial";
-        this._allowedCassageDeVerre = false;
         this._stepManager.addSubStep();
         this._setCameraAnimation(5, 30);
     }
@@ -279,16 +265,17 @@ class ActionsStepManager {
         this._setCurrentSubtitle(16);
     }
     _stepThirtyTwo() {
+        //Drag and drop in vitrail fin
         this._setOutlineObjects("piece_principale");
         this._outlinePass.enabled = true;
         this._UIManager.setDragAndDropPicto("piece_principale");
         this._UIManager.setCursorDraggingDefault();
         this._UIManager.UI.html.style.cursor = "none";
-        this._allowedDragAndDrop = true;
         this._setDragAndDropControls();
         this._toolsManager.setTools(false)
     }
     _stepThirtyThree() {
+        //Fin drand and drop in vitrail fin
         this._UIManager.removeDragAndDropPicto();
         this.setStepValidation(2);
         this._toggleDragAndDrop();
