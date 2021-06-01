@@ -216,10 +216,10 @@ class ThreeScene {
         }
 
         this._finalColorPicked = {
-            couleurCarre01: "#00FF00",
+            couleurCarre01: "#F6B4BE",
             couleurEtoile09: "#00FF00",
-            couleurRectangle10: "#00FF00",
-            couleurCercle05: "#00FF00"
+            couleurRectangle10: "#A9DCD6",
+            couleurCercle05: "#ABEEAA"
         }
 
         this._crayonnes = [];
@@ -336,12 +336,12 @@ class ThreeScene {
                     child.material.transparent = true;
                     child.material.opacity = 0.2;
 
-                } else if ("CameraAtelier1_Orientation" === child.name) {
+                } else if ("CameraAtelier6_Orientation" === child.name) {
 
                     this._camera = child;
                     this._renderPass.camera = child;
                     this._outlinePass.renderCamera = child;
-                    // this.cameraManager.StartAnimation(5);
+                    this.cameraManager.StartAnimation(5);
 
                 } else if ("artisane01" === child.name) {
 
@@ -506,13 +506,8 @@ class ThreeScene {
         this._createModels(this._models);
         this._resizeHandler();
 
-        this._actionStepManager.actionsManager(0);
-        // this._actionStepManager.actionsManager(26);
-        // this._addPieceDecoupeToScene();
         // this._actionStepManager.actionsManager(0);
-        // this._actionStepManager.actionsManager(23);
 
-        //couleur de base du vitrail
         // this._setFinalColors();
         this._setColorsOnFinalVitrail();
     }
