@@ -106,7 +106,7 @@ const SingleAtelierPage = () => {
         // isShowing={isShowingBreadcrumb} hide={toggle}
         />
         <TheToolChoiceButton array={currentStepTools} />
-
+        <button onClick={() => threeScene._setCameraAnimationPlay(5, "none")}> currentCamera </button>
         <a href="/" className={` link link-secondary link-black ${styles['link-before']} ${styles['link-black']}`}>
           <span>Épisodes</span>
         </a>

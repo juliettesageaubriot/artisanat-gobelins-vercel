@@ -117,8 +117,8 @@ class UIManager {
         this.UI.clickPointsThree.addEventListener('click', () => {
             this._glassCutOutObjectDisappear(["fin", "milieu5", "extrusion7", "extrusion8"]);
             setTimeout(() => {
-                this._glassCutOutObjectDisappear(["piece_principale"]);
-                this._glassCutOutObjectAppear(["drag"]);
+                // this._glassCutOutObjectDisappear(["piece_principale"]);
+                // this._glassCutOutObjectAppear(["drag"]);
             }, 2000);
             this._state.setSoundInteractionToPlay(soundsOnInteraction.pinceGruger3_url, true, false);
             this.UI.clickPointsThree.style.opacity = 0;
