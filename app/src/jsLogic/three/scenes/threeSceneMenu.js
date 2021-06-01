@@ -13,6 +13,12 @@ import dataMenu from '@assets/data/content-menu.json'
 import { SetupMenuChaptersRaycast } from '@jsLogic/utils/menuChaptersRaycastHelper';
 import MenuHoveredManager from '@jsLogic/utils/menuHoveredManager'
 
+// refraction
+import { Refractor } from 'three/examples/jsm/objects/Refractor.js';
+import { WaterRefractionShader } from 'three/examples/jsm/shaders/WaterRefractionShader.js';
+
+import { FresnelShader } from 'three/examples/jsm/shaders/FresnelShader.js';
+
 //shader
 import textureHoveredVertexShader from '../../../shaders/menu/texturesHovered/vertex.glsl'
 import textureHoveredFragmentShader from '../../../shaders/menu/texturesHovered/fragment.glsl'
@@ -45,11 +51,11 @@ class ThreeSceneMenu {
       '_setTextureContrebasse',
       '_setTextureChapeau',
       '_setTextureCollier',
-      // '_setTextureGodRays',
       '_setParticulesTexture',
       '_testRayons',
       '_setMouseScss',
       '_setStats',
+      '_setTestRefraction'
     )
 
     this._canvas = canvas;
@@ -88,7 +94,6 @@ class ThreeSceneMenu {
     this._vitrailArray = [
       '/assets/textures/menu/newMaterials/vitrail/vitrail_baseColor.jpg',
       '/assets/textures/menu/newMaterials/vitrail/sol_baseColor.jpg',
-      // '/assets/textures/menu/alphaGodRays.jpg'
     ]
 
     this._collierArray = [
@@ -112,7 +117,6 @@ class ThreeSceneMenu {
       '/assets/textures/menu/currentMaterials/contreBasse_baseColor.jpg',
       '/assets/textures/menu/currentMaterials/chapeau_baseColor.jpg',
       '/assets/textures/menu/currentMaterials/sol_baseColor.jpg',
-      // '/assets/textures/menu/alphaGodRays.jpg'
     ]
 
     this._soundsChaptersHoveredArray = [
@@ -149,6 +153,10 @@ class ThreeSceneMenu {
     this._windowHalf = new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2);
     this._mouse = new THREE.Vector2();
     this._target = new THREE.Vector2();
+
+    //Tests refaction
+    this._dudvMap
+    this._refractor
 
     //Stats
     this._stats
@@ -219,16 +227,9 @@ class ThreeSceneMenu {
     for (let name in this._models) {
       this.object = this._models[name].scene;
       this.object.traverse(child => {
-        // if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
-        // child.material.envMap = environmentMap
-        // child.material.envMapIntensity = 5
-
-        // child.castShadow = true
-        // child.receiveShadow = true
-        // }
 
         if ("menu" === child.name) {
-          console.log(child);
+          // console.log(child);
           this._addToScene(child)
           SetupMenuChaptersRaycast(child, this.objectsCurrentRaycast)
           this.idChapterHovered = new MenuHoveredManager(0);
@@ -249,9 +250,6 @@ class ThreeSceneMenu {
               case 'structure':
                 this._structureElm = elm
                 break;
-              case 'rayonsLumineux':
-                this._godRays = elm
-                break;
             }
           })
         }
@@ -266,17 +264,8 @@ class ThreeSceneMenu {
             map: this._currentTexture[4]
           })
         }
-
         if ("rayonsLumineux" === child.name) {
-          // console.log(child);
-          // this._godRays.material = new THREE.MeshBasicMaterial({
-          //   color: '#CBE7DB',
-          //   alphaMap: this._alphaGodRay,
-          //   transparent: true,
-          //   alphaTest: 0.5,
-          //   depthWrite: true,
-          //   depthTest: true
-          // })
+          //À enlever du Blender car c'est inutile 
           child.material.opacity = 0;
         }
       })
@@ -290,7 +279,36 @@ class ThreeSceneMenu {
   _start() {
     this._createModels(this._models);
     this._testRayons()
+    this._setTestRefraction(this._collierElm)
     //Action à faire au démarrage
+  }
+
+
+  _setTestRefraction(elm) {
+    const geometry = new THREE.BoxGeometry(1, 1, 1);
+
+    this._refractor = new Refractor(elm.geometry, {
+      color: 0x00ff00,
+      textureWidth: 1024,
+      textureHeight: 1024,
+      shader: WaterRefractionShader,
+    });
+
+    // elm.material = this._refractor
+
+    this._addToScene(this._refractor)
+
+    this._refractor.position.set(elm.position.x, elm.position.y, elm.position.z + 1)
+    this._refractor.rotation.set(elm.rotation.x, elm.rotation.y, elm.rotation.z)
+
+    console.log(this._refractor);
+
+    this._dudvMap.wrapS = this._dudvMap.wrapT = THREE.RepeatWrapping;
+    this._refractor.material.uniforms["tDudv"].value = this._dudvMap;
+
+
+    return this._refractor
+
   }
 
   _rayCast(e) {
@@ -316,6 +334,7 @@ class ThreeSceneMenu {
     this._currentObjectName
     this._previousObjectName
 
+    return;
     if (intersects[0]) {
       this._object = intersects[0].object;
 
@@ -476,15 +495,6 @@ class ThreeSceneMenu {
 
       this._currentTexture.push(this.colorTextureInstance);
     })
-
-    // Alpha 
-    // this._alphaGodRay = this._textureLoader.load('/assets/textures/menu/alphaGodRays.jpg');
-    // this._alphaGodRay.wrapS = THREE.RepeatWrapping;
-    // this._alphaGodRay.wrapT = THREE.RepeatWrapping;
-    // this._alphaGodRay.flipY = false;
-    // this._alphaGodRay.flipX = false;
-    // this._alphaGodRay.encoding = THREE.sRGBEncoding;
-
   }
 
   _setTextureStructure(texture1, texture2, opacity) {
@@ -595,7 +605,7 @@ class ThreeSceneMenu {
     parameters.spin = 0.5
     parameters.randomness = 0.8
     parameters.randomnessPower = 5
-    parameters.insideColor = 'cyan'
+    parameters.insideColor = 'blue'
     parameters.oustideColor = 'white'
 
     /**
@@ -662,7 +672,6 @@ class ThreeSceneMenu {
       transparent: true,
       precision: 'lowp',
       depthTest: false,
-      depthWrite: false,
       opacity: 0,
       uniforms:
       {
@@ -676,43 +685,43 @@ class ThreeSceneMenu {
 
       void main()
         {
-            /**
-             * Position
-             */
-            vec4 modelPosition = modelMatrix * vec4(position, 1.0);
+          /**
+           * Position
+           */
+          vec4 modelPosition = modelMatrix * vec4(position, 1.0);
 
-            vec4 viewPosition = viewMatrix * modelPosition;
-            vec4 projectedPosition = projectionMatrix * viewPosition;
-            gl_Position = projectedPosition;
+          vec4 viewPosition = viewMatrix * modelPosition;
+          vec4 projectedPosition = projectionMatrix * viewPosition;
+          gl_Position = projectedPosition;
 
-            /**
-             * Size
-             */
-            gl_PointSize = uSize * aScale;
-            gl_PointSize *= (1.0 / - viewPosition.z);
+          /**
+           * Size
+           */
+          gl_PointSize = uSize * aScale;
+          gl_PointSize *= (1.0 / - viewPosition.z);
 
-            /**
-             * Color
-             */
-            vColor = color;
+          /**
+           * Color
+           */
+          vColor = color;
         }
 
       `,
       fragmentShader: `
-      varying vec3 vColor;
+        varying vec3 vColor;
         uniform float uOpacity;
         uniform float uColor1;
 
         void main()
         {
-            // Light point
-            float strength = distance(gl_PointCoord, vec2(0.5));
-            strength = 1.0 - strength;
-            strength = pow(strength, 1.0);
+          // Light point
+          float strength = distance(gl_PointCoord, vec2(0.5));
+          strength = 1.0 - strength;
+          strength = pow(strength, 1.0);
 
-            // Final color
-            vec3 color = mix(vec3(0.0), vColor, strength);
-            gl_FragColor = vec4(color, uOpacity);
+          // Final color
+          vec3 color = mix(vec3(0.0), vColor, strength);
+          gl_FragColor = vec4(color, uOpacity);
         }
       `
     })
@@ -726,7 +735,7 @@ class ThreeSceneMenu {
     this._points.position.set(1.58, 1.6, 0)
     this._scene.add(this._points)
 
-    console.log(this.geometryParticules);
+    // console.log(this.geometryParticules);
     return this._pointsGodRaysMaterial
   }
 
@@ -802,6 +811,7 @@ class ThreeSceneMenu {
       if (this._textureShaderCollier) this._textureShaderCollier.uniforms.progress.value = this._progress
       if (this._textureShaderContrebasse) this._textureShaderContrebasse.uniforms.progress.value = this._progress
       if (this._textureShaderChapeau) this._textureShaderChapeau.uniforms.progress.value = this._progress
+
       if (this._godRaysBool === true) {
         this._pointsGodRaysMaterial.uniforms.uOpacity.value = this._progress > 0.5 ? 0.5 : this._progress
         this._pointsGodRaysMaterial.opacity = this._progress > 0.5 ? 0.5 : this._progress
@@ -812,12 +822,20 @@ class ThreeSceneMenu {
 
     }
 
+    // if(this._refractor) {
+    //   this._refractor.material.uniforms[ "time" ].value += this._clock.getElapsedTime() * 0.00015;
+    // }
+
     this._render();
     if (this._stats) this._stats.end()
   }
 
   _tickHandler() {
+    // load dudv map for distortion effect
+    this._dudvMap = new THREE.TextureLoader().load('/assets/textures/waterdudv.jpg');
+
     this._tick();
+
     window.requestAnimationFrame(this._tickHandler);
   }
 
