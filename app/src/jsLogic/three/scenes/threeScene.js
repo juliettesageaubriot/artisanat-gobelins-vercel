@@ -30,18 +30,6 @@ import ToolsManager from '@jsLogic/tools/toolsManager';
 
 import { SetupColorPicker } from '@jsLogic/utils/colorPickersHelper';
 
-//raycasts handlers
-import { _paperCutOutScrollAnimHandler, _paperCutOutMouseDown, _paperCutOutMouseUp } from '@jsLogic/three/raycast/step1/raycastStepOne';
-import { _colorPickerHandler, _colorPickerMouseDown, _colorPickerMouseUp } from '@jsLogic/three/raycast/step2/raycastStepTwo';
-import { _glassCutOut, _glassCutOutMouseDown, _glassCutOutMouseUp } from '@jsLogic/three/raycast/step3/subStep2/raycastStepThree2';
-import { _glassCutOutPressureGauge, _glassCutOutPressureGaugeMouseDown, _glassCutOutPressureGaugeMouseUp } from '@jsLogic/three/raycast/step3/subStep4/raycastStepThree4';
-import { _glassCutOutPinceAGruger, _glassCutOutPinceAGrugerMouseDown, _glassCutOutPinceAGrugerMouseUp } from '@jsLogic/three/raycast/step3/subStep5/raycastStepThree5';
-
-//mouse events
-import { _mousePointerDownHandler } from '@jsLogic/three/mouseEvents/mouseDown/onMouseDownHandler';
-import { _mousePointerUpHandler } from '@jsLogic/three/mouseEvents/mouseUp/onMouseUpHandler';
-import { Vector3 } from 'three/build/three.module';
-
 
 const SETTINGS = {
     enableRaycast: true,
