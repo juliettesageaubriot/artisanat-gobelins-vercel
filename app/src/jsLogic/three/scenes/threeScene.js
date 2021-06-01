@@ -1,15 +1,12 @@
 //vendors
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { DragControls } from 'three/examples/jsm/controls/DragControls.js';
 import { DragControlsCustom } from "@jsLogic/three/dragAndDrop/dragAndDrop.js";
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
-import { GlitchPass } from 'three/examples/jsm/postprocessing/GlitchPass.js';
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
 import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js';
-import { LinearFilter } from 'three'
 import { gsap } from 'gsap';
 
 //datas
@@ -29,7 +26,6 @@ import ActionsStepManager from '@jsLogic/stepManager/actionsStepManager.js';
 import ToolsManager from '@jsLogic/tools/toolsManager';
 
 import { SetupColorPicker } from '@jsLogic/utils/colorPickersHelper';
-
 
 const SETTINGS = {
     enableRaycast: true,
