@@ -336,12 +336,12 @@ class ThreeScene {
                     child.material.transparent = true;
                     child.material.opacity = 0.2;
 
-                } else if ("CameraAtelier6_Orientation" === child.name) {
+                } else if ("CameraAtelier1_Orientation" === child.name) {
 
                     this._camera = child;
                     this._renderPass.camera = child;
                     this._outlinePass.renderCamera = child;
-                    this.cameraManager.StartAnimation(5);
+                    // this.cameraManager.StartAnimation(5);
 
                 } else if ("artisane01" === child.name) {
 
