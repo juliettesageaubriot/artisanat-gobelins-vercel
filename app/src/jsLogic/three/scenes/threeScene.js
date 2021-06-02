@@ -200,7 +200,8 @@ class ThreeScene {
             this._toolsManager,
             this._setOutlineObjects,
             this._addPieceDecoupeToScene,
-            this._animationToDragPosition
+            this._animationToDragPosition,
+            this._setFinalColors
         );
 
         this._artisanes = [];
@@ -321,6 +322,10 @@ class ThreeScene {
                     this.cameraAnimator = new AnimationManager(child, this._cameraAnimations);
                     this.cameraManager = new CameraManager(this._camera, this._cameras, this.cameraAnimator);
 
+                } else if("exterieur" === child.name) {
+
+                    this._addToScene(child);
+
                 } else if ('rayon02' === child.name) {
 
                     child.material.transparent = true;
@@ -370,22 +375,7 @@ class ThreeScene {
                     this.feuilleChuteManager = new CameraManager(this._camera, this._cameras, this.feuilleChuteAnimator);
                 } else if ("piece_verre" === child.name) {
                     this._piece_decoupe = child;
-                    // child.rotation.set(Math.PI / 4, 0, 0);
-                    // child.position.y = 1.2;
                     child.traverse(async child => {
-    
-                        if("couleurEtoile" === child.name) {
-                            this._textureLoader.load(
-                                '/assets/textures/colorPicker/crayonnes/crayonnés_carré_central.jpg', 
-                                (result) => {
-                                    // if("couleurEtoile" === child.name) {
-                                        child.material.alphaMap = result;
-                                        child.material.alphaTest = 0.5;
-                                        console.log(child)
-                                    // }
-                                }
-                            );
-                        }
 
                         if ("debut" === child.name
                             || "milieu1" === child.name
@@ -401,47 +391,38 @@ class ThreeScene {
                             // child.material.transparent = true;
                             // child.material.opacity = 0;
 
-                            // child.rotation.set(Math.PI / 3, 0, 0);
-                            // child.position.y = 1.2;
-
                         }                
                     });
                 } else if ("papier_decoupe" === child.name) {
 
                     this._dragItems.push(child);
-                    // child.rotation.set(Math.PI / 4, 0, 0);
-                    // child.position.y = 1.25;
 
                 } else if ("piece_principale" === child.name) {
-                    // console.log(child)
+
                     this._outlinePass.renderCamera = this._camera;
-                    // child.rotation.set(Math.PI / 3, 0, 0);
-                    // child.position.y = 1.2;
                     this._glassCutOutRaycastObject.push(child);
 
                     // child.material.transparent = true;
                     // child.material.opacity = 0;
                 }   else if ("surface_drop" === child.name) {
                     this._pieceDecoupeDropZone = child;
-                    // child.rotation.set(Math.PI / 3, 0, 0);
-                    // child.position.y = 1.2;
-                    child.material.opacity = 0;
-                } else if ("piecePrincipaleAbove_parent" === child.name) {
-                    this._pieceDecoupe = child;
 
+                    child.material.opacity = 0;
+
+                } else if ("piecePrincipaleAbove_parent" === child.name) {
+
+                    this._pieceDecoupe = child;
                     // child.material.opacity = 0;
-                    // child.rotation.set(Math.PI / 3, 0, 0);
-                    // child.position.y = 1.2;
                     // child.material.transparent = true;
+
                 } else if("piece1" === child.name) {
+
                     this._glassCutOutRaycastObject.push(child);
                     child.material.opacity = 0;
                     child.material.transparent = true;
-                    // child.rotation.set(Math.PI / 3, 0, 0);
-                    // child.position.y = 1.2;
-
                     // child.material.transparent = true;
                     // child.material.opacity = 0;
+
                 } else if("extrusion1" === child.name
                     || "extrusion2" === child.name
                     || "extrusion3" === child.name
@@ -453,18 +434,7 @@ class ThreeScene {
 
                         // child.material.transparent = true;
                         // child.material.opacity = 0;
-
-                        // child.rotation.set(Math.PI / 6, 0, 0);
-                        // child.position.y = 1.2;
                     
-                } else if ("jaugePression1" === child.name
-                    || "pinceGruger1" === child.name
-                    || "pinceGruger2" === child.name
-                    || "pinceGruger3" === child.name ) {
-
-                        // child.rotation.set(Math.PI / 6, 0, 0);
-                        // child.position.y = 1.21;
-
                 } else if("zoneDragAndDrop" === child.name) {
 
                     child.material.transparent = true;
@@ -474,10 +444,28 @@ class ThreeScene {
                 } else if("drag" === child.name) {
 
                     this._dragStartVitrail = child;
-                    //child.rotation.set(Math.PI / 12, 0, 0);
-                    // child.rotation.set(Math.PI / 1.6, 0, 0);
                     child.material.transparent = true;
                     child.material.opacity = 0;
+
+                } else if("couleurEtoile" === child.name) {
+                    this._textureLoader.load(
+                        '/assets/textures/colorPicker/crayonnes/crayonnés_carré_central.jpg', 
+                        (result) => {
+                            // if("couleurEtoile" === child.name) {
+                                child.material.alphaMap = result;
+                                // child.material.alphaTest = 0.5;
+                                console.log(result)
+                            // }
+                        }
+                    );
+                } else if("vitreColoration_01" === child.name 
+                    || "vitreColoration_02" === child.name
+                    || "porteVitre" === child.name
+                    || "vitreFour" === child.name) {
+
+                        child.material.transparent = true;
+                        child.material.opacity = 0.5;
+
                 }
             })
         }
@@ -503,10 +491,9 @@ class ThreeScene {
     _animationToDragPosition() {
         this._pieceToMove = this._scene.getObjectByName("piece_principale")
         const { x, y, z } = this._scene.getObjectByName("drag").position;
-        // const { xR, yR, zR } = this._scene.getObjectByName("drag").rotation;
 
-        gsap.to(this._pieceToMove.position, { x: x, y: y, z: z, duration: 1 });   
-        gsap.to(this._pieceToMove.rotation, { x: 0, y: 0, z: 0, duration: 1, delay: .25 });   
+        gsap.to(this._pieceToMove.position, { x: x, y: y, z: z, duration: 2.0 });   
+        gsap.to(this._pieceToMove.rotation, { x: 0, y: 0, z: 0, duration: 2.0 });   
     }
 
     _start() {
@@ -515,7 +502,6 @@ class ThreeScene {
 
         this._actionStepManager.actionsManager(0);
 
-        // this._setFinalColors();
         this._setColorsOnFinalVitrail();
     }
 
@@ -757,16 +743,20 @@ class ThreeScene {
 
         })
 
+        this._scene.getObjectByName("couleurEtoile").material.color = this._finalColorPicked.couleurEtoile09;
 
-        this._textureLoader.load(
-            '/assets/textures/colorPicker/crayonnes/crayonnés_carré_central.jpg', 
-            (result) => {  
-                console.log(result);
-                this._scene.getObjectByName("couleurEtoile").material.color = this._finalColorPicked.couleurEtoile09;
-                this._scene.getObjectByName("couleurEtoile").material.alphaMap = result;
-                this._scene.getObjectByName("couleurEtoile").material.alphaTest = 0.5;
-            }
-        );
+
+        // this._textureLoader.load(
+        //     '/assets/textures/colorPicker/crayonnes/crayonnés_carré_central.jpg', 
+        //     (result) => {  
+        //         console.log(result);
+        //         this._scene.getObjectByName("couleurEtoile").material.color = this._finalColorPicked.couleurEtoile09;
+        //         this._scene.getObjectByName("couleurEtoile").material.alphaMap = result;
+        //         this._scene.getObjectByName("couleurEtoile").material.alphaTest = 0.5;
+        //         this._scene.getObjectByName("couleurEtoile").material.transparent = true;
+        //         console.log(this._scene.getObjectByName("couleurEtoile"))
+        //     }
+        // );
     
         this._setColorsOnFinalVitrail();
 
@@ -926,7 +916,7 @@ class ThreeScene {
     }
 
     _glassCutOutPressureGaugeMouseUp() {
-        if (this._pressureGaugeValue > 60 && this._pressureGaugeValue < 80 && this._currentIntersect.name === "piece1") {
+        if (this._pressureGaugeValue > 40 && this._pressureGaugeValue < 80 && this._currentIntersect.name === "piece1") {
             console.log("PressureGauge: success");
             this._actionStepManager.actionsManager(27);
             // this._pieceToGetRidOf = this._scene.getObjectByName("piece1");
@@ -1364,7 +1354,7 @@ class ThreeScene {
         if (this._isMouseDown && this._currentIntersect) {
             if (this._currentIntersect.name === "piece1") {
                 this._pressureGaugeValue += Math.ceil(deltaTime);
-                if(this._pressureGaugeValue > 60 && this._pressureGaugeValue < 80) {
+                if(this._pressureGaugeValue > 40 && this._pressureGaugeValue < 80) {
 
                     this._UIManager.UI.pressureGaugeScale.style.boxShadow = `  
                     inset 0 0 50px #adfde2,

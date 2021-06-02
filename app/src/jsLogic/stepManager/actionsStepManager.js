@@ -5,7 +5,7 @@ import toolsData from '@assets/data/tools.json';
 import { soundsOnInteraction } from "@jsLogic/utils/sounds.js";
 
 class ActionsStepManager {
-    constructor(state, stepManager, UIManager, breadCrumb, setCameraAnimation, toggleArtisane, toggleDragAndDropControls, setfeuilleLeveAnimationPlay, setDragAndDropControls, outlinePass, toolsManager, setOutlineObjects, addPieceDecoupeToScene, animationToDragPosition) {
+    constructor(state, stepManager, UIManager, breadCrumb, setCameraAnimation, toggleArtisane, toggleDragAndDropControls, setfeuilleLeveAnimationPlay, setDragAndDropControls, outlinePass, toolsManager, setOutlineObjects, addPieceDecoupeToScene, animationToDragPosition, setFinalColors) {
         this._state = state;
         this._stepManager = stepManager;
         this._UIManager = UIManager;
@@ -20,6 +20,7 @@ class ActionsStepManager {
         this._setOutlineObjects = setOutlineObjects;
         this._addPieceDecoupeToScene = addPieceDecoupeToScene;
         this._animationToDragPosition = animationToDragPosition;
+        this._setFinalColors = setFinalColors;
 
 
         //Les débloquage d'interactions
@@ -132,6 +133,7 @@ class ActionsStepManager {
         this._stepManager.addGlobalStep();
         this._outlinePass.enabled = true;
         this._UIManager.setDragAndDropColorPickerPicto("verreBleu02A");
+        this._setFinalColors();
         // this._addPieceDecoupeToScene();
     }
     _stepThirteen() {
@@ -258,10 +260,10 @@ class ActionsStepManager {
         this._UIManager.UI.html.style.cursor = "initial";
         this._stepManager.addSubStep();
         this._setCameraAnimation(5, 30);
+        this._animationToDragPosition();
     }
     _stepThirtyOne() {
-        //Vitrail de Fin
-        this._animationToDragPosition();
+        //Vitrail de Fin  
         this._setCurrentSubtitle(16);
     }
     _stepThirtyTwo() {

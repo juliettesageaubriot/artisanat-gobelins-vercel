@@ -61,7 +61,7 @@ class UIManager {
     setClickPointsPicto(objectName, action) {
         this._coordinates = this._getObjectCoordinatesByName(objectName);
         this.UI.clickPoints.style.opacity = 1;
-        this.UI.clickPoints.style.top = this._coordinates.y + 50 + "px"
+        this.UI.clickPoints.style.top = this._coordinates.y + 70 + "px"
         this.UI.clickPoints.style.left = this._coordinates.x + 30 + "px"
 
         this._removeClickPointsPicto = setTimeout(() => {
@@ -149,7 +149,6 @@ class UIManager {
 
     setDragAndDropColorPickerPicto(objectName) {
         this._coordinates = this._getObjectCoordinatesByName(objectName);
-        console.log(this._coordinates);
         this.UI.dragAndDropColorPicker.style.opacity = 1
         this.UI.dragAndDropColorPicker.style.top = 40 + "%"
         this.UI.dragAndDropColorPicker.style.left = 50 + "%"

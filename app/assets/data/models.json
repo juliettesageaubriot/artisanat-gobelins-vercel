@@ -14,5 +14,9 @@
     {
         "name": "scene-feuille",
         "url": "/assets/models/gltf/draco/dracoModels/feuille.glb"
+    }, 
+    {
+        "name": "scene-atelier-exterieur",
+        "url": "/assets/models/gltf/draco/dracoModels/atelier_exterieur.glb"
     }
 ]
