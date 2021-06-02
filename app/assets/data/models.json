@@ -1,11 +1,11 @@
 [
     {
         "name": "scene-color-picker",
-        "url": "/assets/models/gltf/draco/dracoModels/colorPicker_v03.glb"
+        "url": "/assets/models/gltf/draco/dracoModels/colorPicker.glb"
     },
     {
         "name": "scene-atelier-v17",
-        "url": "/assets/models/gltf/draco/dracoModels/atelier_v30.glb"
+        "url": "/assets/models/gltf/draco/dracoModels/atelier.glb"
     },
     {
         "name": "scene-menu",
@@ -13,14 +13,10 @@
     },
     {
         "name": "scene-feuille",
-        "url": "/assets/models/gltf/draco/dracoModels/feuille_v08.glb"
-    },
-    {
-        "name": "scene-piece-verre",
-        "url": "/assets/models/gltf/draco/dracoModels/piece_decoupe_v06.glb"
+        "url": "/assets/models/gltf/draco/dracoModels/feuille.glb"
     }, 
     {
-        "name": "scene-piece-final",
-        "url": "/assets/models/gltf/draco/dracoModels/vitrailFinal_v03_centre.glb"
+        "name": "scene-atelier-exterieur",
+        "url": "/assets/models/gltf/draco/dracoModels/atelier_exterieur.glb"
     }
 ]

@@ -19,6 +19,7 @@ const TheVolume = ({ absolute }) => {
     }
     useEffect(async () => {
         const currentGlobalVolume = await localStorage.getItem("globalVolume");
+        console.log(currentGlobalVolume)
         if (currentGlobalVolume) {
             setVolume(currentGlobalVolume);
         }

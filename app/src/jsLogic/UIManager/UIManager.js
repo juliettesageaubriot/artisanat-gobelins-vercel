@@ -37,6 +37,7 @@ class UIManager {
         this.UI.pressureGaugeScale = document.querySelector("#scale-pressure");
 
         this.UI.cursor = document.querySelector("#cursor");
+        this.UI.cursorImg = document.querySelector("#cursor-img");
         this.UI.carreCursor = document.querySelector("#carre-cursor");
         this.UI.html = document.querySelector("html");
 
@@ -60,7 +61,7 @@ class UIManager {
     setClickPointsPicto(objectName, action) {
         this._coordinates = this._getObjectCoordinatesByName(objectName);
         this.UI.clickPoints.style.opacity = 1;
-        this.UI.clickPoints.style.top = this._coordinates.y + 50 + "px"
+        this.UI.clickPoints.style.top = this._coordinates.y + 70 + "px"
         this.UI.clickPoints.style.left = this._coordinates.x + 30 + "px"
 
         this._removeClickPointsPicto = setTimeout(() => {
@@ -87,6 +88,7 @@ class UIManager {
         
         this.UI.clickPointsOne.addEventListener('click', () => {
             this._glassCutOutObjectDisappear(["debut", "milieu1", "extrusion1", "extrusion2"]);
+            this._glassCutOutObjectDisappear(["pinceGruger1"]);
             this._state.setSoundInteractionToPlay(soundsOnInteraction.pinceGruger1_url, true, false);
             this.UI.clickPointsOne.style.opacity = 0;
             this.setClickPointsButtonTwo(action);
@@ -101,6 +103,7 @@ class UIManager {
 
         this.UI.clickPointsTwo.addEventListener('click', () => {
             this._glassCutOutObjectDisappear(["milieu2", "milieu3", "milieu4", "extrusion3", "extrusion4", "extrusion5", "extrusion6"]);
+            this._glassCutOutObjectDisappear(["pinceGruger2"]);
             this._state.setSoundInteractionToPlay(soundsOnInteraction.pinceGruger2_url, true, false);
             this.UI.clickPointsTwo.style.opacity = 0;
             this.setClickPointsButtonThree(action);
@@ -115,9 +118,10 @@ class UIManager {
 
         this.UI.clickPointsThree.addEventListener('click', () => {
             this._glassCutOutObjectDisappear(["fin", "milieu5", "extrusion7", "extrusion8"]);
+            this._glassCutOutObjectDisappear(["pinceGruger3"]);
             setTimeout(() => {
-                this._glassCutOutObjectDisappear(["piece_principale"]);
-                this._glassCutOutObjectAppear(["drag"]);
+                // this._glassCutOutObjectDisappear(["piece_principale"]);
+                // this._glassCutOutObjectAppear(["drag"]);
             }, 2000);
             this._state.setSoundInteractionToPlay(soundsOnInteraction.pinceGruger3_url, true, false);
             this.UI.clickPointsThree.style.opacity = 0;
@@ -145,7 +149,6 @@ class UIManager {
 
     setDragAndDropColorPickerPicto(objectName) {
         this._coordinates = this._getObjectCoordinatesByName(objectName);
-        console.log(this._coordinates);
         this.UI.dragAndDropColorPicker.style.opacity = 1
         this.UI.dragAndDropColorPicker.style.top = 40 + "%"
         this.UI.dragAndDropColorPicker.style.left = 50 + "%"
@@ -167,15 +170,15 @@ class UIManager {
     setPressionPicto(objectName) {
         this._coordinates = this._getObjectCoordinatesByName(objectName);
         this.UI.pression.style.opacity = 1
-        this.UI.pression.style.top = this._coordinates.y + "px"
-        this.UI.pression.style.left = this._coordinates.x + "px"
+        this.UI.pression.style.top = this._coordinates.y + 60 + "px"
+        this.UI.pression.style.left = this._coordinates.x + 60 + "px"
 
         this._removePressionPicto = setTimeout(() => {
             this.UI.pression.style.opacity = 0
             this._removePressureGaugePicto = setTimeout(() => {
                 this.setPressureGauge();
             }, 1000);
-        }, 2000);
+        }, 4000);
     }
 
     removePressionPicto() {
@@ -225,9 +228,9 @@ class UIManager {
         this.UI.traceFixe.style.opacity = 1
         this.UI.traceFixe.style.top = this._coordinates.y + "px"
         this.UI.traceFixe.style.left = this._coordinates.x + "px"
-        this._removeTraceFixePicto = setTimeout(() => {
-            this.UI.traceFixe.style.opacity = 0
-        }, 8000);
+        // this._removeTraceFixePicto = setTimeout(() => {
+        //     this.UI.traceFixe.style.opacity = 0
+        // }, 8000);
     }
 
     removeTraceFixePicto() {
@@ -240,13 +243,44 @@ class UIManager {
     setPressureGauge() {
         this._coordinates = this._getObjectCoordinatesByName("piece1");
         this.UI.pressureGauge.style.opacity = 1
-        this.UI.pressureGauge.style.top = this._coordinates.y - 25 + "px"
-        this.UI.pressureGauge.style.left = this._coordinates.x - 25 + "px"
+        this.UI.pressureGauge.style.top = this._coordinates.y - 40 + "px"
+        this.UI.pressureGauge.style.left = this._coordinates.x - 40 + "px"
     }
 
     removePressureGauge() {
         this.UI.pressureGauge.style.opacity = 0;
         this.UI.pressureGaugeScale.style.opacity = 0;
+    }
+
+    setCursorDraggingDefault() {
+        this.UI.cursorImg.setAttribute("src", "/assets/images/ui/pictos-ux/curseur_01.png");
+        this.UI.cursorImg.style.top = "0px";
+        this.UI.cursorImg.style.left = "0px";
+    }
+    setCursorDragging() {
+        this.UI.cursorImg.setAttribute("src", "/assets/images/ui/pictos-ux/curseur_02.png");
+    }
+
+    setCursorCiseaux() {
+        this.UI.cursorImg.setAttribute("src", "/assets/images/ui/cursor/outils/ciseaux.png");
+    }
+
+    setCursorCoupeVerre() {
+        this.UI.cursorImg.setAttribute("src", "/assets/images/ui/cursor/outils/coupe_verre_1.png");
+        this.UI.cursorImg.style.top = "8px";
+        this.UI.cursorImg.style.left = "10px";
+    }
+
+    setCursorPinceDecrocher() {
+        this.UI.cursorImg.setAttribute("src", "/assets/images/ui/cursor/outils/pince_decrocher_1.png");
+    }
+
+    setCursorPinceGruger() {
+        this.UI.cursorImg.setAttribute("src", "/assets/images/ui/cursor/outils/pince_gruger_1.png");
+    }
+
+    removeCursor() {
+        this.UI.cursorImg.setAttribute("src", "");
     }
 
 }

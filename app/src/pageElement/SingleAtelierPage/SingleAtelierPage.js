@@ -99,14 +99,14 @@ const SingleAtelierPage = () => {
         <button onClick={() => console.log(threeScene._camera)}> currentCamera </button>
         <button onClick={() => console.log(threeScene._stepManager._globalStep + " " + threeScene._stepManager._subStep)}> currentStep </button>
         <button onClick={() => console.log(threeScene._glassCutOutRaycastObject)}> object glass raycast </button> */}
-        <TheAudioSnippet sound_url={"assets/audios/atelier/main_musique_atelier.mp3"} play loop specificVolume={0.2}/>
+        <TheAudioSnippet sound_url={"assets/audios/atelier/main_musique_atelier.mp3"} play loop specificVolume={0.1}/>
         <TheCursor />
         <TheLoader />
         <TheBreadcrumb
         // isShowing={isShowingBreadcrumb} hide={toggle}
         />
         <TheToolChoiceButton array={currentStepTools} />
-
+        {/* <button onClick={() => threeScene._setCameraAnimationPlay(5, "none")}> currentCamera </button> */}
         <a href="/" className={` link link-secondary link-black ${styles['link-before']} ${styles['link-black']}`}>
           <span>Épisodes</span>
         </a>
