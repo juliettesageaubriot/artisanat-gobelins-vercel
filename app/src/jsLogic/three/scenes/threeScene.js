@@ -369,20 +369,11 @@ class ThreeScene {
                     this.feuilleChuteAnimator = new AnimationManager(child, this._feuilleChuteAnimations);
                     this.feuilleChuteManager = new CameraManager(this._camera, this._cameras, this.feuilleChuteAnimator);
                 } else if ("piece_verre" === child.name) {
-                    // this._scene.remove(child);
                     this._piece_decoupe = child;
+                    // child.rotation.set(Math.PI / 4, 0, 0);
                     // child.position.y = 1.2;
-                    // console.log(child)
-                    // child.rotation.set(Math.PI / 1.45, 0, 0);
-                    // child.rotation.set(Math.PI / 1.45, 0, 0);
-            
                     child.traverse(async child => {
-                        if ("surface_drop" === child.name || "piece_principale_above" === child.name) {
-
-                        } else {
-                            this._glassCutOutRaycastObject.push(child);
-                        }
-                        // console.log(child)
+    
                         if("couleurEtoile" === child.name) {
                             this._textureLoader.load(
                                 '/assets/textures/colorPicker/crayonnes/crayonnés_carré_central.jpg', 
@@ -405,48 +396,52 @@ class ThreeScene {
                             || "fin" === child.name) {
 
                             this._piece_decoupeeObjects.push(child.name);
+                            this._glassCutOutRaycastObject.push(child);
+
                             // child.material.transparent = true;
-                            // child.material.opacity = 0.5;
+                            // child.material.opacity = 0;
 
-                        } 
+                            // child.rotation.set(Math.PI / 3, 0, 0);
+                            // child.position.y = 1.2;
 
-                         //Papier decoupe
-                        //  if ("papier_decoupe" === child.name) {
-                        //     this._dragItems.push(child);
-                        //     console.log(child)
-                        // }
-
-
-                        
+                        }                
                     });
                 } else if ("papier_decoupe" === child.name) {
 
                     this._dragItems.push(child);
-                    console.log(child)
-                    // child.rotation.set(Math.PI / 6, 0, 0);
-                    // child.position.y = 1.2;
+                    // child.rotation.set(Math.PI / 4, 0, 0);
+                    // child.position.y = 1.25;
 
                 } else if ("piece_principale" === child.name) {
                     // console.log(child)
                     this._outlinePass.renderCamera = this._camera;
-                    // child.rotation.set(Math.PI / 6, 0, 0);
+                    // child.rotation.set(Math.PI / 3, 0, 0);
                     // child.position.y = 1.2;
+                    this._glassCutOutRaycastObject.push(child);
+
+                    // child.material.transparent = true;
+                    // child.material.opacity = 0;
                 }   else if ("surface_drop" === child.name) {
                     this._pieceDecoupeDropZone = child;
-                    // child.rotation.set(Math.PI / 6, 0, 0);
+                    // child.rotation.set(Math.PI / 3, 0, 0);
                     // child.position.y = 1.2;
                     child.material.opacity = 0;
-                } else if ("piece_principale_above" === child.name) {
+                } else if ("piecePrincipaleAbove_parent" === child.name) {
                     this._pieceDecoupe = child;
+
                     // child.material.opacity = 0;
-                    // child.rotation.set(Math.PI / 6, 0, 0);
+                    // child.rotation.set(Math.PI / 3, 0, 0);
                     // child.position.y = 1.2;
-                    child.material.transparent = true;
+                    // child.material.transparent = true;
                 } else if("piece1" === child.name) {
-                    child.material.opacity = 0.5;
+                    this._glassCutOutRaycastObject.push(child);
+                    child.material.opacity = 0;
                     child.material.transparent = true;
-                    // child.rotation.set(Math.PI / 6, 0, 0);
+                    // child.rotation.set(Math.PI / 3, 0, 0);
                     // child.position.y = 1.2;
+
+                    // child.material.transparent = true;
+                    // child.material.opacity = 0;
                 } else if("extrusion1" === child.name
                     || "extrusion2" === child.name
                     || "extrusion3" === child.name
@@ -456,23 +451,33 @@ class ThreeScene {
                     || "extrusion7" === child.name
                     || "extrusion8" === child.name) {
 
+                        // child.material.transparent = true;
+                        // child.material.opacity = 0;
+
                         // child.rotation.set(Math.PI / 6, 0, 0);
                         // child.position.y = 1.2;
                     
+                } else if ("jaugePression1" === child.name
+                    || "pinceGruger1" === child.name
+                    || "pinceGruger2" === child.name
+                    || "pinceGruger3" === child.name ) {
+
+                        // child.rotation.set(Math.PI / 6, 0, 0);
+                        // child.position.y = 1.21;
+
                 } else if("zoneDragAndDrop" === child.name) {
 
                     child.material.transparent = true;
                     child.material.opacity = 0;
                     this._vitrailDropZone =  child;
-                    console.log(child)
 
                 } else if("drag" === child.name) {
 
-                    this._dragStartVitrail = child
+                    this._dragStartVitrail = child;
                     //child.rotation.set(Math.PI / 12, 0, 0);
                     // child.rotation.set(Math.PI / 1.6, 0, 0);
                     child.material.transparent = true;
-                    // child.material.opacity = 0;
+                    child.material.opacity = 0;
                 }
             })
         }
@@ -498,15 +503,17 @@ class ThreeScene {
     _animationToDragPosition() {
         this._pieceToMove = this._scene.getObjectByName("piece_principale")
         const { x, y, z } = this._scene.getObjectByName("drag").position;
+        // const { xR, yR, zR } = this._scene.getObjectByName("drag").rotation;
 
         gsap.to(this._pieceToMove.position, { x: x, y: y, z: z, duration: 1 });   
+        gsap.to(this._pieceToMove.rotation, { x: 0, y: 0, z: 0, duration: 1, delay: .25 });   
     }
 
     _start() {
         this._createModels(this._models);
         this._resizeHandler();
 
-        // this._actionStepManager.actionsManager(0);
+        this._actionStepManager.actionsManager(0);
 
         // this._setFinalColors();
         this._setColorsOnFinalVitrail();
@@ -721,7 +728,8 @@ class ThreeScene {
             }
         });
 
-        this._vitrail = ["debut", "milieu1", "milieu2", "milieu3", "milieu4", "milieu5", "fin", "piece1", "extrusion1", "extrusion2", "extrusion3", "extrusion4", "extrusion5", "extrusion6", "extrusion7", "extrusion8"];
+        // this._vitrail = ["debut", "milieu1", "milieu2", "milieu3", "milieu4", "milieu5", "fin", "piece1", "extrusion1", "extrusion2", "extrusion3", "extrusion4", "extrusion5", "extrusion6", "extrusion7", "extrusion8"];
+        this._vitrail = ["pinceGruger1", "pinceGruger2", "pinceGruger3", "jaugePression1", "piece_principale_visible"];
 
         this._vitrail.map(verre => {
             this._scene.getObjectByName(verre).material = new THREE.MeshPhysicalMaterial({
@@ -736,7 +744,7 @@ class ThreeScene {
 
         this._scene.getObjectByName("piece_principale").traverse(child => {
             
-            if(child.name !== "piece_principale") {
+            if(child.name === "piece_principale_visible") {
                 child.material = new THREE.MeshPhysicalMaterial({
                     color: this._finalColorPicked.couleurEtoile09,
                     roughness: 0,
@@ -749,7 +757,16 @@ class ThreeScene {
 
         })
 
-        this._scene.getObjectByName("couleurEtoile").material.color = this._finalColorPicked.couleurEtoile09;
+
+        this._textureLoader.load(
+            '/assets/textures/colorPicker/crayonnes/crayonnés_carré_central.jpg', 
+            (result) => {  
+                console.log(result);
+                this._scene.getObjectByName("couleurEtoile").material.color = this._finalColorPicked.couleurEtoile09;
+                this._scene.getObjectByName("couleurEtoile").material.alphaMap = result;
+                this._scene.getObjectByName("couleurEtoile").material.alphaTest = 0.5;
+            }
+        );
     
         this._setColorsOnFinalVitrail();
 
@@ -912,13 +929,15 @@ class ThreeScene {
         if (this._pressureGaugeValue > 60 && this._pressureGaugeValue < 80 && this._currentIntersect.name === "piece1") {
             console.log("PressureGauge: success");
             this._actionStepManager.actionsManager(27);
-            this._pieceToGetRidOf = this._scene.getObjectByName("piece1");
+            // this._pieceToGetRidOf = this._scene.getObjectByName("piece1");
+            this._pieceToGetRidOf = this._scene.getObjectByName("jaugePression1");
             this._pieceToGetRidOf.material = new THREE.MeshStandardMaterial({
                 color: this._pieceToGetRidOf.material.color,
                 transparent: true
             });
             gsap.to(this._pieceToGetRidOf.material, { opacity: 0, duration: 1 });
             this._state.setSoundInteractionToPlay(soundsOnInteraction.reussiteCassureVerre2_url, true, false);
+            this._glassCutOutObjectDisappear(["piece1"]);
         } else {
             console.log("PressureGauge: fail");
             this._pressureGaugeValue = 0;
@@ -1254,6 +1273,7 @@ class ThreeScene {
                     const { xR, yR, zR } = this._scene.getObjectByName("drop").rotation;
                     // gsap.to(event.object.rotation, { x: 0, duration: 1 });
                     gsap.to(event.object.position, { x: x, y: y, z: z, duration: 1, delay: 0.25});
+                    gsap.to(event.object.scale, { x: 1.1, y: 1.1, z: 1.1, duration: 1, delay: 0.5});
                     
                     // this._actionStepManager.actionsManager(21);
                     this._outlinePass.enabled = false;

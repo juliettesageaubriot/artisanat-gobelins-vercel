@@ -88,6 +88,7 @@ class UIManager {
         
         this.UI.clickPointsOne.addEventListener('click', () => {
             this._glassCutOutObjectDisappear(["debut", "milieu1", "extrusion1", "extrusion2"]);
+            this._glassCutOutObjectDisappear(["pinceGruger1"]);
             this._state.setSoundInteractionToPlay(soundsOnInteraction.pinceGruger1_url, true, false);
             this.UI.clickPointsOne.style.opacity = 0;
             this.setClickPointsButtonTwo(action);
@@ -102,6 +103,7 @@ class UIManager {
 
         this.UI.clickPointsTwo.addEventListener('click', () => {
             this._glassCutOutObjectDisappear(["milieu2", "milieu3", "milieu4", "extrusion3", "extrusion4", "extrusion5", "extrusion6"]);
+            this._glassCutOutObjectDisappear(["pinceGruger2"]);
             this._state.setSoundInteractionToPlay(soundsOnInteraction.pinceGruger2_url, true, false);
             this.UI.clickPointsTwo.style.opacity = 0;
             this.setClickPointsButtonThree(action);
@@ -116,6 +118,7 @@ class UIManager {
 
         this.UI.clickPointsThree.addEventListener('click', () => {
             this._glassCutOutObjectDisappear(["fin", "milieu5", "extrusion7", "extrusion8"]);
+            this._glassCutOutObjectDisappear(["pinceGruger3"]);
             setTimeout(() => {
                 // this._glassCutOutObjectDisappear(["piece_principale"]);
                 // this._glassCutOutObjectAppear(["drag"]);
