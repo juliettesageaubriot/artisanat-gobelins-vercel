@@ -293,7 +293,6 @@ class ThreeSceneMenu {
     this._currentObjectName
     this._previousObjectName
 
-    return;
     if (intersects[0]) {
       this._object = intersects[0].object;
 
