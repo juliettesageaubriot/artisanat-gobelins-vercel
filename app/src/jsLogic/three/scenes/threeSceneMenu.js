@@ -227,7 +227,6 @@ class ThreeSceneMenu {
                 break;
               case 'collier':
                 this._collierElm = elm
-                this._addToScene(elm)
                 break;
               case 'contrebasse':
                 this._contreBasseElm = elm
