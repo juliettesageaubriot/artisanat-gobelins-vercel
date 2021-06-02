@@ -8,21 +8,13 @@ import Stats from 'stats.js'
 
 //modules
 import AssetsLoader from '@jsLogic/three/assetsLoader';
-import dataMenu from '@assets/data/content-menu.json'
 
 import { SetupMenuChaptersRaycast } from '@jsLogic/utils/menuChaptersRaycastHelper';
 import MenuHoveredManager from '@jsLogic/utils/menuHoveredManager'
 
-// refraction
-import { Refractor } from 'three/examples/jsm/objects/Refractor.js';
-import { WaterRefractionShader } from 'three/examples/jsm/shaders/WaterRefractionShader.js';
-
-import { FresnelShader } from 'three/examples/jsm/shaders/FresnelShader.js';
-
 //shader
 import textureHoveredVertexShader from '../../../shaders/menu/texturesHovered/vertex.glsl'
 import textureHoveredFragmentShader from '../../../shaders/menu/texturesHovered/fragment.glsl'
-
 
 const SETTINGS = {
   enableRaycast: true,
@@ -52,10 +44,9 @@ class ThreeSceneMenu {
       '_setTextureChapeau',
       '_setTextureCollier',
       '_setParticulesTexture',
-      '_testRayons',
+      '_godRaysParticules',
       '_setMouseScss',
       '_setStats',
-      '_setTestRefraction'
     )
 
     this._canvas = canvas;
@@ -153,11 +144,7 @@ class ThreeSceneMenu {
     this._windowHalf = new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2);
     this._mouse = new THREE.Vector2();
     this._target = new THREE.Vector2();
-
-    //Tests refaction
-    this._dudvMap
-    this._refractor
-
+    
     //Stats
     this._stats
 
@@ -226,10 +213,10 @@ class ThreeSceneMenu {
   _createModels() {
     for (let name in this._models) {
       this.object = this._models[name].scene;
+
       this.object.traverse(child => {
 
         if ("menu" === child.name) {
-          // console.log(child);
           this._addToScene(child)
           SetupMenuChaptersRaycast(child, this.objectsCurrentRaycast)
           this.idChapterHovered = new MenuHoveredManager(0);
@@ -240,6 +227,7 @@ class ThreeSceneMenu {
                 break;
               case 'collier':
                 this._collierElm = elm
+                this._addToScene(elm)
                 break;
               case 'contrebasse':
                 this._contreBasseElm = elm
@@ -278,37 +266,8 @@ class ThreeSceneMenu {
 
   _start() {
     this._createModels(this._models);
-    this._testRayons()
-    this._setTestRefraction(this._collierElm)
+    this._godRaysParticules()
     //Action à faire au démarrage
-  }
-
-
-  _setTestRefraction(elm) {
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
-
-    this._refractor = new Refractor(elm.geometry, {
-      color: 0x00ff00,
-      textureWidth: 1024,
-      textureHeight: 1024,
-      shader: WaterRefractionShader,
-    });
-
-    // elm.material = this._refractor
-
-    this._addToScene(this._refractor)
-
-    this._refractor.position.set(elm.position.x, elm.position.y, elm.position.z + 1)
-    this._refractor.rotation.set(elm.rotation.x, elm.rotation.y, elm.rotation.z)
-
-    console.log(this._refractor);
-
-    this._dudvMap.wrapS = this._dudvMap.wrapT = THREE.RepeatWrapping;
-    this._refractor.material.uniforms["tDudv"].value = this._dudvMap;
-
-
-    return this._refractor
-
   }
 
   _rayCast(e) {
@@ -596,7 +555,7 @@ class ThreeSceneMenu {
     }
   }
 
-  _testRayons() {
+  _godRaysParticules() {
     const parameters = {}
     parameters.count = 100000
     parameters.size = 0.01
@@ -789,7 +748,6 @@ class ThreeSceneMenu {
   _tick() {
     if (this._stats) this._stats.begin()
 
-
     this._target.x = - (this._mouse.x) * 0.00005;
     this._target.y = - (this._mouse.y) * 0.00003;
 
@@ -819,20 +777,13 @@ class ThreeSceneMenu {
         this._pointsGodRaysMaterial.uniforms.uOpacity.value = - this._progress < 0 ? 0 : - this._progress
         this._pointsGodRaysMaterial.opacity = - this._progress < 0 ? 0 : - this._progress
       }
-
     }
-
-    // if(this._refractor) {
-    //   this._refractor.material.uniforms[ "time" ].value += this._clock.getElapsedTime() * 0.00015;
-    // }
 
     this._render();
     if (this._stats) this._stats.end()
   }
 
   _tickHandler() {
-    // load dudv map for distortion effect
-    this._dudvMap = new THREE.TextureLoader().load('/assets/textures/waterdudv.jpg');
 
     this._tick();
 
