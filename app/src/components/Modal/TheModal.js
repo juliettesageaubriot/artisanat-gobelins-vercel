@@ -11,6 +11,7 @@ const TheModal = ({ isShowing, hide, content }) => {
             <button
               className={`${styles['btn-close']} btn btn_no-text`}
               onClick={hide}
+              id='btnAboutClose'
             >
               <span className={`${styles['btn__icon']}`}>
               </span>

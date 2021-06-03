@@ -1,6 +1,17 @@
 @import "@assets/_mandatory";
 
+.about {
+  .btn {
+    &_container {
+      position: absolute;
+      top: 40px;
+      right: 35px;
+    }
+  }
+}
+
 .menu {
+  position: relative;
   cursor: initial;
   &-overlay {
     position: absolute;
@@ -25,15 +36,8 @@
       pointer-events: none;
       transition: 1s ease-in-out all;
     }
-
-    .btn {
-      &_container {
-        position: absolute;
-        top: 40px;
-        right: 35px;
-      }
-    }
   }
+
   &_container {
     display: flex;
     flex-flow: row wrap;

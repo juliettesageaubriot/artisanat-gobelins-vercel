@@ -46,6 +46,7 @@ class ThreeSceneMenu {
       '_setParticulesTexture',
       '_godRaysParticules',
       '_setMouseScss',
+      '_getOpenModalAbout',
       '_setStats',
     )
 
@@ -144,7 +145,7 @@ class ThreeSceneMenu {
     this._windowHalf = new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2);
     this._mouse = new THREE.Vector2();
     this._target = new THREE.Vector2();
-    
+
     //Stats
     this._stats
 
@@ -194,6 +195,7 @@ class ThreeSceneMenu {
     this._setEnvironmentMap();
     this._setNewState();
     this._setNewAudioHovered()
+    this._getOpenModalAbout()
     this._setIsReadyRaycast()
     this._setStats()
   }
@@ -279,7 +281,6 @@ class ThreeSceneMenu {
     this._rayCaster.setFromCamera(this._mouse, this._camera);
 
     let intersects = this._rayCaster.intersectObjects(this.objectsCurrentRaycast, false);
-
     this.rayCastHandler(intersects);
   }
 
@@ -291,7 +292,6 @@ class ThreeSceneMenu {
 
     this._currentObjectName
     this._previousObjectName
-
     if (intersects[0]) {
       this._object = intersects[0].object;
 
@@ -381,6 +381,7 @@ class ThreeSceneMenu {
       }
     }
   }
+
 
   _loadTexture() {
 
@@ -834,7 +835,7 @@ class ThreeSceneMenu {
   }
 
   _setNewState() {
-    // this._state.toggleBreadcrumb();
+    // this._state.showingModal();
   }
 
   _setNewAudioHovered(url) {
@@ -846,6 +847,23 @@ class ThreeSceneMenu {
     discoverButton.addEventListener('click', () => {
       this._enableRaycastMenu = true
     })
+    return this._enableRaycastMenu
+  }
+
+  _getOpenModalAbout() {
+    const btnAboutOpen = document.getElementById('btnAboutOpen')
+    const btnAboutClose = document.getElementById('btnAboutClose')
+
+    btnAboutOpen.addEventListener('click', () => {
+      this._enableRaycastMenu = false
+      console.log('open')
+    })
+
+    btnAboutClose.addEventListener('click', () => {
+      this._enableRaycastMenu = true
+      console.log('close');
+    })
+
     return this._enableRaycastMenu
   }
 

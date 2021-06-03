@@ -31,13 +31,14 @@ const IntroEpisodePage = () => {
   return (
     <section className={styles["page-intro"]}>
       <div className={`${styles["page-intro_container"]}`}>
-        <div className={`${styles["page-intro__inner"]}`}>
 
-          <div className={`${styles["btn_container"]}`}>
-            <div className={`${styles["btn__inner"]}`}>
-              <button className={`btn btn-about ${isShowingAbout === true && styles.disabled}`} onClick={toggleAbout}>À propos</button>
-            </div>
+
+        <div className={`${styles["btn_container"]}`}>
+          <div className={`${styles["btn__inner"]}`}>
+            <button className={`btn btn-about ${isShowingAbout === true && styles.disabled}`} onClick={toggleAbout}>À propos</button>
           </div>
+        </div>
+        <div className={`${styles["page-intro__inner"]}`}>
 
           <div className={`${styles["main_container"]}`}>
             <div className={`${styles["main__inner"]}`}>
@@ -48,7 +49,7 @@ const IntroEpisodePage = () => {
                 <div className={`${styles.immersion}`}>
                   <span className={`${styles.hearphone}`}>
                     <i className="fal fa-headphones-alt"></i>
-                    </span>
+                  </span>
                   <span>Utilisez un casque pour plus d’immersion !</span>
                 </div>
 
@@ -62,13 +63,7 @@ const IntroEpisodePage = () => {
               </div>
             </div>
           </div>
-
-          {/* <button onClick={toggleWarning}>Warning</button>
-            <button onClick={toggleReturnExperience}>Return experience</button> */}
-
           <TheModal isShowing={isShowingAbout} hide={toggleAbout} content={modalTextAbout} />
-          {/* <TheModal isShowing={isShowingWarning} hide={toggleWarning} content={modalTextWarning} />
-            <TheModal isShowing={isShowingReturnExperience} hide={toggleReturnExperience} content={modalReturnExperience} /> */}
         </div>
       </div>
     </section>

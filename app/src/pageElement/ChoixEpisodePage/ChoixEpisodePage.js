@@ -55,6 +55,9 @@ const ChoixEpisodeAtelierPage = () => {
     setIsready(true)
   }
 
+  useEffect(async () => {
+    localStorage.setItem("showingAboutModal", isShowingAbout);
+  }, [isShowingAbout])
 
   return (
     <section>
@@ -85,12 +88,6 @@ const ChoixEpisodeAtelierPage = () => {
 
       <div className={`${styles.menu} ${styles['menu-overlay']} ${true === isReady && styles['overlay-none']}`} id="menu-overlay">
 
-        <div className={`${styles["btn_container"]}`}>
-          <div className={`${styles["btn__inner"]}`}>
-            <button className={`btn btn-about ${isShowingAbout === true && styles.disabled}`} onClick={toggleAbout}><span>À propos</span></button>
-          </div>
-        </div>
-
         <div className={`${styles['menu_container']}`}>
           <img src="/assets/images/logo/logo_regards_dartisans.png" alt="logo Regards d'Artisans" />
           <p className={styles.pitch}>Regards d'artisans nous invite à nous glisser dans la peau d'un apprenti artisan, dans le cadre intime d'un atelier, lieu de partage d'un savoir-faire.</p>
@@ -103,7 +100,15 @@ const ChoixEpisodeAtelierPage = () => {
         </div>
       </div>
 
-      <TheModal isShowing={isShowingAbout} hide={toggleAbout} content={modalTextAbout} />
+      <div className={styles.about}>
+        <div className={`${styles["btn_container"]}`}>
+          <div className={`${styles["btn__inner"]}`}>
+            <button className={`btn btn-about ${isShowingAbout === true && styles.disabled}`} onClick={toggleAbout} id='btnAboutOpen'><span>À propos</span></button>
+          </div>
+        </div>
+        <TheModal isShowing={isShowingAbout} hide={toggleAbout} content={modalTextAbout} />
+      </div>
+
       <div ref={ref} />
 
     </section>
