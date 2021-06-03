@@ -40,15 +40,15 @@ const TheSubTitle = ({content, currentSubtitle, onEnd, onEndReplay}) => {
                         setIsPossibleToReplay(false);
                         setDisplayButton(false);
                         onEnd();
-                        //3000
-                    }, 3000));
+                        //2000
+                    }, 100));
                 }, 1000));
             } else {
                 setTimeout(() => {
                     onEnd();
                 }, 500)
             }
-        }, content.duration));
+        }, 100));
     }
 
     const handleReplayButton = () => {

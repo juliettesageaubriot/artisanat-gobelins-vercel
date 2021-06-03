@@ -125,7 +125,6 @@ class UIManager {
             }, 2000);
             this._state.setSoundInteractionToPlay(soundsOnInteraction.pinceGruger3_url, true, false);
             this.UI.clickPointsThree.style.opacity = 0;
-            console.log("C'est fini !");
             action();
         })
     }
@@ -134,12 +133,12 @@ class UIManager {
     setDragAndDropPicto(objectName) {
         this._coordinates = this._getObjectCoordinatesByName(objectName);
         this.UI.dragAndDrop.style.opacity = 1
-        this.UI.dragAndDrop.style.top = this._coordinates.y + "px"
-        this.UI.dragAndDrop.style.left = this._coordinates.x  + "px"
+        this.UI.dragAndDrop.style.top = this._coordinates.y + 100 + "px"
+        this.UI.dragAndDrop.style.left = this._coordinates.x + 150 + "px"
 
-        this._removeDragAndDropPicto = setTimeout(() => {
-            this.UI.dragAndDrop.style.opacity = 0
-        }, 8000);
+        // this._removeDragAndDropPicto = setTimeout(() => {
+        //     this.UI.dragAndDrop.style.opacity = 0
+        // }, 8000);
     }
 
     removeDragAndDropPicto() {
@@ -150,7 +149,7 @@ class UIManager {
     setDragAndDropColorPickerPicto(objectName) {
         this._coordinates = this._getObjectCoordinatesByName(objectName);
         this.UI.dragAndDropColorPicker.style.opacity = 1
-        this.UI.dragAndDropColorPicker.style.top = 40 + "%"
+        this.UI.dragAndDropColorPicker.style.top = this._coordinates.y + 30 + "px"
         this.UI.dragAndDropColorPicker.style.left = 50 + "%"
 
         // this.UI.dragAndDropColorPicker.style.top = this._coordinates.y + 80 + "px"

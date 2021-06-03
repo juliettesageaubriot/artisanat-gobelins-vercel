@@ -2,7 +2,7 @@
 
   .subtitle_container {
     position: absolute;
-    bottom: 47px;
+    bottom: 48px;
 
     width: 100vw;
 
@@ -20,7 +20,7 @@
 
         transition: 1s all ease-in-out;
 
-        font-size: 18px;
+        font-size: 16px;
         line-height: 1.5;
 
         // color: rgba($color: $color-white, $alpha: 1);
@@ -48,9 +48,9 @@
         background-color: transparent;
         border: transparent;
 
-        border-top: 2px solid transparent;
-        border-right: 2px solid transparent;
-        border-bottom: 2px solid transparent;
+        border-top: 1px solid transparent;
+        border-right: 1px solid transparent;
+        border-bottom: 1px solid transparent;
 
         cursor: pointer;
         
@@ -69,10 +69,10 @@
         }
 
         &:hover {
-            border-top: 2px solid rgba($color: $color-black, $alpha: .5);
-            border-right: 2px solid rgba($color: $color-black, $alpha: .5);
-            border-bottom: 2px solid rgba($color: $color-black, $alpha: .5);
-            background-color: rgba($color: $color-black, $alpha: .1);
+            border-top: 1px solid rgba($color: $color-black, $alpha: .5);
+            border-right: 1px solid rgba($color: $color-black, $alpha: .5);
+            border-bottom: 1px solid rgba($color: $color-black, $alpha: .5);
+            // background-color: rgba($color: $color-black, $alpha: .1);
             p {
                 opacity: 1;
             }
@@ -90,32 +90,32 @@
             align-items: center;
             justify-content: center;
 
-            border-top: 2px solid rgba($color: $color-black, $alpha: .5);
-            border-left: 2px solid rgba($color: $color-black, $alpha: .5);
-            border-bottom: 2px solid rgba($color: $color-black, $alpha: .5);
+            border-top: 1px solid rgba($color: $color-black, $alpha: .5);
+            border-left: 1px solid rgba($color: $color-black, $alpha: .5);
+            border-bottom: 1px solid rgba($color: $color-black, $alpha: .5);
 
             color: $color-black;
 
-            background-color: rgba($color: $color-black, $alpha: .1);
+            // background-color: rgba($color: $color-black, $alpha: .1);
 
             opacity: 0;
         }
 
         &.repeat {
-            border-top: 2px solid rgba($color: $color-black, $alpha: .5);
-            border-right: 2px solid rgba($color: $color-black, $alpha: .5);
-            border-bottom: 2px solid rgba($color: $color-black, $alpha: .5);
-            background-color: rgba($color: $color-black, $alpha: .1);
+            border-top: 1px solid rgba($color: $color-black, $alpha: .5);
+            border-right: 1px solid rgba($color: $color-black, $alpha: .5);
+            border-bottom: 1px solid rgba($color: $color-black, $alpha: .5);
+            // background-color: rgba($color: $color-black, $alpha: .1);
             p {
                 opacity: 1;
             }
         }
 
         &.show {
-            border-top: 2px solid rgba($color: $color-black, $alpha: .5);
-            border-right: 2px solid rgba($color: $color-black, $alpha: .5);
-            border-bottom: 2px solid rgba($color: $color-black, $alpha: .5);
-            background-color: rgba($color: $color-black, $alpha: .1);
+            border-top: 1px solid rgba($color: $color-black, $alpha: .5);
+            border-right: 1px solid rgba($color: $color-black, $alpha: .5);
+            border-bottom: 1px solid rgba($color: $color-black, $alpha: .5);
+            //background-color: rgba($color: $color-black, $alpha: .1);
             p {
                 opacity: 1;
             }
