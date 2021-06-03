@@ -59,10 +59,14 @@
         }
 
         .slider::-moz-range-thumb {
+            -webkit-appearance: none;
+            appearance: none;
             width: 10px;
             height: 10px;
-            background: #254eda;
+            background: $color-black;
             cursor: pointer;
+            border-radius: unset;
+            border: none;
         }
     }
 
