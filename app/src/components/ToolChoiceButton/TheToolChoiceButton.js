@@ -4,7 +4,8 @@ import toolsData from '@assets/data/tools.json';
 
 const TheToolChoiceButton = ({ array }) => {
     const [isOpen, setIsOpen] = useState(false)
-    const [isCurrentIdSlider, setIsCurrentIdSlider] = useState(1)
+    const [isCurrentIdSlider, setIsCurrentIdSlider] = useState(1);
+    const [currentImg, setCurrentImg] = useState(null);
 
     const handleContentClick = () => {
         setIsOpen(!isOpen)
@@ -17,6 +18,18 @@ const TheToolChoiceButton = ({ array }) => {
                 toolsData.changeSlider = true
             }
         })
+    }
+
+    useEffect(() => {
+        setCurrentImg(document.querySelector("#cursor-img").getAttribute("src"));
+    }, [])
+
+    const handleHoverIn = () => {
+        setCurrentImg(document.querySelector("#cursor-img").getAttribute("src"));
+        document.querySelector("#cursor-img").setAttribute("src", "")
+    };
+    const handleHoverOut = () => {
+        document.querySelector("#cursor-img").setAttribute("src", currentImg);
     }
 
     useEffect(() => {
@@ -36,6 +49,8 @@ const TheToolChoiceButton = ({ array }) => {
                                 <button
                                     id={elm.id}
                                     data-color={(toolsData.changeSlider === true && isCurrentIdSlider === elm.id) || (toolsData.changeSlider === false && toolsData.idActifGlobal === elm.id) && true}
+                                    onMouseEnter={handleHoverIn} 
+                                    onMouseLeave={handleHoverOut}
                                 >
                                     <img id={elm.id} src={elm.img} />
                                 </button>

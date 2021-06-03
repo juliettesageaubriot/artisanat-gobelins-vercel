@@ -270,7 +270,7 @@ class ActionsStepManager {
         //Drag and drop in vitrail fin
         this._setOutlineObjects("piece_principale");
         this._outlinePass.enabled = true;
-        this._UIManager.setDragAndDropPicto("piece_principale");
+        this._UIManager.setDragAndDropPictoEnd("piece_principale");
         this._UIManager.setCursorDraggingDefault();
         this._UIManager.UI.html.style.cursor = "none";
         this._setDragAndDropControls();
@@ -278,7 +278,7 @@ class ActionsStepManager {
     }
     _stepThirtyThree() {
         //Fin drand and drop in vitrail fin
-        this._UIManager.removeDragAndDropPicto();
+        this._UIManager.removeDragAndDropPictoEnd();
         this.setStepValidation(2);
         this._toggleDragAndDrop();
         this._stepManager.addSubStep();

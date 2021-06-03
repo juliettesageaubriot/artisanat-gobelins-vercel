@@ -448,16 +448,12 @@ class ThreeScene {
                     child.material.opacity = 0;
 
                 } else if("couleurEtoile" === child.name) {
-                    this._textureLoader.load(
-                        '/assets/textures/colorPicker/crayonnes/crayonnés_carré_central.jpg', 
-                        (result) => {
-                            // if("couleurEtoile" === child.name) {
-                                child.material.alphaMap = result;
-                                // child.material.alphaTest = 0.5;
-                                console.log(result)
-                            // }
-                        }
-                    );
+
+                    const texture = this._textureLoader.load('/assets/textures/colorPicker/crayonnes/crayonnés_carré_central.jpg');
+                    child.material.alphaMap = texture;
+                    child.material.alphaTest = 0.5;
+                    child.material.transparent = true;
+
                 } else if("vitreColoration_01" === child.name 
                     || "vitreColoration_02" === child.name
                     || "porteVitre" === child.name
@@ -722,41 +718,11 @@ class ThreeScene {
                 color: this._finalColorPicked.couleurEtoile09,
                 roughness: 0,
                 metalness: .3,
-                reflectivity: 1,
-                // opacity: .8,
-                // transparent: true,
+                reflectivity: 1
             })
         });
 
-        this._scene.getObjectByName("piece_principale").traverse(child => {
-            
-            if(child.name === "piece_principale_visible") {
-                child.material = new THREE.MeshPhysicalMaterial({
-                    color: this._finalColorPicked.couleurEtoile09,
-                    roughness: 0,
-                    metalness: 0.3,
-                    reflectivity: 1,
-                    // opacity: .8,
-                    // transparent: true,
-                }) 
-            }
-
-        })
-
         this._scene.getObjectByName("couleurEtoile").material.color = this._finalColorPicked.couleurEtoile09;
-
-
-        // this._textureLoader.load(
-        //     '/assets/textures/colorPicker/crayonnes/crayonnés_carré_central.jpg', 
-        //     (result) => {  
-        //         console.log(result);
-        //         this._scene.getObjectByName("couleurEtoile").material.color = this._finalColorPicked.couleurEtoile09;
-        //         this._scene.getObjectByName("couleurEtoile").material.alphaMap = result;
-        //         this._scene.getObjectByName("couleurEtoile").material.alphaTest = 0.5;
-        //         this._scene.getObjectByName("couleurEtoile").material.transparent = true;
-        //         console.log(this._scene.getObjectByName("couleurEtoile"))
-        //     }
-        // );
     
         this._setColorsOnFinalVitrail();
 
@@ -1204,6 +1170,7 @@ class ThreeScene {
                             // child.material.transparent = true;
                             gsap.to(child.material, { opacity: 0, transparent: true, duration: .5 });
                     })
+                    gsap.to(this._outlinePass, { edgeThickness: 0, duration: 0 });
                     gsap.to(event.object.position, { x: x, y: y, z: z, duration: 0, delay: 0.5 });
                     event.object.children.map(child => {
                         if (child.material)
@@ -1211,6 +1178,7 @@ class ThreeScene {
                         // gsap.to(child.material, {opacity: 1, transparent: false, duration: .5, delay: 1});
                         // child.material.transparent = false;
                     })
+                    gsap.to(this._outlinePass, { edgeThickness: 3, duration: .5, delay: 1 });
                     //Launch un certain son fail
                 }
 
@@ -1227,8 +1195,9 @@ class ThreeScene {
                 console.log("2eme drag and drop")
                 //Action à faire sur le drag and drop out 
                 if (this._isOnTarget) {
-
+                    gsap.to(this._outlinePass, { edgeThickness: 0, duration: 0 });
                     gsap.to(event.object.position, { x: x, y: y, z: z, duration: 0, delay: 0.5 });
+                    gsap.to(this._outlinePass, { edgeThickness: 3, duration: .5, delay: 1 });
                     //Launch un certain son fail
 
                 } else {
@@ -1276,6 +1245,7 @@ class ThreeScene {
                             // child.material.transparent = true;
                             gsap.to(child.material, { opacity: 0, transparent: true, duration: .5 });
                     })
+                    gsap.to(this._outlinePass, { edgeThickness: 0, duration: 0 });
                     // gsap.to(event.object.material, { opacity: 0, transparent: true, duration: .5 });
                     // gsap.to(event.object.position, { x: x, y: y, z: z, duration: 0, delay: 0.5 });
                     // gsap.to(event.object.material, { opacity: 1, transparent: false, duration: .5, delay: 1 });
@@ -1287,6 +1257,7 @@ class ThreeScene {
                         // gsap.to(child.material, {opacity: 1, transparent: false, duration: .5, delay: 1});
                         // child.material.transparent = false;
                     })
+                    gsap.to(this._outlinePass, { edgeThickness: 3, duration: .5, delay: 1 });
                     //Launch un certain son fail
                 }
             }
@@ -1362,9 +1333,9 @@ class ThreeScene {
                     inset -20px 0 60px #adfde2,
                     inset 20px 0 300px #adfde2,
                     inset -20px 0 300px #adfde2,
-                      0 0 50px #adfde2,
-                      -10px 0 60px #adfde2,
-                      10px 0 60px #adfde2`;
+                    0 0 50px #adfde2,
+                    -10px 0 60px #adfde2,
+                    10px 0 60px #adfde2`;
 
                 } else {
 

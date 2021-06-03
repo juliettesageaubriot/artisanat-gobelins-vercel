@@ -118,10 +118,11 @@ const SingleAtelierPage = () => {
         <div className={styles["page-singleAtelier"]}></div>
 
         <img src="/assets/images/ui/pictos-ux/CLIC_GRUGER_V02.gif" alt="Picto UX pour le click gruger" className="picto-ux click-points" id="clickPoints" />
-        <img src="/assets/images/ui/pictos-ux/drag-and-drop.gif" alt="Picto UX pour le drag and drop" className="picto-ux drag-and-drop" id="dragAndDrop" />
+        <img src="/assets/images/ui/pictos-ux/DRAG_DROP_GABARIT_IN.gif" alt="Picto UX pour le drag and drop" className="picto-ux drag-and-drop" id="dragAndDrop" />
+        <img src="/assets/images/ui/pictos-ux/drag-and-drop.gif" alt="Picto UX pour le drag and drop de fin" className="picto-ux drag-and-drop-end" id="dragAndDropEnd" />
         <img src="/assets/images/ui/pictos-ux/DRAG_DROP_ENLEVER_PAPIER_V01.gif" alt="Picto UX pour le drag and drop out" className="picto-ux drag-and-drop-out" id="dragAndDropOut" />
         <img src="/assets/images/ui/pictos-ux/DRAG_DROP_color_picker_V01.gif" alt="Picto UX pour le drag and drop du color picker" className="picto-ux drag-and-drop-color-picker" id="dragAndDropColorPicker" />
-        <img src="/assets/images/ui/pictos-ux/pression.gif" alt="Picto UX pour la jauge de pression" className="picto-ux pression" id="pression" />
+        <img src="/assets/images/ui/pictos-ux/JAUGE_PRESSION_V02.gif" alt="Picto UX pour la jauge de pression" className="picto-ux pression" id="pression" />
         <img src="/assets/images/ui/pictos-ux/scroll.gif" alt="Picto UX pour le scroll" className="picto-ux scroll" id="scroll" />
         <img src="/assets/images/ui/pictos-ux/TRACE_GLISSIERE_V02.gif" alt="Picto UX pour la trace glissière" className="picto-ux trace" id="trace" />
         <img src="/assets/images/ui/pictos-ux/TRACE_GLISSIERE_FIXE.png" alt="Picto UX pour la trace glissière fixe" className="picto-ux trace-fixe" id="trace-fixe" />
