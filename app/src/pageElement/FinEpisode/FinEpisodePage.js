@@ -75,9 +75,9 @@ const FinEpisodePage = () => {
 
   const handleScroll = (e) => {
     if (e.deltaY > 0) {
-      slider1 && slider1.current.slickPrev();
-    } else if (e.deltaY < 0) {
       slider1 && slider1.current.slickNext();
+    } else if (e.deltaY < 0) {
+      slider1 && slider1.current.slickPrev();
     }
   };
 
