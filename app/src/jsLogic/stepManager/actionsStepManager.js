@@ -217,7 +217,7 @@ class ActionsStepManager {
         //Drag and drop out papier
         this._UIManager.removeTracePicto();
         this._UIManager.removeTraceFixePicto();
-        this._UIManager.setDragAndDropPicto("papier_decoupe");
+        this._UIManager.setDragAndDropOutPicto("papier_decoupe");
         this._state.setSoundInteractionToPlay(soundsOnInteraction.coupeVerre3_url, false, false);
         this._state.setSoundInteractionToPlay(soundsOnInteraction.coupeVerre2_url, false, false);
 
@@ -227,7 +227,7 @@ class ActionsStepManager {
     }
     _stepTwentySix() {
         //Fin drag and drop out papier
-        this._UIManager.removeDragAndDropPicto();
+        this._UIManager.removeDragAndDropOutPicto();
         this._setCurrentSubtitle(14);
         this._toggleDragAndDrop();
     }

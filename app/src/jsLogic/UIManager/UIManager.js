@@ -9,6 +9,7 @@ class UIManager {
             this,
             'setClickPointsPicto',
             'setDragAndDropPicto',
+            'setDragAndDropOutPicto',
             'setPressionPicto',
             'setScrollPicto',
             'setTracePicto'
@@ -24,6 +25,7 @@ class UIManager {
 
         this._removeClickPointsPicto
         this._removeDragAndDropPicto
+        this._removeDragAndDropOutPicto
         this._removeDragAndDropColorPickerPicto
         this._removePressionPicto
         this._removePressureGaugePicto
@@ -49,6 +51,7 @@ class UIManager {
         this.UI.clickPointsThree = document.querySelector("#clickPointsThree")
 
         this.UI.dragAndDrop = document.querySelector("#dragAndDrop")
+        this.UI.dragAndDropOut = document.querySelector("#dragAndDropOut")
         this.UI.dragAndDropColorPicker = document.querySelector("#dragAndDropColorPicker")
         this.UI.pression = document.querySelector("#pression")
         this.UI.scroll = document.querySelector("#scroll")
@@ -144,6 +147,22 @@ class UIManager {
     removeDragAndDropPicto() {
         clearTimeout(this._removeDragAndDropPicto)
         this.UI.dragAndDrop.style.opacity = 0
+    }
+
+    setDragAndDropOutPicto(objectName) {
+        this._coordinates = this._getObjectCoordinatesByName(objectName);
+        this.UI.dragAndDropOut.style.opacity = 1
+        this.UI.dragAndDropOut.style.top = this._coordinates.y + 100 + "px"
+        this.UI.dragAndDropOut.style.left = this._coordinates.x - 100 + "px"
+
+        // this._removeDragAndDropPicto = setTimeout(() => {
+        //     this.UI.dragAndDrop.style.opacity = 0
+        // }, 8000);
+    }
+
+    removeDragAndDropOutPicto() {
+        clearTimeout(this._removeDragAndDropOutPicto)
+        this.UI.dragAndDropOut.style.opacity = 0
     }
 
     setDragAndDropColorPickerPicto(objectName) {
