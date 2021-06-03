@@ -5,7 +5,7 @@
     "duration": 5,
     "title": "Le vitrailliste",
     "caption": "Old school le vitrail ?",
-    "date": "21/12",
+    "date": "Atelier disponible",
     "top": "15",
     "left": "24",
     "disponibility": true,
@@ -17,9 +17,9 @@
     "duration": 2,
     "title": "Le joaillier",
     "caption": "De l'or au bout des doigts ?",
-    "date": "21/03",
+    "date": "21/09",
     "top": "15",
-    "left": "74",
+    "left": "70",
     "disponibility": false,
     "url": "/"
   },
@@ -41,9 +41,9 @@
     "duration": 5,
     "title": "Le chapelier",
     "caption": "Sur les chapeaux de roue ?",
-    "date": "21/09",
+    "date": "21/03",
     "top": "15",
-    "left": "39",
+    "left": "40",
     "disponibility": false,
     "url": "/"
   }

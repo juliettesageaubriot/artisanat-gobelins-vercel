@@ -14,7 +14,9 @@ const MenuModal = ({ id, title, caption, duration, date, left, top, disponibilit
             <span>{duration} minutes</span>
           </div>
 
-          <span className={`${styles.disponible} upp`}>Disponible {disponibility === true && "depuis"} le {date}</span>
+          <span className={`${styles.disponible} upp`}>
+            {disponibility === true ? date : `Disponible le ${date}`}
+          </span>
 
           <div className={styles.content}>
             <h1>{title}</h1>
