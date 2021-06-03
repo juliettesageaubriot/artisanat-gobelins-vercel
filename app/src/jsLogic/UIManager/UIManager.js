@@ -32,6 +32,7 @@ class UIManager {
         this._removeScrollPicto
         this._removeTracePicto
         this._removeTraceFixePicto
+        this._removeDragAndDropPictoEnd
     }
 
     _setUI() {
@@ -52,6 +53,7 @@ class UIManager {
 
         this.UI.dragAndDrop = document.querySelector("#dragAndDrop")
         this.UI.dragAndDropOut = document.querySelector("#dragAndDropOut")
+        this.UI.dragAndDropEnd = document.querySelector("#dragAndDropEnd")
         this.UI.dragAndDropColorPicker = document.querySelector("#dragAndDropColorPicker")
         this.UI.pression = document.querySelector("#pression")
         this.UI.scroll = document.querySelector("#scroll")
@@ -136,17 +138,33 @@ class UIManager {
     setDragAndDropPicto(objectName) {
         this._coordinates = this._getObjectCoordinatesByName(objectName);
         this.UI.dragAndDrop.style.opacity = 1
-        this.UI.dragAndDrop.style.top = this._coordinates.y + 100 + "px"
-        this.UI.dragAndDrop.style.left = this._coordinates.x + 150 + "px"
+        this.UI.dragAndDrop.style.top = this._coordinates.y + 80 + "px"
+        this.UI.dragAndDrop.style.left = this._coordinates.x + 200 + "px"
 
-        // this._removeDragAndDropPicto = setTimeout(() => {
-        //     this.UI.dragAndDrop.style.opacity = 0
-        // }, 8000);
+        this._removeDragAndDropPicto = setTimeout(() => {
+            this.UI.dragAndDrop.style.opacity = 0
+        }, 8000);
     }
 
     removeDragAndDropPicto() {
         clearTimeout(this._removeDragAndDropPicto)
         this.UI.dragAndDrop.style.opacity = 0
+    }
+
+    setDragAndDropPictoEnd(objectName) {
+        this._coordinates = this._getObjectCoordinatesByName(objectName);
+        this.UI.dragAndDropEnd.style.opacity = 1
+        this.UI.dragAndDropEnd.style.top = this._coordinates.y + 100 + "px"
+        this.UI.dragAndDropEnd.style.left = this._coordinates.x + 180 + "px"
+
+        this._removeDragAndDropPictoEnd = setTimeout(() => {
+            this.UI.dragAndDropEnd.style.opacity = 0
+        }, 8000);
+    }
+
+    removeDragAndDropPictoEnd() {
+        clearTimeout(this._removeDragAndDropPictoEnd)
+        this.UI.dragAndDropEnd.style.opacity = 0
     }
 
     setDragAndDropOutPicto(objectName) {
@@ -155,9 +173,9 @@ class UIManager {
         this.UI.dragAndDropOut.style.top = this._coordinates.y + 100 + "px"
         this.UI.dragAndDropOut.style.left = this._coordinates.x - 100 + "px"
 
-        // this._removeDragAndDropPicto = setTimeout(() => {
-        //     this.UI.dragAndDrop.style.opacity = 0
-        // }, 8000);
+        this._removeDragAndDropPicto = setTimeout(() => {
+            this.UI.dragAndDrop.style.opacity = 0
+        }, 8000);
     }
 
     removeDragAndDropOutPicto() {
@@ -246,7 +264,7 @@ class UIManager {
         this.UI.traceFixe.style.opacity = 1
         this.UI.traceFixe.style.top = this._coordinates.y + "px"
         this.UI.traceFixe.style.left = this._coordinates.x + "px"
-        // this._removeTraceFixePicto = setTimeout(() => {
+        // this._removeTraceFixePicto = setTimeou           t(() => {
         //     this.UI.traceFixe.style.opacity = 0
         // }, 8000);
     }

@@ -133,7 +133,7 @@
     {
       "id": 16,
       "text": "C'était la dernière pièce, bravo, tu peux la placer au centre.", 
-      "duration": "3000",
+      "duration": "3500",
       "audioSource": "assets/audios/subtitles/09_VF_Etape3_04.mp3",
       "actionOnEnd": 31,
       "canReplay": true
