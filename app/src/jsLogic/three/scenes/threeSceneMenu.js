@@ -227,7 +227,6 @@ class ThreeSceneMenu {
                 break;
               case 'collier':
                 this._collierElm = elm
-                this._addToScene(elm)
                 break;
               case 'contrebasse':
                 this._contreBasseElm = elm
@@ -293,7 +292,6 @@ class ThreeSceneMenu {
     this._currentObjectName
     this._previousObjectName
 
-    return;
     if (intersects[0]) {
       this._object = intersects[0].object;
 
