@@ -141,16 +141,16 @@
     {
       "id": 17,
       "text": "La partie la plus satisfaisante du métier c’est de voir ses créations prendre vie. Rien n'est plus beau que de donner une âme à un lieu. C'est un peu présompteux parfois mais c'est une grande responsabilité.", 
-      "duration": "10000",
+      "duration": "11000",
       "audioSource": "assets/audios/subtitles/10_VF_Mise en situation.mp3",
       "actionOnEnd": 34,
       "canReplay": true
     },
     {
       "id": 18,
-      "text": "Bon, j'espère que cette initiation t'a plu, et t'a donné envie d'en savoir plus ! Pour devenir vitrailliste, on dit qu'il faut une dizaine d'années. À condition d'avoir une bonne formation au départ, et pour ça, on doit se battre contre les réformes en cours !", 
-      "duration": "12000",
-      "audioSource": "assets/audios/subtitles/11_VF_Itw.mp3",
+      "text": "Bon, j'espère que cette initiation t'a plu, et t'a donné envie d'en savoir plus ! Pour devenir vitrailliste, on dit qu'il faut une dizaine d'années.", 
+      "duration": "7500",
+      "audioSource": "assets/audios/subtitles/11_VF_Itw_part01.mp3",
       "actionOnEnd": "none",
       "canReplay": true
     }

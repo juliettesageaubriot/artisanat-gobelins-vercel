@@ -18,5 +18,9 @@
     {
         "name": "scene-atelier-exterieur",
         "url": "/assets/models/gltf/draco/dracoModels/atelier_exterieur.glb"
+    },
+    {
+        "name": "scene-bar",
+        "url": "/assets/models/gltf/draco/dracoModels/bar.glb"
     }
 ]

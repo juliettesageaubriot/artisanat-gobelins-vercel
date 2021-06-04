@@ -24,6 +24,27 @@
     z-index: 1;
 }
 
+.fondu {
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: #FFFAFA;
+
+    z-index: 150;
+
+    opacity: 0;
+
+    transition: 1s all ease-in-out;
+
+    pointer-events: none;
+
+    &.appear {
+        opacity: 1;
+    }
+}
+
 // .link-white {
 //     border: 1px solid $color-white;
 //     span {
