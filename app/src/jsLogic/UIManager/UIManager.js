@@ -90,7 +90,7 @@ class UIManager {
         this.UI.clickPointsOne.style.top = this._coordinates.y - 12.5 + "px"
         this.UI.clickPointsOne.style.left = this._coordinates.x - 12.5 + "px"
         this.UI.clickPointsOne.style.opacity = 0.6;
-        
+
         this.UI.clickPointsOne.addEventListener('click', () => {
             this._glassCutOutObjectDisappear(["debut", "milieu1", "extrusion1", "extrusion2"]);
             this._glassCutOutObjectDisappear(["pinceGruger1"]);
@@ -98,7 +98,7 @@ class UIManager {
             this.UI.clickPointsOne.style.opacity = 0;
             this.setClickPointsButtonTwo(action);
         })
-        
+
     }
     setClickPointsButtonTwo(action) {
         this._coordinates = this._getObjectCoordinatesByName("milieu3");
@@ -113,7 +113,7 @@ class UIManager {
             this.UI.clickPointsTwo.style.opacity = 0;
             this.setClickPointsButtonThree(action);
         })
-        
+
     }
     setClickPointsButtonThree(action) {
         this._coordinates = this._getObjectCoordinatesByName("fin");
@@ -188,10 +188,6 @@ class UIManager {
         this.UI.dragAndDropColorPicker.style.opacity = 1
         this.UI.dragAndDropColorPicker.style.top = this._coordinates.y + 30 + "px"
         this.UI.dragAndDropColorPicker.style.left = 50 + "%"
-
-        // this.UI.dragAndDropColorPicker.style.top = this._coordinates.y + 80 + "px"
-        // this.UI.dragAndDropColorPicker.style.left = this._coordinates.x + "px"
-
         this._removeDragAndDropColorPickerPicto = setTimeout(() => {
             this.UI.dragAndDropColorPicker.style.opacity = 0
         }, 8000);
@@ -264,9 +260,6 @@ class UIManager {
         this.UI.traceFixe.style.opacity = 1
         this.UI.traceFixe.style.top = this._coordinates.y + "px"
         this.UI.traceFixe.style.left = this._coordinates.x + "px"
-        // this._removeTraceFixePicto = setTimeou           t(() => {
-        //     this.UI.traceFixe.style.opacity = 0
-        // }, 8000);
     }
 
     removeTraceFixePicto() {

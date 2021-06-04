@@ -64,6 +64,8 @@ class ThreeSceneMenu {
 
     this._currentIntersectID = 0;
 
+    // Raycast
+    this._discoverButtonActif = false
     this._enableRaycastMenu = false
 
     //Groups
@@ -846,6 +848,7 @@ class ThreeSceneMenu {
     const discoverButton = document.getElementById('discoverBtn')
     discoverButton.addEventListener('click', () => {
       this._enableRaycastMenu = true
+      this._discoverButtonActif = true
     })
     return this._enableRaycastMenu
   }
@@ -856,12 +859,14 @@ class ThreeSceneMenu {
 
     btnAboutOpen.addEventListener('click', () => {
       this._enableRaycastMenu = false
-      console.log('open')
     })
 
     btnAboutClose.addEventListener('click', () => {
-      this._enableRaycastMenu = true
-      console.log('close');
+      if(this._discoverButtonActif === false) {
+        this._enableRaycastMenu = false
+      } else {
+        this._enableRaycastMenu = true
+      }
     })
 
     return this._enableRaycastMenu

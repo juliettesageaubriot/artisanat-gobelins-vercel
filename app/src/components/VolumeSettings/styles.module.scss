@@ -3,8 +3,8 @@
 .volumeContainer {
     position: absolute;
     background-color: transparent;
-    bottom: 40px;
-    right: 35px;
+    bottom: 15px;
+    right: 25px;
     height: 40px;
     width: 40px;
     border-radius: 7.5px;
@@ -59,10 +59,14 @@
         }
 
         .slider::-moz-range-thumb {
+            -webkit-appearance: none;
+            appearance: none;
             width: 10px;
             height: 10px;
-            background: #254eda;
+            background: $color-black;
             cursor: pointer;
+            border-radius: unset;
+            border: none;
         }
     }
 

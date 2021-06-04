@@ -91,7 +91,7 @@ const ChoixEpisodeAtelierPage = () => {
         <div className={`${styles['menu_container']}`}>
           <img src="/assets/images/logo/logo_regards_dartisans.png" alt="logo Regards d'Artisans" />
           <p className={styles.pitch}>Regards d'artisans nous invite à nous glisser dans la peau d'un apprenti artisan, dans le cadre intime d'un atelier, lieu de partage d'un savoir-faire.</p>
-          <p className={`upp ${styles.casque}`}>Pour une expérience optimale, utilisez un casque !</p>
+          <p className={`upp ${styles.casque}`}><i className="fal fa-headphones-alt"></i> Pour une expérience optimale, utilisez un casque !</p>
           <div className={`${styles["button-discover"]}`}>
             <button className={`btn btn-primary`} id="discoverBtn" onClick={handleClick}>
               <span>Je découvre</span>
