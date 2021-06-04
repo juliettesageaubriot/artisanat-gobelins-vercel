@@ -498,12 +498,9 @@ class ThreeScene {
                     child.material.opacity = 0.5
                 } else if ("bar" === child.name) {
                     this._barScene = child;
-                    console.log(this._models[name].animations)
-                    this._cameraBar = child.getObjectByName("CameraBar_Orientation");
                     this._cameraAnimationBar = [...this._models[name].animations];
 
                     this.cameraAnimatorBar = new AnimationManager(child, this._cameraAnimationBar);
-                    // this.cameraManagerBar = new CameraManager(this._camera, this._cameras, this.cameraAnimatorBar);
                 }
             })
         }
@@ -1141,6 +1138,9 @@ class ThreeScene {
 
         if (this.cameraAnimator) {
             this.cameraAnimator.update(deltaTime)
+        }
+        if (this.cameraAnimatorBar) {
+            this.cameraAnimatorBar.update(deltaTime)
         }
         if (this.feuilleChuteAnimator) {
             this.feuilleChuteAnimator.update(deltaTime)
