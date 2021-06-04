@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Howler from 'react-howler';
+
 
 const useModal = () => {
   const [isShowing, setIsShowing] = useState(false);
@@ -6,7 +8,7 @@ const useModal = () => {
   const toggle = () => {
     setIsShowing(!isShowing);
   }
-
+  
   return {
     isShowing,
     toggle

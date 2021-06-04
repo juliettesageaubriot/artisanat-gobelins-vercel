@@ -10,20 +10,31 @@ import data from '@assets/data/interviews.json'
 import styles from "./styles.module.scss";
 
 const FinEpisodePage = () => {
-  const { isShowing: isShowingAbout, toggle: toggleAbout } = useModal();
+  const { isShowing: isShowingAbout, toggle } = useModal();
 
   const [isPlay, setIsPlay] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(1)
+  const [isMutedSound, setIsMutedSound] = useState(false)
 
   const slider1 = useRef();
   const parentRef = useRef(null);
 
   let slides1
   let video
+
   if (typeof window !== 'undefined') {
     slides1 = document.querySelector('.slick-slider1')
     video = document.querySelector('.videoElm')
   }
+
+  useEffect(() => {
+    const buttonsElement = document.querySelectorAll('button')
+    buttonsElement.forEach((elm) => {
+      elm.addEventListener('click', () => {
+        setIsMutedSound(true)
+      })
+    })
+  }, [])
 
 
   const modalTextAbout = [{
@@ -62,9 +73,8 @@ const FinEpisodePage = () => {
       slides1.classList.remove('anim-fade')
       video.pause();
       setIsPlay(false);
+      setIsMutedSound(false)
       setCurrentSlide(event + 1)
-
-      console.log(event);
     }
   };
 
@@ -93,91 +103,97 @@ const FinEpisodePage = () => {
   }
 
   return (
-    <section className={styles["page-fin"]}>
-      <div className={styles["page-fin_container"]}>
-        <TheAudioSnippet sound_url={`/assets/audios/itw/citation_0${currentSlide}.mp3`} play={isPlay === true ? false : true} specificVolume={1} />
-        <div className={styles.head}>
-          <h1>De l'atelier d'initiation... <br /> <span>À la rencontre des professionnels</span></h1>
-          <div className={`${styles["btn_container"]}`}>
-            <div className={`${styles["btn__inner"]}`}>
-              <button className={`btn btn-about ${isShowingAbout === true && styles.disabled}`} onClick={toggleAbout}><span>À propos</span></button>
+    <>
+      <section className={styles["page-fin"]}>
+        <div className={styles["page-fin_container"]}>
+          <div className={styles.head}>
+            <h1>De l'atelier d'initiation... <br /> <span>À la rencontre des professionnels</span></h1>
+
+            <div className={`${styles["btn_container"]}`}>
+              <div className={`${styles["btn__inner"]}`}>
+                <button className={`btn btn-about ${isShowingAbout === true && styles.disabled}`} onClick={toggle}>
+                  <span>À propos</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+
+          <div
+            className={styles.sliders}
+            ref={parentRef}
+          >
+
+            <div className={styles.container}>
+              <Slider
+                {...settings1}
+                ref={slider1}
+              >
+                {data.map((elm, i) => {
+                  return (
+                    <div key={i} className={`${styles.sliders}`}>
+                      <div className={styles.left}>
+                        <p className={styles.citation}>" {elm.content} "</p>
+                        <div className={styles.maitre}>
+                          <img src={elm.img} />
+                          <span>{elm.signature}</span>
+                        </div>
+                      </div>
+
+
+                      <div className={`${styles.right}`}>
+                        <div className={styles.video}>
+                          <video className='videoElm' controls={isPlay === true ? true : false}>
+                            <source src={elm.video} />
+                          Sorry, your browser doesn't support embedded videos.
+                          </video>
+                          <button
+                            className={`${styles.play} ${isPlay === false ? '' : styles.invisible}`}
+                            onClick={handleClick}>
+                            <span>
+                              <i className="fas fa-play"></i>
+                            </span>
+                          </button>
+                        </div>
+
+                        <div className={styles['content-itw']}>
+                          <h2>{elm.question}</h2>
+
+                          <p className={styles.itw}>
+                            <span>Interview</span> avec
+                        </p>
+
+                          <div className={styles.person}>
+                            <span>{elm.person}</span> <br />
+                            <p>{elm.job}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  )
+                })}
+              </Slider>
+            </div>
+          </div>
+
+
+          <div className={styles.footer}>
+
+            <div className={`${styles["btn_container"]}`}>
+              <a href="/" className={`link link-secondary link-black ${styles['link-before']} ${styles['link-black']}`}>
+                <span>Épisodes</span>
+              </a>
             </div>
           </div>
         </div>
 
+        <TheModal isShowing={isShowingAbout} hide={toggle} content={modalTextAbout} />
+        <div className={`${styles['overlay-gribouillis']}`}></div>
+      </section>
 
-        <div
-          className={styles.sliders}
-          ref={parentRef}
-        >
-
-          <div className={styles.container}>
-            <Slider
-              {...settings1}
-              ref={slider1}
-            >
-              {data.map((elm, i) => {
-                return (
-                  <div key={i} className={`${styles.sliders}`}>
-                    <div className={styles.left}>
-                      <p className={styles.citation}>" {elm.content} "</p>
-                      <div className={styles.maitre}>
-                        <img src={elm.img} />
-                        <span>{elm.signature}</span>
-                      </div>
-                    </div>
-
-
-                    <div className={`${styles.right}`}>
-                      <div className={styles.video}>
-                        <video className='videoElm' controls={isPlay === true ? true : false}>
-                          <source src={elm.video} />
-                          Sorry, your browser doesn't support embedded videos.
-                          </video>
-                        <button
-                          className={`${styles.play} ${isPlay === false ? '' : styles.invisible}`}
-                          onClick={handleClick}>
-                          <span>
-                            <i className="fas fa-play"></i>
-                          </span>
-                        </button>
-                      </div>
-
-                      <div className={styles['content-itw']}>
-                        <h2>{elm.question}</h2>
-
-                        <p className={styles.itw}>
-                          <span>Interview</span> avec
-                        </p>
-
-                        <div className={styles.person}>
-                          <span>{elm.person}</span> <br />
-                          <p>{elm.job}</p>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-                )
-              })}
-            </Slider>
-          </div>
-        </div>
-
-
-        <div className={styles.footer}>
-
-          <div className={`${styles["btn_container"]}`}>
-            <a href="/" className={`link link-secondary link-black ${styles['link-before']} ${styles['link-black']}`}>
-              <span>Épisodes</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <TheModal isShowing={isShowingAbout} hide={toggleAbout} content={modalTextAbout} />
-      <div className={`${styles['overlay-gribouillis']}`}></div>
-    </section>
+      <TheAudioSnippet sound_url={`/assets/audios/itw/citation_0${currentSlide}.mp3`} play={isPlay === true || isMutedSound === true ? false : true} specificVolume={1} />
+    </>
   )
 }
 
