@@ -3,9 +3,9 @@
     "content": "À condition d'avoir une bonne formation au départ, et pour ça, on doit se battre contre les réformes en cours !",
     "img": "/assets/images/itw/marion_profil.jpg",
     "signature": "Ton maître d'apprentissage",
-    "video": "/assets/videos/itw_louise.mp4",
+    "video": "/assets/videos/ITW_LOUISE_ALL_01.mp4",
     "question": "Une dizaine d’années pour devenir vitrailliste ?",
-    "person": "Louise Doublet",
+    "person": "Louise",
     "job": "Étudiante en DNMADE (diplôme national des métiers d'art et du design) mention ornement, parcours vitrail l'ENS AAMA",
     "sound":"/assets/audios/itw/citation_01.mp3"
   },
@@ -14,20 +14,20 @@
     "content": "Maintenant notre métier n’est pas si old school qu’on voudrait le laisser croire…",
     "img": "/assets/images/itw/marion_profil.jpg",
     "signature": "Ton maître d'apprentissage",
-    "video": "/assets/videos/itw_louise.mp4",
+    "video": "/assets/videos/ITW_LOUISE_ALL_02.mp4",
     "question": "Old school le vitrail ?",
-    "person": "Maxime",
+    "person": "Louise",
     "job": "Étudiante en DNMADE (diplôme national des métiers d'art et du design) mention ornement, parcours vitrail l'ENS AAMA 2",
     "sound":"/assets/audios/itw/citation_02.mp3"
   },
   {
-    "id": 2,
+    "id": 3,
     "content": "Quel dommage qu’il soit parfois présenté comme une voie de secours.",
     "img": "/assets/images/itw/marion_profil.jpg",
     "signature": "Ton maître d'apprentissage",
-    "video": "/assets/videos/itw_louise.mp4",
+    "video": "/assets/videos/ITW_LOUISE_ALL_03.mp4",
     "question": "L’artisanat d’art, une voie de secours ?",
-    "person": "Vincent",
+    "person": "Louise",
     "job": "Étudiante en DNMADE (diplôme national des métiers d'art et du design) mention ornement, parcours vitrail l'ENS AAMA 2",
     "sound":"/assets/audios/itw/citation_03.mp3"
   }

@@ -24,7 +24,7 @@ const FinEpisodePage = () => {
 
   if (typeof window !== 'undefined') {
     slides1 = document.querySelector('.slick-slider1')
-    video = document.querySelector('.videoElm')
+    video = document.querySelectorAll('.videoElm')
   }
 
   useEffect(() => {
@@ -66,13 +66,17 @@ const FinEpisodePage = () => {
     ),
     beforeChange: () => {
       slides1.classList.add('anim-fade')
-      video.pause();
-      setIsPlay(false);
+      video.forEach((elm) => {
+        elm.pause();
+        setIsPlay(false);
+      })
     },
     afterChange: (event) => {
       slides1.classList.remove('anim-fade')
-      video.pause();
-      setIsPlay(false);
+      video.forEach((elm) => {
+        elm.pause();
+        setIsPlay(false);
+      })
       setIsMutedSound(false)
       setCurrentSlide(event + 1)
     }
@@ -97,9 +101,13 @@ const FinEpisodePage = () => {
     }
   };
 
-  const handleClick = () => {
-    video.play();
-    setIsPlay(true);
+  const handleClick = (event) => {
+    video.forEach((elm) => {
+      if (event.target.id == elm.id) {
+        elm.play();
+        setIsPlay(true);
+      }
+    })
   }
 
   return (
@@ -143,15 +151,18 @@ const FinEpisodePage = () => {
 
                       <div className={`${styles.right}`}>
                         <div className={styles.video}>
-                          <video className='videoElm' controls={isPlay === true ? true : false}>
+                          <video id={elm.id}
+                          className='videoElm'
+                          controls={isPlay === true ? true : false}>
                             <source src={elm.video} />
                           Sorry, your browser doesn't support embedded videos.
                           </video>
                           <button
+                            id={elm.id}
                             className={`${styles.play} ${isPlay === false ? '' : styles.invisible}`}
                             onClick={handleClick}>
                             <span>
-                              <i className="fas fa-play"></i>
+                              <i id={elm.id} className="fas fa-play"></i>
                             </span>
                           </button>
                         </div>
@@ -161,7 +172,7 @@ const FinEpisodePage = () => {
 
                           <p className={styles.itw}>
                             <span>Interview</span> avec
-                        </p>
+                          </p>
 
                           <div className={styles.person}>
                             <span>{elm.person}</span> <br />
