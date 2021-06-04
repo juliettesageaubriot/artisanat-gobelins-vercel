@@ -2,7 +2,8 @@
 
 .page-fin {
     position: relative;
-    padding: 40px 35px;
+    padding: 15px 25px;
+    line-height: 23px;
 
     &_container {
         height: 100%;
@@ -10,7 +11,7 @@
         .scroll {
             position: absolute;
             bottom: 20%;
-            left: 35px;
+            left: 20px;
             transform: translate(-50%, -50%);
             opacity: 1;
             width: 100px;
@@ -25,7 +26,7 @@
             width: 100%;
 
             h1 {
-                font-family: "OpenSansRegular";
+                font-family: "OpenSansLight";
                 font-size: 15px;
                 text-transform: uppercase;
                 span {
@@ -36,8 +37,8 @@
         .footer {
             .link-before {
                 position: absolute;
-                bottom: 50px;
-                left: 35px;
+                bottom: 25px;
+                left: 25px;
                 z-index: 1;
             }
         }
@@ -89,14 +90,15 @@
 
                         .slick-dots {
                             position: absolute;
-                            top: 50%;
-                            left: 30px;
+                            top: 48%;
+                            left: 10px;
                             transform: translate(-50%, -50%);
                             ul {
                                 list-style: none;
                                 li {
-                                    width: 10px;
-                                    height: 10px;
+                                    position: relative;
+                                    width: 9px;
+                                    height: 9px;
                                     background: $color-grey-100;
                                     transition: 0.5s ease-in all;
                                     button {
@@ -115,7 +117,7 @@
                                         transition: 0.5s ease-in all;
                                     }
                                     & + li {
-                                        margin-top: 20px;
+                                        margin-top: 25px;
                                     }
                                 }
                             }
@@ -155,16 +157,16 @@
 
                     .left {
                         width: 50%;
-                        padding: 10px;
+                        padding: 10px 60px 10px 0px;
                         .citation {
                             font-family: "Cirka";
                             font-size: 30px;
+                            line-height: initial;
                         }
                         .maitre {
                             display: flex;
                             flex-flow: row wrap;
                             align-items: center;
-                            justify-content: flex-s;
                             width: 100%;
                             margin-top: 30px;
                             img {
@@ -234,11 +236,12 @@
                             .person {
                                 margin-top: 30px;
                                 span {
-                                    font-family: "OpenSansRegular";
-                                    font-size: 18px;
+                                    font-family: "Cirka";
+                                    font-size: 25px;
                                 }
                                 p {
-                                    margin-top: 5px;
+                                    margin-top: 10px;
+                                    font-size: 14px;
                                     font-family: "OpenSansLight";
                                 }
                             }

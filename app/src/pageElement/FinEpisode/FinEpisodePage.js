@@ -3,6 +3,7 @@ import Slider from "react-slick";
 
 import TheModal from '@components/Modal/TheModal'
 import useModal from '@hooks/useModal'
+import TheAudioSnippet from '@components/AudioSnippet/TheAudioSnippet';
 
 import data from '@assets/data/interviews.json'
 
@@ -11,7 +12,8 @@ import styles from "./styles.module.scss";
 const FinEpisodePage = () => {
   const { isShowing: isShowingAbout, toggle: toggleAbout } = useModal();
 
-  const [play, setPlay] = useState(false);
+  const [isPlay, setIsPlay] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(1)
 
   const slider1 = useRef();
   const parentRef = useRef(null);
@@ -53,12 +55,15 @@ const FinEpisodePage = () => {
     beforeChange: () => {
       slides1.classList.add('anim-fade')
       video.pause();
-      setPlay(false);
+      setIsPlay(false);
     },
-    afterChange: () => {
+    afterChange: (event) => {
       slides1.classList.remove('anim-fade')
       video.pause();
-      setPlay(false);
+      setIsPlay(false);
+      setCurrentSlide(event + 1)
+
+      console.log(event);
     }
   };
 
@@ -83,13 +88,15 @@ const FinEpisodePage = () => {
 
   const handleClick = () => {
     video.play();
-    setPlay(true);
+    setIsPlay(true);
   }
+
+  console.log(isPlay);
 
   return (
     <section className={styles["page-fin"]}>
       <div className={styles["page-fin_container"]}>
-
+        <TheAudioSnippet sound_url={`/assets/audios/itw/citation_0${currentSlide}.mp3`} play={isPlay === true ? false : true}  specificVolume={1} />
         <div className={styles.head}>
           <h1>De l'atelier d'initiation... <br /> <span>À la rencontre des professionnels</span></h1>
           <div className={`${styles["btn_container"]}`}>
@@ -124,12 +131,12 @@ const FinEpisodePage = () => {
 
                     <div className={`${styles.right}`}>
                       <div className={styles.video}>
-                        <video className='videoElm' controls={play === true ? true : false}>
+                        <video className='videoElm' controls={isPlay === true ? true : false}>
                           <source src={elm.video} />
                           Sorry, your browser doesn't support embedded videos.
                           </video>
                         <button
-                          className={`${styles.play} ${play === false ? '' : styles.invisible}`}
+                          className={`${styles.play} ${isPlay === false ? '' : styles.invisible}`}
                           onClick={handleClick}>
                           <span>
                             <i className="fas fa-play"></i>
