@@ -47,6 +47,7 @@ const FinEpisodePage = () => {
     appendDots: dots => (
       <div>
         <ul> {dots} </ul>
+        <img src="/assets/images/ui/pictos-ux/scroll.gif" alt="Picto UX pour le scroll" className={`picto-ux ${styles.scroll}`} id="scroll" />
       </div>
     ),
     customPaging: i => (
@@ -91,12 +92,10 @@ const FinEpisodePage = () => {
     setIsPlay(true);
   }
 
-  console.log(isPlay);
-
   return (
     <section className={styles["page-fin"]}>
       <div className={styles["page-fin_container"]}>
-        <TheAudioSnippet sound_url={`/assets/audios/itw/citation_0${currentSlide}.mp3`} play={isPlay === true ? false : true}  specificVolume={1} />
+        <TheAudioSnippet sound_url={`/assets/audios/itw/citation_0${currentSlide}.mp3`} play={isPlay === true ? false : true} specificVolume={1} />
         <div className={styles.head}>
           <h1>De l'atelier d'initiation... <br /> <span>À la rencontre des professionnels</span></h1>
           <div className={`${styles["btn_container"]}`}>
@@ -162,15 +161,12 @@ const FinEpisodePage = () => {
                 )
               })}
             </Slider>
-
-            <img src="/assets/images/ui/pictos-ux/scroll.gif" alt="Picto UX pour le scroll" className={`picto-ux ${styles.scroll}`} id="scroll" />
-
           </div>
-
         </div>
 
 
         <div className={styles.footer}>
+
           <div className={`${styles["btn_container"]}`}>
             <a href="/" className={`link link-secondary link-black ${styles['link-before']} ${styles['link-black']}`}>
               <span>Épisodes</span>
