@@ -34,7 +34,9 @@ const SingleAtelierPage = () => {
 
   // Sound states
   const [isPlaying, setIsPlaying] = useState(false)
-  const [isShouldPlayOnStart, setIsShouldPlayOnStart] = useState(false)
+  const [isShouldPlayOnStart, setIsShouldPlayOnStart] = useState(false);
+  const [atelierAudioFadeOut, setAtelierAudioFadeOut] = useState(0.1);
+  const [barAudioFadeIn, setBarAudioFadeIn] = useState(0);
   const [currentSubtitle, setCurrentSubtitle] = useState(30);
   const [currentStepTools, setCurrentStepTools] = useState(toolsData.toolsArray0)
   const [currentValidationStep, setCurrentValidationStep] = useState();
@@ -43,6 +45,8 @@ const SingleAtelierPage = () => {
     play: false,
     loop: false
   });
+
+  const [fonduAppear, setFonduAppear] = useState(false);
 
   const ref = useRef(null)
   const cursorColorPickerContainer = useRef(null);
@@ -58,13 +62,32 @@ const SingleAtelierPage = () => {
     setNextSubtitle: (index) => { setCurrentSubtitle(index) },
     setToolsArray: (toolsArray) => { setCurrentStepTools(toolsArray) },
     setStepValidation: (index) => { setCurrentValidationStep(index) },
-    setSoundInteractionToPlay: (url, play, loop) => setSoundInteractionToPlay({url, play, loop})
+    setSoundInteractionToPlay: (url, play, loop) => setSoundInteractionToPlay({url, play, loop}),
+    setFonduAppear: (bool) => setFonduAppear(bool),
+    fadeBackgroundAudios: () => fadeBackgroundAudios()
   }
 
   useEffect(() => {
     const canvas = ref.current
     setThreeScene(new ThreeScene(canvas, state));
   }, [])
+
+
+  const fadeBackgroundAudios = () => {
+    const intervalAtelier = setInterval(() => {
+      if(atelierAudioFadeOut === 0)
+        clearInterval(intervalAtelier);
+
+      setAtelierAudioFadeOut(current => current -= 0.01);
+    }, 100);
+
+    const intervalBar = setInterval(() => {
+      if(barAudioFadeIn >= 0.1) {
+        clearInterval(intervalBar);
+      }
+      setBarAudioFadeIn(current => current += 0.01);
+    }, 100);
+  }
 
   const subtitleItems = subtitlesData.map((elm, index) => {
     return <TheSubTitle
@@ -99,14 +122,15 @@ const SingleAtelierPage = () => {
         <button onClick={() => console.log(threeScene._camera)}> currentCamera </button>
         <button onClick={() => console.log(threeScene._stepManager._globalStep + " " + threeScene._stepManager._subStep)}> currentStep </button>
         <button onClick={() => console.log(threeScene._glassCutOutRaycastObject)}> object glass raycast </button> */}
-        <TheAudioSnippet sound_url={"assets/audios/atelier/main_musique_atelier.mp3"} play loop specificVolume={0.1}/>
+        <TheAudioSnippet sound_url={"assets/audios/atelier/main_musique_atelier.mp3"} play loop specificVolume={atelierAudioFadeOut}/>
+        <TheAudioSnippet sound_url={"assets/audios/bar/AMBIANCE_BAR_01.mp3"} play loop specificVolume={barAudioFadeIn}/> 
         <TheCursor />
         <TheLoader />
         <TheBreadcrumb
         // isShowing={isShowingBreadcrumb} hide={toggle}
         />
         <TheToolChoiceButton array={currentStepTools} />
-        {/* <button onClick={() => threeScene._setCameraAnimationPlay(5, "none")}> currentCamera </button> */}
+        {/* <button onClick={() => fadeBackgroundAudios()}> currentCamera </button> */}
         <a href="/" className={` link link-secondary link-black ${styles['link-before']} ${styles['link-black']}`}>
           <span>Épisodes</span>
         </a>
@@ -116,6 +140,8 @@ const SingleAtelierPage = () => {
         </a>
 
         <div className={styles["page-singleAtelier"]}></div>
+
+        <div className={`${styles["fondu"]} ${fonduAppear ? styles["appear"] : ""}`}></div>
 
         <img src="/assets/images/ui/pictos-ux/CLIC_GRUGER_V02.gif" alt="Picto UX pour le click gruger" className="picto-ux click-points" id="clickPoints" />
         <img src="/assets/images/ui/pictos-ux/DRAG_DROP_GABARIT_IN.gif" alt="Picto UX pour le drag and drop" className="picto-ux drag-and-drop" id="dragAndDrop" />

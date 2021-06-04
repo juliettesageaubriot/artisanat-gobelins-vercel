@@ -65,7 +65,9 @@ class ThreeScene {
             '_addPieceDecoupeToScene',
             '_glassCutOutObjectDisappear',
             '_animationToDragPosition',
-            '_glassCutOutObjectAppear'
+            '_glassCutOutObjectAppear',
+            '_removeAllScene',
+            '_setBarScene'
         );
 
         this._canvas = canvas;
@@ -245,6 +247,8 @@ class ThreeScene {
 
         this._enableDragAndDrop = false;
 
+        this._barScene;
+
         this._setupEventListeners();
         this._resizeHandler();
         this._setEnvironmentMap();
@@ -388,8 +392,8 @@ class ThreeScene {
                             this._piece_decoupeeObjects.push(child.name);
                             this._glassCutOutRaycastObject.push(child);
 
-                            // child.material.transparent = true;
-                            // child.material.opacity = 0;
+                            child.material.transparent = true;
+                            child.material.opacity = 0;
 
                         }                
                     });
@@ -420,8 +424,8 @@ class ThreeScene {
                     this._glassCutOutRaycastObject.push(child);
                     child.material.opacity = 0;
                     child.material.transparent = true;
-                    // child.material.transparent = true;
-                    // child.material.opacity = 0;
+                    child.material.transparent = true;
+                    child.material.opacity = 0;
 
                 } else if("extrusion1" === child.name
                     || "extrusion2" === child.name
@@ -432,9 +436,27 @@ class ThreeScene {
                     || "extrusion7" === child.name
                     || "extrusion8" === child.name) {
 
-                        // child.material.transparent = true;
-                        // child.material.opacity = 0;
+                        child.material.transparent = true;
+                        child.material.opacity = 0;
                     
+                } else if("pinceGruger1" === child.name 
+                    || "pinceGruger2" === child.name
+                    || "pinceGruger3" === child.name
+                    || "jaugePression1" === child.name
+                    || "piece_principale_visible" === child.name) {
+                    child.material.transparent = true;
+                    child.material.opacity = 0.75;
+                    // child.renderOrder = 1;
+                    // child.material.colorWrite = true;
+
+                    // let object = child.clone();
+                    // object.renderOrder = 2;
+                    // object.material = object.material.clone();
+                    // object.material.colorWrite = true;
+                    // this._addToScene(object);
+                    // console.log(this._scene)
+
+
                 } else if("zoneDragAndDrop" === child.name) {
 
                     child.material.transparent = true;
@@ -458,10 +480,30 @@ class ThreeScene {
                     || "vitreColoration_02" === child.name
                     || "porteVitre" === child.name
                     || "vitreFour" === child.name) {
-
+                        const colorTexture = this._textureLoader.load('/assets/textures/glass/Glass_Frosted_001_basecolor.jpg')
+                        const roughnessTexture = this._textureLoader.load('/assets/textures/glass/Glass_Frosted_001_roughness.jpg')
+                        const heightTexture = this._textureLoader.load('/assets/textures/glass/Glass_Frosted_001_height.png')
+                        const normalTexture = this._textureLoader.load('/assets/textures/glass/Glass_Frosted_001_normal.jpg')
+                        const ambientOcclusionTexture = this._textureLoader.load('/assets/textures/glass/Glass_Frosted_001_ambientOcclusion.jpg')
                         child.material.transparent = true;
-                        child.material.opacity = 0.5;
+                        child.material.opacity = 0.7;
+        
+                } else if("vitrail1_Verre" === child.name) {
+                    // child.material.color = new THREE.Color(0xff00ff)
+                    child.material.transparent = true;
+                    child.material.opacity = 0.6
+                } else if("verreBake" === child.name) {
+                    // child.material.color = new THREE.Color(0xff00ff)
+                    child.material.transparent = true;
+                    child.material.opacity = 0.5
+                } else if ("bar" === child.name) {
+                    this._barScene = child;
+                    console.log(this._models[name].animations)
+                    this._cameraBar = child.getObjectByName("CameraBar_Orientation");
+                    this._cameraAnimationBar = [...this._models[name].animations];
 
+                    this.cameraAnimatorBar = new AnimationManager(child, this._cameraAnimationBar);
+                    // this.cameraManagerBar = new CameraManager(this._camera, this._cameras, this.cameraAnimatorBar);
                 }
             })
         }
@@ -482,6 +524,66 @@ class ThreeScene {
 
     _changeActionStepManager(index) {
         this._actionStepManager.actionsManager(index)
+    }
+
+    _removeAllScene() {
+        this._scene.remove.apply(this._scene, this._scene.children);
+    }
+
+    _setBarScene() {
+        this._removeAllScene();
+        this._addToScene(this._barScene);
+        
+        this._newCamera = this._barScene.getObjectByName("CameraBar_Orientation");
+        console.log(this._barScene)
+
+        //SetNewCameraOfBar
+        this._camera = this._newCamera;
+        this._renderPass.camera = this._newCamera;
+        this._outlinePass.renderCamera = this._newCamera;
+
+        this.cameraAnimatorBar.playClipByIndex(0);
+
+        this._resizeHandler();
+        this._state.setFonduAppear(false);
+        this._setColorsOnVitrailBar();
+        
+        setTimeout(() => {
+            this._state.setNextSubtitle(17);
+            setTimeout(() => {
+                this._state.setFonduAppear(true);
+                setTimeout(() => {
+                    console.log("changement de page")
+                }, 4000);
+            }, 13500);
+        }, 3000);
+
+        this._ambientLight = new THREE.AmbientLight(0xffffff, 1);
+        this._addToScene(this._ambientLight);
+
+        // this._cameras = [...this._models[name].cameras];
+        // this._cameraAnimations = [...this._models[name].animations];
+
+        // this.cameraAnimator = new AnimationManager(child, this._cameraAnimations);
+        // this.cameraManager = new CameraManager(this._camera, this._cameras, this.cameraAnimator);
+    }
+
+    _setColorsOnVitrailBar() {
+        this._barScene.traverse(object => {
+            if(object.name === "vitrailRectangles") {
+                object.material.color = this._finalColorPicked.couleurRectangle10;
+            } else if(object.name === "vitrailCarres") {
+                object.material.color = this._finalColorPicked.couleurCarre01;
+            } else if(object.name === "vitrailDemiCercles") {
+                object.material.color = this._finalColorPicked.couleurCercle05;
+            } else if(object.name === "vitrailLosanges") {
+                object.material.color = this._finalColorPicked.couleurEtoile09;
+            } else if(object.name.includes("rayons")) {
+                object.material.color = this._finalColorPicked.couleurRectangle10;
+                object.material.transparent = true;
+                object.material.opacity = .2;
+            }
+        });
     }
 
     _animationToDragPosition() {
@@ -694,6 +796,9 @@ class ThreeScene {
                 this._isDraggingColor = false;
                 this._UIManager.UI.carreCursor.style.opacity = 0;
                 this._state.setSoundInteractionToPlay(soundsOnInteraction.crayonnes_url, true, false);
+                setTimeout(() => {
+                    this._state.setSoundInteractionToPlay(soundsOnInteraction.crayonnes_url, false, false);
+                }, 1000);
             }
             this._colorPicked.current = null;
             this._UIManager.UI.carreCursor.style.opacity = 0;
@@ -713,14 +818,44 @@ class ThreeScene {
         // this._vitrail = ["debut", "milieu1", "milieu2", "milieu3", "milieu4", "milieu5", "fin", "piece1", "extrusion1", "extrusion2", "extrusion3", "extrusion4", "extrusion5", "extrusion6", "extrusion7", "extrusion8"];
         this._vitrail = ["pinceGruger1", "pinceGruger2", "pinceGruger3", "jaugePression1", "piece_principale_visible"];
 
+        const colorTexture = this._textureLoader.load('/assets/textures/glass/glass.jpg');
+        // const roughnessTexture = this._textureLoader.load('/assets/textures/glass/Glass_Frosted_001_roughness.jpg')
+        // const heightTexture = this._textureLoader.load('/assets/textures/glass/height.jpg')
+        // const normalTexture = this._textureLoader.load('/assets/textures/glass/glassNormalMap.jpg')
+        // const ambientOcclusionTexture = this._textureLoader.load('/assets/textures/glass/Glass_Frosted_001_ambientOcclusion.jpg')
+
+        // colorTexture.generateMipmaps = false;
+        // colorTexture.minFilter = THREE.NearestFilter;
+        // colorTexture.magFilter = THREE.NearestFilter;
+
         this._vitrail.map(verre => {
             this._scene.getObjectByName(verre).material = new THREE.MeshPhysicalMaterial({
                 color: this._finalColorPicked.couleurEtoile09,
-                roughness: 0,
-                metalness: .3,
-                reflectivity: 1
-            })
+                map: colorTexture,
+                opacity: 1,
+                transparent: true,
+            });
+            
+            // this._scene.getObjectByName(verre).material.color = this._finalColorPicked.couleurEtoile09;
+            // this._scene.getObjectByName(verre).material.map = colorTexture;
+            // this._scene.getObjectByName(verre).material.opacity = 0.7;
+            // this._scene.getObjectByName(verre).material.transparent = true;
         });
+        // this._vitrail.map(verre => {
+        //     this._scene.getObjectByName(verre).material = new THREE.MeshStandardMaterial({
+                
+        //         map: colorTexture,
+        //         opacity: .7,
+        //         transparent: true,
+        //         // blending: THREE.NoBlending,
+        //         colorWrite: true
+        //     });
+        //     // this._scene.getObjectByName(verre).material.transparent = true;
+        //     // this._scene.getObjectByName(verre).material.map = colorTexture;
+        //     // this._scene.getObjectByName(verre).material.opacity = 0.75;
+        //     // this._scene.getObjectByName(verre).material.color = this._finalColorPicked.couleurEtoile09;
+        //     // this._scene.getObjectByName(verre).material.renderOrder = 2;
+        // });
 
         this._scene.getObjectByName("couleurEtoile").material.color = this._finalColorPicked.couleurEtoile09;
     
@@ -872,11 +1007,17 @@ class ThreeScene {
                     this._actionStepManager.actionsManager(24);
                     this._outlinePass.enabled = true;
                     this._state.setSoundInteractionToPlay(soundsOnInteraction.coupeVerre3_url, true, false);
+                    setTimeout(() => {
+                        this._state.setSoundInteractionToPlay(soundsOnInteraction.coupeVerre3_url, false, false);
+                    }, 1000);
                     break
                 default:
                     this._isRunningDecoupeTrace = false;
                     console.log("Decoupe du verre: fail")
                     this._state.setSoundInteractionToPlay(soundsOnInteraction.coupeVerre2_url, false, false);
+                    setTimeout(() => {
+                        this._state.setSoundInteractionToPlay(soundsOnInteraction.coupeVerre2_url, false, false);
+                    }, 1000);
             }
         }
     }
@@ -1234,7 +1375,11 @@ class ThreeScene {
                     gsap.to(event.object.position, { x: x, y: y, z: z, duration: 1, delay: 0.25});
                     gsap.to(event.object.scale, { x: 1.1, y: 1.1, z: 1.1, duration: 1, delay: 0.5});
                     
-                    // this._actionStepManager.actionsManager(21);
+                    this._actionStepManager.actionsManager(33);
+
+                    setTimeout(() => {
+                        this._setBarScene();
+                    }, 5000);
                     this._outlinePass.enabled = false;
 
                 } else {

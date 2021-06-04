@@ -255,6 +255,7 @@ class ActionsStepManager {
     }
     _stepThirty() {
         //Fin pince à gruger
+        this._state.setSoundInteractionToPlay(soundsOnInteraction.pinceGruger3_url, false, false);
         this._toolsManager.setTools(false);
         this._UIManager.removeCursor();
         this._UIManager.UI.html.style.cursor = "initial";
@@ -286,7 +287,11 @@ class ActionsStepManager {
         this._UIManager.removeCursor();
     }
     _stepThirtyFour() {
-        this._setCurrentSubtitle(17);
+        this._breadCrumb.breadcrumbToggle();
+        setTimeout(() => {
+            this._state.setFonduAppear(true);
+            this._state.fadeBackgroundAudios();
+        }, 3000);
         //On voit le vitrail fini
     }
     _stepThirtyFive() {

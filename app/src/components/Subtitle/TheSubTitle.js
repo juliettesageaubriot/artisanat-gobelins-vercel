@@ -66,7 +66,7 @@ const TheSubTitle = ({content, currentSubtitle, onEnd, onEndReplay}) => {
 
     return ( 
         <div className={`${styles["subtitle_container"]}`}>
-            <TheAudioSnippet sound_url={content.audioSource} play={play}/>
+            <TheAudioSnippet sound_url={content.audioSource} play={play} specificVolume={1}/>
             <p className={`${styles["subtitle_container__subtitle"]} ${isVisible ? styles["appear"] : ""}`}>
                 { content.text }
             </p>
