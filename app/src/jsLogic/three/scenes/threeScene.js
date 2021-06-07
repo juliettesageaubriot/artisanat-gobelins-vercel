@@ -395,7 +395,7 @@ class ThreeScene {
                             child.material.transparent = true;
                             child.material.opacity = 0;
 
-                        }                
+                        }
                     });
                 } else if ("papier_decoupe" === child.name) {
 
@@ -438,8 +438,8 @@ class ThreeScene {
 
                         child.material.transparent = true;
                         child.material.opacity = 0;
-                    
-                } else if("pinceGruger1" === child.name 
+
+                } else if("pinceGruger1" === child.name
                     || "pinceGruger2" === child.name
                     || "pinceGruger3" === child.name
                     || "jaugePression1" === child.name
@@ -476,7 +476,7 @@ class ThreeScene {
                     child.material.alphaTest = 0.5;
                     child.material.transparent = true;
 
-                } else if("vitreColoration_01" === child.name 
+                } else if("vitreColoration_01" === child.name
                     || "vitreColoration_02" === child.name
                     || "porteVitre" === child.name
                     || "vitreFour" === child.name) {
@@ -487,7 +487,7 @@ class ThreeScene {
                         const ambientOcclusionTexture = this._textureLoader.load('/assets/textures/glass/Glass_Frosted_001_ambientOcclusion.jpg')
                         child.material.transparent = true;
                         child.material.opacity = 0.7;
-        
+
                 } else if("vitrail1_Verre" === child.name) {
                     // child.material.color = new THREE.Color(0xff00ff)
                     child.material.transparent = true;
@@ -530,7 +530,7 @@ class ThreeScene {
     _setBarScene() {
         this._removeAllScene();
         this._addToScene(this._barScene);
-        
+
         this._newCamera = this._barScene.getObjectByName("CameraBar_Orientation");
         console.log(this._barScene)
 
@@ -544,7 +544,7 @@ class ThreeScene {
         this._resizeHandler();
         this._state.setFonduAppear(false);
         this._setColorsOnVitrailBar();
-        
+
         setTimeout(() => {
             this._state.setNextSubtitle(17);
             setTimeout(() => {
@@ -587,8 +587,8 @@ class ThreeScene {
         this._pieceToMove = this._scene.getObjectByName("piece_principale")
         const { x, y, z } = this._scene.getObjectByName("drag").position;
 
-        gsap.to(this._pieceToMove.position, { x: x, y: y, z: z, duration: 2.0 });   
-        gsap.to(this._pieceToMove.rotation, { x: 0, y: 0, z: 0, duration: 2.0 });   
+        gsap.to(this._pieceToMove.position, { x: x, y: y, z: z, duration: 2.0 });
+        gsap.to(this._pieceToMove.rotation, { x: 0, y: 0, z: 0, duration: 2.0 });
     }
 
     _start() {
@@ -691,7 +691,7 @@ class ThreeScene {
         vector.x = ( vector.x * widthHalf ) + widthHalf;
         vector.y = - ( vector.y * heightHalf ) + heightHalf;
 
-        return { 
+        return {
             x: vector.x,
             y: vector.y
         };
@@ -773,7 +773,7 @@ class ThreeScene {
     }
 
     _colorPickerMouseDown() {
-        
+
         if (this._currentIntersect && this._samples.includes(this._currentIntersect.name)) {
             this._colorPicked.current = this._currentIntersect.material.color;
             this._isDraggingColor = true;
@@ -831,10 +831,17 @@ class ThreeScene {
                 map: colorTexture,
                 depthWrite: true,
                 colorWrite: true,
-                opacity: .75,
-                transparent: true
+                side: THREE.BackSide,
+                shadowSide: THREE.BackSide,
+                clipIntersection: true,
+                premultipliedAlpha: true,
+                opacity: .8,
+                transparent: true,
+                // transmission: 0.1,
+                // reflectivity: 0.5,
+                // clearcoat: 0.5
             });
-            
+
             // this._scene.getObjectByName(verre).material.color = this._finalColorPicked.couleurEtoile09;
             // this._scene.getObjectByName(verre).material.map = colorTexture;
             // this._scene.getObjectByName(verre).material.opacity = 0.7;
@@ -842,7 +849,7 @@ class ThreeScene {
         });
         // this._vitrail.map(verre => {
         //     this._scene.getObjectByName(verre).material = new THREE.MeshStandardMaterial({
-                
+
         //         map: colorTexture,
         //         opacity: .7,
         //         transparent: true,
@@ -857,7 +864,7 @@ class ThreeScene {
         // });
 
         this._scene.getObjectByName("couleurEtoile").material.color = this._finalColorPicked.couleurEtoile09;
-    
+
         this._setColorsOnFinalVitrail();
 
     }
@@ -1121,7 +1128,7 @@ class ThreeScene {
                     break;
                 case 5:
                     // console.log("sous-étape 5: drag and drop au milieu du vitrail fini");
-                    this._UIManager.setCursorDraggingDefault();  
+                    this._UIManager.setCursorDraggingDefault();
                     break;
             }
 
@@ -1253,7 +1260,7 @@ class ThreeScene {
 
             } else if (this._globalStep === 2 || this._subStep === 2) {
 
-                //Action à faire sur le drag and drop out 
+                //Action à faire sur le drag and drop out
 
             } else if (this._globalStep === 2 || this._subStep === 5) {
 
@@ -1272,7 +1279,7 @@ class ThreeScene {
 
             } else if (this._globalStep === 2 || this._subStep === 2) {
 
-                //Action à faire sur le drag and drop out 
+                //Action à faire sur le drag and drop out
 
             } else if (this._globalStep === 2 || this._subStep === 5) {
 
@@ -1285,7 +1292,7 @@ class ThreeScene {
             // }
         }
         this._dragEnd = (event) => {
-            
+
             if (this._globalStep === 2 && this._subStep === 0) {
 
                 this._pourcentageIntersect = this._dragItems[0].children.filter(intersectObject => this._detectCollision(this._pieceDecoupeDropZone, intersectObject)).length;
@@ -1336,7 +1343,7 @@ class ThreeScene {
 
                 const { x, y, z } = this._initialPosition;
                 console.log("2eme drag and drop")
-                //Action à faire sur le drag and drop out 
+                //Action à faire sur le drag and drop out
                 if (this._isOnTarget) {
                     gsap.to(this._outlinePass, { edgeThickness: 0, duration: 0 });
                     gsap.to(event.object.position, { x: x, y: y, z: z, duration: 0, delay: 0.5 });
@@ -1377,7 +1384,7 @@ class ThreeScene {
                     // gsap.to(event.object.rotation, { x: 0, duration: 1 });
                     gsap.to(event.object.position, { x: x, y: y, z: z, duration: 1, delay: 0.25});
                     gsap.to(event.object.scale, { x: 1.1, y: 1.1, z: 1.1, duration: 1, delay: 0.5});
-                    
+
                     this._actionStepManager.actionsManager(33);
 
                     setTimeout(() => {
@@ -1475,7 +1482,7 @@ class ThreeScene {
                 this._pressureGaugeValue += Math.ceil(deltaTime);
                 if(this._pressureGaugeValue > 40 && this._pressureGaugeValue < 80) {
 
-                    this._UIManager.UI.pressureGaugeScale.style.boxShadow = `  
+                    this._UIManager.UI.pressureGaugeScale.style.boxShadow = `
                     inset 0 0 50px #adfde2,
                     inset 20px 0 60px #adfde2,
                     inset -20px 0 60px #adfde2,

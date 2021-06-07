@@ -278,15 +278,20 @@ class ActionsStepManager {
         this._toolsManager.setTools(false)
     }
     _stepThirtyThree() {
-        //Fin drand and drop in vitrail fin
+        //Fin drag and drop in vitrail fin
         this._UIManager.removeDragAndDropPictoEnd();
-        this.setStepValidation(2);
+        // this.setStepValidation(2);
         this._toggleDragAndDrop();
         this._stepManager.addSubStep();
         this._UIManager.UI.html.style.cursor = "initial";
         this._UIManager.removeCursor();
     }
     _stepThirtyFour() {
+        this._UIManager.removeDragAndDropPictoEnd();
+        this._toggleDragAndDrop();
+        this._stepManager.addSubStep();
+        this._UIManager.UI.html.style.cursor = "initial";
+        this._UIManager.removeCursor();
         this._breadCrumb.breadcrumbToggle();
         setTimeout(() => {
             this._state.setFonduAppear(true);
