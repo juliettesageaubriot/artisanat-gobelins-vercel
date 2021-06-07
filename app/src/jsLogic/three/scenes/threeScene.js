@@ -829,8 +829,10 @@ class ThreeScene {
             this._scene.getObjectByName(verre).material = new THREE.MeshPhysicalMaterial({
                 color: this._finalColorPicked.couleurEtoile09,
                 map: colorTexture,
-                opacity: 1,
-                transparent: true,
+                depthWrite: true,
+                colorWrite: true,
+                opacity: .75,
+                transparent: true
             });
             
             // this._scene.getObjectByName(verre).material.color = this._finalColorPicked.couleurEtoile09;
@@ -1349,6 +1351,7 @@ class ThreeScene {
                             child.material.transparent = true;
                         gsap.to(child.material, { opacity: 0, duration: 1 });
                     })
+                    this._scene.getObjectByName("piece_principale_visible").material.depthTest = false;
                     this._outlinePass.enabled = false;
                     //Launch un certain son Success
                     this._dragItems.pop();
