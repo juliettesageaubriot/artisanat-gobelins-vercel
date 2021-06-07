@@ -4,7 +4,8 @@
   &_container {
     display: none;
     &.show {
-      display: block;
+      // display: block;
+      display: none;
     }
   }
   &__inner {

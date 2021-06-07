@@ -13,6 +13,7 @@
 .menu {
   position: relative;
   cursor: initial;
+
   &-overlay {
     position: absolute;
     top: 0;
@@ -46,6 +47,12 @@
     max-width: 600px;
     width: 100%;
     text-align: center;
+    
+    :global {
+      * {
+        cursor: none;
+      }
+    }
 
     :nth-child(n) {
       margin-top: 20px;

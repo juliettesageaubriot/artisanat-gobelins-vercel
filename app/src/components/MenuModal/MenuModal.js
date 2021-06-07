@@ -8,20 +8,20 @@ const MenuModal = ({ id, title, caption, duration, date, left, top, disponibilit
       <div className={styles['menu-modal__inner']}>
         <div className={styles.modal}>
 
-          <div className={styles.head}>
+          {/* <div className={styles.head}>
             <span className={`${styles.episode} upp`}>Épisode {id}</span>
             <span className={styles.circle}></span>
             <span>{duration} minutes</span>
-          </div>
+          </div> */}
 
-          <span className={`${styles.disponible} upp`}>
+          {/* <span className={`${styles.disponible} upp`}>
             {disponibility === true ? date : `Disponible le ${date}`}
-          </span>
+          </span> */}
 
-          <div className={styles.content}>
-            <h1>{title}</h1>
-            <span>{caption}</span>
-          </div>
+          {/* <div className={styles.content}>
+            <h1>{title}</h1> */}
+            {/* <span>{caption}</span> */}
+          {/* </div> */}
 
         </div>
       </div>

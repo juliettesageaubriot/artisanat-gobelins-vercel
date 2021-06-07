@@ -6,7 +6,7 @@ export default class BreadcrumbManager {
 
   breadcrumbToggle() {
     this.show = !this.show;
-    // console.log(this.show);
+    console.log(this.show);
 
     return this.show
   }

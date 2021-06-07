@@ -131,9 +131,9 @@ const SingleAtelierPage = () => {
         />
         <TheToolChoiceButton array={currentStepTools} />
         {/* <button onClick={() => fadeBackgroundAudios()}> currentCamera </button> */}
-        <a href="/" className={` link link-secondary link-black ${styles['link-before']} ${styles['link-black']}`}>
+        {/* <a href="/" className={` link link-secondary link-black ${styles['link-before']} ${styles['link-black']}`}>
           <span>Épisodes</span>
-        </a>
+        </a> */}
 
         <a className={` link link-secondary link-black ${styles["colorPicker-cta"]}`} id="colorPicker-cta" onClick={() => threeScene._actionStepManager.actionsManager(16)}>
           <span>J'ai choisi mes couleurs !</span>

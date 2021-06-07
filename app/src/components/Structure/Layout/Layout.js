@@ -15,7 +15,7 @@ const TheLayout = ({ children }) => {
         <div className={layout['page-content']}>
           {children}
         </div>
-        <TheVolume absolute={true} />
+        {/* <TheVolume absolute={true} /> */}
         {/* <TheFooter /> */}
       </div>
     </div>

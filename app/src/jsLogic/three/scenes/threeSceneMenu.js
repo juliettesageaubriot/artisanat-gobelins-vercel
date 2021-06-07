@@ -271,6 +271,9 @@ class ThreeSceneMenu {
     this._createModels(this._models);
     this._godRaysParticules()
     //Action à faire au démarrage
+
+    const cursor = document.querySelector("html");
+    cursor.style.cursor = 'none';
   }
 
   _rayCast(e) {
@@ -323,7 +326,7 @@ class ThreeSceneMenu {
             this._chapeauElm.material = this._setTextureChapeau(this._currentTexture[3], this._currentTexture[3], 1.0)
             this._structureElm.material = this._setTextureStructure(this._currentTexture[4], this._newVitrailColorTextureHover[1], 1.0)
             this._setParticulesTexture(true)
-            this._setMouseScss(true, false)
+            // this._setMouseScss(true, false)
             break;
 
           case 1:
@@ -332,7 +335,7 @@ class ThreeSceneMenu {
             this._contreBasseElm.material = this._setTextureContrebasse(this._currentTexture[2], this._currentTexture[2], 1.0)
             this._chapeauElm.material = this._setTextureChapeau(this._currentTexture[3], this._newChapeauColorTextureHover[0], 1.0)
             this._structureElm.material = this._setTextureStructure(this._currentTexture[4], this._newChapeauColorTextureHover[1], 1.0)
-            this._setMouseScss(false, true)
+            // this._setMouseScss(false, true)
             break;
 
 
@@ -342,7 +345,7 @@ class ThreeSceneMenu {
             this._contreBasseElm.material = this._setTextureContrebasse(this._currentTexture[2], this._newContrebasseColorTextureHover[0], 1.0)
             this._chapeauElm.material = this._setTextureChapeau(this._currentTexture[3], this._currentTexture[3], 1.0)
             this._structureElm.material = this._setTextureStructure(this._currentTexture[4], this._newContrebasseColorTextureHover[1], 1.0)
-            this._setMouseScss(false, true)
+            // this._setMouseScss(false, true)
             break;
 
           case 3:
@@ -351,7 +354,7 @@ class ThreeSceneMenu {
             this._contreBasseElm.material = this._setTextureContrebasse(this._currentTexture[2], this._currentTexture[2], 1.0)
             this._chapeauElm.material = this._setTextureChapeau(this._currentTexture[3], this._currentTexture[3], 1.0)
             this._structureElm.material = this._setTextureStructure(this._currentTexture[4], this._newCollierColorTextureHover[1], 1.0)
-            this._setMouseScss(false, true)
+            // this._setMouseScss(false, true)
             break;
         }
         this._setNewAudioHovered(this._soundsChaptersHoveredArray[this.idChapterHovered.soundID])
@@ -376,7 +379,7 @@ class ThreeSceneMenu {
             this._increase = false
             this._setParticulesTexture(false)
 
-            document.querySelector("html").style.cursor = "url('/assets/images/ui/cursor/cursor.svg') 0 0, auto";
+            // document.querySelector("html").style.cursor = "url('/assets/images/ui/cursor/cursor.svg') 0 0, auto";
             // this._removeInactifMouse()
           }
         }
@@ -862,7 +865,7 @@ class ThreeSceneMenu {
     })
 
     btnAboutClose.addEventListener('click', () => {
-      if(this._discoverButtonActif === false) {
+      if (this._discoverButtonActif === false) {
         this._enableRaycastMenu = false
       } else {
         this._enableRaycastMenu = true
