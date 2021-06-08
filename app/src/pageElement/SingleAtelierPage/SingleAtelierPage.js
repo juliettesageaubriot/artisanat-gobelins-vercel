@@ -63,7 +63,8 @@ const SingleAtelierPage = () => {
     setSoundInteractionToPlay: (url, play, loop) => setSoundInteractionToPlay({ url, play, loop }),
     setFonduAppear: (bool) => setFonduAppear(bool),
     fadeBackgroundAudios: () => fadeBackgroundAudios(),
-    lastPage: () => router.push("/fin-episode")
+    // lastPage: () => router.push("/fin-episode")
+    lastPage: () => window.location = "/fin-episode"
   }
 
   useEffect(() => {

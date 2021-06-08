@@ -537,7 +537,7 @@ class ThreeScene {
                 this._state.setFonduAppear(true);
                 setTimeout(() => {
                     this._state.lastPage();
-                }, 4000);
+                }, 6000);
             }, 13500);
         }, 3000);
 
