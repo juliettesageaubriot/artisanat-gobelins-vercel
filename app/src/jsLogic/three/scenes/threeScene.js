@@ -536,7 +536,7 @@ class ThreeScene {
             setTimeout(() => {
                 this._state.setFonduAppear(true);
                 setTimeout(() => {
-                    console.log("changement de page")
+                    this._state.lastPage();
                 }, 4000);
             }, 13500);
         }, 3000);

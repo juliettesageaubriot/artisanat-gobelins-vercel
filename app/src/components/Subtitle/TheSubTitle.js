@@ -48,7 +48,7 @@ const TheSubTitle = ({content, currentSubtitle, onEnd, onEndReplay}) => {
                     onEnd();
                 }, 500)
             }
-        }, 100));
+        }, content.duration));
     }
 
     const handleReplayButton = () => {

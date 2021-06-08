@@ -1,6 +1,8 @@
 //react
 import React, { useEffect, useRef, useState } from 'react';
 
+import { useRouter } from 'next/router'
+
 //styles
 import styles from "./styles.module.scss"
 
@@ -28,6 +30,8 @@ import stepValidationDatas from "assets/data/step-validation.json";
 
 const SingleAtelierPage = () => {
   const isMounted = useIsMounted();
+
+  const router = useRouter()
 
   //Three Scene
   const [threeScene, setThreeScene] = useState(null)
@@ -64,7 +68,8 @@ const SingleAtelierPage = () => {
     setStepValidation: (index) => { setCurrentValidationStep(index) },
     setSoundInteractionToPlay: (url, play, loop) => setSoundInteractionToPlay({url, play, loop}),
     setFonduAppear: (bool) => setFonduAppear(bool),
-    fadeBackgroundAudios: () => fadeBackgroundAudios()
+    fadeBackgroundAudios: () => fadeBackgroundAudios(),
+    lastPage: () => router.push("/fin-episode")
   }
 
   useEffect(() => {
