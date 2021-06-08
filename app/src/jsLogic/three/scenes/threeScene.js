@@ -152,6 +152,7 @@ class ThreeScene {
                 encoding: THREE.sRGBEncoding
             }
         )
+        this._renderTarget.texture.encoding = THREE.sRGBEncoding
 
         this._effectComposer = new EffectComposer(this._renderer, this._renderTarget);
         this._effectComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -660,8 +661,10 @@ class ThreeScene {
 
         var vector = new THREE.Vector3();
 
-        var widthHalf = 0.5 * this._renderer.getContext().canvas.width;
-        var heightHalf = 0.5 * this._renderer.getContext().canvas.height;
+        // var widthHalf = 0.5 * this._renderer.getContext().canvas.width;
+        // var heightHalf = 0.5 * this._renderer.getContext().canvas.height;
+        var widthHalf = 0.5 * window.innerWidth;
+        var heightHalf = 0.5 * window.innerHeight;
 
         object.updateMatrixWorld();
         vector.setFromMatrixPosition(object.matrixWorld);
@@ -693,7 +696,10 @@ class ThreeScene {
     _resizeHandler() {
         this._width = window.innerWidth;
         this._height = window.innerHeight;
-        console.log(this._dragItems)
+        console.log(this._width)
+        console.log(this._height)
+        console.log(this._renderer.getContext().canvas.width)
+        console.log(this._renderer.getContext().canvas.height)
 
         this._resize(this._width, this._height);
     }
