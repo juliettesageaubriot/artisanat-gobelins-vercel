@@ -7,7 +7,8 @@ export const SetupColorPicker = (vitrailGroup, objectToTest, vitrailObjects, cra
     textureLoader.load('/assets/textures/colorPicker/crayonnes/crayonnés_carré_extérieur.jpg'), 
     textureLoader.load('/assets/textures/colorPicker/crayonnes/crayonnés_rectangle.jpg'), 
     textureLoader.load('/assets/textures/colorPicker/crayonnes/crayonnés_carré_arrondis.jpg'),
-    textureLoader.load('/assets/textures/colorPicker/crayonnes/crayonnés_carré_central.jpg')
+    textureLoader.load('/assets/textures/colorPicker/crayonnes/crayonnés_carré_central.jpg'),
+    textureLoader.load('/assets/textures/glass/glassNormalMap.jpg')
   ], (resolve, reject) => {
 
     resolve(textures);
@@ -20,6 +21,7 @@ export const SetupColorPicker = (vitrailGroup, objectToTest, vitrailObjects, cra
         //échantillons de verre
         objectToTest.push(objects);
         samples.push(objects.name);
+        objects.material.normalMap = result[4]
 
       } else if(objects.name.toLowerCase().includes("vitrail")) {
         //vitrail posé

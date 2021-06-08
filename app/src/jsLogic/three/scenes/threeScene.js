@@ -186,7 +186,7 @@ class ThreeScene {
 
         this._breadcrumbManager = new BreadcrumbManager(true, "La découpe du tracé");
 
-        this._UIManager = new UIManager(this._get3DobjectScreenPosition, this._glassCutOutObjectDisappear, this._state, this._glassCutOutObjectAppear);
+        this._UIManager = new UIManager(this._get3DobjectScreenPosition, this._glassCutOutObjectDisappear, this._state, this._glassCutOutObjectAppear, this._changeStateDecoupeDuVerre);
 
         this._actionStepManager = new ActionsStepManager(
             this._state,
@@ -424,8 +424,6 @@ class ThreeScene {
                     this._glassCutOutRaycastObject.push(child);
                     child.material.opacity = 0;
                     child.material.transparent = true;
-                    child.material.transparent = true;
-                    child.material.opacity = 0;
 
                 } else if("extrusion1" === child.name
                     || "extrusion2" === child.name
@@ -446,16 +444,6 @@ class ThreeScene {
                     || "piece_principale_visible" === child.name) {
                     child.material.transparent = true;
                     child.material.opacity = 0.75;
-                    // child.renderOrder = 1;
-                    // child.material.colorWrite = true;
-
-                    // let object = child.clone();
-                    // object.renderOrder = 2;
-                    // object.material = object.material.clone();
-                    // object.material.colorWrite = true;
-                    // this._addToScene(object);
-                    // console.log(this._scene)
-
 
                 } else if("zoneDragAndDrop" === child.name) {
 
@@ -480,11 +468,6 @@ class ThreeScene {
                     || "vitreColoration_02" === child.name
                     || "porteVitre" === child.name
                     || "vitreFour" === child.name) {
-                        const colorTexture = this._textureLoader.load('/assets/textures/glass/Glass_Frosted_001_basecolor.jpg')
-                        const roughnessTexture = this._textureLoader.load('/assets/textures/glass/Glass_Frosted_001_roughness.jpg')
-                        const heightTexture = this._textureLoader.load('/assets/textures/glass/Glass_Frosted_001_height.png')
-                        const normalTexture = this._textureLoader.load('/assets/textures/glass/Glass_Frosted_001_normal.jpg')
-                        const ambientOcclusionTexture = this._textureLoader.load('/assets/textures/glass/Glass_Frosted_001_ambientOcclusion.jpg')
                         child.material.transparent = true;
                         child.material.opacity = 0.7;
 
@@ -495,7 +478,9 @@ class ThreeScene {
                 } else if("verreBake" === child.name) {
                     // child.material.color = new THREE.Color(0xff00ff)
                     child.material.transparent = true;
-                    child.material.opacity = 0.5
+                    child.material.opacity = 0.5;
+                    // child.material.depthWrite = false;
+                    // child.material.colorWrite = false;
                 } else if ("bar" === child.name) {
                     this._barScene = child;
                     this._cameraAnimationBar = [...this._models[name].animations];
@@ -557,12 +542,6 @@ class ThreeScene {
 
         this._ambientLight = new THREE.AmbientLight(0xffffff, 1);
         this._addToScene(this._ambientLight);
-
-        // this._cameras = [...this._models[name].cameras];
-        // this._cameraAnimations = [...this._models[name].animations];
-
-        // this.cameraAnimator = new AnimationManager(child, this._cameraAnimations);
-        // this.cameraManager = new CameraManager(this._camera, this._cameras, this.cameraAnimator);
     }
 
     _setColorsOnVitrailBar() {
@@ -816,14 +795,10 @@ class ThreeScene {
         this._vitrail = ["pinceGruger1", "pinceGruger2", "pinceGruger3", "jaugePression1", "piece_principale_visible"];
 
         const colorTexture = this._textureLoader.load('/assets/textures/glass/glass.jpg');
-        // const roughnessTexture = this._textureLoader.load('/assets/textures/glass/Glass_Frosted_001_roughness.jpg')
-        // const heightTexture = this._textureLoader.load('/assets/textures/glass/height.jpg')
-        // const normalTexture = this._textureLoader.load('/assets/textures/glass/glassNormalMap.jpg')
-        // const ambientOcclusionTexture = this._textureLoader.load('/assets/textures/glass/Glass_Frosted_001_ambientOcclusion.jpg')
-
-        // colorTexture.generateMipmaps = false;
-        // colorTexture.minFilter = THREE.NearestFilter;
-        // colorTexture.magFilter = THREE.NearestFilter;
+        colorTexture.wrapS = THREE.RepeatWrapping;
+        colorTexture.wrapT = THREE.RepeatWrapping;
+        colorTexture.minFilter = THREE.NearestFilter;
+        colorTexture.magFilter = THREE.NearestFilter;
 
         this._vitrail.map(verre => {
             this._scene.getObjectByName(verre).material = new THREE.MeshPhysicalMaterial({
@@ -831,37 +806,11 @@ class ThreeScene {
                 map: colorTexture,
                 depthWrite: true,
                 colorWrite: true,
-                side: THREE.BackSide,
-                shadowSide: THREE.BackSide,
-                clipIntersection: true,
-                premultipliedAlpha: true,
-                opacity: .8,
-                transparent: true,
-                // transmission: 0.1,
-                // reflectivity: 0.5,
-                // clearcoat: 0.5
+                side: THREE.FrontSide,
+                opacity: .5,
+                transparent: true
             });
-
-            // this._scene.getObjectByName(verre).material.color = this._finalColorPicked.couleurEtoile09;
-            // this._scene.getObjectByName(verre).material.map = colorTexture;
-            // this._scene.getObjectByName(verre).material.opacity = 0.7;
-            // this._scene.getObjectByName(verre).material.transparent = true;
         });
-        // this._vitrail.map(verre => {
-        //     this._scene.getObjectByName(verre).material = new THREE.MeshStandardMaterial({
-
-        //         map: colorTexture,
-        //         opacity: .7,
-        //         transparent: true,
-        //         // blending: THREE.NoBlending,
-        //         colorWrite: true
-        //     });
-        //     // this._scene.getObjectByName(verre).material.transparent = true;
-        //     // this._scene.getObjectByName(verre).material.map = colorTexture;
-        //     // this._scene.getObjectByName(verre).material.opacity = 0.75;
-        //     // this._scene.getObjectByName(verre).material.color = this._finalColorPicked.couleurEtoile09;
-        //     // this._scene.getObjectByName(verre).material.renderOrder = 2;
-        // });
 
         this._scene.getObjectByName("couleurEtoile").material.color = this._finalColorPicked.couleurEtoile09;
 
@@ -1201,12 +1150,12 @@ class ThreeScene {
     _setEnvironmentMap() {
         const cubeTextureLoader = new THREE.CubeTextureLoader();
         const environmentMap = cubeTextureLoader.load([
-            'assets/textures/environmentMaps/px.png',
-            'assets/textures/environmentMaps/nx.png',
-            'assets/textures/environmentMaps/py.png',
-            'assets/textures/environmentMaps/ny.png',
-            'assets/textures/environmentMaps/pz.png',
-            'assets/textures/environmentMaps/nz.png'
+            'assets/textures/environmentMaps/fondBlanc.png',
+            'assets/textures/environmentMaps/fondBlanc.png',
+            'assets/textures/environmentMaps/fondBlanc.png',
+            'assets/textures/environmentMaps/fondBlanc.png',
+            'assets/textures/environmentMaps/fondBlanc.png',
+            'assets/textures/environmentMaps/fondBlanc.png'
         ])
         environmentMap.encoding = THREE.sRGBEncoding;
         this._scene.background = environmentMap;

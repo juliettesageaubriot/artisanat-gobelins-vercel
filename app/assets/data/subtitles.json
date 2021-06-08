@@ -117,7 +117,7 @@
     {
       "id": 14,
       "text": "Il ne faut pas trop tarder à décrocher le verre avec la pince. Si c'est trop long, la coupe se referme !", 
-      "duration": "5300",
+      "duration": "5630",
       "audioSource": "assets/audios/subtitles/07_VF_Etape3_02.mp3",
       "actionOnEnd": 26,
       "canReplay": true
@@ -125,7 +125,7 @@
     {
       "id": 15,
       "text": "Tu peux enlever les irrégularités avec la pince à gruger pour avoir un rendu plus lisse.", 
-      "duration": "4000",
+      "duration": "4300",
       "audioSource": "assets/audios/subtitles/08_VF_Etape3_03.mp3",
       "actionOnEnd": 28,
       "canReplay": true
@@ -133,7 +133,7 @@
     {
       "id": 16,
       "text": "C'était la dernière pièce, bravo, tu peux la placer au centre.", 
-      "duration": "3500",
+      "duration": "3820",
       "audioSource": "assets/audios/subtitles/09_VF_Etape3_04.mp3",
       "actionOnEnd": 31,
       "canReplay": true

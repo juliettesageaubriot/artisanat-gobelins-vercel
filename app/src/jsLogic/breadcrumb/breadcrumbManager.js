@@ -7,6 +7,9 @@ export default class BreadcrumbManager {
   breadcrumbToggle() {
     this.show = !this.show;
     // console.log(this.show);
+    const breadcrumbElm = document.querySelector('.breadcrumb_container');
+
+    breadcrumbElm.classList.remove("show");
 
     return this.show
   }

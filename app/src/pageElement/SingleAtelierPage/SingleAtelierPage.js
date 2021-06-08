@@ -74,19 +74,21 @@ const SingleAtelierPage = () => {
 
 
   const fadeBackgroundAudios = () => {
-    const intervalAtelier = setInterval(() => {
-      if(atelierAudioFadeOut === 0)
-        clearInterval(intervalAtelier);
-
+    const intervalAtelier = setInterval(function() {
       setAtelierAudioFadeOut(current => current -= 0.01);
     }, 100);
 
-    const intervalBar = setInterval(() => {
-      if(barAudioFadeIn >= 0.1) {
-        clearInterval(intervalBar);
-      }
+    const intervalBar = setInterval(function() {
       setBarAudioFadeIn(current => current += 0.01);
     }, 100);
+
+    const checkInterval = setTimeout(() => {
+      clearIntervals([intervalAtelier, intervalBar]);
+    }, 1000);
+  }
+
+  const clearIntervals = intervals => {
+    intervals.forEach(interval => clearInterval(interval))
   }
 
   const subtitleItems = subtitlesData.map((elm, index) => {
@@ -130,7 +132,9 @@ const SingleAtelierPage = () => {
         // isShowing={isShowingBreadcrumb} hide={toggle}
         />
         <TheToolChoiceButton array={currentStepTools} />
-        {/* <button onClick={() => fadeBackgroundAudios()}> currentCamera </button> */}
+        {/* <button onClick={() => fadeBackgroundAudios()}> currentCamera </button>
+        <button onClick={() => console.log(atelierAudioFadeOut)}> currentCamera </button>
+        <button onClick={() => console.log(barAudioFadeIn)}> currentCamera </button> */}
         <a href="/" className={` link link-secondary link-black ${styles['link-before']} ${styles['link-black']}`}>
           <span>Épisodes</span>
         </a>
