@@ -199,7 +199,7 @@ class ThreeSceneMenu {
     this._setNewAudioHovered()
     this._getOpenModalAbout()
     this._setIsReadyRaycast()
-    this._setStats()
+    // this._setStats()
   }
 
   _loadAssets() {

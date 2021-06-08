@@ -19,8 +19,6 @@ import ThePressionUX from '@/components/PressionUX/ThePressionUX';
 import TheClickPoints from '@/components/ClickPoints/TheClickPoints';
 import TheOverlay from '@/components/Overlay/TheOverlay';
 
-//utils
-import useIsMounted from '@hooks/useIsMounted'
 
 //datas
 import subtitlesData from "assets/data/subtitles.json";
@@ -29,7 +27,6 @@ import toolsData from '@assets/data/tools.json';
 import stepValidationDatas from "assets/data/step-validation.json";
 
 const SingleAtelierPage = () => {
-  const isMounted = useIsMounted();
 
   const router = useRouter()
 
@@ -56,9 +53,6 @@ const SingleAtelierPage = () => {
   const cursorColorPickerContainer = useRef(null);
   const cursorColorPickerInner = useRef(null);
 
-  const data = toolsData;
-  // console.log(data);
-
   const state = {
     playSound: () => { setIsPlaying(true) },
     stopSound: () => { setIsPlaying(false) },
@@ -66,7 +60,7 @@ const SingleAtelierPage = () => {
     setNextSubtitle: (index) => { setCurrentSubtitle(index) },
     setToolsArray: (toolsArray) => { setCurrentStepTools(toolsArray) },
     setStepValidation: (index) => { setCurrentValidationStep(index) },
-    setSoundInteractionToPlay: (url, play, loop) => setSoundInteractionToPlay({url, play, loop}),
+    setSoundInteractionToPlay: (url, play, loop) => setSoundInteractionToPlay({ url, play, loop }),
     setFonduAppear: (bool) => setFonduAppear(bool),
     fadeBackgroundAudios: () => fadeBackgroundAudios(),
     lastPage: () => router.push("/fin-episode")
@@ -75,15 +69,30 @@ const SingleAtelierPage = () => {
   useEffect(() => {
     const canvas = ref.current
     setThreeScene(new ThreeScene(canvas, state));
+
+    return () => {
+      canvas,
+      state,
+      setThreeScene,
+      setThreeScene,
+      setCurrentStepTools,
+      setCurrentValidationStep,
+      setSoundInteractionToPlay,
+      setCurrentSubtitle,
+      setCurrentStepTools,
+      setCurrentValidationStep,
+      setSoundInteractionToPlay,
+      fadeBackgroundAudios,
+      state.setNextSubtitle()
+    }
   }, [])
 
-
   const fadeBackgroundAudios = () => {
-    const intervalAtelier = setInterval(function() {
+    const intervalAtelier = setInterval(function () {
       setAtelierAudioFadeOut(current => current -= 0.01);
     }, 100);
 
-    const intervalBar = setInterval(function() {
+    const intervalBar = setInterval(function () {
       setBarAudioFadeIn(current => current += 0.01);
     }, 100);
 
@@ -129,8 +138,8 @@ const SingleAtelierPage = () => {
         <button onClick={() => console.log(threeScene._camera)}> currentCamera </button>
         <button onClick={() => console.log(threeScene._stepManager._globalStep + " " + threeScene._stepManager._subStep)}> currentStep </button>
         <button onClick={() => console.log(threeScene._glassCutOutRaycastObject)}> object glass raycast </button> */}
-        <TheAudioSnippet sound_url={"assets/audios/atelier/main_musique_atelier.mp3"} play loop specificVolume={atelierAudioFadeOut}/>
-        <TheAudioSnippet sound_url={"assets/audios/bar/AMBIANCE_BAR_01.mp3"} play loop specificVolume={barAudioFadeIn}/> 
+        <TheAudioSnippet sound_url={"assets/audios/atelier/main_musique_atelier.mp3"} play loop specificVolume={atelierAudioFadeOut} />
+        <TheAudioSnippet sound_url={"assets/audios/bar/AMBIANCE_BAR_01.mp3"} play loop specificVolume={barAudioFadeIn} />
         <TheCursor />
         <TheLoader />
         <TheBreadcrumb
@@ -162,8 +171,8 @@ const SingleAtelierPage = () => {
         <img src="/assets/images/ui/pictos-ux/TRACE_GLISSIERE_V02.gif" alt="Picto UX pour la trace glissière" className="picto-ux trace" id="trace" />
         <img src="/assets/images/ui/pictos-ux/TRACE_GLISSIERE_FIXE.png" alt="Picto UX pour la trace glissière fixe" className="picto-ux trace-fixe" id="trace-fixe" />
 
-        
-        <TheAudioSnippet sound_url={soundInteractionToPlay.url}  play={soundInteractionToPlay.play} loop={soundInteractionToPlay.loop} specificVolume={0.5}/>
+
+        <TheAudioSnippet sound_url={soundInteractionToPlay.url} play={soundInteractionToPlay.play} loop={soundInteractionToPlay.loop} specificVolume={0.5} />
 
 
         <TheClickPoints />

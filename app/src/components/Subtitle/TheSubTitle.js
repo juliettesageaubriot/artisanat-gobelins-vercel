@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import TheAudioSnippet from '../AudioSnippet/TheAudioSnippet';
 import styles from './styles.module.scss'
 
-const TheSubTitle = ({content, currentSubtitle, onEnd, onEndReplay}) => {
+const TheSubTitle = ({ content, currentSubtitle, onEnd, onEndReplay }) => {
     const [isVisible, setIsVisible] = useState(false);
     const [displayButton, setDisplayButton] = useState(false);
     const [play, setPlay] = useState(false);
@@ -12,7 +12,19 @@ const TheSubTitle = ({content, currentSubtitle, onEnd, onEndReplay}) => {
     const [myTimeOutNoLongerReplay, setMyTimeOutNoLongerReplay] = useState();
 
     useEffect(() => {
-        if(currentSubtitle === content.id) {
+        return () => {
+            setIsVisible;
+            setDisplayButton;
+            setPlay;
+            setIsPossibleToReplay;
+            setMyTimeOut;
+            setMyTimeOutReplay;
+            setMyTimeOutNoLongerReplay;
+        }
+    }, [])
+
+    useEffect(() => {
+        if (currentSubtitle === content.id) {
             setDisplayButton(true);
             playTimeOut();
         } else {
@@ -30,7 +42,7 @@ const TheSubTitle = ({content, currentSubtitle, onEnd, onEndReplay}) => {
             setPlay(false);
             //Enleve le sous-titre
             setIsVisible(false);
-            if(content.canReplay === true) {
+            if (content.canReplay === true) {
                 setMyTimeOutReplay(setTimeout(() => {
                     // console.log("maintenant c'est possible de replay 2")
                     //Temps d'attente pour que la réplique se replay
@@ -64,18 +76,18 @@ const TheSubTitle = ({content, currentSubtitle, onEnd, onEndReplay}) => {
         }, 1000);
     }
 
-    return ( 
+    return (
         <div className={`${styles["subtitle_container"]}`}>
-            <TheAudioSnippet sound_url={content.audioSource} play={play} specificVolume={1}/>
+            <TheAudioSnippet sound_url={content.audioSource} play={play} specificVolume={1} />
             <p className={`${styles["subtitle_container__subtitle"]} ${isVisible ? styles["appear"] : ""}`}>
-                { content.text }
+                {content.text}
             </p>
             <button className={`${styles["subtitle_container__replay-button"]} ${possibleToReplay ? styles["show"] : ""} ${displayButton ? styles["visible"] : ""}`} onClick={handleReplayButton}>
                 <p>Peux-tu répéter stp ?</p>
-                <img src="/assets/images/ui/subtitle/CTA_repeat.png" alt="repeat button"/>
+                <img src="/assets/images/ui/subtitle/CTA_repeat.png" alt="repeat button" />
             </button>
         </div>
-     );
+    );
 }
- 
+
 export default TheSubTitle;

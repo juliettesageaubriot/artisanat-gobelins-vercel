@@ -228,6 +228,7 @@ class ActionsStepManager {
     _stepTwentySix() {
         //Fin drag and drop out papier
         this._UIManager.removeDragAndDropOutPicto();
+        this._toolsManager.currentTools(1, 2)
         this._setCurrentSubtitle(14);
         this._toggleDragAndDrop();
     }
