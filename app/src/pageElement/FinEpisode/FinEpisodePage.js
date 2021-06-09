@@ -190,7 +190,7 @@ const FinEpisodePage = () => {
 
 
                           <div className={styles.link}>
-                            <a href={elm.link}>{elm.linkName}</a>
+                            <a href={elm.link} target="_blank">{elm.linkName}</a>
                           </div>
 
                         </div>
