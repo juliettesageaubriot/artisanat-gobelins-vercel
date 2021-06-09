@@ -55,10 +55,18 @@
     text-decoration: none;
     overflow: hidden;
     background-color: transparent;
-    color: $color-black;
     font-size: 16px;
     padding: 8px 20px;
-    border: 1px solid $color-black;
+
+    &[data-color="noir"] {
+      border: 1px solid $color-black;
+      color: $color-black;
+    }
+
+    &[data-color="blanc"] {
+      border: 1px solid $color-white;
+      color: $color-white;
+    }
 
     &.disabled {
       pointer-events: none;
@@ -98,7 +106,7 @@
     background-color: transparent;
     border: none;
     cursor: pointer;
-    box-shadow: -1px 1px .2em rgba($color-black, 0.5);
+    box-shadow: -1px 1px 0.2em rgba($color-black, 0.5);
     transition: 0.2s ease-in all;
   }
 }
@@ -187,7 +195,7 @@
   }
 
   &-white {
-    padding: 10px 15px;
+    padding: 8px 20px;
     border: 1px solid $color-white;
     text-decoration: none;
     span {
@@ -201,7 +209,7 @@
   }
 
   &-black {
-    padding: 10px 15px;
+    padding: 8px 20px;
     border: 1px solid $color-black;
     text-decoration: none;
     span {

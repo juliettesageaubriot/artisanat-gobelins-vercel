@@ -10,7 +10,7 @@ import data from '@assets/data/interviews.json'
 import styles from "./styles.module.scss";
 
 const FinEpisodePage = () => {
-  
+
   const { isShowing: isShowingAbout, toggle } = useModal();
 
   const [isPlay, setIsPlay] = useState(false);
@@ -119,18 +119,16 @@ const FinEpisodePage = () => {
 
             <div className={`${styles["btn_container"]}`}>
               <div className={`${styles["btn__inner"]}`}>
-                <button className={`btn btn-about ${isShowingAbout === true && styles.disabled}`} onClick={toggle}>
+                <button className={`btn btn-about ${isShowingAbout === true && styles.disabled}`} data-color="blanc" onClick={toggle}>
                   <span>À propos</span>
                 </button>
               </div>
             </div>
           </div>
 
-
           <div
             className={styles.sliders}
-            ref={parentRef}
-          >
+            ref={parentRef}>
 
             <div className={styles.container}>
               <Slider
@@ -144,7 +142,7 @@ const FinEpisodePage = () => {
                         <p className={styles.citation}>" {elm.content} "</p>
                         <div className={styles.maitre}>
                           <img src={elm.img} />
-                          <span>{elm.signature}</span>
+                          <p><span>Marion</span>,<br/>{elm.signature}</p>
                         </div>
                       </div>
 
@@ -178,6 +176,11 @@ const FinEpisodePage = () => {
                             <span>{elm.person}</span> <br />
                             <p>{elm.job}</p>
                           </div>
+
+                          <div className={styles.link}>
+                            <a href={elm.link}>Découvrir les formations</a>
+                          </div>
+
                         </div>
                       </div>
 
