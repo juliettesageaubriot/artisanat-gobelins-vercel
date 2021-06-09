@@ -186,7 +186,7 @@ class UIManager {
     setDragAndDropColorPickerPicto(objectName) {
         this._coordinates = this._getObjectCoordinatesByName(objectName);
         this.UI.dragAndDropColorPicker.style.opacity = 1
-        this.UI.dragAndDropColorPicker.style.top = this._coordinates.y + 30 + "px"
+        this.UI.dragAndDropColorPicker.style.top = this._coordinates.y + 170 + "px"
         this.UI.dragAndDropColorPicker.style.left = 50 + "%"
         this._removeDragAndDropColorPickerPicto = setTimeout(() => {
             this.UI.dragAndDropColorPicker.style.opacity = 0
