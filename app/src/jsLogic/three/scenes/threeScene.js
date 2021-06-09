@@ -537,8 +537,8 @@ class ThreeScene {
                 this._state.setFonduAppear(true);
                 setTimeout(() => {
                     this._state.lastPage();
-                }, 2000);
-            }, 19000);
+                }, 500);
+            }, 19500);
         }, 3000);
 
         this._ambientLight = new THREE.AmbientLight(0xffffff, 1);
