@@ -199,7 +199,7 @@ class ThreeSceneMenu {
     this._setNewAudioHovered()
     this._getOpenModalAbout()
     this._setIsReadyRaycast()
-    this._setStats()
+    // this._setStats()
   }
 
   _loadAssets() {
@@ -747,7 +747,7 @@ class ThreeSceneMenu {
   }
 
   _tick() {
-    if (this._stats) this._stats.begin()
+    // if (this._stats) this._stats.begin()
 
     this._target.x = - (this._mouse.x) * 0.00005;
     this._target.y = - (this._mouse.y) * 0.00003;
@@ -781,7 +781,7 @@ class ThreeSceneMenu {
     }
 
     this._render();
-    if (this._stats) this._stats.end()
+    // if (this._stats) this._stats.end()
   }
 
   _tickHandler() {
