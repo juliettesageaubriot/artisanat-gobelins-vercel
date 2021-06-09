@@ -178,7 +178,7 @@ const FinEpisodePage = () => {
                           </div>
 
                           <div className={styles.link}>
-                            <a href={elm.link}>Découvrir les formations</a>
+                            <a href={elm.link}>{elm.linkName}</a>
                           </div>
 
                         </div>
