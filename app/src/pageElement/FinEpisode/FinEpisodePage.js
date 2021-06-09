@@ -10,6 +10,7 @@ import data from '@assets/data/interviews.json'
 import styles from "./styles.module.scss";
 
 const FinEpisodePage = () => {
+  
   const { isShowing: isShowingAbout, toggle } = useModal();
 
   const [isPlay, setIsPlay] = useState(false);
@@ -19,11 +20,10 @@ const FinEpisodePage = () => {
   const slider1 = useRef();
   const parentRef = useRef(null);
 
-  let slides1
+  // let slides1
   let video
 
   if (typeof window !== 'undefined') {
-    slides1 = document.querySelector('.slick-slider1')
     video = document.querySelectorAll('.videoElm')
   }
 
@@ -65,14 +65,14 @@ const FinEpisodePage = () => {
       <button></button>
     ),
     beforeChange: () => {
-      slides1.classList.add('anim-fade')
+      // slides1.classList.add('anim-fade')
       video.forEach((elm) => {
         elm.pause();
         setIsPlay(false);
       })
     },
     afterChange: (event) => {
-      slides1.classList.remove('anim-fade')
+      // slides1.classList.remove('anim-fade')
       video.forEach((elm) => {
         elm.pause();
         setIsPlay(false);
@@ -152,8 +152,8 @@ const FinEpisodePage = () => {
                       <div className={`${styles.right}`}>
                         <div className={styles.video}>
                           <video id={elm.id}
-                          className='videoElm'
-                          controls={isPlay === true ? true : false}>
+                            className='videoElm'
+                            controls={isPlay === true ? true : false}>
                             <source src={elm.video} />
                           Sorry, your browser doesn't support embedded videos.
                           </video>

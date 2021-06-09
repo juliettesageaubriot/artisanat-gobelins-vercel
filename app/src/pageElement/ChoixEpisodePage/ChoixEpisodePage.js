@@ -47,7 +47,8 @@ const ChoixEpisodeAtelierPage = () => {
     return () => {
       setUrl()
       setIsPlaying()
-      threeScene
+      threeScene,
+      canvas
     }
   }, [])
 

@@ -7,10 +7,12 @@ export default class ToolsManager {
 
   setTools(visible) {
     const toolsElm = document.getElementById('toolsModal')
-    if (visible === true) {
-      toolsElm.classList.add('visible')
-    } else if (visible === false) {
-      toolsElm.classList.remove('visible')
+    if (toolsElm) {
+      if (visible === true) {
+        toolsElm.classList.add('visible')
+      } else if (visible === false) {
+        toolsElm.classList.remove('visible')
+      }
     }
   }
 
