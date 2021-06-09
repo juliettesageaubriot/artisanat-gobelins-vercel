@@ -104,7 +104,7 @@ const ChoixEpisodeAtelierPage = () => {
       <div className={styles.about}>
         <div className={`${styles["btn_container"]}`}>
           <div className={`${styles["btn__inner"]}`}>
-            <button className={`btn btn-about ${isShowingAbout === true && styles.disabled}`} onClick={toggleAbout} id='btnAboutOpen'><span>À propos</span></button>
+            <button className={`btn btn-about ${isShowingAbout === true && styles.disabled}`} data-color="noir" onClick={toggleAbout} id='btnAboutOpen'><span>À propos</span></button>
           </div>
         </div>
         <TheModal isShowing={isShowingAbout} hide={toggleAbout} content={modalTextAbout} />

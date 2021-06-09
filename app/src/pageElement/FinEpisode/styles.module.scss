@@ -16,7 +16,7 @@
 
             h1 {
                 font-family: "OpenSansLight";
-                font-size: 15px;
+                font-size: 17px;
                 text-transform: uppercase;
                 span {
                     font-family: "OpenSansBold";
@@ -83,14 +83,14 @@
                         .slick-dots {
                             position: absolute;
                             top: 48%;
-                            left: 10px;
+                            left: 25px;
                             transform: translate(-50%, -50%);
                             ul {
                                 list-style: none;
                                 li {
                                     position: relative;
-                                    width: 9px;
-                                    height: 9px;
+                                    width: 7px;
+                                    height: 7px;
                                     background: $color-grey-100;
                                     transition: 0.5s ease-in all;
                                     button {
@@ -141,14 +141,12 @@
                     }
                 }
 
-
-
                 .scroll {
-                    margin-top: 90px;
+                    margin-top: 80px;
                     margin-left: 10px;
                     opacity: 1;
-                    width: 90px;
-                    height: 90px;
+                    width: 75px;
+                    height: 75px;
                 }
 
                 .sliders {
@@ -164,7 +162,7 @@
                         padding: 10px 60px 10px 0px;
                         .citation {
                             font-family: "Cirka";
-                            font-size: 30px;
+                            font-size: 40px;
                             line-height: initial;
                         }
                         .maitre {
@@ -177,16 +175,20 @@
                                 width: 30px;
                                 height: 30px;
                             }
-                            span {
-                                padding-left: 8px;
+                            p {
+                                line-height: 15px;
+                                padding-left: 10px;
                                 font-family: "OpenSansLight";
-                                font-size: 14px;
+                                font-size: 13px;
+                                opacity: 0.5;
+                                span {
+                                    font-family: "OpenSansBold";
+                                }
                             }
                         }
                     }
 
                     .right {
-                        padding: 10px;
                         width: 50%;
                         display: flex;
                         flex-flow: row wrap;
@@ -204,10 +206,11 @@
                             align-items: center;
                             justify-content: center;
                             video {
-                                width: 100%;
+                                // width: 100%;
                                 height: 100%;
                                 max-width: 291px;
                                 max-height: 516px;
+                                box-shadow: -1px 1px 1em rgba($color-black, 0.5);
                             }
                             .play {
                                 position: absolute;
@@ -232,29 +235,45 @@
                         }
                         .content-itw {
                             width: 50%;
-                            padding-left: 30px;
+                            padding-left: 35px;
+                            color: $color-white;
                             h2 {
-                                font-family: "OpenSansRegular";
+                                font-family: "OpenSansBold";
                                 font-size: 18px;
                             }
                             .itw {
                                 font-size: 15px;
                                 margin-top: 30px;
                                 font-size: 14px;
+                                font-style: italic;
                                 span {
                                     font-family: "OpenSansBold";
                                 }
                             }
                             .person {
-                                margin-top: 30px;
                                 span {
                                     font-family: "Cirka";
                                     font-size: 25px;
                                 }
                                 p {
-                                    margin-top: 10px;
+                                    padding-top: 40px;
                                     font-size: 14px;
                                     font-family: "OpenSansLight";
+                                }
+                            }
+                            .link {
+                                margin-top: 70px;
+                                a {
+                                    font-family: "OpenSansBold";
+                                    color: $color-green;
+                                    font-size: 12px;
+                                    background-color: $color-white;
+                                    padding: 13px 10px;
+                                    text-decoration: none;
+                                    @media screen and (min-width: 1285px) {
+                                        font-size: 16px;
+                                        padding: 13px 15px;
+                                    }
                                 }
                             }
                         }
@@ -270,7 +289,7 @@
         right: 0;
         height: 100%;
         width: calc(100% / 3);
-        background-image: url("/assets/images/overlay/gribouillis.png");
+        background-image: url("/assets/images/overlay/greenOverlay.jpg");
         background-size: cover;
         pointer-events: none;
         z-index: -1;
