@@ -142,7 +142,7 @@ const FinEpisodePage = () => {
                         <p className={styles.citation}>" {elm.content} "</p>
                         <div className={styles.maitre}>
                           <img src={elm.img} />
-                          <p><span>Marion</span>,<br/>{elm.signature}</p>
+                          <p><span>Marion</span>,<br />{elm.signature}</p>
                         </div>
                       </div>
 
@@ -176,6 +176,18 @@ const FinEpisodePage = () => {
                             <span>{elm.person}</span> <br />
                             <p>{elm.job}</p>
                           </div>
+
+
+                          <div className={styles["the-craft"]}>
+                            <div className={styles.head}>
+                              <h2 className={styles["en-savoir-plus"]}>En savoir plus <br />
+                                <span>The Craft Project</span>
+                              </h2>
+                            </div>
+                            <p>Cette association est un moteur du #sauvonslesmetiersdarts.</p>
+
+                          </div>
+
 
                           <div className={styles.link}>
                             <a href={elm.link}>{elm.linkName}</a>
